@@ -1,0 +1,455 @@
+# Sql
+
+## Generic SQL execution \(NO SQL queries\) <a id="executesql"></a>
+
+**Syntax**
+
+```javascript
+var rows = utils.executeSql(sql, dataSourceId, separatedTransaction, interruptExecution, params)
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| rows | int value: number of processed rows |
+| sql | string value: sql to execute; it can contains ? or :XXX |
+| dataSourceId | num value; it can be null and used to specify a different db to use with the sql statement |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
+| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
+| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql statement. |
+
+An :XXX variable can be replaced by vo or params values
+
+**Example**
+
+```javascript
+var updatedRowsNr = utils.executeSql(
+"UPDATE PRM01_USERS SET USER_CODE_ID=:USER_CODE_ID, DESCRIPTION=:USER_CODE_ID WHERE COMPANY_ID= :COMPANY_ID AND STATUS=? AND LOCKED=?",
+null, // no additional datastore!
+false, // do it on a separated transaction
+true, // fire an Exception in case of error
+["E", "N"]
+);
+```
+
+Note: every SQL instruction will be logged.
+
+## Generic SQL execution \(NO SQL queries\) without logging it
+
+**Syntax**
+
+```javascript
+var rows = utils.executeSqlNoLog(
+sql,
+dataSourceId,
+separatedTransaction,
+interruptExecution,
+params
+)
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| rows | int value: number of processed rows |
+| sql | string value: sql to execute; it can contains ? or :XXX |
+| dataSourceId | num value; it can be null and used to specify a different db to use with the sql statement |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
+| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
+| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql statement. |
+
+An :XXX variable can be replaced by vo or params values
+
+**Example**
+
+```javascript
+var updatedRowsNr = utils.executeSql(
+"UPDATE PRM01_USERS SET USER_CODE_ID=:USER_CODE_ID, DESCRIPTION=:USER_CODE_ID WHERE COMPANY_ID= :COMPANY_ID AND STATUS=? AND LOCKED=?",
+null, // no additional datastore!
+false, // do it on a separated transaction
+true, // fire an Execution in case of error
+"E",
+"N"
+);
+```
+
+Note: the SQL operation will not be logged. This method csan be useful with bulk operations, whose execution could slow down if a log message were produced for each execution.
+
+## SQL query execution <a id="executequery"></a>
+
+**Syntax**
+
+```javascript
+var jsonList = utils.executeQuery(
+sql,
+dataSourceId,
+separatedTransaction,
+interruptExecution,
+params
+)
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| jsonList | string value: list of json objects, i.e. the result of the query execution |
+| sql | string value: sql to execute; it can contains ? or :XXX |
+| dataSourceId | num value; it can be null and used to specify a different db to use with the sql statement |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
+| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
+| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql query. |
+
+An :XXX variable can be replaced by vo or params values
+
+**Example**
+
+```javascript
+var rows = utils.executeQuery(
+"SELECT USER_CODE_ID,DESCRIPTION FROM PRM01_USERS WHERE COMPANY_ID=:COMPANY_ID AND STATUS=? AND LOCKED=?",
+null, // no additional datastore!
+false, // do it on a separated transaction
+true, // fire an Execution in case of error
+"E",
+"N"
+);
+var username = rows[0].userCodeId;
+```
+
+## SQL query execution with very long result sets <a id="executequery"></a>
+
+**From 5.4.0 version**
+
+In case of a SQL query returning a very long result set, it is NOT recommended to use the previous method, since it gives back the whole result set at once, which is dangerous because it can consume a large amount of memory on the server.
+
+A better solution is represented by the following method, where the result set is read row by row: for each row, a callback function is invoked, in order to process it.
+
+Consequently, this method cannot be coupled to the user interface, since it would mean that all data would be read in the end. This approach is good when the row processing does not involve the UI, but some other operation on the server side, like writing a text file, starting from the result set.
+
+**Syntax**
+
+```javascript
+utils.executeQueryWithCallback(
+  callbackFunName,
+  sql,
+  dataStoreId,
+  separatedTransaction,
+  interruptExecution,
+  params
+)
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| callbackFunName | string value: the name of a callback function, defined inside the action, which will be automatically invoked for each record read from the SQL query. This method must have an argument, which is a js object, representing the record |
+| sql | string value: sql to execute; it can contains ? or :XXX |
+| dataSourceId | num value; it can be null and used to specify a different db to use with the sql statement |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
+| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
+| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql query. |
+
+An :XXX variable can be replaced by vo or params values
+
+**Example**
+
+```javascript
+var processRow = function(record) {
+  utils.log(record.userCodeId+" "+record.description,"INFO");
+}
+
+utils.executeQueryWithCallback(
+"processRow",
+"SELECT USER_CODE_ID,DESCRIPTION FROM PRM01_USERS WHERE COMPANY_ID=:COMPANY_ID AND STATUS=? AND LOCKED=?",
+null, // no additional datastore!
+false, // do it on a separated transaction
+true, // fire an Execution in case of error
+"E",
+"N"
+);
+```
+
+A more complex example is the one reported as follows, where the SQL query result set is coupled with the export of records to a CSV file on the server file system. The CSV file is built by writing row by row, using an optimized approach based on 3 steps: opening the output stream, writing multiple lines, closing the output stream:
+
+**Example of an optimized approach for reading data from a SQL query + writing data on a CSV file**
+
+```javascript
+// open the CSV file, in order to write into it
+var fileId = utils.openCSVFile(
+    "ab.csv",
+    true,
+    9, // data source id
+    ",",
+    true,
+    ["userCodeId","password","rowVersion","dateExpirationPassword"], // attributes coming from a row, to manage and export
+    [null,null,null,null] // optional data converters (es. from number to text: "0.00")
+);
+
+// declare a callback function, invoked by a SQL query, used to write a single line into the CSV file
+var processRow = function(jsonRow) {
+    utils.writeToCSVFile(fileId,jsonRow);
+}
+
+// execute the SQL query, whose result set will be read row by row, by invoking each time the specified callback
+utils.executeQueryWithCallback(
+    "processRow", // callback function, invoked for each record coming from the query, whose argument will receive a JSON object representing the record
+    "SELECT U.USER_CODE_ID,U.DESCRIPTION,U.PASSWORD,U.DATE_EXPIRATION_PASSWORD,U.ROW_VERSION FROM PRM01_USERS U",
+    null,
+    false,
+    true,
+    []
+);
+
+// close the CSV file, after reading all records from the query
+utils.closeCSVFile(fileId);
+```
+
+## Execute the specified SQL query and enrich it by adding filtering/sorting and pagination settings <a id="getpartialresult"></a>
+
+These settings can be defined through ListCommand object automatically created when this method is invoked through a "Server JS business component" connected to a grid panel.
+
+**Syntax**
+
+```text
+var json = utils.getPartialResult(sql, dataStoreId, separatedTransaction, interruptExecution, pars);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| Details |  |
+| sql | base SQL query |
+| dataStoreId | optional data source id \(a number\) |
+| separatedTransaction | flag used to define if this query has to be perfomed in a separated transaction |
+| interruptExecution | flag used to defined if the whole server side transation must be interruped and roolbacked in case of errors |
+| pars | optional \(can be expressed as \[\] in js\) list of parameters binded to ? variables in the SQL query |
+
+```text
+ Returns a list of records, expressed in JSON format, which also includes "valueObjectList", "moreRows" and "resultSetLength" attributes.
+```
+
+In case of a complex SQL query including aliases, it could be needed to decode the field \(to filter/sort\) from the grid panel into an alias. You can do it through a specific utility method:setDecodeField\(fieldToDecode, decodedField\).
+
+In this way, you can control exactly which fields to apply in case of filtering or sorting conditions.
+
+**Example**
+
+```javascript
+utils.setDecodeField("ROW_VERSION*ROW_VERSION AS RV","RV");
+var json = utils.getPartialResult(
+    "SELECT USER_CODE_ID,DESCRIPTION,ROW_VERSION*ROW_VERSION AS RV "+
+    "FROM PRM01_USERS "+
+    "WHERE STATUS='E'",
+    null,
+    false,
+    true,
+    []
+);
+
+utils.setReturnValue(json);
+```
+
+## Stored SQL function execution <a id="executestoredfunction"></a>
+
+**Syntax**
+
+```javascript
+var json = utils.executeStoredFunction( sql, dataSourceId, separatedTransaction, interruptExecution, params)
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| json | string value: the result of the function execution |
+| sql | string value: stored function to execute, including its parameters between parenthesis \(see example below\); it can contains ? or XXX |
+| dataSourceId | num value; it can be null and used to specify a different db to |
+
+```text
+ use with the sql statement
+```
+
+| Argument | Description |
+| :--- | :--- |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
+| interruptedExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
+| params | array value: can be \[\]; it represents values which replace ? symbols in sql |
+
+**Example** 
+
+```javascript
+var returnedValue = utils.executeStoredFunction("usercheck1(?, ?)",....
+```
+
+## Progressive <a id="getprogressive"></a>
+
+**Syntax**
+
+```javascript
+var value = utils.getProgressive(String tableName, String columnName,Boolean separatedTransaction, Boolean interruptExecution)
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| tableName | String: name of table for calculating progressive |
+| columnName | String: column name of field to calculating progressive |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
+| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
+
+## Counter
+
+**Syntax**
+
+```javascript
+var value = utils.getCount(String tableName, String valueColumnName, String incrementValue, String where, Boolean separatedTransaction, Boolean interruptExecution, Long dataSourceId)
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| value | Long: new value of counter |
+| tableName | String: name of table for calculating counter |
+| valueColumnName | String: column name of field to calculating counter |
+| incrementValue | String: increment value for counter |
+| where | String: where condition for query |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
+| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
+| dataSourceId | additional data source to use when executing this SQL statement; if set to null, the default database connection will be used |
+
+## Get the current date <a id="getcurrentdate"></a>
+
+helpful when executing a SQL query and a bind variable should be filled out by a dynamic value which is the current date.
+
+**Syntax**
+
+```javascript
+var currentDate = utils.getCurrentDate();
+```
+
+## Execute synchronously a server-side JS action <a id="executeaction"></a>
+
+A new SQL transaction is created for this action.
+
+**Syntax**
+
+```javascript
+var json = utils.executeAction(Long actionId,Map vo,Map params,Map headers);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| actionId | action id related to the action to execute |
+| vo | value object to pass |
+| params | request parameters to pass; read on the other side through reqParams.xxx |
+| header | request headers; read on the other side through reqHeaders.xxx |
+
+## Execute synchronously a server-side JS action on the same transaction <a id="executeaction"></a>
+
+The same SQL transaction is reused for this action. This method is recommended in case of database locks when executing the action: a lock usually means that the logic executed here works on the same data managed by the calling action and both are trying to write the same records. In such cases, it is not correct to execute a second action on another transaction, so this second method is the right one to use.
+
+Bear in mind that errors \(javascript exceptions\) fired during the execution of this action will be affect the main action too, since it is the same transaction. If you do not want that data written by the main action will not be rollbacked, use try-catch keywords to surround the executeActionSameTransaction instruction.
+
+**Syntax**
+
+```javascript
+var json = utils.executeActionSameTransaction(Long actionId,Map vo,Map params,Map headers);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| actionId | action id related to the action to execute |
+| vo | value object to pass |
+| params | request parameters to pass; read on the other side through reqParams.xxx |
+| header | request headers; read on the other side through reqHeaders.xxx |
+
+## How to get the field names and types for every fields in the select clause of a SQL query to execute
+
+This can be helpful when creating programmatically a grid and there is the need to know how to format data.
+
+**Syntax**
+
+```javascript
+var jsonList = utils.getQueryColumns(sql, dataStoreId, separatedTransaction, interruptExecution, pars);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| sql | SQL query to execute, in order to fetch information about each field in the select clause |
+| dataStoreId | optional parameter \(can be null\); it defines the additional datastore to use when executing the query |
+| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not |
+| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an errore during the execution of the SQL query |
+| pars | list of parameters required by the SQL query, one for each binding variable; if not needed, set to \[\] |
+| jsonList | the list of select fields is expressed as a JSON string, having the following format: \[ { "fieldName": "FIELDXX", "fieldType": 1\|2\|... }, { … } , …\] where the fieldType reports the field type according to the JDBC Java.sql.Types notation. |
+
+## Execute a SQL insert instruction, starting from a javascript object, instead of defining explicitelly the SQL script. <a id="insertobject"></a>
+
+**Syntax**
+
+```javascript
+var ok = utils.insertObject(obj, tableName, dataSourceId, separatedTransaction, interruptExecution);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| obj | a Javascript object containing the data to save in the specified table; data is related to the table fields and each object attribute name is expressed in "camel" format, i.e. if the table field has name PRODUCT\_CODE, the attribute name must be productCode |
+| tableName | table name to use when creating the SQL insert instruction; field names as retrieved starting from the data model linked to the current table name: that means that it is mandatory to define a \(writable\) data model for that table, before invoking this javascript method; values are fechted starting from the obj argument |
+| dataSourceId | optional parameter \(can be null\); it defines the additional datastore to use when executing the SQL insert |
+| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not |
+| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the SQL query |
+| ok | true in case of SQL instruction executed correctly, an exception otherwise |
+
+## Execute a SQL update instruction, starting from a javascript object, instead of defining explicitelly the SQL script <a id="updateobject"></a>
+
+**Syntax**
+
+```javascript
+var ok = utils.updateObject(obj, emptyAsNull, forceAttributesToNull, tableName, dataSourceId, separatedTransaction, interruptExecution);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| obj | a Javascript object containing the data to save in the specified table; data is related to the table fields and each object attribute name is expressed in "camel" format, i.e. if the table field has name PRODUCT\_CODE, the attribute name must be productCode |
+| tableName | table name to use when creating the SQL update instruction; field names as retrieved starting from the data model linked to the current table name: that means that it is mandatory to define a \(writable\) data model for that table, before invoking this javascript method; values are fechted starting from the obj argument |
+| emptyAsNull | this boolean flag can be set to true to force the conversion of ‘’ string values to null; it can be helpful to clear up some table fields |
+| forceAttributesToNull | this boolean flag can be used to force to null every table field not referred in the javascript object but defined in the linked data model |
+| dataSourceId | optional parameter \(can be null\); it defines the additional datastore to use when executing the SQL update |
+| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not |
+| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an errore during the execution of the SQL query |
+| ok | true in case of SQL instruction executed correctly, an exception otherwise |
+
+## Execute a SQL delete instruction, starting from a javascript object, instead of defining explicitelly the SQL script <a id="deleteobject"></a>
+
+**Syntax**
+
+```javascript
+var ok = utils.deleteObject(obj, tableName, dataSourceId, separatedTransaction, interruptExecution);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| obj | a Javascript object containing the data to delete in the specified table; data is related to the table fields and each object attribute name is expressed in "camel" format, i.e. if the table field has name PRODUCT\_CODE, the attribute name must be productCode; only fields which are part of the primary key will be taken into account |
+| tableName | table name to use when creating the SQL delete instruction; field names as retrieved starting from the data model linked to the current table name: that means that it is mandatory to define a \(writable\) data model for that table, before invoking this javascript method; values are fechted starting from the obj argument: only the attributes related to the primary key will be used |
+| dataSourceId | optional parameter \(can be null\); it defines the additional datastore to use when executing the SQL delete |
+| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not |
+| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an errore during the execution of the SQL query |
+| ok | true in case of SQL instruction executed correctly, an exception otherwise |
+
