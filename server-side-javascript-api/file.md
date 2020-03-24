@@ -274,6 +274,44 @@ The returned javascript object contains the following attributes:
 * mimeType - MIME type for the embedded file; e.g. application/xml, application/pdf, etc.
 * destFilePath - absolute path + file name, related to the embedded file
 
+## Read a signed PDF file and extract data coming from the embedded certificate
+
+The source PDF file is identified starting from the source directory id + fileName.
+
+The specified PDF file is signed file, i.e. it contains a certificate; this certificate is then extracted and saved in the destination directory. The certificate file, if recognized with a MIME type, is renamed to a name having the original name + its real extension. Otherwise, it is saved with the original source file name.
+
+**Syntax**
+
+```javascript
+var obj = utils.getCertMessageFromPdf(Long srcDirectoryId,Long destDirectoryId,String fileName);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| srcDirectoryId | id used to identify a source folder in the server file system where the PDF signed file to read has been stored |
+| destDirectoryId | id used to identify a folder in the server file system when the extracted document \(the certificate\) will be saved |
+| fileName | file name inside the specified folder |
+| obj | embedded document, expressed as a javascript object |
+
+The returned javascript object contains the following attributes:
+
+* expirationDate
+* firstName
+* lastName
+* personId
+* signerCountry
+* signerId
+* signerOrganization
+* personalVatNumber
+* corporateVatNumber
+* corporateName
+* personCountry
+* mimeType - MIME type for the embedded file; e.g. application/xml, application/pdf, etc.
+* destFilePath - absolute path + file name, related to the embedded file
+* signDate - the sign date, expressed as a javascript Date  
+
 ## Create a zip file containing the list of passed files <a id="zipfiles"></a>
 
 **Syntax**
