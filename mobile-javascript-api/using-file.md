@@ -36,6 +36,8 @@ Required parameters are:
 
 ## openPreview\(directoryId, fileName\)
 
+> If you want to share an online public file see [openremotedocument](https://4wsplatform.gitbook.io/api/mobile-javascript-api/dialogs#openremotedocument) method.
+
 Show on a modal full size window a web content stored online on the Platform server, identified by the specified directory + file name.  
 Required parameters are:
 

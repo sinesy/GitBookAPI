@@ -198,6 +198,12 @@ replace the current account with the one specified through "saveCredentials" met
 
 save the specified username and password in a permanent area
 
+## logout\(\)
+
+Logout the current user and show the login form \(if login in enable\).
+
+> Since 5.3.2 version
+
 ## filterUserRoles\(roles\)
 
 Enable only the passed roles, if you want filter the menu leaves you have to call also restartApp\('N'\) method.
