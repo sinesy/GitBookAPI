@@ -759,3 +759,172 @@ var json = utils.sendSmsMessage(String fromPhoneNr,String toPhoneNr,String text,
 
 Pay attention to the phone number format, with should always include the international prefix:e.g. +0039....
 
+## Send an email, using SMTP settings defined at application level/globally with a template text
+
+This method allows to send an email message with optional attachments, starting from a text representing the template for the email body.
+
+No template id is required here: the body text must be provided instead. 
+
+This method is helpful when there is not a single template to use, but a variety of alternative templates to use, according to specific conditions, like a different text per language, company id, site id, etc.
+
+Decoupling the template id from the template text, allows to pass forward a different text, not directly connected to a template, which not necessarely must be used here.
+
+**Syntax**
+
+```javascript
+var ok = utils.sendEmailWithMessageTemplate(
+      String subject,
+      String messageTemplate,
+      Map jsObj,
+      String from,
+      String to,
+      String cc, 
+      String bcc,
+      String priority,
+      Boolean isHtmlContent,
+      Boolean returnReceipt,
+      String smtpHost,
+      String smtpPort,
+      String protocol,
+      String smtpUsername,
+      String smtpPassword,
+      String useTLS,
+      Boolean zipFiles,
+      Long dirId,
+      String... filesToAttach
+  )
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| subject | email subject; can contain variables to replace, expressed as :XXX |
+| messageTemplate | email body; can contain variables to replace, expressed as :XXX |
+| jsObj | a collection of variable names/values, expressed as a javascript object { varName1: value1, ... } used to replace the subject/body content for all :XXX occurrences |
+| from | email address sender |
+| to | email address destination; can contain multiple addresses, separated by a comma \(,\) |
+| cc | optional argument: can be null; carbon copy addresses |
+| bcc | optional argument: can be null; blind carbon copy addresses |
+| priority | optional argument: can be null; define the email message priority |
+| isHtmlContent | a boolean flag used to define if the body content is in HTML format or not |
+| returnReceipt | a boolean flag used to request a return receipt to the destinations |
+| smtpHost | SMPT host name to use |
+| smtpPort | SMTP port |
+| useTLS | flag to use \(Y/N\) to enable TLS |
+| protocol | Protocol to use \(e.g. smtp vs smtps\) |
+| smtpUsername | SMTP username to use to authentication to the SMTP server |
+| smtpPassword | SMTP password to use to authentication to the SMTP server |
+| zipFiles | a boolean flag used to compress all files to attach in a unique zip file and send it, in order to reduce the email size |
+| dirId | directory identifier, where attachment files are located; can be null, in case no attachment files are required |
+| filesToAttach | a list of files to attach, separated by a comma; use \[\] to not include files; each file is expressed as "subdir/filename" , with regards to the base path expressed through the dir id; GCS are supported as well |
+
+This method returns false if the email has NOT been sent correctly \(e.g. attachment file not found\).
+
+**Example**
+
+Suppose to send an email, whose content changes according to the language and the company id  and site id, but there can be templates not always defined for all company+site+language combinations, so that if a template is not found at company+site+language it can be found at company+language and if not found yet, at language only level.
+
+In such a scenario, template messages can be stored on the Platform server file system as text files, organized in a series of subfolder, hierarchically:
+
+```javascript
+invoice_IT.txt
+invoice_EN.txt
+00000
+  invoice_IT.txt
+  invoice_EN.txt
+  100
+    invoice_IT.txt
+    invoice_EN.txt
+  101
+    ...
+00001
+  ...
+```
+
+Email subject must be translated according to the language as well. This can be done either by including subject as the first line of the file or by creating a second text file for subjects only or by including a custom translation in Platform. In this example, we suppose the email subject is defined as a Platform custom translation.
+
+```javascript
+var smtpHost = "smtp.mandrillapp.com";
+var smtpPort = "2525";
+var protocol = "smtp";
+var smtpUsername = "...;
+var smtpPassword = "...";
+var useTLS = "E";
+
+var dirId = 69; // this entry represent a GCS bucket where attachments are located
+var filesToAttach = [ "10I3P.jpg" ];
+
+function getMessageTemplateFile(baseDir) {
+    var files = utils.getFilesInPath(baseDir);
+    for(var i=0;i<files.length;i++) {
+        if (files[i]=="invoice_"+userInfo.languageId+".txt") {
+            return baseDir+"/"+files[i];
+        }
+        if (files[i]=="invoice_EN.txt") { // second choice: use EN as a default
+            return baseDir+"/"+files[i];
+        }
+    }
+    return null;
+}
+
+// let's get template message...
+// 1. first check for file in the longest path: company/site
+var templateBaseDirId = 49;
+var templateBaseDir = utils.getDirectoryPath(templateBaseDirId); // base dir where all template messages are located
+var messageTemplateFile = getMessageTemplateFile(templateBaseDir+"/"+userInfo.companyId+"/"+userInfo.siteId);
+// 2. second choice: check for file in the path: company
+if (messageTemplateFile==null) 
+  messageTemplateFile = getMessageTemplateFile(templateBaseDir+"/"+userInfo.companyId);
+// 3. last choice: check for file in thebase path:
+if (messageTemplateFile==null) 
+  messageTemplateFile = getMessageTemplateFile(templateBaseDir);
+
+if (messageTemplateFile==null)
+  throw "No message template found";
+else {
+    // get tempkate messgae file content...
+    var messageTemplate = utils.readTextFile(messageTemplateFile,"UTF-8");
+    
+    // send email...
+    var ok = utils.sendEmailWithMessageTemplate(
+        "Ciao", // utils.getResource("invoice.subject"), // subject
+        messageTemplate, 
+        {
+            NAME: "John",
+            SURNAME: "Smith"
+        }, // jsObj
+        "...", // from
+        "...", // to
+        null, //  cc
+        null, // bcc
+        null, // priority
+        true, // isHtmlContent
+        false, // returnReceipt,
+        smtpHost,
+        smtpPort,
+        protocol,
+        smtpUsername,
+        smtpPassword,
+        useTLS, 
+        false, // zipFiles, 
+        dirId, 
+        filesToAttach
+    );
+    if (!ok)
+     throw "Error while sending the email";
+}
+```
+
+## 
+
+
+
+
+
+
+
+
+
+
+
