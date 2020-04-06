@@ -279,7 +279,7 @@ utils.generateXML(
 * **attributesToConvertToDate**: javascript Array of attribute names to convert to dates; each of them must be expressed as "yyyy-MM-dd HH:mm:ss" or "yyyy-MM-dd" \(i.e. JSON standard Platform dates\) and will be converted in strings having "dateFormat" format  
 * **tagSequence**: optional map representing for each tag, the ordered list of subtags; e.g. { TAG1: \["TAG2","TAG3"\], ... }
 
-**Note**: either "settings.tagSequence" or "settings.xsd" must be specified, in order to get the right order for the tags. If an XSD file is specified, it can be used to automatically retrieve the sequence of sub-tags for each tag, since the order is part of the XSD definition. Otherwise, it must be specified ,manually, through the tagSequence attribute.
+**Note**: either "settings.tagSequence" or "**settings.xsd**" must be specified, in order to get the right order for the tags. If an XSD file is specified, it can be used to automatically retrieve the sequence of sub-tags for each tag, since the order is part of the XSD definition. Otherwise, it must be specified ,manually, through the tagSequence attribute.
 
 **Example**
 
@@ -338,7 +338,7 @@ The resulting XML document would be:
 </fa>
 ```
 
-The settings's attribute "tagSequence" is needed to provide the right sequence for &lt;r&gt; tag's sub-tags.
+The settings's attribute "**tagSequence**" is needed to provide the right sequence for &lt;r&gt; tag's sub-tags.
 
 **Example**
 
