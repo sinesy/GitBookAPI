@@ -182,6 +182,86 @@ It is possible to invoke Platform web services in three alternative ways:
 
 In the following sections, all these cases are reported.
 
+Before going into depth with each case, it is reported a \(good\) way to invoke a server-side service, starting from the UI layer. The best way to invoke the server is through an asynchronous request, which can be carried out in this way:
+
+```text
+try {
+    new AsyncRequest().send(uri[,method[,data,mimeType]],callback,callbackError);
+ } catch (e) {} // e contains the statusText message send back from server
+```
+
+**Syntax** 
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Argument</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">uri</td>
+      <td style="text-align:left">
+        <p>URL to invoke; in case of Platform it can be something like: contextPath+&quot;/...&quot;;</p>
+        <p>e.g. contextPath+&quot;/executeJs?applicationId=...&amp;actionId=...</p>
+        <p>e.g. contextPath+&quot;/api?applicationId=...&amp;cmd=...</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">method</td>
+      <td style="text-align:left">optional argument; if not specified, it is set to &quot;GET&quot;; it
+        represents the HTTP method; allowed values: &quot;GET&quot;; &quot;POST&quot;,
+        &quot;PUT&quot;, ...</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">data</td>
+      <td style="text-align:left">optional argument; it represents the content to pass forward to the server,
+        in the HTTP request body, always expressed as a String (e.g. a JSON string);
+        this argument is ignored in case of GET based requests</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">mimeType</td>
+      <td style="text-align:left">optional argument; request content type (e.g. application/json)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">callback</td>
+      <td style="text-align:left">
+        <p>optional argument; if specified, it is a javascript function automatically
+          invoked by Platform at the end of a successful HTTP request; bear in mind
+          that a &quot;successful request&quot; is a request whose HTTP response
+          code is 200, i.e. a response whose JSON content is</p>
+        <p>{ success: false, message: &quot;...&quot; }</p>
+        <p>is still considered a &quot;successful request&quot; T</p>
+        <p>This function must have one argument, containing the response text, expressed
+          as a String</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">callbackError</td>
+      <td style="text-align:left">
+        <p>optional argument; if specified, it is a javascript function automatically
+          invoked by Platform at the end of an HTTP request interrupted with errors,
+          i.e. whose HTTP response code is NOT 200.</p>
+        <p>This function must have two arguments: statusText and status (a number)</p>
+      </td>
+    </tr>
+  </tbody>
+</table>An alternative way to invoke the server layer of Platform, but ONLY for server-side javascript actions, is through the following client-side javascript method:
+
+```text
+callAsyncAction({
+  actionId: ...,          // identifier of the server-side action to invoke
+  httpMethod: "GET|POST", // optional argument; allowed values: GET|POST. Default value: POST
+  params: { ... },        // js optional argument; object containing additional parameters to add to the http request; can be null
+  obj: { ... },           // optional argument; js object to send to the action; can be null
+  callback: function(json){}, // json is a text formatted response
+  callbackError: function(json,status) {} // json is a text formatted content related to the error, status the HTTP error code (a number), e.g. 401
+});
+```
+
+
+
 The simplest way to invoke a single request is by calling it directly, and **passing the credentials along with the other parameters** required by the specific web service to invoke.
 
 Example:
