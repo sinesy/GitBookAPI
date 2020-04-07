@@ -419,3 +419,32 @@ In the latter case, it is important also to include the "removeSession" paramete
 
 **Note**: evaluate the possibility to speed up the web service execution, by including also **onlyLogin=true** parameter in the alias definition: in such a case, you cannot access to any user session parameters form within your web service.
 
+## Loading parameters when invoking a Platform web service
+
+In the previous sections, two ways to invoke a server-side javascript action have been reported: 
+
+* a "login" web service invocation to authenticate and get a token + the web service invocation 
+* a direct web service invocation, where credentials are embedded in the request parameters/headers
+
+A difference between the 2 approaches is that the first force the parameters loading as well, during the authentication process \(user parameters, application parameters, global parameters\), whereas the second approach does not load any parameter.
+
+It is possible to force parameter loading in the second case as well, by including the request the following parameter:
+
+**...&loadPars=true**
+
+## Speed up a Platform web service execution
+
+Every time a web service in invoked and credentials are passed forward together with the request, an authentication process is automatically carried out behind the scenes. Moreover, if loadPars=true is included in the request, an additional time is required in order to load all parameters.
+
+A way to speed up such a repetitive request is by including the  request URL the following parameter:
+
+**...&cacheInternalState=true**
+
+In this way, credentials passed in the request are compared with credentials fetched in previous checking and already cached. If the authentication process is passed \(in memory\), the internal state \(and parameters loading as well\) is fetched from cache, so that no queries are required to execute the web service.
+
+Finally, if the application parameter named "**Manually loaded digest**" is checked, the server-side javascript action is also cached and no queries are performed in order to retrieve the source code.
+
+When all these settings are activated, a web service invocation does not perform any database access to run the web service.
+
+
+
