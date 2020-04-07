@@ -2,7 +2,7 @@
 
 ## Synchronous invocation of a server-side javascript action
 
-\(deprecated\)
+\(deprecated, see: "Invocation of server-side javascript actions"\)
 
 Every built-in server-side functionality configured in Platform can be invoked as a Rest JSON based web service \(e.g. a list of data for a grid, a single record to fill a detail form, etc.\).
 
@@ -71,7 +71,106 @@ The dirId is optional: if not specified, the uploaded file is saved in the tmp d
 
 The parameter unzip can have values Y or N: if set to Y, then the uploaded file \(which must be a zip file\) is automatically unzipped and its content \(a single file\) is used to set the vo.fileName \(absolute path included\).
 
-## Invocation of server-side javascript actions
+
+
+An alternative way to upload a file is using the built-in client-side javascript method:
+
+```text
+uploadFile(
+  title,
+  enabled,
+  fileName,
+  dirId,
+  beforeUploadCallback,
+  afterUploadCallback,
+  errorOnUploadCallback,
+  additionalSettings
+);
+```
+
+This method open a popup window containing an input field to select a local file and upload it. Moreover, it provides preview and download buttons to show an already uploded file.
+
+**Syntax**
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Argument</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">title</td>
+      <td style="text-align:left">Popup window title</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">enabled</td>
+      <td style="text-align:left">boolean value used to download only an already uploaded file or to upload/download;
+        <br
+        />true: upload button is enabled, false: upload button is disabled</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">fileName</td>
+      <td style="text-align:left">file name to pre-set in the input field; this is helpful when the file
+        has been already uploaded in the past and this popup window is used to
+        preview/download it (or re-upload and replace the file)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">dirId</td>
+      <td style="text-align:left">directory identifier, used to define where the file to upload will be
+        saved (or when the already uploaded file has been saved, to retrieve it
+        and show a preview or download it)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">beforeUploadCallback</td>
+      <td style="text-align:left">
+        <p>optional javascript function, automatically invoked by Platform when pressing
+          the Upload button; this function must have one argument, whose content
+          is:</p>
+        <p>{ filename: &quot;....&quot; }</p>
+        <p>If the callback function would return false, the upload process is interrupted.</p>
+        <p>It is also possible to rename the file to upload, by replacing the value
+          of the &quot;filename&quot; attribute passed by reference</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">afterUploadCallback</td>
+      <td style="text-align:left">
+        <p>optional javascript function, automatically invoked by Platform when pressing
+          the Upload button and after a successful upload process; this function
+          must have one argument, whose content is:</p>
+        <p>{</p>
+        <p>success: true|false,</p>
+        <p>message: &quot;...&quot;,</p>
+        <p>fileName: &quot;....&quot;</p>
+        <p>}</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">errorOnUploadCallback</td>
+      <td style="text-align:left">
+        <p>optional javascript function, automatically invoked by Platform when pressing
+          the Upload button in case the upload process failed; this function must
+          have one argument, whose content is:</p>
+        <p>{</p>
+        <p>error: &quot;...&quot;</p>
+        <p>}</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">additionalSettings</td>
+      <td style="text-align:left">
+        <p>optional javascript object; if not null, each attribute is passed forward
+          to the server-side; built-in optional attributes are:
+          <br />{</p>
+        <p>encriptAttachments: true|false,</p>
+        <p>panelId: ...</p>
+        <p>}</p>
+      </td>
+    </tr>
+  </tbody>
+</table>## Invocation of server-side javascript actions
 
 It is possible to invoke Platform web services in three alternative ways:
 
