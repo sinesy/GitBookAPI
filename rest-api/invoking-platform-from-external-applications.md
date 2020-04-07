@@ -428,13 +428,13 @@ In the previous sections, two ways to invoke a server-side javascript action hav
 
 A difference between the 2 approaches is that the first force the parameters loading as well, during the authentication process \(user parameters, application parameters, global parameters\), whereas the second approach does not load any parameter.
 
-It is possible to force parameter loading in the second case as well, by including the request the following parameter:
+\(since 6.0.1 version\) It is possible to force parameter loading in the second case as well, by including the request the following parameter:
 
 **...&loadPars=true**
 
 ## Speed up a Platform web service execution
 
-Every time a web service in invoked and credentials are passed forward together with the request, an authentication process is automatically carried out behind the scenes. Moreover, if loadPars=true is included in the request, an additional time is required in order to load all parameters.
+\(since 6.0.1 version\) Every time a web service in invoked and credentials are passed forward together with the request, an authentication process is automatically carried out behind the scenes. Moreover, if loadPars=true is included in the request, an additional time is required in order to load all parameters.
 
 A way to speed up such a repetitive request is by including the  request URL the following parameter:
 
