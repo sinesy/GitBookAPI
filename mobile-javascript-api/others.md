@@ -617,5 +617,9 @@ Encrypt the passed password using PBE algorithm
 
 Decrypt the passed password using PBE algorithm
 
- 
+##  sendAnalyticsEvent\(category, action, label\)
+
+> Since 6.0.1 version
+
+Log an event to Google Analytics
 
