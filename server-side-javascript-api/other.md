@@ -580,3 +580,22 @@ utils.addDate(String date, String format, String field, int amount): //convert t
 | field | String: the calendar field |
 | amount | number: the amount of date or time to be added to the field |
 
+## Convert a text to an hash key \(md5\)
+
+MD5 is an hash function you can use to convert a text to a text-based key; multiple invocations to the function with the same input always provide the same result, but the hash function does not provide a unique value: different texts could return the same hash key. This is helpful to check out on the database table the existence of a specific record, starting from its md5 representation.
+
+```javascript
+var md5Text= utils.md5(String text);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| text | text to convert to an hash key |
+| md5Text | the MD5 hash key corresponding to the input text |
+
+
+
+
+
