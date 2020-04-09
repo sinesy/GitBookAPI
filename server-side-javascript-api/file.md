@@ -90,22 +90,40 @@ Read a remote file, stored within the FTP server and copy it into the specified 
 **Syntax**
 
 ```javascript
-var ok = getFile(protocol, host, port, useSSL, username, password, ftpDir, ftpFileName, localFile);
+var ok = utils.getFile(protocol, host, port, useSSL, username, password, ftpDir, ftpFileName, localFile);
 ```
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| protocol | FTP, FTPS, SFTP |
-| host | FTP server host |
-| port | FTP server port \(e.g. 21\) |
-
-```text
- useSSL - boolean flag, used to specify if FTPS must be used
-```
-
-| Argument | Description |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Argument</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">protocol</td>
+      <td style="text-align:left">FTP, FTPS, SFTP</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">host</td>
+      <td style="text-align:left">FTP server host</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">port</td>
+      <td style="text-align:left">
+        <p>FTP server port (e.g. 21)</p>
+        <p></p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">useSSL</td>
+      <td style="text-align:left">boolean flag, used to specify if FTPS must be used</td>
+    </tr>
+  </tbody>
+</table>| Argument | Description |
 | :--- | :--- |
 | username | username to use to authenticate to the FTP server |
 | password | password to use to authenticate to the FTP server |
@@ -120,7 +138,7 @@ all files must be stored in the same remote folder within the FTP server; file n
 **Syntax**
 
 ```javascript
-var listOfFileNames = getFiles(protocol, host, port, useSSL, username, password, remoteDir, fileFilter);
+var listOfFileNames = utils.getFiles(protocol, host, port, useSSL, username, password, remoteDir, fileFilter);
 ```
 
 **Details**
@@ -129,13 +147,10 @@ var listOfFileNames = getFiles(protocol, host, port, useSSL, username, password,
 | :--- | :--- |
 | protocol | FTP, FTPS, SFTP |
 | host | FTP server host |
-| port | FTP server port \(e.g. 21\) |
+| port | FTP server port \(e.g. 21\)Argument |
+| useSSL | flag used to define whether using SSL |
 
-```text
- useSSL - boolean flag, used to specify if FTPS must be used
-```
-
-| Argument | Description |
+| Description |  |
 | :--- | :--- |
 | username | username to use to authenticate to the FTP server |
 | password | password to use to authenticate to the FTP server |
