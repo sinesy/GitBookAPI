@@ -118,7 +118,7 @@ utils.sendSinglePushNotification(
 );
 ```
 
-If you need to get the firebaseId, you can just append this scriptlet to the previous one, where the input data is the device id:
+If you need to get the firebaseId, you can just append this scriptlet at the beginning of the the previous one, where the input data is the device id:
 
 ```javascript
 var deviceId = "...";
