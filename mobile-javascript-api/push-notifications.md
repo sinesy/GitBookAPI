@@ -4,7 +4,23 @@
 
 Through the following [**server-side**](../server-side-javascript-api/email.md) javascript function you can notify via push notification the mobile app.
 
-**utils.sendPushNotification\(appId, usernamesList, title, body, actionIdToCall, valueObject, iOSBadgeCount\);**
+**Syntax**
+
+```javascript
+var json = utils.sendPushNotification(
+  appId, 
+  usernamesList, 
+  title, 
+  body, 
+  actionIdToCall, 
+  valueObject, 
+  iOSBadgeCount
+);
+// the "json" result value is a String having the following format:
+// [{...},...] with an element for each push notification sent (for each involved device id)
+```
+
+**Example**
 
 ```javascript
 var usersEmails = ["email1@gmail.com","email2@gmail.com","emailN@gmail.com"]; //an array of registered user email accounts
@@ -61,7 +77,7 @@ Through the following [**server-side**](../server-side-javascript-api/email.md) 
 **Syntax**
 
 ```javascript
-var response = utils.sendSinglePushNotification(
+var json = utils.sendSinglePushNotification(
   String appId,
   String firebaseId,
   String title,
@@ -73,6 +89,8 @@ var response = utils.sendSinglePushNotification(
   Map dataOptions,
   Map notificationOptions
 );
+// the "json" result value is a String having the following format:
+// [{...}] with ONE OLNY element for the single push notification sent
 ```
 
 **Example**
