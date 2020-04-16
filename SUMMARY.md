@@ -30,6 +30,7 @@
 
 ## Server-side Javascript API
 
+* [Alert](server-side-javascript-api/alert.md)
 * [Email](server-side-javascript-api/email.md)
 * [HTTP](server-side-javascript-api/http.md)
 * [Ldap](server-side-javascript-api/ldap.md)
