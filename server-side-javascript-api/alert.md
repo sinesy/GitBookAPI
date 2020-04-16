@@ -72,7 +72,7 @@ In case you need to invoke something from complex, you have to declare a one arg
 Example of a global scoped js function with one argument, used to show a popup warning window:
 
 ```javascript
-function openADialogWindow(args) {
+function openDialogWindow(args) {
   showMessageDialog(
     args.title,
     args.message,
@@ -93,7 +93,7 @@ utils.sendJavascriptMessage(
     message: "Task completed"  
   }, // argument to pass forward to the client side js function
   userInfo.username, // not necessarely it would be filled out in this way
-  "openADialogWindow"
+  "openDialogWindow"
 );
 ```
 
