@@ -87,11 +87,13 @@ var json = utils.sendSinglePushNotification(
   Long badgeNr,
   Map rootOptions,
   Map dataOptions,
-  Map notificationOptions
+  Map notificationOptions //this is mandatory for iOs Device
 );
 // the "json" result value is a String having the following format:
 // [{...}] with ONE OLNY element for the single push notification sent
 ```
+
+Note that **notificationOptions** is mandatory for iOs Deice
 
 **Example**
 
@@ -104,6 +106,19 @@ var actionIdToCall = 123; //[optional] mobile actionId to call on the notificati
 var valueObject = {"field1":"value1","field2":"value2","fieldN":"valueN"}; //[optional] map of <String, String> to use in the action id if necessary
 var iOSBadgeCount = 1; //Total count of notification
 
+ var iOsNotification = {};
+        
+if(isiOsDevice){
+    //iOs need the notification info
+    iOsNotification = {
+        badge: iOSBadgeCount + "", //must be a string, 1 or 1.0 throw an error, "1" is ok
+        content_available: true,
+        sound: "Default",
+        title: notificatonTitle,
+        body: notificationBody
+    }
+}
+
 utils.sendSinglePushNotification(
   appMobileId, 
   firebaseId, 
@@ -114,7 +129,7 @@ utils.sendSinglePushNotification(
   iOSBadgeCount,
   null,
   null,
-  null
+  iOsNotification
 );
 ```
 
