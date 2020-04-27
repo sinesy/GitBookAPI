@@ -37,6 +37,14 @@ Note: every GQL instruction will be logged.
 
 Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
 
+**Important note:** please use the cached version of this method as often as possible:
+
+```javascript
+var json = utils.executeCachedQueryOnGoogleDatastore(maxCachedEntities, gql,dataModelId,interruptExecution, params);
+```
+
+where **maxCachedEntities** is the max number of cached entities having the same entity name specified in the GQL query.
+
 ## Execute a GQL query into a Google Datastore: only a block of data is fetched
 
 **This method can be coupled with a grid panel where the data loading is limited to a block of data. Optional filtering/sorting conditions coming from the grid are automatically applied to the base GQL query. Note that filterable/sortable columns should be carefully defined according to the limits come with the Google Datastore and custom indexes must be defined in the Datastore first.**
