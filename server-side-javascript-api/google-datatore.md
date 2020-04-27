@@ -76,6 +76,26 @@ Note: every GQL instruction will be logged.
 
 Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
 
+## Get a single entity from Google Datastore
+
+Reading and writing data on Google Datastore is costly, so it is important to limit the amount of queries to execute. A best practice is to cache single entity reading in the internal Platform cache and maintain it for a little time, like a minute or 10 minutes.
+
+An ad hoc method is provided in order to do it:
+
+```javascript
+var jsonString = utils.getEntityAsJSON(String entityName,Object key,int maxCachedEntities,long expirationTime);
+```
+
+**Syntax**
+
+| Argument | Description |
+| :--- | :--- |
+| entityName | entity name identifying the table in Datastore \(it is case sensitive\) |
+| key | primary key value |
+| maxCachedEntities | max number of cached objects for this entity; this is helpful to reduce the cost involved with the reading operation; set it to 0 to by-pass the cache and get a freshed object \(not recommended\) |
+| expirationTime | expiration time, expressed in minutes; after that time, the object is removed from cache |
+| jsonString | a string representation \(JSON format\) of the returned object; a Date value is returned with this format: yyyy-MM-dd HH:mm:ss a null value is returned in case no object is retrieved startingfrom the specified pk value |
+
 ## Insert a single entity into the Google Datastore
 
 The entity is expressed as a Javascript object.
