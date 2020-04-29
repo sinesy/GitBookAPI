@@ -759,7 +759,7 @@ var json = utils.sendSmsMessage(String fromPhoneNr,String toPhoneNr,String text,
 
 Pay attention to the phone number format, with should always include the international prefix:e.g. +0039....
 
-## Send an email, using SMTP settings defined at application level/globally with a template text
+## Send an email, using SMTP settings passed forward and with a template text
 
 This method allows to send an email message with optional attachments, starting from a text representing the template for the email body.
 
@@ -915,6 +915,52 @@ else {
      throw "Error while sending the email";
 }
 ```
+
+## Send an email, using the default SMTP settings with a template id
+
+This method allows to send an email message with optional attachments, starting from a template defined through the UI -&gt; Templates functionality.
+
+This method is helpful for sending a simple email message, having dinamic content and starting from a fixed template and default email settings.
+
+**Syntax**
+
+```javascript
+var ok = utils.sendEmailWithTemplate(
+      String subject,
+      Long templateId,
+      Map jsObj,
+      String from,
+      String to,
+      String cc, 
+      String bcc,
+      String priority,
+      Boolean isHtmlContent,
+      Boolean returnReceipt,
+      Boolean zipFiles,
+      Long dirId,
+      String... filesToAttach
+  )
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| subject | email subject; can contain variables to replace, expressed as :XXX |
+| templateId | template id defined previously and used to get the email body |
+| jsObj | a collection of variable names/values, expressed as a javascript object { varName1: value1, ... } used to replace the subject/body content for all :XXX occurrences |
+| from | email address sender |
+| to | email address destination; can contain multiple addresses, separated by a comma \(,\) |
+| cc | optional argument: can be null; carbon copy addresses |
+| bcc | optional argument: can be null; blind carbon copy addresses |
+| priority | optional argument: can be null; define the email message priority |
+| isHtmlContent | a boolean flag used to define if the body content is in HTML format or not |
+| returnReceipt | a boolean flag used to request a return receipt to the destinations |
+| zipFiles | a boolean flag used to compress all files to attach in a unique zip file and send it, in order to reduce the email size |
+| dirId | directory identifier, where attachment files are located; can be null, in case no attachment files are required |
+| filesToAttach | a list of files to attach, separated by a comma; use \[\] to not include files; each file is expressed as "subdir/filename" , with regards to the base path expressed through the dir id; GCS are supported as well |
+
+This method returns false if the email has NOT been sent correctly \(e.g. attachment file not found\).
 
 ## 
 
