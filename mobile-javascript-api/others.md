@@ -623,3 +623,9 @@ Decrypt the passed password using PBE algorithm
 
 Log an event to Google Analytics
 
+## playSound\(fileName\)
+
+> Since 5.3.2 verion
+
+Play the sound with the fileName passed. The file must me stored in the  mobile app context in the subfolder "sounds".
+
