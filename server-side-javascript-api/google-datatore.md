@@ -207,8 +207,8 @@ utils.setReturnValue(json);
 **This method can be coupled with a grid panel where the data loading is limited to a block of data. Optional filtering/sorting conditions coming from the grid are automatically applied to the base GQL query. Note that filterable/sortable columns should be carefully defined according to the limits come with the Google Datastore and custom indexes must be defined in the Datastore first.**
 
 The datastore must be already configured as a global parameter.Once done that, it is possible to execute a query statement, in order to fetch a list of entities.  
-The query language is GQL: filtering and sorting conditions are strinctly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators \(e.g. &lt;, &lt;=, etc.\).  
-See Datastore syntaxto get detail information about the syntax to use when filtering entities.
+The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators \(e.g. &lt;, &lt;=, etc.\).  
+See Datastore syntax to get detail information about the syntax to use when filtering entities.
 
 **Syntax**
 
@@ -220,9 +220,9 @@ var json = utils.getPartialResultOnGoogleDatastore(gql,dataModelId,interruptExec
 
 | Argument | Description |
 | :--- | :--- |
-| gql | string value: GQL queryto execute; it can contain ? or :XXX |
-| dataModelId | it identifies the data model having "datastore" type, related to the entity toinsert |
-| interruptExecution | boolean value; if true, an erroneous insertinstruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
+| gql | string value: GQL query to execute; it can contain ? or :XXX |
+| dataModelId | it identifies the data model having "datastore" type, related to the entity to insert |
+| interruptExecution | boolean value; if true, an erroneous insert instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
 | params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql statement. |
 |  | XXX variable can be replaced by vo or params values |
 
@@ -259,7 +259,7 @@ var jsonString = utils.getEntityAsJSON(String entityName,Object key,int maxCache
 | key | primary key value |
 | maxCachedEntities | max number of cached objects for this entity; this is helpful to reduce the cost involved with the reading operation; set it to 0 to by-pass the cache and get a freshed object \(not recommended\) |
 | expirationTime | expiration time, expressed in minutes; after that time, the object is removed from cache |
-| jsonString | a string representation \(JSON format\) of the returned object; a Date value is returned with this format: yyyy-MM-dd HH:mm:ss a null value is returned in case no object is retrieved startingfrom the specified pk value |
+| jsonString | a string representation \(JSON format\) of the returned object; a Date value is returned with this format: yyyy-MM-dd HH:mm:ss a null value is returned in case no object is retrieved starting from the specified pk value |
 
 ## Insert a single entity into the Google Datastore
 
@@ -277,7 +277,7 @@ var json = utils.insertObjectOnGoogleDatastore(obj, dataModelId, interruptExecut
 
 | Argument | Description |
 | :--- | :--- |
-| obj | a Javascript object containing the data to save in the specified Datastoreentity |
+| obj | a Javascript object containing the data to save in the specified Datastore entity |
 | dataModelId | it identifies the data model having "datastore" type, related to the entity to insert |
 | interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation |
 | ok | true in case of the operation has been executed successfully, an exception otherwise |
@@ -395,7 +395,7 @@ utils.bulkUpdateOnGoogleDatastore(gql, valuesToSet, valuesToRemove, actionId);
 | Argument | Description |
 | :--- | :--- |
 | gql | GQL query, used to read records to update; bulk update will be applied only of the records filtered in this query |
-| valuesToSet | map of attributes+values to set; here it is possible to specifiy new attributes or already existing attributes; |
+| valuesToSet | map of attributes+values to set; here it is possible to specify new attributes or already existing attributes; |
 | valuesToRemove | map of attributes+useless values; only attribute names are used here, in order to remove them form the entity |
 | actionId | not managed yet; set to null |
 
@@ -439,7 +439,7 @@ utils.createBigQueryTableFromDatastoreEntities(
 | :--- | :--- |
 | entityNames | list of Datastore entities to extract as is and move to BigQuery |
 | directoryId | directory identifier in Google Cloud Storage, where saving temporarely the exported data |
-| datasetName | dataset name in the BigQuery repostiroy where re-creating the same tables |
+| datasetName | dataset name in the BigQuery repository where re-creating the same tables |
 
 ## Move users definition form Platform Standard to Datastore
 
