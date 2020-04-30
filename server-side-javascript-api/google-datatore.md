@@ -1,10 +1,10 @@
 # Google Datastore
 
-## Execute a GQL query into a Google Datastore
+## Execute a GQL query on Google Datastore
 
-The datastore must be already configured as a global parameter.Once done that, it is possible to execute a query statement, in order to fetch a list of entities.  
-The query language is GQL: filtering and sorting conditions are strinctly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators \(e.g. &lt;, &lt;=, etc.\).  
-See Datastore syntaxto get detail information about the syntax to use when filtering entities.
+The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.  
+The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators \(e.g. &lt;, &lt;=, etc.\).  
+See Datastore syntax to get detail information about the syntax to use when filtering entities.
 
 **Syntax**
 
@@ -16,7 +16,7 @@ var json = utils.executeQueryOnGoogleDatastore(gql,dataModelId,interruptExecutio
 
 | Argument | Description |
 | :--- | :--- |
-| gql | string value: GQL queryto execute; it can contain ? or :XXX |
+| gql | string value: GQL query to execute; it can contain ? or :XXX |
 | dataModelId | it identifies the data model having "datastore" type, related to the entity to enquiry, so the GQL query must refer the same entity name related to the specified data model |
 | interruptExecution | boolean value; if true, an erroneous GQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
 | params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql statement. |
@@ -44,6 +44,163 @@ var json = utils.executeCachedQueryOnGoogleDatastore(maxCachedEntities, gql,data
 ```
 
 where **maxCachedEntities** is the max number of cached entities having the same entity name specified in the GQL query.
+
+## Execute and cache a complex join-based GQL query on Google Datastore 
+
+The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.  
+The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators \(e.g. &lt;, &lt;=, etc.\).  
+See Datastore syntax to get detail information about the syntax to use when filtering entities.
+
+This method is an extension of the previous one and not only execute the main GQL query but also **execute a secondary query** \(**or more than one**\) to fetch additional data coming from other entities; after doing it, combine the secondary result with the one retrieved by the main query, in a similar way to the JOIN condition with SQL query: you have to specify the matching condition, i.e. which attribute in the main entity contains a value which is a primary key on the secondary entity and use it to combine results \(we can call such attribute in the main entity a sort of "**foreign key**"\). A more complex scenario is when the "foreign key" is no exactly the primary key on a secondary entity but only a part of it.
+
+For example, you can have a "Pricelist" entity having attributes like "companyId" = "00000", siteId = "500" and a "foreign key" attributes named "itemCode" containing something like "PROD1", "PROD2", etc. whereas a secondary entity "Items" can have a primary key attributes defined as a concatenation of values stored also in other attributes, like companyId, siteId, itemCode, i.e. "00000\_500\_PROD1" or "00000\_500\_PROD2, etc.". In this example, the matching condition is NOT "itemCode" in "Pricelist" equals to the primary key in "Items", but a more complex one, like the concatenation companyId+"\_"+siteId+"\_"+itemId.
+
+Platform supports all the scenarios reported above: 
+
+* a single attribute in main entity matching the primary key in the secondary entity
+* a concatenation of multiple attributes/constant values in main entity matching the primary key in the secondary entity
+
+Before seeing how to do it, it is important to define **relationships** at object level.
+
+In the data model definition, it is possible to define a number of relationships starting from the current data model \(a Datastore entity\) to any other, where each relation is identified by a "foreign key" attribute belonging to the main entity. This "foreign key" is not actually  used to create the matching condition but only to identify and distinguish different relationships.
+
+![](../.gitbook/assets/schermata-2020-04-30-alle-10.50.13.png)
+
+Once done that, it is possible to use there relationships in a javascript business component: when creating a javascript business component, **choose the main entity and select the relationships to activate** for the current business component. Only after that, save the business component. These relationships cannot be changed in edit, once configured at insert time, so be careful!
+
+![](../.gitbook/assets/schermata-2020-04-30-alle-10.55.47.png)
+
+At this point, any panel \(a grid, a form panel, etc.\) created starting from this business component will inherit not only the attributes for the main entity but also the ones for any secondary entity activated through the corresponding relationship.
+
+The javascript function to use in the business component in order to get a paginated list of results where additional queries are executed to match data of the main entity and secondary ones is described below.
+
+**Syntax**
+
+```javascript
+var json = utils.getPartialResultOnGoogleDatastoreWithSettings(
+  gql,
+  dataModelId,
+  interruptExecution, 
+  settings,
+  params
+);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| gql | string value: GQL query to execute; it can contain ? or :XXX |
+| dataModelId | it identifies the data model having "datastore" type, related to the entity to enquiry, so the GQL query must refer the same entity name related to the specified data model |
+| interruptExecution | boolean value; if true, an erroneous GQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
+| settings | optional javascript object \(can be null\); if set, it allows to define one of more "virtual joins" to secondary objects |
+| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql statement. |
+
+The "**settings**" javascript object can contain a series of attributes, all optionals, to use according to the need:
+
+* **secondaryObjects** attribute: it contains a list of descriptors, one for each secondary entity to match; each descriptor defines the secondary object to match and the attribute name in the main entity which would contain **the whole secondary object.** For example, if the main entity "Mob03ItemPrices" has a relationship with "Mob02Items", the resulting JSON produced by the b.c. would be:  
+
+{ valueObjectList: \[{ attributes for Mob03ItemPrices...., mob02Items: { attributes for Mob02Items... } }..
+
+* **secondaryAttributes**: attribute: it contains a list of descriptors, one for each secondary entity to match; each descriptor defines the secondary object to match and a series of attribute names in the main entity which would contain the corresponding attributes found in the secondary object. This variant is finer than the first one, which works on the whole secondary object. This second version is helpful **to map secondary values to virtual attributes in the main entity**. For example, if the main entity "Mob03ItemPrices" does not have a relationship with "Mob02Items" but only a virtual attribute to map, the resulting JSON produced by the b.c. would be: 
+
+{ valueObjectList: \[{ attributes for Mob03ItemPrices....,  virtualAttributeOfMob02Items: "...."  }..
+
+```javascript
+var settings: {
+
+    // 1) inject a cached secondary object in to the specified attribute; required settings: 
+    { 
+      secondaryObjects: [
+        {
+           name: "...", // attribute name in the main object, where jnjecting the retrieved secondary object
+           objectName: "...", // secondary object; you can use dataModelId instead
+           dataModelId: "...", // data model id which identifies the secondary object
+           fkName: "...", // attribute name in the main object, representing the linking condition (FK) with the secondary object 
+           compositeFkName: [{ value: "..." }, variable: "...", ...], list of values/variables composing the fk 
+           where: "...", // optional: alternative to the previous one and used to manually specify the WHERE condition to get ONE entity from the secondary object; it can contains binding variables expressed as :XXX where XXX is the uncamel of the main object's attribute name
+           longResultSet: true|false // optional: true if the secondary result is long and consequently cannot be read at all, false if there are a few records for the secondary query
+        }
+      ]
+    }, 
+    
+    //2) inject multiple attributes starting from a cached secondary object in to the specified attribute; required settings: 
+    { 
+      secondaryAttributes: [
+        {
+           mapping: {
+             "mainAttrName1": "secondaryAttrName1", // attribute name in the main object, where jnjecting the corresponding attribute fethed from retrieved secondary object
+             "mainAttrName2": "secondaryAttrName2",
+             ...
+           },
+           objectName: "...", // secondary object; you can use dataModelId instead
+           dataModelId: "...", // data model id which identifies the secondary object
+           fkName: "...", // attribute name in the main object, representing the linking condition (FK) with the secondary object 
+           compositeFkName: [{ value: "..." }, variable: "...", ...], list of values/variables composing the fk 
+           where: "...", // optional: alternative to the previous one and used to manually specify the WHERE condition to get ONE entity from the secondary object; it can contains binding variables expressed as :XXX where XXX is the uncamel of the main object's attribute name
+           longResultSet: true|false // optional: true if the secondary result is long and consequently cannot be read at all, false if there are a few records for the secondary query
+        }
+      ]
+    } 
+      
+};
+```
+
+**Note:** "objectName" and "dataModelId" are interchangeable, whereas "where" attribute is optional.
+
+**Note**: the "**longResultSet**" attribute should be set to true when the secondary entity contain a large amount of records \(e.g. more than 10-20 records\). If set to true, a multiple secondary queries are executed, one for each records fetched for the main query. Each fetching read a single record, which is also cached \(for 5 minutes\). Secondary query is skipped if the same records has been already read previously and cached. If the attribute longResultSet ****is set to false**,** a single secondary query is executed and all results cached: this solution is faster than the previous one, but it consumes more memory and CANNOT BE USED for large result sets!
+
+**Very important note:** every query represents an additional cost with Datastore,  every record read  ****represents an additional cost with Datastore. Consequently, **do not abuse with the getPartialResultOnGoogleDatastoreWithSettings method usage**, since it consumes potentially more resources on Datastore and increases the involved costs.
+
+
+
+Example
+
+```javascript
+var settings = {
+    secondaryObjects: [
+        {
+           name: "mob02Items", 
+           objectName: "Mob02Items", // secondary object
+           //fkName: "itemCode", // attribute name in the main object, representing the linking condition (FK) with the secondary object 
+           compositeFkName: [
+              { value: "BOGGI_500_" },
+              { variable: "entityCode" },
+              { value: "_" },
+              { variable: "itemCode" }
+            ], // attribute name in the main object, representing the linking condition (FK) with the secondary object 
+           longResultSet: true // optional: true if the secondary result is long and consequently cannot be read at all, false if there are a few records for the secondary query
+        }
+    ],
+    secondaryAttributes: [
+        {
+           objectName: "Mob02Items", // secondary object
+           //fkName: "itemCode", // attribute name in the main object, representing the linking condition (FK) with the secondary object 
+           compositeFkName: [
+              { value: "BOGGI_500_" },
+              { variable: "entityCode" },
+              { value: "_" },
+              { variable: "itemCode" }
+            ], // attribute name in the main object, representing the linking condition (FK) with the secondary object 
+           mapping: {
+               descriptionIt: "descriptionIt"
+           },
+           longResultSet: true // optional: true if the secondary result is long and consequently cannot be read at all, false if there are a few records for the secondary query
+        }
+    ]
+};
+ // BOGGI_100_210_D03_COL090NF18V
+var json = utils.getPartialResultOnGoogleDatastoreWithSettings(
+    "select * from Mob03ItemPrices where branchCode=1001",
+    219,
+    true,
+    settings,
+    []
+);
+utils.setReturnValue(json);
+```
+
+
 
 ## Execute a GQL query into a Google Datastore: only a block of data is fetched
 
