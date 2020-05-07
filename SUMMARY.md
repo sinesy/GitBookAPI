@@ -43,6 +43,7 @@
 * [Activiti](server-side-javascript-api/activiti.md)
 * [Archiflow](server-side-javascript-api/archiflow.md)
 * [User management](server-side-javascript-api/user-management.md)
+* [Google Cloud Storage](server-side-javascript-api/google-cloud-storage.md)
 * [Google GSuite](server-side-javascript-api/google.md)
 * [Google BigQuery](server-side-javascript-api/google-bigquery.md)
 * [Google Datastore](server-side-javascript-api/google-datatore.md)
