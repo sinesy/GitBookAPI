@@ -6,7 +6,7 @@ Before using this function, the GCP project must be set up correctly, i.e. you h
 
 * GOOGLE 
   * Google: Service Account Email
-  * Google:  Servie Account Key
+  * Google:  Service Account Key
 * FILE UPLOAD 
   * Google Cloud Storage Location \(US, EU, ASIA\)
   * Google Project Id
@@ -82,7 +82,7 @@ Before using this function, the GCP project must be set up correctly, i.e. you h
 
 * GOOGLE 
   * Google: Service Account Email
-  * Google:  Servie Account Key
+  * Google:  Service Account Key
 * FILE UPLOAD 
   * Google Cloud Storage Location \(US, EU, ASIA\)
   * Google Project Id
@@ -130,7 +130,7 @@ Before using this function, the GCP project must be set up correctly, i.e. you h
 
 * GOOGLE 
   * Google: Service Account Email
-  * Google:  Servie Account Key
+  * Google:  Service Account Key
 * FILE UPLOAD 
   * Google Cloud Storage Location \(US, EU, ASIA\)
   * Google Project Id
@@ -186,7 +186,7 @@ Before using this function, the GCP project must be set up correctly, i.e. you h
 
 * GOOGLE 
   * Google: Service Account Email
-  * Google:  Servie Account Key
+  * Google:  Service Account Key
 * FILE UPLOAD 
   * Google Cloud Storage Location \(US, EU, ASIA\)
   * Google Project Id
@@ -224,7 +224,7 @@ Before using this function, the GCP project must be set up correctly, i.e. you h
 
 * GOOGLE 
   * Google: Service Account Email
-  * Google:  Servie Account Key
+  * Google:  Service Account Key
 * FILE UPLOAD 
   * Google Cloud Storage Location \(US, EU, ASIA\)
   * Google Project Id
@@ -279,7 +279,7 @@ Before using this function, the GCP project must be set up correctly, i.e. you h
 
 * GOOGLE 
   * Google: Service Account Email
-  * Google:  Servie Account Key
+  * Google:  Service Account Key
 * FILE UPLOAD 
   * Google Cloud Storage Location \(US, EU, ASIA\)
   * Google Project Id
@@ -373,7 +373,7 @@ Before using this function, the GCP project must be set up correctly, i.e. you h
 
 * GOOGLE 
   * Google: Service Account Email
-  * Google:  Servie Account Key
+  * Google:  Service Account Key
 * FILE UPLOAD 
   * Google Cloud Storage Location \(US, EU, ASIA\)
   * Google Project Id
@@ -447,7 +447,7 @@ Before using this function, the GCP project must be set up correctly, i.e. you h
 
 * GOOGLE 
   * Google: Service Account Email
-  * Google:  Servie Account Key
+  * Google:  Service Account Key
 * FILE UPLOAD 
   * Google Cloud Storage Location \(US, EU, ASIA\)
   * Google Project Id
@@ -521,7 +521,7 @@ Before using this function, the GCP project must be set up correctly, i.e. you h
 
 * GOOGLE 
   * Google: Service Account Email
-  * Google:  Servie Account Key
+  * Google:  Service Account Key
 * FILE UPLOAD 
   * Google Cloud Storage Location \(US, EU, ASIA\)
   * Google Project Id
@@ -595,7 +595,7 @@ Before using this function, the GCP project must be set up correctly, i.e. you h
 
 * GOOGLE 
   * Google: Service Account Email
-  * Google:  Servie Account Key
+  * Google:  Service Account Key
 * FILE UPLOAD 
   * Google Cloud Storage Location \(US, EU, ASIA\)
   * Google Project Id
@@ -670,7 +670,7 @@ Before using this function, the GCP project must be set up correctly, i.e. you h
 
 * GOOGLE 
   * Google: Service Account Email
-  * Google:  Servie Account Key
+  * Google:  Service Account Key
 * FILE UPLOAD 
   * Google Cloud Storage Location \(US, EU, ASIA\)
   * Google Project Id
@@ -739,5 +739,112 @@ var descriptor = utils.uploadGoogleCloudStoragePublicObjectFromString(
   </tbody>
 </table>**Important note**: the file visibility is always public, independently on the bucket settings.
 
-## 
+
+
+## Duplicate a file stored in the specified bucket of  Cloud Storage
+
+Before using this function, the GCP project must be set up correctly, i.e. you have to specify at global parameters level:
+
+* GOOGLE 
+  * Google: Service Account Email
+  * Google:  Service Account Key
+* FILE UPLOAD 
+  * Google Cloud Storage Location \(US, EU, ASIA\)
+  * Google Project Id
+
+Once done that, you can start using the Google Cloud Storage \(GCS\) service.
+
+The current javascript function allows to duplicate an already existing file stored on a a Google Cloud Storage bucket and save it on the specified bucket with the specified file name; a possibile use of this method is when creating a file from a template file.
+
+**Syntax**
+
+```text
+var descriptor = utils.copyGoogleCloudStorageObject(
+  sourceBucketName, 
+  sourceObjectName,
+  sourceObjectVersion, 
+  destinationBucketName, 
+  destinationObjectName
+);
+```
+
+**Description**
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Argument</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">sourceBucketName</td>
+      <td style="text-align:left">String: bucket name where the already existing file to copy is located</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">sourceObjectName</td>
+      <td style="text-align:left">String: file name (with relative path if needed) of the file to copy</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">sourceObjectVersion</td>
+      <td style="text-align:left">String (optional); in case of a versioned file, the version to copy; set
+        it to null if file versioning is not enabled</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">destinationBucketName</td>
+      <td style="text-align:left">String: bucket name where saving the duplicated file</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">destinationObjectName</td>
+      <td style="text-align:left">String: file name for the file to create as a duplication of the first
+        one</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">returned value</td>
+      <td style="text-align:left">
+        <p>this function returns a javascript object representing the file just uploaded:</p>
+        <p>{</p>
+        <p>id: &quot;...&quot;, // file identifier</p>
+        <p>title: &quot;...&quot;, // file name</p>
+        <p>mimeType: &quot;...&quot;, // mime type for the file</p>
+        <p>pathType: &quot;GCS&quot;,</p>
+        <p>size: ..., // file size</p>
+        <p>md5hash: &quot;...&quot;, // hash key representing the file content</p>
+        <p>}</p>
+      </td>
+    </tr>
+  </tbody>
+</table>## Change accessibility for a Cloud Storage file to public or private
+
+Before using this function, the GCP project must be set up correctly, i.e. you have to specify at global parameters level:
+
+* GOOGLE 
+  * Google: Service Account Email
+  * Google:  Service Account Key
+* FILE UPLOAD 
+  * Google Cloud Storage Location \(US, EU, ASIA\)
+  * Google Project Id
+
+Once done that, you can start using the Google Cloud Storage \(GCS\) service.
+
+The current javascript function allows to change the access policy for an already existing file stored on a a Google Cloud Storage bucket and make it public or private.
+
+**Syntax**
+
+```text
+utils.setPublicLink(bucketName, objectName, publicLink)
+```
+
+**Description**
+
+| Argument | Description |
+| :--- | :--- |
+| bucketName | String: bucket name where the already existing file is located |
+| objectName | String: file name \(with relative path if needed\) of the file  |
+| publicLink | boolean: true to set it as public, false to set it as private |
+
+This method will fire and exception in case of errors.
+
+
 
