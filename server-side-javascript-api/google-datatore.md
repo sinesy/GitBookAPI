@@ -107,10 +107,9 @@ The "**settings**" javascript object can contain a series of attributes, all opt
 { valueObjectList: \[{ attributes for Mob03ItemPrices....,  virtualAttributeOfMob02Items: "...."  }..
 
 ```javascript
-var settings: {
+var settings = {
 
-    // 1) inject a cached secondary object in to the specified attribute; required settings: 
-    { 
+      // 1) inject a cached secondary object in to the specified attribute; required settings: 
       secondaryObjects: [
         {
            name: "...", // attribute name in the main object, where jnjecting the retrieved secondary object
@@ -121,11 +120,9 @@ var settings: {
            where: "...", // optional: alternative to the previous one and used to manually specify the WHERE condition to get ONE entity from the secondary object; it can contains binding variables expressed as :XXX where XXX is the uncamel of the main object's attribute name
            longResultSet: true|false // optional: true if the secondary result is long and consequently cannot be read at all, false if there are a few records for the secondary query
         }
-      ]
-    }, 
+      ],
     
-    //2) inject multiple attributes starting from a cached secondary object in to the specified attribute; required settings: 
-    { 
+      //2) inject multiple attributes starting from a cached secondary object in to the specified attribute; required settings: 
       secondaryAttributes: [
         {
            mapping: {
@@ -141,7 +138,6 @@ var settings: {
            longResultSet: true|false // optional: true if the secondary result is long and consequently cannot be read at all, false if there are a few records for the secondary query
         }
       ]
-    } 
       
 };
 ```
@@ -303,25 +299,22 @@ The "**settings**" javascript object can contain a series of attributes, all opt
 { valueObjectList: \[{ attributes for Mob03ItemPrices....,  virtualAttributeOfMob02Items: "...."  }..
 
 ```javascript
-var settings: {
+var settings = {
 
-    // 1) inject a cached secondary object in to the specified attribute; required settings: 
-    { 
+      // 1) inject a cached secondary object in to the specified attribute; required settings: 
       secondaryObjects: [
         {
            name: "...", // attribute name in the main object, where jnjecting the retrieved secondary object
            objectName: "...", // secondary object; you can use dataModelId instead
            dataModelId: "...", // data model id which identifies the secondary object
            fkName: "...", // attribute name in the main object, representing the linking condition (FK) with the secondary object 
-           compositeFkName: [{ value: "..." }, variable: "...", ...], list of values/variables composing the fk 
+           compositeFkName: [{ value: "..." }, variable: "...", ...], // list of values/variables composing the fk 
            where: "...", // optional: alternative to the previous one and used to manually specify the WHERE condition to get ONE entity from the secondary object; it can contains binding variables expressed as :XXX where XXX is the uncamel of the main object's attribute name
            longResultSet: true|false // optional: true if the secondary result is long and consequently cannot be read at all, false if there are a few records for the secondary query
         }
-      ]
-    }, 
+      ],
     
-    //2) inject multiple attributes starting from a cached secondary object in to the specified attribute; required settings: 
-    { 
+      //2) inject multiple attributes starting from a cached secondary object in to the specified attribute; required settings: 
       secondaryAttributes: [
         {
            mapping: {
@@ -337,7 +330,6 @@ var settings: {
            longResultSet: true|false // optional: true if the secondary result is long and consequently cannot be read at all, false if there are a few records for the secondary query
         }
       ]
-    } 
       
 };
 ```
