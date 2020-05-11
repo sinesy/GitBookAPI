@@ -453,3 +453,29 @@ var ok = utils.deleteObject(obj, tableName, dataSourceId, separatedTransaction, 
 | interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an errore during the execution of the SQL query |
 | ok | true in case of SQL instruction executed correctly, an exception otherwise |
 
+## How to extract a binary object from a BLOB field
+
+In case you need to extract the binary content from a BLOB data field of a relational database, you can use the following server-side javascript function, which allows you to get its content and convert it to a Base64 String.
+
+This String value can be easily passed forward to the web UI or to a Jasper Report template, for example as a JSON attribute and later refer it within the report and map it to an Image.
+
+**Syntax**:
+
+```javascript
+var base64String = utils.getBlobAsBase64(
+   datastoreId,
+   sql,
+   params
+);
+```
+
+| Argument | Description |
+| :--- | :--- |
+| datastoreId | identifier for a data source; it can be set to null \(default Platform repository scheme\) |
+| sql | SQL query to execute, in order to extract the BLOB field value; the query should always include a single field in the SELECT clause, the BLOB type field and can include in the WHERE clause variables expressed as :XXX or ? |
+| params | javascript list containing the values for the bind variables reported in the SQL query and expressed as ? |
+
+This method returns a String whose content is the Base64 representation of the BLOB field content.
+
+
+
