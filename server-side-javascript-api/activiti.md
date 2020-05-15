@@ -57,3 +57,121 @@ The responseObj javascript object can contain:
 * success - boolean flag reporting whether the process was started successfully
 * msg - error message, in case of success = false
 
+
+
+## Activiti BPM - Get process descriptor
+
+Method used to get the description, in JSON format, of the static definition of a process.
+
+Such a description contains all objects defined in a process: user tasks, automatic tasks \(service/script tasks\), gateways \(if, fork, join\), start/ends events.
+
+**Syntax**:
+
+```javascript
+var json = utils.getActivitiProcessAsJson(
+  processId, 
+);
+```
+
+**Description**:
+
+| Argument | Description |
+| :--- | :--- |
+| processId | identifier of the process  |
+
+The  response is a String representing the process descriptor, expressed in JSON format. An exception is fired in case of errors or null if the processed has not been found.
+
+The JSON has the following content:
+
+```javascript
+[{
+	"name": "Start",
+	"id": "startevent1",
+	"type": "startEvent",
+	"targets": ["T1"]
+}, {
+	"sources": ["T1"],
+	"name": "End",
+	"id": "endevent1",
+	"type": "endEvent"
+}, {
+	"sources": ["startevent1"],
+	"candidateUsers": "ADMIN",
+	"name": "ABC",
+	"id": "T1",
+	"type": "userTask",
+	"targets": ["endevent1"]
+}]
+```
+
+By and large, the result is always a list, where each js object is related to an element of the process \(a task, a gateway, an event, etc\); the elements in the list are not reported in a specific order.
+
+Each js object always contains the following attributes:
+
+* **name** - the task name
+* **id** - the task id, helpful to refer the task in the rest of the application or to sort the task reference in a database table
+* **type** - the element type; if can be: **startEvent, endEvent, userTask, serviceTask, scriptTask, parallelGateway, inclusiveGateway**, **callActivity** \(in case of an invocation of a sub-process\), **boundaryEvent** \(a timer linked to a userTask\)
+* **sources** - list of ids related to all elements having a link starting from them and arriving in the current element \(predecessors\)
+* **targets** - list of ids related to all elements having a link whose origin is the current element \(destinations\)
+
+Additionally, according to the **type**, there can be other attributes:
+
+* **candidateUsers, candidateGroups, assignee** - for a userTask element; they can be null even for userTask elements
+* **dueDate** - for a userTask element; **it** can be null even for userTask elements
+* **calledElement** - process id related to the sub-process to invoke, in case of a callActivity type element
+* **timeDuration** - duration of a timer, in case of a boundaryEvent type element
+
+**Example**:
+
+![](../.gitbook/assets/schermata-2020-05-15-alle-14.19.29.png)
+
+```javascript
+[{
+	"name": "Start",
+	"id": "startevent1",
+	"type": "startEvent",
+	"targets": ["T1"]
+}, {
+	"sources": ["T3", "IF1", "IF2"],
+	"name": "End",
+	"id": "endevent1",
+	"type": "endEvent"
+}, {
+	"sources": ["startevent1"],
+	"candidateGroups": "1",
+	"name": "Richiesta di approvazione primo liv.",
+	"id": "T1",
+	"type": "userTask",
+	"targets": ["IF1"]
+}, {
+	"sources": ["T1"],
+	"id": "IF1",
+	"type": "exclusiveGateway",
+	"targets": ["endevent1", "T2"]
+}, {
+	"sources": ["IF1"],
+	"candidateGroups": "2",
+	"name": "Richiesta approv. II liv.",
+	"id": "T2",
+	"type": "userTask",
+	"targets": ["IF2"]
+}, {
+	"sources": ["IF2"],
+	"name": "Notifica doppia approvazione",
+	"id": "T3",
+	"type": "serviceTask",
+	"targets": ["endevent1"]
+}, {
+	"sources": ["T2"],
+	"id": "IF2",
+	"type": "exclusiveGateway",
+	"targets": ["endevent1", "T3"]
+}]
+```
+
+Note: to quickly figure out how a process definition is, you can use the following utility URL from browser:
+
+```javascript
+http://localhost:8280/wag/activiti/getProcessAsJson?appId=<yourappId>&id=>yourprocessId>
+```
+
