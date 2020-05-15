@@ -175,3 +175,68 @@ Note: to quickly figure out how a process definition is, you can use the followi
 http://localhost:8280/wag/activiti/getProcessAsJson?appId=<yourappId>&id=>yourprocessId>
 ```
 
+## How to get the preview image for a process definition
+
+URL
+
+```javascript
+https://<yourhostandport/<platformwebcontext>/activiti/process-definitions-diagram?applicationId=...&appId=...&id=...
+```
+
+where id is the full key for a process.
+
+Example: 
+
+```javascript
+var id = "SIN00000_00000_M7:4:3251";
+```
+
+It can be defined by concatenating the following content:
+
+* "SIN" constant string
+* company id
+* "\_" constant string
+* company id
+* "\_" constant string
+* process id
+* ":" constant string
+* last process version
+* ":" constant string
+* deployment id for the specified process id
+
+The information above can be easily retrieved starting from the process list web service or by invoking the javascript server-side utility method getActivitiLastVersionProcessId.
+
+The same value can retrieved also by invoking the standard Platform web service:
+
+```javascript
+http://<yourhostandport/<platformwebcontext>/activiti/getLastVersionProcessId?appId=...&id=...
+```
+
+which returns the following JSON string:
+
+```javascript
+{"success":true,"id":"..."}
+```
+
+## Get the full key for a process
+
+A process id is simply a code; when referring a process, it is often needed to specify the full key, composed of version and deployment id.
+
+It can be retrieved by invoking the standard Platform web service:
+
+```javascript
+http://<yourhostandport/<platformwebcontext>/activiti/getLastVersionProcessId?appId=...&id=...
+```
+
+which returns the following JSON string:
+
+```javascript
+{"success":true,"id":"..."}
+```
+
+
+
+
+
+
+
