@@ -175,7 +175,7 @@ Note: to quickly figure out how a process definition is, you can use the followi
 http://localhost:8280/wag/activiti/getProcessAsJson?appId=<yourappId>&id=>yourprocessId>
 ```
 
-## How to get the preview image for a process definition
+## Activiti BPM - How to get the preview image for a process definition
 
 URL
 
@@ -218,7 +218,7 @@ which returns the following JSON string:
 {"success":true,"id":"..."}
 ```
 
-## Get the full key for a process
+## Activiti BPM - Get the full key for a process
 
 A process id is simply a code; when referring a process, it is often needed to specify the full key, composed of version and deployment id.
 
