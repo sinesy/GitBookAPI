@@ -236,7 +236,105 @@ which returns the following JSON string:
 
 
 
+## Activiti BPM - How to get the preview image for a process instance execution
 
+URL
+
+```javascript
+https://<yourhostandport/<platformwebcontext>/activiti/process-instances-diagram?applicationId=...&appId=...&processInstanceId=...
+```
+
+## Activiti BPM - How to get the preview image for a process instance execution
+
+URL
+
+```javascript
+https://<yourhostandport/<platformwebcontext>/activiti/process-instances-diagram?applicationId=...&appId=...&processInstanceId=...
+```
+
+The result is something like:
+
+```javascript
+{
+	"resultSetLength": 1,
+	"start": 0,
+	"sort": "id",
+	"order": "asc",
+	"size": 1,
+	"valueObjectList": [{
+		"assignee": null,
+		"createTime": "2020-05-15T14:41:13CEST",
+		"delegationState": null,
+		"description": null,
+		"dueDate": "2020-05-15T14:42:13CEST",
+		"executionId": "5412",
+		"id": "5415",
+		"name": "Approva",
+		"owner": null,
+		"parentTaskId": null,
+		"priority": 50,
+		"processDefinitionId": "SIN00000_00000_m9:6:5323",
+		"processInstanceId": "5409",
+		"taskDefinitionKey": "sid-11928038-4C44-4298-B539-4EBB433190F0",
+		"formResourceKey": null,
+		"subTaskList": [],
+		"identityLinkList": [],
+		"attachmentList": []
+	}]
+}
+```
+
+## Activiti BPM - How to get the list of assigned tasks for the current user
+
+URL
+
+```javascript
+https://<yourhostandport/<platformwebcontext>/activiti/tasks?applicationId=...&appId=..&assignee=<currentuser>
+```
+
+The result is something like
+
+```javascript
+{
+	"resultSetLength": 1,
+	"start": 0,
+	"sort": "id",
+	"order": "asc",
+	"size": 1,
+	"valueObjectList": [{
+		"assignee": "ADMIN",
+		"createTime": "2020-05-13T17:29:52CEST",
+		"delegationState": null,
+		"description": null,
+		"dueDate": null,
+		"executionId": "5199",
+		"id": "5215",
+		"name": "Task manuale 2",
+		"owner": null,
+		"parentTaskId": null,
+		"priority": 50,
+		"processDefinitionId": "SIN00000_00000_m9:4:5198",
+		"processInstanceId": "5199",
+		"taskDefinitionKey": "sid-FBB5F9C2-AE6C-483E-B4DE-BC6B3C9724E3",
+		"formResourceKey": null,
+		"subTaskList": [],
+		"identityLinkList": [],
+		"attachmentList": []
+	}]
+}
+```
+
+
+
+## Activiti BPM - How to assign a task to a user
+
+URL
+
+```javascript
+https://<yourhostandport/<platformwebcontext>/activiti/task-assignee?applicationId=...&appId=...&taskId=<taskInstanceId>&assignee=<anotheruser>
+```
+
+where the taskInstanceId is the value for the id attribute in the  assignable tasks list reported in the previous section.
 
 
 
