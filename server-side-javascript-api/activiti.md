@@ -350,7 +350,7 @@ URL
 https://<yourhostandport/<platformwebcontext>/activiti/enquiryTasks?appId=...
 ```
 
-You can add any number of additional filters to get a subset of all running tasks, like assignee, candidateUsers, candidateGroups, process id, process instance id, etc.
+You can add any number of additional filters to get a subset of all running tasks, like assignee, candidateUsers, candidateGroups, due date, process id, process instance id, etc.
 
 The whole list of available filters is reported here:
 
@@ -407,7 +407,7 @@ URL
 https://<yourhostandport/<platformwebcontext>/activiti/getInvolvedNotAssignedTasks?appId=...&username=...
 ```
 
-You can add any number of additional filters to get a subset of all running tasks, like process id, process instance id, task id, etc.
+You can add any number of additional filters to get a subset of all running tasks, like process id, process instance id, task id, due date, etc.
 
 The whole list of available filters is reported here:
 
