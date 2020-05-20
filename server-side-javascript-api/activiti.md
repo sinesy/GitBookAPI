@@ -338,3 +338,123 @@ where the taskInstanceId is the value for the id attribute in the  assignable ta
 
 
 
+## Activiti BPM - How to get the list of running tasks 
+
+URL
+
+```javascript
+https://<yourhostandport/<platformwebcontext>/activiti/enquiryTasks?appId=...
+```
+
+You can add any number of additional filters to get a subset of all running tasks, like assignee, candidateUsers, candidateGroups, process id, process instance id, etc.
+
+The whole list of available filters is reported here:
+
+{% embed url="https://www.activiti.org/5.x/userguide/\#restTasksGet" %}
+
+The result is something like:
+
+```javascript
+{
+	"resultSetLength": 1,
+	"start": 0,
+	"sort": "id",
+	"order": "asc",
+	"size": 7,
+	"valueObjectList": [{
+		"id": "5638",
+		"url": "http://localhost:8080/activiti-rest/service/runtime/tasks/5638",
+		"owner": null,
+		"assignee": "DEMO",
+		"delegationState": null,
+		"name": "Scelta",
+		"description": null,
+		"createTime": "2020-05-20T09:59:10.000+0000",
+		"dueDate": "2020-05-20T10:09:10.000+0000",
+		"priority": 50,
+		"suspended": false,
+		"taskDefinitionKey": "T1",
+		"parentTaskId": null,
+		"parentTaskUrl": null,
+		"executionId": "5631",
+		"executionUrl": "http://localhost:8080/activiti-rest/service/runtime/executions/5631",
+		"processInstanceId": "5631",
+		"processInstanceUrl": "http://localhost:8080/activiti-rest/service/runtime/process-instances/5631",
+		"processDefinitionId": "SIN00000_00000_m11:2:5622",
+		"processDefinitionUrl": "http://localhost:8080/activiti-rest/service/repository/process-definitions/SIN00000_00000_m11%3A2%3A5622",
+		"variables": []
+	}]
+}
+```
+
+The same operation can be executed also within a server-side javascript action, through the following function:
+
+```javascript
+var json = utils.enquiryTasks(HashMap pars);
+```
+
+ 
+
+## Activiti BPM - How to get the list of tasks assigned to other users where the specified user is a candidate
+
+URL
+
+```javascript
+https://<yourhostandport/<platformwebcontext>/activiti/getInvolvedNotAssignedTasks?appId=...&username=...
+```
+
+You can add any number of additional filters to get a subset of all running tasks, like process id, process instance id, task id, etc.
+
+The whole list of available filters is reported here:
+
+[https://www.activiti.org/5.x/userguide/\#restTasksGet](https://www.activiti.org/5.x/userguide/#restTasksGet)
+
+The returned list of tasks only includes tasks already assigned to other users, but which have the specified username as a candidate for those tasks.
+
+The result is something like:
+
+```javascript
+{
+	"resultSetLength": 1,
+	"start": 0,
+	"sort": "id",
+	"order": "asc",
+	"size": 7,
+	"valueObjectList": [{
+		"id": "5638",
+		"url": "http://localhost:8080/activiti-rest/service/runtime/tasks/5638",
+		"owner": null,
+		"assignee": "DEMO",
+		"delegationState": null,
+		"name": "Scelta",
+		"description": null,
+		"createTime": "2020-05-20T09:59:10.000+0000",
+		"dueDate": "2020-05-20T10:09:10.000+0000",
+		"priority": 50,
+		"suspended": false,
+		"taskDefinitionKey": "T1",
+		"parentTaskId": null,
+		"parentTaskUrl": null,
+		"executionId": "5631",
+		"executionUrl": "http://localhost:8080/activiti-rest/service/runtime/executions/5631",
+		"processInstanceId": "5631",
+		"processInstanceUrl": "http://localhost:8080/activiti-rest/service/runtime/process-instances/5631",
+		"processDefinitionId": "SIN00000_00000_m11:2:5622",
+		"processDefinitionUrl": "http://localhost:8080/activiti-rest/service/repository/process-definitions/SIN00000_00000_m11%3A2%3A5622",
+		"variables": []
+	}]
+}
+```
+
+The same operation can be executed also within a server-side javascript action, through the following function:
+
+```javascript
+var json = utils.getInvolvedNotAssignedTasks(HashMap pars,String username);
+```
+
+ 
+
+
+
+
+
