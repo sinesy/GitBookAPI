@@ -336,7 +336,11 @@ https://<yourhostandport/<platformwebcontext>/activiti/task-assignee?application
 
 where the taskInstanceId is the value for the id attribute in the  assignable tasks list reported in the previous section.
 
+The same operation can be executed also within a server-side javascript action, through the function:
 
+```javascript
+utils.setTaskAssignee(String taskInstanceId,String assignee);
+```
 
 ## Activiti BPM - How to get the list of running tasks 
 
