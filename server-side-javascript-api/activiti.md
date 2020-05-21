@@ -464,9 +464,54 @@ The same operation can be executed also within a server-side javascript action, 
 var json = utils.getInvolvedNotAssignedTasks(HashMap pars,String username);
 ```
 
- 
 
 
+## Activiti BPM - How to parse a duration/period expressed in ISO-8601 format
+
+A duration/period can be expressed in ISO.8601 \(see [https://en.wikipedia.org/wiki/ISO\_8601\#Dates](https://en.wikipedia.org/wiki/ISO_8601#Dates)\)
+
+You can extract the time information from it, using the following javascript function:
+
+```javascript
+var json = utils.convertISO8601(period)
+```
+
+| Argument | Description |
+| :--- | :--- |
+| period | a String containg a duration expressed in ISO-8601 format, e.g. "PT1M" \(i.e. 1 minute\) |
+
+The returning string is in JSON format and always contains as follows:
+
+```javascript
+{
+  years: 0,
+  months: 0,
+  weeks: 0,
+  days: 0,
+  hours: 0,
+  minutes: 1,
+  seconds: 0
+}
+```
+
+The example above is related to the input string "PT1M".
+
+## Activiti BPM - How to add a duration/period expressed in ISO-8601 format to a Date
+
+A duration/period can be expressed in ISO.8601 \(see [https://en.wikipedia.org/wiki/ISO\_8601\#Dates](https://en.wikipedia.org/wiki/ISO_8601#Dates)\)
+
+You can add the duration to a Date object, using the following javascript function:
+
+```javascript
+var json = utils.addISO8601(date,period)
+```
+
+| Argument | Description |
+| :--- | :--- |
+| date | a Date object |
+| period | a String containg a duration expressed in ISO-8601 format, e.g. "PT1M" \(i.e. 1 minute\) |
+
+The returning Date is like the input Date, incremented by the duration expressed through the "period" argument.
 
 
 
