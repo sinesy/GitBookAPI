@@ -509,7 +509,7 @@ var json = utils.addISO8601(date,period)
 | Argument | Description |
 | :--- | :--- |
 | date | a Date object |
-| period | a String containg a duration expressed in ISO-8601 format, e.g. "PT1M" \(i.e. 1 minute\) |
+| period | a String containing a duration expressed in ISO-8601 format, e.g. "PT1M" \(i.e. 1 minute\) |
 
 The returning Date is like the input Date, incremented by the duration expressed through the "period" argument.
 
