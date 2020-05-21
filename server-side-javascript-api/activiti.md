@@ -81,7 +81,7 @@ var json = utils.getActivitiProcessAsJson(
 | :--- | :--- |
 | processId | identifier of the process  |
 | includeSubProcesses | boolean value used to enable the retrieval of tasks for all referring sub-processes; if set to true, the "invocation process" task is replaced by the whole subprocess tasks  |
-| tasksDueDates | javascript object; if set, it contains the due date for each task id; each attribute is the task id \(including task ids for all referred sub-proceses\) and its value is the due date, expressed as a String either in "yyyy-MM-dd HH:mm:ss" format or using the ISO-8610 format \(see [https://en.wikipedia.org/wiki/ISO\_8601\#Dates](https://en.wikipedia.org/wiki/ISO_8601#Dates)\) |
+| tasksDueDates | javascript object; if set, it contains the due date for each task id; each attribute is the processId.taskId \(including task ids for all referred sub-processes\) and its value is the due date, expressed as a String either in "yyyy-MM-dd HH:mm:ss" format or using the ISO-8610 format \(see [https://en.wikipedia.org/wiki/ISO\_8601\#Dates](https://en.wikipedia.org/wiki/ISO_8601#Dates)\) |
 
 The  response is a String representing the process descriptor, expressed in JSON format. An exception is fired in case of errors or null if the processed has not been found.
 
@@ -125,7 +125,8 @@ Each js object always contains the following attributes:
 Additionally, according to the **type**, there can be other attributes:
 
 * **candidateUsers, candidateGroups, assignee** - for a userTask element; they can be null even for userTask elements
-* **dueDate** - for a userTask element; it can be null even for userTask elements; it can be replaced by the one passed forward through the "tasksDueDates" argument
+* **dueDate** - for a userTask element; it can be null even for userTask elements
+* **expirationDate** - for a userTask element; it can be null even for userTask elements; it can be replaced by the one passed forward through the "tasksDueDates" argument
 * **calledElement** - process id related to the sub-process to invoke, in case of a callActivity type element
 * **timeDuration** - duration of a timer, in case of a boundaryEvent type element
 
