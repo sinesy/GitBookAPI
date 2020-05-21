@@ -70,6 +70,8 @@ Such a description contains all objects defined in a process: user tasks, automa
 ```javascript
 var json = utils.getActivitiProcessAsJson(
   processId, 
+  includeSubProcesses,
+  tasksDueDates
 );
 ```
 
@@ -78,6 +80,8 @@ var json = utils.getActivitiProcessAsJson(
 | Argument | Description |
 | :--- | :--- |
 | processId | identifier of the process  |
+| includeSubProcesses | boolean value used to enable the retrieval of tasks for all referring sub-processes; if set to true, the "invocation process" task is replaced by the whole subprocess tasks  |
+| tasksDueDates | javascript object; if set, it contains the due date for each task id; each attribute is the task id \(including task ids for all referred sub-proceses\) and its value is the due date, expressed as a String either in "yyyy-MM-dd HH:mm:ss" format or using the ISO-8610 format \(see [https://en.wikipedia.org/wiki/ISO\_8601\#Dates](https://en.wikipedia.org/wiki/ISO_8601#Dates)\) |
 
 The  response is a String representing the process descriptor, expressed in JSON format. An exception is fired in case of errors or null if the processed has not been found.
 
@@ -88,19 +92,22 @@ The JSON has the following content:
 	"name": "Start",
 	"id": "startevent1",
 	"type": "startEvent",
-	"targets": ["T1"]
+	"targets": ["T1"],
+  "sequence": "1"
 }, {
 	"sources": ["T1"],
 	"name": "End",
 	"id": "endevent1",
-	"type": "endEvent"
+	"type": "endEvent",
+	"sequence": "3"
 }, {
 	"sources": ["startevent1"],
 	"candidateUsers": "ADMIN",
 	"name": "ABC",
 	"id": "T1",
 	"type": "userTask",
-	"targets": ["endevent1"]
+	"targets": ["endevent1"],
+  "sequence": "2"
 }]
 ```
 
@@ -113,11 +120,12 @@ Each js object always contains the following attributes:
 * **type** - the element type; if can be: **startEvent, endEvent, userTask, serviceTask, scriptTask, parallelGateway, inclusiveGateway**, **callActivity** \(in case of an invocation of a sub-process\), **boundaryEvent** \(a timer linked to a userTask\)
 * **sources** - list of ids related to all elements having a link starting from them and arriving in the current element \(predecessors\)
 * **targets** - list of ids related to all elements having a link whose origin is the current element \(destinations\)
+* **sequence** - a string representing the execution order of each task with regards to each other; in case of gateway \(if, parallel execution\), the sequence is expressed as "num1.num2"; in this way tasks belonging to different branches of the same original gateway task can continue with a consistent enumeration; when a join task is met, the sequence returns to "num" format; recursive sequence is supported as well \(n1.n2.n3...\). In case of sub-processes \(with "includeSubProcesses" flag set to true\) the sequence is defined in "num1.num2" format again.
 
 Additionally, according to the **type**, there can be other attributes:
 
 * **candidateUsers, candidateGroups, assignee** - for a userTask element; they can be null even for userTask elements
-* **dueDate** - for a userTask element; **it** can be null even for userTask elements
+* **dueDate** - for a userTask element; it can be null even for userTask elements; it can be replaced by the one passed forward through the "tasksDueDates" argument
 * **calledElement** - process id related to the sub-process to invoke, in case of a callActivity type element
 * **timeDuration** - duration of a timer, in case of a boundaryEvent type element
 
