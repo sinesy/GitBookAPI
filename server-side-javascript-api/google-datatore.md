@@ -237,6 +237,29 @@ Note: every GQL instruction will be logged.
 
 Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
 
+**Caching results**
+
+It is possible to cache the result of the fetching a block of data, through a variant of the previous method:
+
+```javascript
+var json = utils.getPartialResultOnGoogleDatastoreWithSettings(
+    "select * from DsColor", // GQL query
+    379, // data model id
+    false, // throw exception in case of errors
+    {
+        maxCachedEntities: 1
+    }, // additional settings
+    [] // bind variable values
+);
+
+utils.setReturnValue(json);
+```
+
+The "additional settings" argument allows to enable result caching, through two optional attributes:
+
+* maxCachedEntities - max number of results stored for the specified Entity
+* expirationTime, expressed in minutes \(optional, if not specified, it is set to 10 minutes\)
+
 ## Execute a GQL query into a Google Datastore: only a block of data is fetched, together with join-based GQL secondary queries on Google Datastore 
 
 The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.  
