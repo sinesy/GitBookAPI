@@ -420,6 +420,33 @@ json = utils.convertListWithMapper(json,{});
 utils.setReturnValue(json);
 ```
 
+## Convert an object read from Datastore according to the mapper
+
+In case of an application using a **Mapper** type data model, it is possible to define an additional datasource and use it to create javascript business components where data is read from Datasource. Actually, the additional datasource is always related to a relational database schema, but you can use it also to read data from Datastore instead.
+
+In such a business component, you can use **getEntityAsJSON** method: both would return a JSON string, containing a structure like:
+
+```javascript
+{ 
+   attribute1: ..., attribute2: ..., ...
+}
+```
+
+After doing it, it is possible to use the **convertObjectWithMapper** method to automatically convert the JSON string reported above with a JSON string whose attributes have the neutral structure of the Mapper type object. This will work as long as the mapper for the current business component datasource has mapped Datastore attributes to neutral Mapper attributes.
+
+Example:
+
+```javascript
+var json = utils.getEntityAsJSON(
+    "Mob03ItemPrices",
+    "...", // the primary key for such entity
+    10 // max cached entities for this Entity type
+);
+
+json = utils.convertObjectWithMapper(json,{});
+utils.setReturnValue(json);
+```
+
 
 
 ## Get a single entity from Google Datastore

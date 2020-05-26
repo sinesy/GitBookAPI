@@ -12,7 +12,7 @@ var responseObj = utils.startActivitiProcess(
   String processDefinitionId, 
   Map params, 
   Map processVariables
-);
+); 
 ```
 
 **Description**:
