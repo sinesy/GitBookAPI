@@ -232,7 +232,10 @@ The invoked action will received in input a "vo" javascript input object having 
   AccountSid: "...",
   From: "whatsapp:...", // from number, always expressed as +...
   ApiVersion: "2010-04-01",
-  ChannelInstallSid: "..."
+  ChannelInstallSid: "...",
+  appId. "...",
+  companyId: "..."
+}
 ```
 
 MessageStatus content changes according to the notification event.
