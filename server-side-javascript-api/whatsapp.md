@@ -49,9 +49,9 @@ The next steps are:
 
 {% page-ref page="whatsapp.md" %}
 
-It is not possible to use the web console to assign additional phone numbers to work with \(devices who would receive messages\); the phone assignment has to start from such a device: through Whatsapp app, the must send a message to the "from number" and write the "initialization text", specific for each project.
+It is not possible to use the web console to assign additional phone numbers to work with \(devices who would receive messages\); the phone assignment has to start from such a device: through the Whatsapp app, a message must be sent to the "from number" and write the "initialization text", specific for each project.
 
-Such a text can be retrieved starting from this console:
+The initialization text can be retrieved starting from this console:
 
 {% page-ref page="whatsapp.md" %}
 
