@@ -209,7 +209,7 @@ The attribute "**sid**" represents the sending transaction id and can be saved i
 Platform provides a public web service to receive all notification events from Whatsapp, which has the following URL:
 
 ```text
-https://<yourplarformhost>/<platformwebcontext>/whatsapp/<yourappid>/<yourcompanyid>
+https://<yourplarformhost>/<platformwebcontext>/whatsapp/callback/<yourappid>/<yourcompanyid>
 ```
 
 This method automatically invoke a server-side javascript action, each time it receives a notification from Whatsapp.
@@ -243,6 +243,10 @@ MessageStatus content changes according to the notification event.
 MessageSid is the same returned by the JSON described above, when sending messages \("sid" attribute\).
 
 Thanks to it, it is possible to match sending messages with the corresponding notifications.
+
+## Troubleshooting
+
+When sending messages/receiving notifications, you can use the Dashboard web page in Twilio console to track every event and look at errors.
 
 
 
