@@ -55,12 +55,12 @@ Such a text can be retrieved starting from this console:
 
 {% page-ref page="whatsapp.md" %}
 
-Finally, in case you want your Platform web app can receive notifications about messages sent, yuo have to specify the public URL in your web app which receive such a callbacks.
+Finally, in case you want your Platform web app can receive notifications about messages sent, you have to specify the public URL in your web app which receive such a callbacks.
 
 You can do it by clicking on the Sand box submenu and fill in the STATUS CALLBACK URL input field, with something like:
 
 ```text
-https://<yourplarformhost>/<platformwebcontext>/whatsapp
+https://<yourplarformhost>/<platformwebcontext>/whatsapp/<appid>/<companyid>
 ```
 
 and then press SAVE at the bottom of the page. It seems you have to repeat the saving procedure twice, since the first time it does not work!
@@ -69,7 +69,7 @@ Finally, you have to configure some application parameters, in the WHATSAPP sect
 
 * account id
 * auth key
-* from phine numbers
+* from phone numbers
 
 All  information is available in the Twilio console.
 
