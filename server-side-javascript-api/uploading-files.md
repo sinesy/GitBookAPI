@@ -253,7 +253,7 @@ You need to provide to this function the file name for the file to download and 
 ```text
 // in case of a grid having one file for each row
 var selectedRow = gridxxx.getSelectionModel().getSelected();
-var vo = selectedRow.record;
+var vo = selectedRow.data;
 downloadFile(
   vo.fileName, // e.g. the attribute name containing the file name
   dirId // provided externally
@@ -288,7 +288,7 @@ You need to provide to this function the file name for the file to download and 
 ```text
 // in case of a grid having one file for each row
 var selectedRow = gridxxx.getSelectionModel().getSelected();
-var vo = selectedRow.record;
+var vo = selectedRow.data;
 previewFile(
   vo.fileName, // e.g. the attribute name containing the file name
   dirId // provided externally
