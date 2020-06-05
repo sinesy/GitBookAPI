@@ -200,7 +200,9 @@ Platform provides a server-side javascript method you can use to convert a JSON 
         either in the tagSequence property or through the xsd content</td>
     </tr>
   </tbody>
-</table>**Syntax**
+</table>
+
+**Syntax**
 
 ```javascript
 utils.generateXML(
@@ -268,7 +270,9 @@ utils.generateXML(
       <td style="text-align:left">additional settings; CANNOT be null; see below for more details</td>
     </tr>
   </tbody>
-</table>The argument "**settings**" can contain a variety of different attributes, according to the specific scenario:
+</table>
+
+The argument "**settings**" can contain a variety of different attributes, according to the specific scenario:
 
 * **toUpperCase**: optional flag having values true\|false convert the attribute names in upper case when creating XML tags
 * **xsd**: optional string representing the relative path, within the web context, where finding the .xsd file for the XMKL document to generate; tags order is defined starting from the sequence defined in the xsd file

@@ -170,7 +170,9 @@ This method open a popup window containing an input field to select a local file
       </td>
     </tr>
   </tbody>
-</table>## Invocation of server-side javascript actions
+</table>
+
+## Invocation of server-side javascript actions
 
 It is possible to invoke Platform web services in three alternative ways:
 
@@ -247,7 +249,9 @@ try {
       </td>
     </tr>
   </tbody>
-</table>An alternative way to invoke the server layer of Platform, but ONLY for server-side javascript actions, is through the following client-side javascript method:
+</table>
+
+An alternative way to invoke the server layer of Platform, but ONLY for server-side javascript actions, is through the following client-side javascript method:
 
 ```text
 callAsyncAction({

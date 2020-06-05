@@ -76,7 +76,9 @@ var descriptor = utils.createGoogleCloudStorageBucket(
       </td>
     </tr>
   </tbody>
-</table>##  Get the bucket descriptor from Cloud Storage
+</table>
+
+##  Get the bucket descriptor from Cloud Storage
 
 Before using this function, the GCP project must be set up correctly, i.e. you have to specify at global parameters level:
 
@@ -124,7 +126,9 @@ var descriptor = utils.getGoogleCloudStorageBucket(bucketName);
       </td>
     </tr>
   </tbody>
-</table>## Get the file descriptor from Cloud Storage
+</table>
+
+## Get the file descriptor from Cloud Storage
 
 Before using this function, the GCP project must be set up correctly, i.e. you have to specify at global parameters level:
 
@@ -180,7 +184,9 @@ var descriptor = utils.getGoogleCloudStorageObject(bucketName,objectName);
       </td>
     </tr>
   </tbody>
-</table>## Get a public \(temporary\) URL for accessing a Cloud Storage file
+</table>
+
+## Get a public \(temporary\) URL for accessing a Cloud Storage file
 
 Before using this function, the GCP project must be set up correctly, i.e. you have to specify at global parameters level:
 
@@ -271,7 +277,9 @@ utils.downloadGoogleCloudStorageObject(
       </td>
     </tr>
   </tbody>
-</table>It fires and exception in case of errors.
+</table>
+
+It fires and exception in case of errors.
 
 ## Get a paginated list of files stored in the specified bucket of  Cloud Storage
 
@@ -367,7 +375,9 @@ var response = utils.listGoogleCloudStorageObjects(
       </td>
     </tr>
   </tbody>
-</table>## Get the whole list of files stored in the specified bucket of  Cloud Storage
+</table>
+
+## Get the whole list of files stored in the specified bucket of  Cloud Storage
 
 Before using this function, the GCP project must be set up correctly, i.e. you have to specify at global parameters level:
 
@@ -441,7 +451,9 @@ var list = utils.listGoogleCloudStorageObjects(
       </td>
     </tr>
   </tbody>
-</table>## Upload a file saved on Platform server file system to the specified bucket of  Cloud Storage
+</table>
+
+## Upload a file saved on Platform server file system to the specified bucket of  Cloud Storage
 
 Before using this function, the GCP project must be set up correctly, i.e. you have to specify at global parameters level:
 
@@ -513,7 +525,9 @@ var descriptor = utils.uploadGoogleCloudStorageObjectFromFS(
       </td>
     </tr>
   </tbody>
-</table>**Important note**: the file visibility is inherited by the bucket: if the bucket has been defined as "£public" the uploaded file will be as well.
+</table>
+
+**Important note**: the file visibility is inherited by the bucket: if the bucket has been defined as "£public" the uploaded file will be as well.
 
 ## Upload a file saved on Platform server file system to the specified bucket of  Cloud Storage and make it public
 
@@ -587,7 +601,9 @@ var descriptor = utils.uploadGoogleCloudStoragePublicObjectFromFS(
       </td>
     </tr>
   </tbody>
-</table>**Important note**: the file visibility is always public, independently on the bucket settings.
+</table>
+
+**Important note**: the file visibility is always public, independently on the bucket settings.
 
 ## Create a text file on a specified bucket of  Cloud Storage
 
@@ -662,7 +678,9 @@ var descriptor = utils.uploadGoogleCloudStorageObjectFromString(
       </td>
     </tr>
   </tbody>
-</table>**Important note**: the file visibility is inherited by the bucket: if the bucket has been defined as "£public" the uploaded file will be as well.
+</table>
+
+**Important note**: the file visibility is inherited by the bucket: if the bucket has been defined as "£public" the uploaded file will be as well.
 
 ## Create a text file on a specified bucket of  Cloud Storage and make it public
 
@@ -737,7 +755,9 @@ var descriptor = utils.uploadGoogleCloudStoragePublicObjectFromString(
       </td>
     </tr>
   </tbody>
-</table>**Important note**: the file visibility is always public, independently on the bucket settings.
+</table>
+
+**Important note**: the file visibility is always public, independently on the bucket settings.
 
 
 
@@ -815,7 +835,9 @@ var descriptor = utils.copyGoogleCloudStorageObject(
       </td>
     </tr>
   </tbody>
-</table>## Change accessibility for a Cloud Storage file to public or private
+</table>
+
+## Change accessibility for a Cloud Storage file to public or private
 
 Before using this function, the GCP project must be set up correctly, i.e. you have to specify at global parameters level:
 

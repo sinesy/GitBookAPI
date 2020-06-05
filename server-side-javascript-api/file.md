@@ -123,7 +123,9 @@ var ok = utils.getFile(protocol, host, port, useSSL, username, password, ftpDir,
       <td style="text-align:left">boolean flag, used to specify if FTPS must be used</td>
     </tr>
   </tbody>
-</table>| Argument | Description |
+</table>
+
+| Argument | Description |
 | :--- | :--- |
 | username | username to use to authenticate to the FTP server |
 | password | password to use to authenticate to the FTP server |
