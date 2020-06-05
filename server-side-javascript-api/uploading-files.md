@@ -236,6 +236,80 @@ uploadFileFromForm(
 );
 ```
 
+## Download an uploaded file
+
+Once a file has been uploaded, the easiest way to download it is through the grid/form panel from which it has been uploaded \(see first section in this web page\).
+
+Anyway, it is possible to customize the download process and attach it in any part of the application UI, through the client-side javascript function provided by Platform:
+
+```text
+downloadFile(fileName,dirId)
+```
+
+You need to provide to this function the file name for the file to download and its location.
+
+**Examples:**
+
+```text
+// in case of a grid having one file for each row
+var selectedRow = gridxxx.getSelectionModel().getSelected();
+var vo = selectedRow.record;
+downloadFile(
+  vo.fileName, // e.g. the attribute name containing the file name
+  dirId // provided externally
+);
+```
+
+```text
+// in case of a form having a file linked to it
+var record = formxxx.getForm().record;
+downloadFile(
+  record.fileName, // e.g. the attribute name containing the file name
+  dirId // provided externally
+);
+```
+
+**Note**: pay attention in case you are storing files in GCS; in such a scenario, the directory id only identifies the bucket name, not the relative path of the file, which must be saved along with the file name itself.
+
+## Preview an uploaded file
+
+Once a file has been uploaded, the easiest way to show it again is through the grid/form panel from which it has been uploaded \(see first section in this web page\).
+
+Anyway, it is possible to customize the preview process and attach it in any part of the application UI, through the client-side javascript function provided by Platform:
+
+```text
+previewFile(fileName,dirId)
+```
+
+You need to provide to this function the file name for the file to download and its location.
+
+**Examples:**
+
+```text
+// in case of a grid having one file for each row
+var selectedRow = gridxxx.getSelectionModel().getSelected();
+var vo = selectedRow.record;
+previewFile(
+  vo.fileName, // e.g. the attribute name containing the file name
+  dirId // provided externally
+);
+```
+
+```text
+// in case of a form having a file linked to it
+var record = formxxx.getForm().record;
+previewFile(
+  record.fileName, // e.g. the attribute name containing the file name
+  dirId // provided externally
+);
+```
+
+**Note**: pay attention in case you are storing files in GCS; in such a scenario, the directory id only identifies the bucket name, not the relative path of the file, which must be saved along with the file name itself.
+
+**Note**: not all file formats can be showed as a preview; it depends on the browser plugins/extensions installed; it can work for most of the image formats, PDF \(if Acrobat reader has been installed\), text files, but it is unlikely that it can work for Office documents.
+
+
+
 
 
 
