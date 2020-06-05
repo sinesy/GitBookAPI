@@ -278,7 +278,7 @@ Once a file has been uploaded, the easiest way to show it again is through the g
 Anyway, it is possible to customize the preview process and attach it in any part of the application UI, through the client-side javascript function provided by Platform:
 
 ```text
-previewFile(fileName,dirId)
+previewFile(fileName,dirId,settings)
 ```
 
 You need to provide to this function the file name for the file to download and its location.
@@ -291,7 +291,12 @@ var selectedRow = gridxxx.getSelectionModel().getSelected();
 var vo = selectedRow.data;
 previewFile(
   vo.fileName, // e.g. the attribute name containing the file name
-  dirId // provided externally
+  dirId, // provided externally
+  { // this argument can be omitted
+    width: "100%", // optional
+    height: 400, // optional
+    title: "Preview" // optional
+  }
 );
 ```
 
@@ -300,7 +305,12 @@ previewFile(
 var record = formxxx.getForm().record;
 previewFile(
   record.fileName, // e.g. the attribute name containing the file name
-  dirId // provided externally
+  dirId, // provided externally
+  { // this argument can be omitted
+    width: "100%", // optional
+    height: 400, // optional
+    title: "Preview" // optional
+  }
 );
 ```
 
