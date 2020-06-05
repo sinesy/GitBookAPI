@@ -17,6 +17,7 @@
 ## Client-side Javascript API
 
 * [Global methods and UI API](client-side-javascript-api/extjs-api-34.md)
+* [Uploading files](client-side-javascript-api/uploading-files.md)
 
 ## Server-side issues
 
@@ -35,7 +36,6 @@
 * [HTTP](server-side-javascript-api/http.md)
 * [Ldap](server-side-javascript-api/ldap.md)
 * [File](server-side-javascript-api/file.md)
-* [Uploading files](server-side-javascript-api/uploading-files.md)
 * [Other](server-side-javascript-api/other.md)
 * [MongoDB](server-side-javascript-api/mongodb.md)
 * [Reporting](server-side-javascript-api/reporting.md)
