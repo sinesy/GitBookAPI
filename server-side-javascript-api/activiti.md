@@ -467,6 +467,210 @@ var json = utils.getInvolvedNotAssignedTasks(HashMap pars,String username);
 
 
 
+## Activiti BPM - How to get the list of tasks where the specified user is a candidate
+
+There is a server-side javascript function available to get the list of tasks potentially assignabled to the specified user, i.e. where the user is a candidate.
+
+**Syntax:**
+
+```javascript
+var json = utils.getActivitiUserCandidateTasks(candidate, processInstanceId, taskDefinitionKey);
+```
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Argument</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">candidate</td>
+      <td style="text-align:left">mandatory argument; username to use when filtering the tasks list: only
+        tasks where the user is a candidate will be fetched</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">processInstanceId</td>
+      <td style="text-align:left">optional argument: if set, the tasks list is filtered not only by username
+        but also by process instance id</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">taskDefinitionKey</td>
+      <td style="text-align:left">optional argument: if set, the tasks list is filtered not only by username
+        but also by the task definition id, i.e. the code specified in the BPM
+        model, when creating a task (if not filled, it is automatically defined
+        by Activiti as a UUID)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">returned value</td>
+      <td style="text-align:left">
+        <p>a JSON string, expressed as { valueObjectList: [{...},....] }</p>
+        <p>where an element of the list is something like:</p>
+        <p>{</p>
+        <p>&quot;id&quot;: &quot;...&quot;, // instance task id</p>
+        <p>&quot;owner&quot;: null,</p>
+        <p>&quot;assignee&quot;: &quot;...&quot;, // username</p>
+        <p>&quot;name&quot;: &quot;...&quot;, // the task description, as defined
+          in the BPM model</p>
+        <p>&quot;description&quot;: null,</p>
+        <p>&quot;dueDate&quot;: &quot;2020-05-20T10:09:10.000+0000&quot;,</p>
+        <p>&quot;taskDefinitionKey&quot;: &quot;...&quot;,</p>
+        <p>&quot;processInstanceId&quot;: &quot;...&quot;,</p>
+        <p>&quot;processDefinitionId&quot;: &quot;...&quot;</p>
+        <p>}</p>
+        <p></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Activiti BPM - how to close a task
+
+There are 3 ways to close a task for an instance process. In any case, the task must be
+
+* a manual task not completed yet
+* either potentially assignable to a user or already assigned to a user
+* ready to be started
+
+In order to close the task, you can:
+
+* use the standard "**To do**" functionality, provided by Platform and close a task
+* close a task, starting from its "**task id**", which is related to a specific process instance id, user and task; you can get the "task id", through one of the methods described above \(getActivitiUserAssignedTasks or getActivitiUserCandidateTasks\)
+* close a task starting from a **process instance id, a task definition key and a user**
+
+In any case, if some task properties are mandatory, you have to provide them, when closing the task, otherwise, an exception will be fired. An exception will be fired also when:
+
+* invalid process instance id, a task definition key and a user have been provided
+* invalid task id has been provided
+
+There are 2 server-side javascript methods available, in order to close a task, described as follows.
+
+**Syntax**:
+
+```javascript
+utils.closeActivitiTask(taskInstanceId, map);
+```
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Argument</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">taskInstanceId</td>
+      <td style="text-align:left">
+        <p>a valid task id (as a String), which can be retrieved starting from</p>
+        <p>getActivitiUserAssignedTasks or getActivitiUserCandidateTasks methods</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">map</td>
+      <td style="text-align:left">a javascript object containing all required values to pass forward to
+        activiti, in order to close the process</td>
+    </tr>
+  </tbody>
+</table>
+
+**Syntax**:
+
+```javascript
+utils.closeActivitiTask(processInstanceId, taskDefinitionKey, assignee, map);
+```
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Argument</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">processInstanceId</td>
+      <td style="text-align:left">
+        <p>a valid process instance id (as a String), which can be retrieved starting
+          from</p>
+        <p>getActivitiUserAssignedTasks or getActivitiUserCandidateTasks methods</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">taskDefinitionKey</td>
+      <td style="text-align:left">a task definition key, as defined in the BPM model (its id)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">assignee</td>
+      <td style="text-align:left">the username for the user who has the specified task assigned</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">map</td>
+      <td style="text-align:left">a javascript object containing all required values to pass forward to
+        activiti, in order to close the process</td>
+    </tr>
+  </tbody>
+</table>
+
+## Activiti BPM - How to get the list of tasks assigned to a specific user
+
+There is a server-side javascript function available to get the list of tasks assigned to the specified user.
+
+**Syntax:**
+
+```javascript
+var json = utils.getActivitiUserAssignedTasks(assignee, processInstanceId, taskDefinitionKey);
+```
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Argument</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">assignee</td>
+      <td style="text-align:left">mandatory argument; username to use when filtering the tasks list: only
+        tasks assigned to this user will be fetched</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">processInstanceId</td>
+      <td style="text-align:left">optional argument: if set, the tasks list is filtered not only by username
+        but also by process instance id</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">taskDefinitionKey</td>
+      <td style="text-align:left">optional argument: if set, the tasks list is filtered not only by username
+        but also by the task definition id, i.e. the code specified in the BPM
+        model, when creating a task (if not filled, it is automatically defined
+        by Activiti as a UUID)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">returned value</td>
+      <td style="text-align:left">
+        <p>a JSON string, expressed as { valueObjectList: [{...},....] }</p>
+        <p>where an element of the list is something like:</p>
+        <p>{</p>
+        <p>&quot;id&quot;: &quot;...&quot;, // instance task id</p>
+        <p>&quot;owner&quot;: null,</p>
+        <p>&quot;assignee&quot;: &quot;...&quot;, // username</p>
+        <p>&quot;name&quot;: &quot;...&quot;, // the task description, as defined
+          in the BPM model</p>
+        <p>&quot;description&quot;: null,</p>
+        <p>&quot;dueDate&quot;: &quot;2020-05-20T10:09:10.000+0000&quot;,</p>
+        <p>&quot;taskDefinitionKey&quot;: &quot;...&quot;,</p>
+        <p>&quot;processInstanceId&quot;: &quot;...&quot;,</p>
+        <p>&quot;processDefinitionId&quot;: &quot;...&quot;</p>
+        <p>}</p>
+        <p></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 ## Activiti BPM - How to parse a duration/period expressed in ISO-8601 format
 
 A duration/period can be expressed in ISO.8601 \(see [https://en.wikipedia.org/wiki/ISO\_8601\#Dates](https://en.wikipedia.org/wiki/ISO_8601#Dates)\)
