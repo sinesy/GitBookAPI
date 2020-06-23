@@ -8,6 +8,12 @@ The easiest way to upload files through platform is using the built-in functiona
 
 ![](../.gitbook/assets/schermata-2020-06-05-alle-09.41.49.png)
 
+Both for a grid or a form, you have to 
+
+* choose the right column/control type: **File Image** or **File Path**
+* select a directory id
+* optionally, fill in the advanced property **File Type**, with a list of allowed mime types separated by a comma \(e.g. "image/jpg,image/png"\)
+
 In case you need more freedom when working with files to upload, there are additional javascript method available, described in the following sections.
 
 ## Upload a file, starting from an application event
@@ -100,6 +106,8 @@ uploadFile(
         <p>contains an optional js object having the following attributes:</p>
         <p></p>
         <p>{</p>
+        <p>acceptMimes: &quot;image/jpg,image/.png&quot;, // a list of mime types
+          separated by ,</p>
         <p>encriptAttachments: true|false,</p>
         <p>panelId: ...</p>
         <p>}</p>
@@ -113,6 +121,8 @@ uploadFile(
 ## Upload a file, starting from a custom window
 
 In case you need to customize completely the content of the popup window hosting your file to upload, you can define a Platform window containing a Platform Editable Panel, where you can include any type of input fields. The only constraint is to include also a **File Type Field**, available only with Editable Panels.
+
+Optionally, you can fill in the advanced property **File Type**, with a list of allowed mime types separated by a comma \(e.g. "image/jpg,image/png"\).
 
 Such a special field is composed of a readonly text field containing the file name to upload and a button used to open the operating system file selection window to select the file to upload. These field provides CSS classes having this format:
 
