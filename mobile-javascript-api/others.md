@@ -13,6 +13,7 @@ Possible settings parameters:
 
 * **asMainWindow**: boolean value to open the window as the first window in the window stack. It is like to open a window from main menu; _\(Since 5.2.3 version\)_
 * **anchoredToPanel** and **anchoredToAttribute**: Display the modal window in a popup window anchored to the bottom-left corner of the anchor view. If there is not enough room on screen to show the popup in its entirety, this method tries to find a parent scroll view to scroll. If no parent scroll view can be scrolled, the bottom-left corner of the popup is pinned at the top left corner of the anchor view. Works only with modal window. _\(Since 6.0.1 version\)_
+  * You can use "this" string to open the popup window anchored to the view that triggered the event. _\(Only works with button's events. Since 6.0.2 version\)_
 * **anchoredGravity**: only works on Android, preferred window anchor position, available values are: TOP,BOTTOM,LEFT,RIGHT or a combination of them separated by a pipe. Ex: BOTTOM\|RIGHT anchor the window to the bottom-right corner. Default value is BOTTOM\|LEFT. _\(Since 6.0.1 version\)_
 * **preferredOpenDirection**: only works on iOs, preferred window position relative to anchored attribute. Available values are:UP,DOWN,LEFT,RIGHT. _\(Since 6.0.1 version\)_
 
@@ -21,6 +22,14 @@ var settings = new Object();
 settings.asMainWindow = 'Y';
 settings.anchoredToPanel = 129;
 setting.anchoredToAttribute = 'myBtn';
+
+openWindow123(args, settings);
+
+//es works on 6.0.2 in a button's event
+var settings = new Object();
+settings.asMainWindow = 'Y';
+settings.anchoredToPanel = 'this';
+setting.anchoredToAttribute = 'this';
 
 openWindow123(args, settings);
 ```
@@ -266,6 +275,8 @@ setDrawerDescriptionRow2("Lorem ipsum 2", "FF0000"); //set the second row red
 setDrawerDescriptionRow3("Lorem ipsum 3"); //set the third row
 ```
 
+## TOPBAR APPEARANCE
+
 ## setTopbarRightDescription\(description\)
 
 If menu provide a description in the topbar, update the description.
@@ -273,6 +284,10 @@ If menu provide a description in the topbar, update the description.
 | Argument | Description |
 | :--- | :--- |
 | description | button id |
+
+> 6.0.1 version
+>
+> Supported menu: left menu
 
 ## setTopbarRightCharacter\(charcter, backcolor, forecolor\)
 
@@ -284,7 +299,33 @@ If menu provide a user-char icon update it.
 | backcolor | icon back color |
 | forecolor | icon fore color |
 
-> Since 6.0.1 version
+> 6.0.1 version
+>
+> Supported menu: left menu
+
+## setTopbarButton\(title, icon, width, actionId, showNotificationBadge\)
+
+if the menu allows you to add a persistent button in the topbar, use this method to add it. We recommend using this method after the app's display event. This feature is useful when you want to show a button to manage notifications. The button can have a text, an icon or both.
+
+| Argument | Description |
+| :--- | :--- |
+| title | optional, the button text |
+| icon | optional, the button icon |
+| width | a button with title always adapt the with to the button content, if you have a button with only icon you can specify the button width. |
+| actionId | action to call when button is clicked |
+| showNotificationBadge | Y/N show notification red badge on the button |
+
+> 6.0.1 version
+>
+> Supported menu: left menu
+
+## setTopbarButtonIcon\(icon\)
+
+Change the  icon of the button create with method **setTopbarButton.** 
+
+> 6.0.1 version
+>
+> Supported menu: left menu
 
 ## GENERIC PANEL:
 
