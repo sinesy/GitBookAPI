@@ -187,7 +187,9 @@ if(vo.notificationStatus == "RECEIVED"){
 }
 ```
 
-\*\*\*\*
+## Mobile function
+
+below some useful functions. 
 
 ## **getUnreadNotificationsCount\(\);**
 
@@ -202,4 +204,8 @@ Sets the badge for the menu item by its functionId
 Sets to zero the unread notifications count.  
 After this, the method**getNotificationsCount\(\)**will return zero.  
 This method doesn’t update the menu item badge, you have to call
+
+## setNotificationBadge
+
+If the type of menu includes the badge with the number of notifications, update the number of notifications
 
