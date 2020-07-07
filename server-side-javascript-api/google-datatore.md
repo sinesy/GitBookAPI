@@ -559,6 +559,36 @@ var json = utils.updateObjectOnGoogleDatastore(obj, dataModelId, interruptExecut
 
 Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
 
+## Merge a single entity into the Google Datastore \(for lazy people\)
+
+Suppose you only have part of the data of an entity and you need to update the entity. Datastore requires that all the declared attributes are passed forward, since not reported ones are automatically removed from the entity in the Datastore. The best thing would be not to be in this scenario: an entity to update should always be read first, using getEntity of getEntityFromJSON.
+
+In case you do not have all required attributes, you have the following function available: it merges the data passed in with the one already stored in the Datastore. Behind the scenes, the entity is first read from Datastore and all attributes provided in input are used to replace the ones read from the database. The pk is mandatory as input data.
+
+Optionally, you can also provide a list of attributes you do not include in the input data  and that you want to remove from the entity \(set to null\).
+
+The datastore must be already configured as a global parameter.Once done that, it is possible to execute operations on the Google Datastore.
+
+**Syntax**
+
+```javascript
+var json = utils.mergeObjectOnGoogleDatastore(obj, attributesToSetToNull, dataModelId, interruptExecution);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| obj | a Javascript object containing the data to save in the specified Datastore entity; not all attributes must be specified \(but the pk is mandatory\), the others are still written, since the whole entity has been read before the writing operation |
+| attributesToSetToNull | can be set to null; if specified, it is a Javascript array containing a list of attribute names, the ones to remove from the entity |
+| dataModelId | it identifies the data model having "datastore" type, related to the entity to update |
+| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation |
+| ok | true in case of the operation has been executed successfully, an exception otherwise |
+
+Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
+
+**Important note:** be careful with the usage of this method, since it costs more than the simple updateObjectOnGoogleDatastore. This method not only writes data but executes a read operation, so the total cost for this operation is higher and should be avoided every time it is possible.
+
 ## Update multiple entities into the Google Datastore
 
 Entities are expressed as Javascript objects.
