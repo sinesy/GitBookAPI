@@ -146,8 +146,6 @@ Example:
 shrinkPanel(123);
 ```
 
-## API AVAILABLE ONLY ON CURRENT PANEL:
-
 ## setVisibleComponent\(attr,visible\)
 
 Set the visibility state for the input control belonging to the current form panel, identified by the attribute name. The second argument can have the values "Y" or "N", used to set the visibility
@@ -177,7 +175,7 @@ Required parameters are:
 | :--- | :--- |
 | attributeName | attribute name identifying the lookup control where forcing the validation. |
 
-## setBackgroundColorComponent\(attributeName, hexBackgroundColor\)
+## setFormPanelControlBackgroundColor\(attributeName, hexBackgroundColor\)
 
 Sets the background color of the component.  
 Required parameters are:
@@ -187,7 +185,9 @@ Required parameters are:
 | attributeName | attribute name identifying the component. |
 | hexBackgroundColor | color code in hexadecimal \(also with 8 characters for alpha\) |
 
-## setBackgroundColorComponent\(panelId, attributeName, hexBackgroundColor\)
+> before the 6.0.2 version this function name was: **setBackgroundColorComponent**
+
+## setFormPanelControlBackgroundColor\(panelId, attributeName, hexBackgroundColor\)
 
 Sets the background color of the component in panel.  
 Required parameters are:
@@ -198,7 +198,9 @@ Required parameters are:
 | attributeName | attribute name identifying the component. |
 | hexBackgroundColor | color code in hexadecimal \(also with 8 characters for alpha\) |
 
-## setForegroundColorComponent\(attributeName, hexForegroundColor\)
+> before the 6.0.2 version this function name was: **setBackgroundColorComponent**
+
+## setFormPanelControlForegroundColor\(attributeName, hexForegroundColor\)
 
 Sets the foreground color of the component in the current panel.  
 Required parameters are:
@@ -208,7 +210,9 @@ Required parameters are:
 | attributeName | attribute name identifying the component. |
 | hexForegroundColor | color code in hexadecimal |
 
-## setForegroundColorComponent\(panelId, attributeName, hexForegroundColor\)
+> before the 6.0.2 version this function name was: setForegroundColorComponent
+
+## setFormPanelControlForegroundColor\(panelId, attributeName, hexForegroundColor\)
 
 Sets the foreground color of the component in panel.  
 Required parameters are:
@@ -218,6 +222,8 @@ Required parameters are:
 | panelId | id of the panel |
 | attributeName | attribute name identifying the component. |
 | hexForegroundColor | color code in hexadecimal |
+
+> before the 6.0.2 version this function name was: setForegroundColorComponent
 
 ## pull\(\) <a id="pull"></a>
 
@@ -268,5 +274,32 @@ setFilterPanelValue(1159, "attributeName", "value");
 
 ## setFormPanelCurrency\(panelId, attrName, currency\)
 
-where panelId is the panel identifier \(CON12\) and attr the name of the attribute which identifies a specific input field – set the specified currency in the input field of the filter panel
+where panelId is the panel identifier \(CON12\) and attrName the name of the attribute which identifies a specific input field – set the specified currency in the input field of the panel
+
+## setFormPanelStyle\(panelId, attrName, style\)
+
+where panelId is the panel identifier \(CON12\) and attrName the name of the attribute which identifies a specific input field -  set the specified style to the field of the panel.
+
+The available attributes for the style object are:
+
+* mobileControlBorderColor
+* mobileControlBorder
+* mobileBackgroundColor
+* mobileForeColor
+* mobileFontName
+* mobileFontStyle
+* mobileFontSize
+* showCounterChars
+* disableSelfCorrection
+* textStrikethrough
+
+```javascript
+var style = {
+	mobileControlBorder: "ALL_ROUNDED",
+	mobileControlBorderColor  : "#FF0000",
+	mobileFontSize : 14,
+	textStrikethrough : "Y"
+}
+setFormPanelStyle(19, "descriptionIt", style)
+```
 
