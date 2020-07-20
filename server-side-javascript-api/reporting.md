@@ -70,11 +70,29 @@ Important note: this method can work with 3 alternative implementations behind t
 
 In that case, all PDFs generated will have this format.
 
-You can download LibreOffice portable starting from this link:
+You can download and install LibreOffice portable, according to the operating system:
 
-{% page-ref page="reporting.md" %}
+**Windows**
 
-if none of the previous settings have been defined, a **default PDF conversion is used**, based on **POI** open source library, which does not ensure a good PDF conversion anyway.
+```javascript
+See:
+https://www.libreoffice.org/download/portable-versions/
+```
+
+**Linux**
+
+```javascript
+export VER=6.1.4
+wget https://download.documentfoundation.org/libreoffice/stable/${VER}/rpm/x86_64/LibreOffice_${VER}_Linux_x86-64_rpm.tar.gz
+tar -xzvf LibreOffice_${VER}*.tar.gz
+cd LibreOffice_${VER}*/RPMS
+yum install libreoffice6.1-${VER}*.rpm libobasis6.1-images-${VER}*.rpm libobasis6.1-core-${VER}*.rpm libreoffice6.1-ure-${VER}*.rpm libreoffice6.1-en-US-${VER}*.rpm libobasis6.1-en-US-${VER}*.rpm libreoffice6.1-writer-${VER}*.rpm libreoffice6.1-calc-${VER}*.rpm libreoffice6.1-impress-${VER}*.rpm  libobasis6.1-writer-${VER}*.rpm libobasis6.1-impress-${VER}*.rpm libobasis6.1-calc-${VER}*.rpm libobasis6.1-ooofonts-${VER}*.rpm
+cd ../..
+rm -Rvf LibreOffice_6.1.4*
+
+```
+
+If none of the previous settings have been defined, a **default PDF conversion is used**, based on **POI** open source library, which does not ensure a good PDF conversion anyway.
 
 ## How to print a report directly to a printer
 
