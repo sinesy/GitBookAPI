@@ -61,15 +61,20 @@ utils.convertDocxToPdf(docxFile, pdfFile, deleteDocxFile)
 
 Important note: this method can work with 3 alternative implementations behind the scenes:
 
-\| using CloudConvert Web Servivce API \| in order to enable this implementation, you have to set the globsl property CloudConv Key, i.e. you have to buy this online service before invoking it \|  
-\| using LibreOffice Portable \| this product must be installed in the same server hosting Platform; moreover, the global property named "LibreOffice Path" must be defined too. In case you need to convert a docx to a PDF/A \(PDF archive format\), you have first to change the file &lt;pathlibreoffice&gt;/Data/settings/user/registrymodifications.xcu and change/add the following line: \|
+* using **CloudConvert Web Service API** - in order to enable this implementation, you have to set the global property CloudConv Key, i.e. you have to buy this online service before invoking it 
+* using **LibreOffice Portable** - this product must be installed in the same server hosting Platform; moreover, the global property named "LibreOffice Path" must be defined too. In case you need to convert a docx to a PDF/A \(PDF archive format\), you have first to change the file &lt;pathlibreoffice&gt;/Data/settings/user/registrymodifications.xcu and change/add the following line: 
 
-&lt;item oor:path="/org.openoffice.Office.Common/Filter/PDF/Export"&gt;&lt;prop oor:name="SelectPdfVersion" oor:op="fuse"&gt;&lt;value&gt;1&lt;/value&gt;&lt;/prop&gt;&lt;/item&gt;  
+```javascript
+<item oor:path="/org.openoffice.Office.Common/Filter/PDF/Export"><prop oor:name="SelectPdfVersion" oor:op="fuse"><value>1</value></prop></item>
+```
+
 In that case, all PDFs generated will have this format.
 
-```text
- if none of the previous settings have been defined, a default PDF conversion is used, based on POI open source library, which does not ensure a good PDF conversion anyway.
-```
+You can download LibreOffice portable starting from this link:
+
+{% page-ref page="reporting.md" %}
+
+if none of the previous settings have been defined, a **default PDF conversion is used**, based on **POI** open source library, which does not ensure a good PDF conversion anyway.
 
 ## How to print a report directly to a printer
 
