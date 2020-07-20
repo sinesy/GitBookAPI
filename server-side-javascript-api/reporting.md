@@ -72,7 +72,20 @@ In that case, all PDFs generated will have this format.
 
 You can download and install LibreOffice portable, according to the operating system, starting from this link:
 
-[https://download.documentfoundation.org/libreoffice/stable/6.3.6/](https://download.documentfoundation.org/libreoffice/stable/6.3.6/)
+{% embed url="https://download.documentfoundation.org/libreoffice/stable/6.3.6/" %}
+
+In case of Linux:
+
+```javascript
+export VER=6.3.6
+wget https://download.documentfoundation.org/libreoffice/stable/6.3.6/rpm/x86_64/LibreOffice_6.3.6_Linux_x86-64_rpm.tar.gz
+tar -xzvf LibreOffice_${VER}*.tar.gz
+cd LibreOffice_${VER}*/RPMS
+yum install libreoffice6.1-${VER}*.rpm libobasis6.1-images-${VER}*.rpm libobasis6.1-core-${VER}*.rpm libreoffice6.1-ure-${VER}*.rpm libreoffice6.1-en-US-${VER}*.rpm libobasis6.1-en-US-${VER}*.rpm libreoffice6.1-writer-${VER}*.rpm libreoffice6.1-calc-${VER}*.rpm libreoffice6.1-impress-${VER}*.rpm  libobasis6.1-writer-${VER}*.rpm libobasis6.1-impress-${VER}*.rpm libobasis6.1-calc-${VER}*.rpm libobasis6.1-ooofonts-${VER}*.rpm
+cd ../..
+rm -Rvf LibreOffice_6.1.4*
+
+```
 
 If none of the previous settings have been defined, a **default PDF conversion is used**, based on **POI** open source library, which does not ensure a good PDF conversion anyway.
 
