@@ -129,6 +129,7 @@ Additionally, according to the **type**, there can be other attributes:
 * **expirationDate** - for a userTask element; it can be null even for userTask elements; it can be replaced by the one passed forward through the "tasksDueDates" argument
 * **calledElement** - process id related to the sub-process to invoke, in case of a callActivity type element
 * **timeDuration** - duration of a timer, in case of a boundaryEvent type element
+* **attachedToRef** - id of the userTask a boundaryEvent is attached to, in case of a boundaryEvent type element
 
 **Example**:
 
