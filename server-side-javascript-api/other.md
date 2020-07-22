@@ -482,7 +482,20 @@ var md5Text= utils.md5(String text);
 | text | text to convert to an hash key |
 | md5Text | the MD5 hash key corresponding to the input text |
 
+## Setting a value in a value object to save from a server-side js action
 
+In case you are saving data from a grid or form, using the standard Platform saving system \(form Save button on the UI\), you can inject new attributes or change attribute values just before saving data on the server. Using the "before saving data on insert/update" event, you can link a server-side js action. Here you can execute any kind of business logic and the use calculated data and inject it in the "vo" which is just to be saved, through the following method:
+
+```javascript
+utils.setAttributeValue(String attrName,Object value);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| attrName | attribute name to set in the "vo" Platform is working on to save data |
+| value | value to set for this attribute |
 
 
 
