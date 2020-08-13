@@ -278,6 +278,8 @@ where panelId is the panel identifier \(CON12\) and attrName the name of the att
 
 ## setFormPanelStyle\(panelId, attrName, style\)
 
+> Since 6.0.2 version
+
 where panelId is the panel identifier \(CON12\) and attrName the name of the attribute which identifies a specific input field -  set the specified style to the field of the panel.
 
 The available attributes for the style object are:
@@ -302,4 +304,72 @@ var style = {
 }
 setFormPanelStyle(19, "descriptionIt", style)
 ```
+
+## getFormPanelVo\(panelId\)
+
+> Since 6.0.2
+
+Returns the passed panel vo.
+
+## addFormPanelControl\(panelId,controlArgs,constraints,style\)
+
+> Since 6.0.2
+
+Add a control to visible panel, the panel must have a CONSTRAINT layout, absolute layout is not supported.
+
+| Argument | Description |
+| :--- | :--- |
+| panelId | panel identifier |
+| controlArgs | the controls properties |
+| constraints | the control constraints |
+| style | the control sytle \(see setFormPanelStyle\) |
+
+**controlArgs** is a JSON and support  this properties:
+
+* type
+* attributeName
+* label
+* value \[OPTIONAL\]
+* eventClick \[OPTIONAL\]: the actionId of the action to call on click event
+* eventChangeValue \[OPTIONAL\]: the actionId of the action to call on change event
+* eventLostFocus \[OPTIONAL\]: the actionId of the action to call on lost focus event
+
+Supported controls are:
+
+* "TEXT\_FIELD";
+* "BUTTON\_FIELD";
+* "LABEL\_FIELD";
+* "LINE\_FIELD";
+* "TEXTAREA\_FIELD";
+* "IMAGE\_URL\_FIELD";
+* "IMAGE\_PATH\_FIELD";
+
+**constraints** is a JSON, see [Constraints](constraints.md) for the list   of  available properties
+
+**style** is a JSON, see  **setFormPanelStyle** method for the list  of available properties
+
+```javascript
+var controlArgs = { 
+    type : "BUTTON_FIELD", 
+    attributeName : "customButton1", 
+    label : "Bottone 1", 
+    eventClick : 7219
+}
+var constraints = {
+                      "layoutConstraintLeftToLeftOf": "center",
+                      "layoutConstraintTopToTopOf": "center",
+                      "height": 250,
+                      "width": 250
+                    }
+
+var style = {
+    mobileBackgroundColor : "2f4352",
+    mobileForeColor : "FFFFFF"
+};
+
+addFormPanelControl(279, controlArgs, constraints, style);
+
+```
+
+
 
