@@ -772,7 +772,7 @@ Decoupling the template id from the template text, allows to pass forward a diff
 **Syntax**
 
 ```javascript
-var ok = utils.sendEmailWithMessageTemplate(
+var ok = utils.sendEmailWithMessageTemplateWithSettings(
       String subject,
       String messageTemplate,
       Map jsObj,
@@ -790,6 +790,7 @@ var ok = utils.sendEmailWithMessageTemplate(
       String smtpPassword,
       String useTLS,
       Boolean zipFiles,
+      Map additionalSettings,
       Long dirId,
       String... filesToAttach
   )
@@ -797,27 +798,111 @@ var ok = utils.sendEmailWithMessageTemplate(
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| subject | email subject; can contain variables to replace, expressed as :XXX |
-| messageTemplate | email body; can contain variables to replace, expressed as :XXX |
-| jsObj | a collection of variable names/values, expressed as a javascript object { varName1: value1, ... } used to replace the subject/body content for all :XXX occurrences |
-| from | email address sender |
-| to | email address destination; can contain multiple addresses, separated by a comma \(,\) |
-| cc | optional argument: can be null; carbon copy addresses |
-| bcc | optional argument: can be null; blind carbon copy addresses |
-| priority | optional argument: can be null; define the email message priority |
-| isHtmlContent | a boolean flag used to define if the body content is in HTML format or not |
-| returnReceipt | a boolean flag used to request a return receipt to the destinations |
-| smtpHost | SMPT host name to use |
-| smtpPort | SMTP port |
-| useTLS | flag to use \(Y/N\) to enable TLS |
-| protocol | Protocol to use \(e.g. smtp vs smtps\) |
-| smtpUsername | SMTP username to use to authentication to the SMTP server |
-| smtpPassword | SMTP password to use to authentication to the SMTP server |
-| zipFiles | a boolean flag used to compress all files to attach in a unique zip file and send it, in order to reduce the email size |
-| dirId | directory identifier, where attachment files are located; can be null, in case no attachment files are required |
-| filesToAttach | a list of files to attach, separated by a comma; use \[\] to not include files; each file is expressed as "subdir/filename" , with regards to the base path expressed through the dir id; GCS are supported as well |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Argument</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">subject</td>
+      <td style="text-align:left">email subject; can contain variables to replace, expressed as :XXX</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">messageTemplate</td>
+      <td style="text-align:left">email body; can contain variables to replace, expressed as :XXX</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">jsObj</td>
+      <td style="text-align:left">a collection of variable names/values, expressed as a javascript object
+        { varName1: value1, ... } used to replace the subject/body content for
+        all :XXX occurrences</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">from</td>
+      <td style="text-align:left">email address sender</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">to</td>
+      <td style="text-align:left">email address destination; can contain multiple addresses, separated by
+        a comma (,)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">cc</td>
+      <td style="text-align:left">optional argument: can be null; carbon copy addresses</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">bcc</td>
+      <td style="text-align:left">optional argument: can be null; blind carbon copy addresses</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">priority</td>
+      <td style="text-align:left">optional argument: can be null; define the email message priority</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">isHtmlContent</td>
+      <td style="text-align:left">a boolean flag used to define if the body content is in HTML format or
+        not</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">returnReceipt</td>
+      <td style="text-align:left">a boolean flag used to request a return receipt to the destinations</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">smtpHost</td>
+      <td style="text-align:left">SMPT host name to use</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">smtpPort</td>
+      <td style="text-align:left">SMTP port</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">useTLS</td>
+      <td style="text-align:left">flag to use (Y/N) to enable TLS</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">protocol</td>
+      <td style="text-align:left">Protocol to use (e.g. smtp vs smtps)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">smtpUsername</td>
+      <td style="text-align:left">SMTP username to use to authentication to the SMTP server</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">smtpPassword</td>
+      <td style="text-align:left">SMTP password to use to authentication to the SMTP server</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">zipFiles</td>
+      <td style="text-align:left">a boolean flag used to compress all files to attach in a unique zip file
+        and send it, in order to reduce the email size</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">additionalSettings</td>
+      <td style="text-align:left">
+        <p>can be null; if specified, it represents a javascript object containing
+          additional settings:</p>
+        <p>{</p>
+        <p>elmDirId = &lt;number&gt;</p>
+        <p>elmFileName: &quot;filename.elm&quot;</p>
+        <p>}</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">dirId</td>
+      <td style="text-align:left">directory identifier, where attachment files are located; can be null,
+        in case no attachment files are required</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">filesToAttach</td>
+      <td style="text-align:left">a list of files to attach, separated by a comma; use [] to not include
+        files; each file is expressed as &quot;subdir/filename&quot; , with regards
+        to the base path expressed through the dir id; GCS are supported as well</td>
+    </tr>
+  </tbody>
+</table>
 
 This method returns false if the email has NOT been sent correctly \(e.g. attachment file not found\).
 
