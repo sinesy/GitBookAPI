@@ -48,6 +48,70 @@ String response;
 Boolean resource;
 ```
 
+## Google Calendar - adding an event with more customizations
+
+Adding an event to Google Calendar.
+
+**Syntax**:
+
+```javascript
+var calendarEvent = utils.addGoogleCalendarEventWithSettings(
+  String title, 
+  Date beginDate, 
+  Date endDate,
+  String description,
+  String location,
+  String calendarId,
+  String creatorEmail,
+  String... attendeeEmails
+);
+```
+
+**Description**:
+
+| Argument | Description |
+| :--- | :--- |
+| title | Event title |
+| beginDate | starting date+time |
+| endDate | ending date+time |
+| description | additional description to include in the event |
+| location | can be null; it can be a complete address or a city, a province, etc. |
+| calendarId | can be null; if not filled, the default calendar for the current logged user will be used; if set, it is the calendar id where creating the event; the current admin user must have grants to save data into that calendar:; in order to retrieve the calendar id, go to Google Calendar, right click on the calendar on the list on the left and choose "Settings and sharing"; finally, search for "Calendar ID". |
+| creatorEmail | can be null; if not filled, the current logged user email will be used; if set, this will be the owner of the event \(if the specified email address in owner of the specified calendar\) |
+| attendesEmails | a Javascript array containing a list of email addresses, representing people invited to the event |
+
+This event is created for the calendar associated to the specified user/calendar.
+
+The resulting javascript object has the following structure:
+
+```text
+String id;
+String title;
+String description;
+Date beginDate;
+Date endDate;
+EventAttendee creator;
+List<EventAttendee>attendees;
+String location;
+String url;
+```
+
+where "attendees" is a list of people invited to the event; each javascript object in this list has the following structure:
+
+```text
+String id;
+String displayName;
+String email;
+String comment;
+Boolean optional;
+Boolean organizer;
+Boolean creator;
+String response;
+Boolean resource;
+```
+
+
+
 ## Google Calendar - modifying an event
 
 Change the event title or timing for a Google Calendar event.
