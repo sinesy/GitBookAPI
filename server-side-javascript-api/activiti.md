@@ -179,6 +179,8 @@ Each js object always contains the following attributes:
 * **type** - the element type; if can be: **startEvent, endEvent, userTask, serviceTask, scriptTask, parallelGateway, inclusiveGateway**, **callActivity** \(in case of an invocation of a sub-process\), **boundaryEvent** \(a timer linked to a userTask\)
 * **sources** - list of ids related to all elements having a link starting from them and arriving in the current element \(predecessors\)
 * **targets** - list of ids related to all elements having a link whose origin is the current element \(destinations\)
+* **flowConditions** - list of conditions, one for each target reported above, indicating the boolean condition to fullfill, in order to go onto the corresponding target \(in case of **exclusiveGateway** task\)
+* **flowNames** - list of names for the conditions, one for each target reported above, in order to go onto the corresponding target \(in case of **exclusiveGateway** task\)
 * **sequence** - a string representing the execution order of each task with regards to each other; in case of gateway \(if, parallel execution\), the sequence is expressed as "num1.num2"; in this way tasks belonging to different branches of the same original gateway task can continue with a consistent enumeration; when a join task is met, the sequence returns to "num" format; recursive sequence is supported as well \(n1.n2.n3...\). In case of sub-processes \(with "includeSubProcesses" flag set to true\) the sequence is defined in "num1.num2" format again.
 
 Additionally, according to the **type**, there can be other attributes:
