@@ -57,7 +57,66 @@ The responseObj javascript object can contain:
 * success - boolean flag reporting whether the process was started successfully
 * msg - error message, in case of success = false
 
+## Activiti BPM - Delete an instance process programmatically
 
+Method used to delete an instance process currently under execution.
+
+**Syntax**:
+
+```javascript
+utils.deleteProcessInstance(String processInstanceId);
+```
+
+**Description**:
+
+| Argument | Description |
+| :--- | :--- |
+| processInstanceId | instance id related to a process to kill |
+
+In case of errors, an exception is fired.
+
+## Activiti BPM - Get all instance process variables
+
+Method used to delete an instance process currently under execution.
+
+**Syntax**:
+
+```javascript
+var json utils.getActivitiProcessInstancesVariables(
+  String processInstanceId,
+  String processDefinitionId
+);
+```
+
+| Argument | Description |
+| :--- | :--- |
+| processInstanceId | instance id related to a process to kill |
+| processDefinitionId | process id |
+
+The method returns a JSON string representing the list of variables, having the following format:
+
+```javascript
+{
+   "valueObjectList": 
+   [{
+      "name":"VAR1",
+      "type":"string",
+      "value":"...",
+      "scope":"local",
+      "translate":"..." // the label linked to the variable name
+    },
+    {
+      "name":"VAR2",
+      "type":"string",
+      "value":"...",
+      "scope":"local",
+      "translate":"..."
+    }
+    ]
+}
+```
+
+In case of errors, an exception is fired.
 
 ## Activiti BPM - Get process descriptor
 
