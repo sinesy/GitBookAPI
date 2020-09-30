@@ -110,7 +110,128 @@ String response;
 Boolean resource;
 ```
 
+## Google Calendar - adding an event with conference
 
+Adding an event to Google Calendar with a conference linked to it. A conference can be:
+
+* Hangouts for consumers \([http://hangouts.google.com](http://hangouts.google.com)\) 
+* Classic Hangouts for G Suite users \([http://hangouts.google.com](http://hangouts.google.com)\)
+* Google Meet \([http://meet.google.com](http://meet.google.com)\) 
+* "addOn" for 3P conference providers
+
+**Syntax**:
+
+```javascript
+var calendarEvent = utils.addGoogleCalendarEventWithConference(
+  String title, 
+  Date beginDate, 
+  Date endDate,
+  String description,
+  String location,
+  String calendarId,
+  String type,
+  String creatorEmail,
+  String... attendeeEmails
+);
+```
+
+**Description**:
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Argument</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">title</td>
+      <td style="text-align:left">Event title</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">beginDate</td>
+      <td style="text-align:left">starting date+time</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">endDate</td>
+      <td style="text-align:left">ending date+time</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">description</td>
+      <td style="text-align:left">additional description to include in the event</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">location</td>
+      <td style="text-align:left">can be null; it can be a complete address or a city, a province, etc.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">calendarId</td>
+      <td style="text-align:left">can be null; if not filled, the default calendar for the current logged
+        user will be used; if set, it is the calendar id where creating the event;
+        the current admin user must have grants to save data into that calendar:;
+        in order to retrieve the calendar id, go to Google Calendar, right click
+        on the calendar on the list on the left and choose &quot;Settings and sharing&quot;;
+        finally, search for &quot;Calendar ID&quot;.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">type</td>
+      <td style="text-align:left">
+        <p>link to the event a conference; allowed values are:</p>
+        <ul>
+          <li>&quot;eventHangout&quot; for Hangouts for consumers (<a href="http://hangouts.google.com">http://hangouts.google.com</a>)</li>
+          <li>&quot;eventNamedHangout&quot; for classic Hangouts for G Suite users (
+            <a
+            href="http://hangouts.google.com">http://hangouts.google.com</a>)</li>
+          <li>&quot;hangoutsMeet&quot; for Google Meet (<a href="http://meet.google.com">http://meet.google.com</a>)</li>
+          <li>&quot;addOn&quot; for 3P conference providers</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">creatorEmail</td>
+      <td style="text-align:left">can be null; if not filled, the current logged user email will be used;
+        if set, this will be the owner of the event (if the specified email address
+        in owner of the specified calendar)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">attendesEmails</td>
+      <td style="text-align:left">a Javascript array containing a list of email addresses, representing
+        people invited to the event</td>
+    </tr>
+  </tbody>
+</table>
+
+This event is created for the calendar associated to the specified user/calendar.
+
+The resulting javascript object has the following structure:
+
+```text
+String id;
+String title;
+String description;
+Date beginDate;
+Date endDate;
+EventAttendee creator;
+List<EventAttendee>attendees;
+String location;
+String url;
+String hangoutLink;
+```
+
+where "attendees" is a list of people invited to the event; each javascript object in this list has the following structure:
+
+```text
+String id;
+String displayName;
+String email;
+String comment;
+Boolean optional;
+Boolean organizer;
+Boolean creator;
+String response;
+Boolean resource;
+```
 
 ## Google Calendar - modifying an event
 
