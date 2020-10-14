@@ -1,5 +1,28 @@
 # Google App Engine
 
+## Checking for authorizations
+
+GAE javascript actions are stateless web services, that is to say, they do not store conversational state among different calls. 
+
+These actions can be invoked directly or, even better, through an alias \(api?cmd=...\).
+
+In any case, an authentication process is required, in order to successfully invoke an action.
+
+Authentication can be performed in 2 alternative ways:
+
+* by invoking "**login**" standard ws first, get a token and use it for any subsequent invocation of a GAE action by pass the token along with the other input parameters
+* by invoking directly a GAE action an **pass credentials** along with the other input parameters
+
+In any case, credentials are required and must be provided always as request headers.
+
+Moreover, in the first case the needTmpToken is required too, in order to ask Platform for GAE to get back a token to use in the next requests.
+
+Optionally, it is possible to ask Platform to fetch authorizations as well, when carrying out the authentication process. Authorizations are the list of granted roles associated to the specified user.
+
+This can be carried out b y including in the request the "**loadRoles=Y**" header parameter.
+
+Finally, the **utils.checkRoles\(roleId\)** method can be included in any GAE action, in order to force Platform for GAE to check for that role as a role bound to the current user. This checking is performed ONLY IF "loadRoles=Y" has been previously included in the authentication request.
+
 ## Reading data from Datastore
 
 When there is the need to read a sigle entity, **it is strongly recommended to use the following method to read a single record by key** instead of executing a query where the filter condition limits the number of record, since reading a single record by key is cheaper.
