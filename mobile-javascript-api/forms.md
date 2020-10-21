@@ -23,6 +23,34 @@ where XXX is the form identifier \(CON12\) and attr the name of the attribute wh
 
 where XXX is the form identifier \(CON12\) and attr the name of the attribute which identifies a specific input field - returns the value currently set on the input field of the form panel
 
+## getFormPanelAddressValue\(panelid, attr\)
+
+where panelid is the form identifier \(CON12\) and attr the name of the attribute which identifies a specific input field, the input type must be  an address autocomplete fields. - returns the selected address components  string in JSON format
+
+```javascript
+{
+  "administrativeAreaLevel1": "Lazio",
+  "administrativeAreaLevel1Short": "Lazio",
+  "administrativeAreaLevel2": "Città Metropolitana di Roma",
+  "administrativeAreaLevel2Short": "RM",
+  "administrativeAreaLevel3": "Roma",
+  "administrativeAreaLevel3Short": "Roma",
+  "country": "Italia",
+  "countryShort": "IT",
+  "locality": "Roma",
+  "localityShort": "Roma",
+  "route": "Via del Corso",
+  "routeShort": "Via del Corso",
+  "streetnumber": "1",
+  "streetnumberShort": "1"
+}
+```
+
+```javascript
+var addressJSONString = getFormPanelAddressValue(4819,"txtAddress");
+var addressMap = JSON.parse(addressJSONString);
+```
+
 ## setFormPanelValue\(panelid, attr,value\)
 
 where XXX is the form identifier \(CON12\) and attr the name of the attribute which identifies a specific input field - set the specified value in the input field of the form panel
