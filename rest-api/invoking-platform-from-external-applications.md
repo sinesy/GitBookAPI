@@ -282,7 +282,15 @@ Another optional parameter is
 
 **onlyLogin=true**
 
-which by-pass the loading of any additional data after the authentication step: that will speed up the response of the web service, which will be a stateless web service. On the other hand, no additional data will be loaded and consequently it is up to the js code within the action to fetch any data needed for the correct execution of the web service.
+which by-pass the loading of any additional data after the authentication step: that will speed up the response of the web service, which will be a stateless web service. **On the other hand, no additional data will be loaded and consequently it is up to the js code within the action to fetch any data needed for the correct execution of the web service**. **For example you cannot use the server-side js action which manages multiple datasources according to the input \(e.g. company id\).**
+
+In order to force parameter loading when using onlyLogin=true, you have to include also the following part in the URL \(or alias definition\):
+
+**&parameters=true**
+
+**In this way, you can use the server-side js action which manages multiple datasources according to the input \(e.g. company id\).**
+
+\*\*\*\*
 
 A better and **more secure solution is to include the applicationId/companyId/siteId/username/password parameters described above as headers parameters**, rather than request parameters: in this way, data is encrypted when using the HTTPS protocol.
 
