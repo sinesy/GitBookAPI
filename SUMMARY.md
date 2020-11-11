@@ -43,6 +43,7 @@
 * [XML](server-side-javascript-api/xml.md)
 * [Activiti](server-side-javascript-api/activiti.md)
 * [Archiflow](server-side-javascript-api/archiflow.md)
+* [Import Cells from xlsx](server-side-javascript-api/import-cells-from-xlsx.md)
 * [User management](server-side-javascript-api/user-management.md)
 * [Whatsapp](server-side-javascript-api/whatsapp.md)
 * [Google Cloud Storage](server-side-javascript-api/google-cloud-storage.md)
