@@ -2,7 +2,7 @@
 
 ## Get a metadata from db table
 
-Read the structure of table from database and prepare the metadata for import
+Read the table structure from database and prepare the metadata for import
 
 **Syntax**:
 
@@ -13,11 +13,11 @@ var dbTableId = utils.createDbTableMetadata(Long datasourceId, String tableName)
 | Argument | Description |
 | :--- | :--- |
 | datasourceId | optional parameter \(can be null\); it defines the additional datastore to use  |
-| tableName | name of table |
+| tableName | table name |
 
 ## Update the table metadata
 
-Update the table metadata if the structure of table are changed
+Update the table metadata if the table structure are changed
 
 **Syntax**:
 
@@ -52,7 +52,7 @@ var valueImportId = utils.createValueImports(
 | :--- | :--- |
 | dbTableId | id of table metadata for import |
 | directoryId | id of the directory where to search the file |
-| fileName | name of file |
+| fileName | file name |
 | description | description for import \(can be null\) |
 | note | note for import \(can be null\) |
 | inputData | string in json format for data in import \(can be null\) |
@@ -82,7 +82,7 @@ var valueImportId = utils.duplicateValueImports(
 | :--- | :--- |
 | valueImportId | id of import to duplicate |
 | directoryId | id of the directory where to search the file; can bel null if you want read the old file |
-| fileName | name of file; can bel null if you want read the old file |
+| fileName | file name; can bel null if you want read the old file |
 | description | description for import \(can be null\) |
 | note | note for import \(can be null\) |
 | inputData | string in json format for data in import \(can be null\) |
