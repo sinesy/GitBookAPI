@@ -435,6 +435,27 @@ var outcome = utils.createTextFile(String fileName, String fileContent, Boolean 
 | directoryId | directory identifier, used to define the absolute path, in the central server, where the file will be stored; if null, there must be one only entry for this application |
 | outcome | true in case of the operation has beenexecuted successfully, an exception otherwise |
 
+## Create a text file with specify charset and fill in with the passed content <a id="getcsvcontent"></a>
+
+**Syntax**
+
+```javascript
+var outcome = utils.createTextFile(String fileName, String fileContent, 
+    Boolean overwrite, Long directoryId, String charsetName
+);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+|  | fileName -file name; it can includes a subpath to append to the base path specified through directoryId |
+| fileContent | text content to save |
+| overwrite | true to overwrite the file content if already exists, falseto ignore this operation and returns false as result |
+| directoryId | directory identifier, used to define the absolute path, in the central server, where the file will be stored; if null, there must be one only entry for this application |
+| outcome | true in case of the operation has beenexecuted successfully, an exception otherwise |
+| charsetName | name charset |
+
 ## Writing a very long text file on the server file system <a id="getcsvcontent"></a>
 
 **From 5.3.1 version**
@@ -447,10 +468,16 @@ Write a very long text file on the server file system, through a 3 steps approac
 
 Data could be retrieved from a SQL query, through the **executeQueryWithCallback** method, since this will ensure a limited amount of memory consumption.
 
-**Syntax for openTextVFile method**
+**Syntax for openTextFile method**
 
 ```javascript
 var fileId = utils.openTextFile(fileName, overwrite, directoryId, fileAppend);
+```
+
+or 
+
+```javascript
+var fileId = utils.openTextFile(fileName, overwrite, directoryId, fileAppend, charsetName);
 ```
 
 **Details**
@@ -466,6 +493,7 @@ var fileId = utils.openTextFile(fileName, overwrite, directoryId, fileAppend);
 | directoryId | directory identifier, used to define the absolute path, in the central server, where the file will be stored; if null, there must be one only entry for this application |
 | fileAppend | flag true\|false used to define if rows to add must be appneded at the end of  an already existing file |
 | fileId | a text id, representing the output stream, to refer in the next two methods. |
+| charsetName | name charset |
 
 **Syntax for writeToTextFile method**
 
