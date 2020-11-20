@@ -483,7 +483,7 @@ Attributes contained in each message of the list:
 | message | email body |
 | subject | email subject |
 | mimeType | e.g. "text/plain" or "text/html" |
-| list | list of absolute paths \(strings\) where the attachments have been saved |
+| attachments | list of absolute paths \(strings\) where the attachments have been saved |
 | sendDate | message sending date \(since 5.0.1 version\) |
 | receiveDate | message receiving date \(since 5.0.1 version\) |
 | replyTo | reply to addresses, separated  by a comma \(since 5.0.0 version\) |
