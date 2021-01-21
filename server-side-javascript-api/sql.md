@@ -477,5 +477,73 @@ var base64String = utils.getBlobAsBase64(
 
 This method returns a String whose content is the Base64 representation of the BLOB field content.
 
+## Call a business component from a server-side js business component
+
+It is available a js function to invoke from within a server-side js b.c. \(not from an action\) to call another business component. 
+
+Basically, it can be used to pass forward all request parameters received in input from the starting b.c and get a response to use as the final result to pass back.
+
+**Syntax**
+
+```javascript
+callBusinessComponent(
+  Long compId,
+  Map additionalReqParams,
+  Map decodedReqParams,
+  Map decodedFilterNames
+)
+```
+
+
+
+| Argument | Description |
+| :--- | :--- |
+| compId | identifier for the b.c. to call; bear in mind that all request parameters received from the current b.c. are automatically passed forward to the one specified here; optionally, you can replace request names through the other function arguments |
+| additionalReqParams | it can be null; if specified, it is a js object containing additional request parameters to pass forward; for example, if you wanna call a b.c. for a detail, input parameters a required \(the ones expressed as :XXX in the called b.c.\); you can use this argument to specify these input parameters, if not already available in the starting b.c. input |
+| decodedReqParams | it can be null: if specified, it is a js object containing mappings between request parameters in input and the new request parameter name which must replace the one mapped; e.g. { itemCode: "codice", description: "desc" } in case the UI passes itemCode and description request parameters and you need to pass foward to the called b.c. different parameter names |
+| decodedFilterNames | it can be null: if specified, it is a js object to use ONLY in case of a b.c. for lists; it represents a sub-case of the previous argument: it works only on quickFilterNames and filterNames request attributes and it goes into depth to these values and replace attribute names with new ones |
+
+**Example of a server-side js b.c. invoking a b.c. for grids**
+
+```javascript
+var json = utils.callBusinessComponent(109,{},{},{
+     codice: "uid", // replace "codice" input req param with "uid"
+     descrizione: "companyTitle"
+});
+var res = JSON.parse(json);
+// scroll all results returned by the called b.c. and create a new 
+// response, containing the data needed
+var list = [];
+for(var i=0;i<res.valueObjectList.length;i++) {
+    list.push({
+        codice: res.valueObjectList[i].uid,
+        descrizione: res.valueObjectList[i].companyTitle
+    });
+}
+
+var _res = {
+    valueObjectList: list,
+    moreRows: res.moreRows
+};
+utils.setReturnValue(JSON.stringify(_res));
+```
+
+ 
+
+**Example of a server-side js b.c. invoking a b.c. for a form**
+
+```javascript
+var params = new Object();
+params["cliente.uid"] = "00109801-de92-4e5e-85a4-108aa6b63387"; // for example
+var json = utils.callBusinessComponent(119,params,{},{}); // here the required "pk" for the b.c. for a form is passed forward through "params"
+...
+```
+
+
+
+
+
+
+
 
 
