@@ -28,6 +28,8 @@ Platform mem-cache must be managed programmatically, through a series of js meth
 * **var value = utils.getValueInCache\(String varName\)** – Read a valore from the cache. I f the variable is stored in cache, it returns the corresponding value, otherwise an exception will be fired
 * **var value = utils.getValueInCache\(String varName,String alternativeFunctionName\) –**  Fetch a value from the shared web cache. In case the specified variable name is not found in cache, then execute the js function and get back the returning value, which is also stored in cache. The alternativeFunctionName must be a string value, not directly the function \(see the example below\)
 * **var value = utils.getValueInCache\(String varName,String alternativeFunctionName,Long expirationTime\)** – Fetch a value from the shared web cache. In case the specified variable name is not found in cache, then execute the js function and get back the returning value, which is also stored in cache. The alternativeFunctionName must be a string value, not directly the function \(see the example below\). An expiration time is also specified
+* **utils.invalidateAll\(\)** - Clear up all values stored in cache
+* **removeValuesFromCache\(String keyPrefix\)** - Remove multiple values from cache: the one whose key starts with the specified pattern
 
 **Important note**: it is up to you ensuring the correct content of the cache. For instance, if an application parameter is changed externally, the cache is not able to figure it out and it could contain not up-to-date content. This is not a wrong behavior of the cache: you have to take into account this chance and apply the correct management for such event, such as setting an expiration time for every data fetched and stored in the cache.
 
