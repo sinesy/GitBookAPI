@@ -101,7 +101,8 @@ var result = utils.importCellsFromExcelFile(
     String fileName, 
     Long valueImportId, 
     Map fieldsData, 
-    Map inputData
+    Map inputData,
+    Boolean separatedTransaction
 );
 ```
 
@@ -113,6 +114,7 @@ var result = utils.importCellsFromExcelFile(
 | valueImportId | id of defined import  |
 | fieldsData | other value of fields table to valorize in import |
 | inputData | string in json format for data in import \(can be null\) |
+| separatedTransaction | flag true\|false indicating whether the SQL query must be executed in a separated database transaction or within the current one |
 
 ## Check cells from excel file
 
@@ -183,4 +185,82 @@ var result = utils.exportFromExcelFile(
    ]
 );
 ```
+
+## Export areas from excel to Google Spreadsheet
+
+This function copies the cells value of an area to the specified area in a Google Spreadsheet
+
+**Syntax**:
+
+```javascript
+var result = utils.exportFromExcelFile(
+    Long sourceDirId, 
+    String sourceFileName, 
+    String spreadsheetId, 
+    List areas
+);
+```
+
+| Argument | Description |
+| :--- | :--- |
+| sourceDirId | id of the source file directory |
+| sourceFileName | source file name \(xlsx\) |
+| spreadsheetId | id of the Google Spreadsheet |
+| areas | list of cells area to export |
+
+Example
+
+```javascript
+var result = utils.exportFromExcelFile(
+    9, //Long sourceDirID
+    'sourceFileName.xlsx', //String sourceFileName
+    'XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxX', //String spreadsheetId
+   [
+       {
+        sourceSheetName: 'Sheet1',
+        sourceCoordinates: 'A1:C3',
+        destSheetName: 'SheetDest1',
+        destCoordinate: 'A1:C3'
+       }, 
+       {
+        sourceSheetName: 'Sheet2',
+        sourceCoordinates: 'A11:C15',
+        destSheetName: 'SheetDest2',
+        destCoordinate: 'A1:C5'
+       }
+   ]
+);
+```
+
+## Disable Import
+
+This function logically disables an import definition
+
+**Syntax**:
+
+```javascript
+var result = utils.disableValueImport(
+    Long valueImportId
+);
+```
+
+| Argument | Description |
+| :--- | :--- |
+| valueImportId | id of the import definition |
+
+## Delete Import
+
+This function definitively cancels an import
+
+**Syntax**:
+
+```javascript
+var result = utils.deleteValueImport(
+    Long valueImportId
+);
+```
+
+| Argument | Description |
+| :--- | :--- |
+| valueImportId | id of the import definition |
 
