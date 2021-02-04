@@ -119,7 +119,7 @@ var myCallback = function(responseFromWebService) {
 var filePath = ...
 var fileName = ....
 
-var url = getBaseURL() + "/executeJs/uploadfiles?appId=...&amp;applicationId=...&amp;actionId=...&amp;dirId=...&amp;unzip=false&amp;restfulToken="+getToken();
+var url = getBaseURL() + "/executeJs/uploadfile?appId=...&amp;applicationId=...&amp;actionId=...&amp;dirId=...&amp;unzip=false&amp;restfulToken="+getToken();
 sendFile(url, filePath, fileName, "myCallback");
 ```
 
