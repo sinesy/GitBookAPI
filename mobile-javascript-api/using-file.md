@@ -150,3 +150,17 @@ Delete the passed file.
 
 > Since 6.0.1 version
 
+## getDbPath\(String dbType\)
+
+Returns the path of the specify app local SQLite database.
+
+Required arguments:
+
+| Argument | Description |
+| :--- | :--- |
+| dbType | db type, allowed values are: "DBCON" \(platform tables\), "DBRO" \(readonly tables\), "DBRW" \(readwrite tables\), "DBNOSYNC" \(no sync database\) |
+
+> Since 6.02 version
+
+
+
