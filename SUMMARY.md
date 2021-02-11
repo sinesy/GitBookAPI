@@ -68,6 +68,7 @@
 * [Working with HTTP](mobile-javascript-api/working-with-http.md)
 * [Using Sql](mobile-javascript-api/using-sql.md)
 * [File and image](mobile-javascript-api/using-file.md)
+* [Crashlytics](mobile-javascript-api/crashlytics.md)
 * [Push notifications](mobile-javascript-api/push-notifications.md)
 * [Others](mobile-javascript-api/others.md)
 
