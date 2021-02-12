@@ -114,3 +114,140 @@ Arguments meaning:
 | spreadsheetId | Google sheet identifier; it can be easily retrieved when opening the sheet in Google Drive; the id is the long string reported in the browser URL; e.g. [https://docs.google.com/spreadsheets/d/\*\*thisIsTheDheetId\*\*/edit\#gid=0](https://docs.google.com/spreadsheets/d/**thisIsTheDheetId**/edit#gid=0) |
 | cellsRange | this is a String, representing either the single cell to set or a range of cells, specified as "COORD1:COORD2" \(e.g. "A1:B2"\). |
 
+## Deploying an AppScript
+
+Google allows to deploy an already existing AppScript, starting from the web service described here:
+
+{% embed url="https://developers.google.com/apps-script/api/reference/rest/v1/projects.deployments/create" %}
+
+In order to do it successfully, a few requirements must be satisfied:
+
+* The AppScript project must have been associated to a "standard" GCP project \(Resources -&gt; GCP -&gt; set the GCP project number, which can be retrieved from the project home page in the GCP console\)
+* The AppScript API must be enabled \(go to [https://console.developers.google.com/apis/api/script.googleapis.com/overview?project=.](https://console.developers.google.com/apis/api/script.googleapis.com/overview?project=....)...\)
+* The AppScript API must be enabled for the Google user used to edit/deploy/launch the AppScript: \(go to [https://script.google.com/home/usersettings](https://script.google.com/home/usersettings)\)
+* Have a OAuth2 credentials defined for that GCP project and in the corresponding credentials in GSuite there must be this permission included: [https://www.googleapis.com/auth/script.deployments](https://www.googleapis.com/auth/script.deployments)
+* the AppScript must be already been versioned and the the appscript.json must be set appropriately \(e.g. to deploy a web app\)
+* Have the script Id \(see the definition of the AppScript\)
+
+Once all these data are avaiable, you can execute the deployment of an AppScript by getting first a Google Auth Token.
+
+Plaform provides a server-side javascript method you can use to get such a temporary token \(do not save it, since it expirers after a few minutes\).
+
+```javascript
+var googleAuthToken = utils.getGCPAuthToken(
+    "...", // the email address of the owner/editor of the AppScript
+    serviceAccountEmail,
+    serviceAccountKey,
+    [
+        "https://www.googleapis.com/auth/script.deployments" // permissions to be granted
+    ]
+);
+```
+
+where "serviceAccountEmail" and "serviceAccountKey" can be 
+
+* either set to null if you want to reuse the service account credentials defined as global parameters in the GOOGLE section 
+* or specified directly
+
+In any case, it is up to you to provide credentials where the permission "[https:// www.googleapis.com/ auth/ script.deployments](https://www.googleapis.com/auth/script.deployments)" has been assigned at GSuite level.
+
+Once you successfully get such an auth token, you can invoke the web service provided by Google to execute a new deployment, starting from the version of the AppScript already set:
+
+```javascript
+var scriptId = "...";
+var versionNumber = "..."; // info already available, since the AppScript must have been already versioned at least once
+
+var json = utils.getWebContent(
+    "https://content-script.googleapis.com/v1/projects/"+scriptId+"/deployments?alt=json&access_token="+googleAuthToken,
+    false,
+    "POST",
+    "application/json",
+    JSON.stringify({
+        "versionNumber":versionNumber,
+        "scriptId": scriptId,
+        "description":"..."
+    }),
+    null,
+    null
+); 
+```
+
+The response JSON string can be something like:
+
+```javascript
+{
+  "deploymentId": "...",
+  "deploymentConfig": {
+    "scriptId": "...",
+    "versionNumber": 1,
+    "manifestFileName": "appsscript",
+    "description": "abc"
+  },
+  "updateTime": "2021-02-12T12:31:54.141Z",
+  "entryPoints": [
+    {
+      "entryPointType": "WEB_APP",
+      "webApp": {
+        "url": "https://script.google.com/macros/s/.../exec",
+        "entryPointConfig": {
+          "access": "MYSELF",
+          "executeAs": "USER_DEPLOYING"
+        }
+      }
+    }
+  ]
+}
+```
+
+## Executing an AppScript
+
+When an AppScript has been deployed as a web app, it is possible to start it in two alternative ways:
+
+* **within a web browser** where the user is authenticated in the Google SSO \(and he has a GSuite account having the grants to execute an AppScript\)
+* **on the server side**
+
+The execution on the browser is possible starting from the URL returned by the deployment task.
+
+Example: 
+
+```javascript
+https://script.google.com/macros/s/.../exec
+```
+
+Note: you CANNOT use this URL to execute an AppScript on the server side, since it is based on the Google SSO authentication in a browser and what this link returns is HTML, interpreted by the browser.
+
+See also [https://developers.google.com/apps-script/guides/web](https://developers.google.com/apps-script/guides/web) to see additional requirements to respect.
+
+In order to execute the AppScript from the server-side, Google provides an web service you can use to run a specific function declared within the AppScript.
+
+See also [https://developers.google.com/apps-script/guides/web](https://developers.google.com/apps-script/api/reference/rest/v1/scripts/run) to see additional requirements to respect, including permissions to define at GSuite level in order to execute the AppScript and any additional libraries referred by it.
+
+You can use the previous method to get a Google auth token to execute such a web service:
+
+```javascript
+var json = utils.getWebContent(
+    "https://script.googleapis.com/v1/scripts/"+scriptId+":run?access_token="+googleAuthToken,
+    false,
+    "POST",
+    "application/json",
+    JSON.stringify({
+      "function": "yourFunction",
+      "parameters": [
+         ...
+      ],
+      //"sessionState": string,
+      "devMode": true // it is up to you to decide how to set it
+    }),
+    null,
+    null
+);
+```
+
+
+
+
+
+
+
+
+
