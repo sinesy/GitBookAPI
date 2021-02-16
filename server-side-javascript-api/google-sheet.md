@@ -225,8 +225,8 @@ See also [https://developers.google.com/apps-script/guides/web](https://develope
 You can use the previous method to get a Google auth token to execute such a web service:
 
 ```javascript
-var json = utils.getWebContent(
-    "https://script.googleapis.com/v1/scripts/"+scriptId+":run?access_token="+googleAuthToken,
+var json = utils.getWebContentWithHeaders(
+    "https://script.googleapis.com/v1/scripts/"+scriptId+":run",
     false,
     "POST",
     "application/json",
@@ -238,8 +238,12 @@ var json = utils.getWebContent(
       //"sessionState": string,
       "devMode": true // it is up to you to decide how to set it
     }),
-    null,
-    null
+    null, // user
+    null, // pwd
+    null, // chatset
+    {
+        Authorization: "Bearer "+googleAuthToken
+    } // headers
 );
 ```
 
