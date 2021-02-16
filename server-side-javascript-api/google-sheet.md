@@ -240,7 +240,7 @@ var json = utils.getWebContentWithHeaders(
     }),
     null, // user
     null, // pwd
-    null, // chatset
+    null, // charset
     {
         Authorization: "Bearer "+googleAuthToken
     } // headers
