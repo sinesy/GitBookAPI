@@ -45,6 +45,51 @@ var json = utils.executeCachedQueryOnGoogleDatastore(maxCachedEntities, gql,data
 
 where **maxCachedEntities** is the max number of cached entities having the same entity name specified in the GQL query.
 
+## Speeding up GQL queries
+
+The previous method **executeQueryOnGoogleDatastore** can sometimes return the result after a while. 
+
+A GQL query can be particularly slow when:
+
+* there are **many filter conditions in the WHERE clause**: even when the WHERE clause of a query includes only single property indexes, the query can be very slow; this is due to the internal mechanism used by Datastore, where the use of equality filters on one or more properties, leads to a "merged join", so something like first name = Bob and last name = James, leads to merging the results of the two conditions; consequently, the more indexes are used, the slower the query becomes.
+* the entity contains many properties: the more properties an entity contains, the more workload is spent to get all of them
+* the entity has **too** **many indexed properties**; Google states that: "_If a property will never be needed for a query,_ [_exclude the property from indexes_](https://cloud.google.com/datastore/docs/concepts/indexes#unindexed_properties)_. Unnecessarily indexing a property could result in **increased latency** and increased_ [_storage costs of index entries_](https://cloud.google.com/datastore/docs/concepts/storage-size#index_entry_size)_._"
+* there is not a composite index defined for the query: a composite index, even when you are not using "not equal" filters, can speed up the query execution 
+* there are many writing operations in progress
+
+Consequently, good practices to speed up queries are:
+
+1. do not create queries having many filtering conditions; if you notice a poor performance, try to reduce the conditions or take into account the chance to define a composite index for such a query.
+2. if your entity contains a lot of properties and you do not need all of them \(i.e. you are not use retrieved data to update it later\), the query is a good candidate for a "projection query" \(see below\)
+3. remove all unnecessary indexes for properties
+4. do not overdo with the creation of composite indexes: you cannot create more than 200 composite indexes in a GCP project!
+
+For additional details,  read the following documents:
+
+{% embed url="https://cloud.google.com/datastore/docs/best-practices" %}
+
+{% embed url="https://cloudacademy.com/course/developing-solutions-for-google-cloud-platform-with-app-engine/datastore-1/" %}
+
+
+
+**Projection queries**
+
+A projection query allows to specify only a part of all entity properties. Consequently, the query executing is faster, but you cannot use retrieved data to update the entity later, since you do not have  the whole entity content.
+
+There are several requirements and limitations for a projection query:
+
+* you must define a composite index for it
+* properties specified in the SELECT clause 
+  * must be indexed properties
+  * cannot be included in the WHERE clause as equality filter
+* a timestamp property in the SELECT clause is returned as an integer
+
+For additional details,  read the following documents:
+
+{% embed url="https://cloud.google.com/datastore/docs/concepts/queries\#limitations\_on\_projections" %}
+
+
+
 ## Execute and cache a complex join-based GQL query on Google Datastore 
 
 The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.  
