@@ -247,7 +247,44 @@ var json = utils.getWebContentWithHeaders(
 );
 ```
 
+## Getting a permanent auth token
 
+An alternative way to run an AppScript is starting from a permanent auth token, used instead of the one generated on the fly using the method described above. You have to follow this approach in case you are not able to assign the right grants to the OAuth2 credentials in use.
+
+In order to generate a permanent token, you need:
+
+* an email address belonging to your Google domain, having "edit" grants on the AppScript
+* the whole list of grants \(scopes\) this token must include, in order to run the AppScript \(look at the AppScript editor to get such a list\)
+* OAuth2 credentials to use to get the token
+* enable your Platform installation to receive this token from Google service; in order to do it, go to the Google Cloud Platform Console -&gt; API and Services -&gt; Credentials, select your OAuth2 credentials and in the "Authorized redirect URIs" insert a new line with your Platform installation \(e.g. https://&lt;yourhost&gt;/&lt;platformwebcontext&gt;/oauth2callback \) and be sure to save this additional setting
+
+At this point, you can create a server-side javascript action to use to generate the permanent auth token, starting from the OAuth2 credentials, the auth scopes and the email address associated to the auth scopes. The action content can be something like:
+
+```javascript
+var tempURL = utils.generateGCPAuthToken(
+    "youemailaddress@youdomain", // email address to use 
+     "....apps.googleusercontent.com", // your oauth2 client id
+     "...", // your oauth2 client private key
+    "https://<yourhost>/<platformwebcontext>/oauth2callback", // the same defined in the Google Console above
+    [... ] // your auth scopes, used later when running the AppScript
+);
+utils.setReturnValue(tempURLanentAuthToken);
+
+```
+
+When you run this action, you will get back a temporary URL \(you can use it once\).
+
+The last step is opening a web browser, log on in Google SSO with the email address specified above and then navigate through this link.
+
+Google will prompt the user to accept the specified scopes and finally invokes the callback in Platform to generate the permanent token.
+
+Such a token will be logged in Platform:
+
+```javascript
+[DEBUG] ... Generated token: XYZ
+```
+
+It is strongly recommended to store it as an Application parameter or in some other application table.
 
 
 
