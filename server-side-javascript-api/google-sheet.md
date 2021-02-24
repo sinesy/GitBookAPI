@@ -286,9 +286,117 @@ Such a token will be logged in Platform:
 
 It is strongly recommended to store it as an Application parameter or in some other application table.
 
+## Create a spreadsheet
 
+This method allows to create a spreadsheet and his sheets.
 
+**Syntax**:
 
+```javascript
+var risp = utils.createGoogleSpreadsheets(
+    String userId, 
+    String spreadsheetTitle, 
+    String[] sheets
+);
+var spreadsheetId = risp.spreadsheetId;
+```
 
+Arguments meaning:
 
+| Argument | Description |
+| :--- | :--- |
+| spreadsheetTile | Name of spreadsheet |
+| sheets | List of name for sheets |
+
+## Create sheets in a spreadsheet
+
+This method allows to create a list of sheet in a spreadsheet.
+
+**Syntax**:
+
+```javascript
+var risp = utils.createGoogleSheets(
+    String userId, 
+    String spreadsheetId, 
+    String[] sheets
+);
+```
+
+Arguments meaning:
+
+| Argument | Description |
+| :--- | :--- |
+| spreadsheetId | Id of spreadsheet |
+| sheets | List of name for sheets |
+
+## Delete sheets in a spreadsheet
+
+This method allows to delete a list of sheet in a spreadsheet.
+
+**Syntax**:
+
+```javascript
+var risp = utils.deleteGoogleSheets(
+    String userId, 
+    String spreadsheetId, 
+    Integer[] sheetIds
+);
+```
+
+Arguments meaning:
+
+| Argument | Description |
+| :--- | :--- |
+| spreadsheetId | Id of spreadsheet |
+| sheetIds | List of sheet id to delete |
+
+## Duplicate sheet in a spreadsheet
+
+This method allows to duplicate a sheet in a spreadsheet.
+
+**Syntax**:
+
+```javascript
+var risp = utils.duplicateGoogleSheet(
+    String userId, 
+    String spreadsheetId, 
+    Integer sourceSheetId, 
+    Integer insertSheetIndex, 
+    Integer newSheetId, 
+    String newSheetName
+);
+```
+
+Arguments meaning:
+
+| Argument | Description |
+| :--- | :--- |
+| spreadsheetId | Id of spreadsheet |
+| sourceSheetId | Id of sheet to copy |
+| insertSheetIndex | Index of new sheet |
+| newSheetId | id of new sheet |
+| newSheetName | name of new sheet |
+
+## Copy sheet in a different spreadsheet
+
+This method allows to copy a sheet in a different spreadsheet.
+
+**Syntax**:
+
+```javascript
+var risp = utils.copyGoogleSheet(
+    String userId, 
+    String spreadsheetId, 
+    Integer sheetId, 
+    String destinationSpreadsheetId
+);
+```
+
+Arguments meaning:
+
+| Argument | Description |
+| :--- | :--- |
+| spreadsheetId | Id of source spreadsheet |
+| sheetId | Id of sheet to copy |
+| destinationSpreadsheetId | Id of new spreadsheet  |
 
