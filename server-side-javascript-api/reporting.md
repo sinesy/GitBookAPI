@@ -124,23 +124,30 @@ var response = utils.printDocument( printerName, copies, mediaSize, printParams,
 **Syntax**
 
 ```javascript
-var json = utils.saveDocument(reportName,dirReports, datastoreId, compId,reportFormat, reportParams,savePath);
+var json = utils.saveDocument(
+    reportName,
+    dirReports, 
+    datastoreId, 
+    compId,r
+    eportFormat, 
+    reportParams,
+    savePath
+);
 ```
 
 **Details**
 
-```text
- reportName .jasper report name
- dirReports optional folder where the .jasper file is located; thisis arelative pathand it is always contained within the subolder &lt;application-context-path&gt;/reports/
- datastoreId optional data source id used by the .jasper template to read data from the database
- compId optional value: business component id to use to fill in the report
- reportFormat report format to use when creating the report; e.g. PDF
- reportParams input parameters required by the report template
- savePath path where the generated report will be saved; it must includes the file name
- error message, in case of errors; "" if the generation has been successfully completed
-```
+| **Argument** | Description |
+| :--- | :--- |
+| reportName | .jasper report name |
+| dirReports | optional folder where the .jasper file is located; this is a relative path and it is always contained within the subfolder &lt;application-context-path&gt;/reports/  |
+| datastoreId | optional data source id used by the .jasper template to read data from the database  |
+| compId | optional value: business component id to use to fill in the report |
+| reportFormat | report format to use when creating the report; allowed values are: PDF, XLS, DOCX |
+| reportParams | input parameters required by the report template |
+| savePath | path where the generated report will be saved; it must includes the file name error message, in case of errors; "" if the generation has been successfully completed |
 
-It returns a JSON string containg:  
+It returns a JSON string containing:  
 { "success": true }  
 if the report has been created successfully, or a JSON string having this format otherwise:  
 { "success": false, "message": "..."}
@@ -154,7 +161,15 @@ var reportParams = new Object();
 
 reportParams.paramxyz = "...";
 ...
-var json = utils.saveDocument("mytemplate.jasper",null, null, null,"PDF", reportParams,"pathwheresavingthepdf/myreport.pdf");
+var json = utils.saveDocument(
+    "mytemplate.jasper",
+    null, 
+    null, 
+    null,
+    "PDF", 
+    reportParams,
+    "pathwheresavingthepdf/myreport.pdf"
+);
 utils.setReturnValue('{ "success": true, "fileName": "myreport.pdf", "dirId": ' + dirId + ' }');
 ```
 
