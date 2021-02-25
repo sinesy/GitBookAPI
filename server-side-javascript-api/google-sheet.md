@@ -247,9 +247,9 @@ var json = utils.getWebContentWithHeaders(
 );
 ```
 
-## Getting a permanent auth token
+## Getting an auth token
 
-An alternative way to run an AppScript is starting from a permanent auth token, used instead of the one generated on the fly using the method described above. You have to follow this approach in case you are not able to assign the right grants to the OAuth2 credentials in use.
+An alternative way to run an AppScript is starting from an auth token, used instead of the one generated on the fly using the method described above. You have to follow this approach in case you are not able to assign the right grants to the OAuth2 credentials in use.
 
 In order to generate a permanent token, you need:
 
@@ -258,23 +258,33 @@ In order to generate a permanent token, you need:
 * OAuth2 credentials to use to get the token
 * enable your Platform installation to receive this token from Google service; in order to do it, go to the Google Cloud Platform Console -&gt; API and Services -&gt; Credentials, select your OAuth2 credentials and in the "Authorized redirect URIs" insert a new line with your Platform installation \(e.g. https://&lt;yourhost&gt;/&lt;platformwebcontext&gt;/oauth2callback \) and be sure to save this additional setting
 
-At this point, you can create a server-side javascript action to use to generate the permanent auth token, starting from the OAuth2 credentials, the auth scopes and the email address associated to the auth scopes. The action content can be something like:
+At this point, you can create a server-side javascript action to use to generate each time an auth token, starting from the OAuth2 credentials, the auth scopes and the email address associated to the auth scopes. The action content can be something like:
 
 ```javascript
-var tempURL = utils.generateGCPAuthToken(
+var json = utils.generateGCPAuthToken(
     "youemailaddress@youdomain", // email address to use 
      "....apps.googleusercontent.com", // your oauth2 client id
      "...", // your oauth2 client private key
     "https://<yourhost>/<platformwebcontext>/oauth2callback", // the same defined in the Google Console above
     [... ] // your auth scopes, used later when running the AppScript
 );
-utils.setReturnValue(tempURLanentAuthToken);
+var outcome = JSON.parse(json);
+// outcome can contain either:
+// { url: "..." } // authorization URL to put in a browser once to authorize
+// or
+// { token: "..." } // the auth token to use, if the authorization URL has been used previously
 
+if (outcome.url!=null) {
+  // interrupt your elaboration, since you need first to authorize the operation
+  throw "Copy and paste this URL to a browser:\n"+outcome.url;
+}
+else {
+  var token = outcome.token;
+  // you can continue with your elaboration, using this token
+}
 ```
 
-When you run this action, you will get back a temporary URL \(you can use it once\).
-
-The last step is opening a web browser, log on in Google SSO with the email address specified above and then navigate through this link.
+When you run this action **for the first time**, you will get back a temporary URL \(you can use it once\). The last step is opening a web browser, log on in Google SSO with the email address specified above and then navigate through this link.
 
 Google will prompt the user to accept the specified scopes and finally invokes the callback in Platform to generate the permanent token.
 
@@ -284,7 +294,9 @@ Such a token will be logged in Platform:
 [DEBUG] ... Generated token: XYZ
 ```
 
-It is strongly recommended to store it as an Application parameter or in some other application table.
+Once authorized the operation, Platform saves the credentials and authorizations internally. 
+
+**Any subsequent invocation** to generateGCPAuthToken will get back a valid auth token.
 
 ## Create a spreadsheet
 
@@ -399,4 +411,26 @@ Arguments meaning:
 | spreadsheetId | Id of source spreadsheet |
 | sheetId | Id of sheet to copy |
 | destinationSpreadsheetId | Id of new spreadsheet  |
+
+## Get list of sheet from spreadsheet <a id="copy-sheet-in-a-different-spreadsheet"></a>
+
+This method allows to get the properties of the list of sheet from spreadsheet.‌
+
+**Syntax**:
+
+```text
+var risp = utils.getSheets(String userId, String spreadsheetId);
+
+or...
+
+var risp = utils.getSheets(String spreadsheetId);
+```
+
+‌
+
+Arguments meaning:
+
+| Argument | Description |
+| :--- | :--- |
+| spreadsheetId | Id of source spreadsheet |
 
