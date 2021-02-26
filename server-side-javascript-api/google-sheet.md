@@ -257,12 +257,11 @@ In order to generate a token, you need:
 * the whole **list of grants** \(scopes\) this token must include, in order to run the AppScript \(look at the AppScript editor to get such a list\)
 * **OAuth2 credentials** to use to get the token
 * enable your Platform installation to receive this token from Google service; in order to do it, go to the Google Cloud Platform Console -&gt; API and Services -&gt; Credentials, select your OAuth2 credentials and in the "**Authorized redirect URIs**" insert a new line with your Platform installation \(e.g. https://&lt;yourhost&gt;/&lt;platformwebcontext&gt;/oauth2callback \) and be sure to save this additional setting
-* **a refresh token**; this token is used to re-generate an auth-token, each time you need to invoke the Google Sheet API \(for example to run an AppScript\). The refresh token is permantent but it  is not available at thebeginning: you need to force the end user to authorize your requests and in this way you can retrieve the refresh token \(see below\).
 
 At this point, you can create a server-side javascript action to use to 
 
-* **authorize** the Google Sheet API calls once and **get the permanent refresh token**, starting from the the OAuth2 credentials, the auth scopes and the email address associated to the auth scopes
-* **generate each time an auth token**, starting from the refresh token, the OAuth2 credentials, the auth scopes and the email address associated to the auth scopes. The action content changes according to the timing, as described below.
+* **authorize** the Google Sheet API calls once, starting from the the OAuth2 credentials, the auth scopes and the email address associated to the auth scopes
+* **generate each time an auth token**, starting from the OAuth2 credentials, the auth scopes and the email address associated to the auth scopes. The action content changes according to the timing, as described below.
 
 When you run this action **for the first time**, you will get back a temporary URL \(you can use it once\). 
 
@@ -272,7 +271,6 @@ var json = utils.generateGCPAuthToken(
      "....apps.googleusercontent.com", // your oauth2 client id
      "...", // your oauth2 client private key
     "https://<yourhost>/<platformwebcontext>/oauth2callback", // the same defined in the Google Console above
-    null, // the refreshToken is not available yet
     [... ] // your auth scopes, used later when running the AppScript
 );
 var outcome = JSON.parse(json);
@@ -291,43 +289,13 @@ else {
 }
 ```
 
-The last \(manual\) step is opening a web browser, log on in Google SSO with the email address specified above and then navigate through this link \(look at this URL on the Platform log, seatch for the pattern "**Authorization URL**". 
+The last \(manual\) step is opening a web browser, log on in Google SSO with the email address specified above and then navigate through this link \(look at this URL on the Platform log, search for the pattern "**Authorization URL**". 
 
 Google will prompt the user to accept the specified scopes and finally invokes the callback in Platform to generate the permanent token.
 
-Once authorized the operation, Platform saves the credentials and authorizations internally, but not the refresh token. 
+Once authorized the operation, Platform saves the credentials and authorizations internally.
 
-Once done that, you'll on the web page:
 
-* the temporary auth token
-* the permanent refresh token; you have to store it somewhere, since you have to pass forward it, each time you need to invoke the Google AppScript API.
-
-Example: 
-
-```javascript
-var json = utils.generateGCPAuthToken(
-    "youemailaddress@youdomain", // email address to use 
-     "....apps.googleusercontent.com", // your oauth2 client id
-     "...", // your oauth2 client private key
-    "https://<yourhost>/<platformwebcontext>/oauth2callback", // the same defined in the Google Console above
-    refreshToken, // here you have to pass the refresh token 
-    [... ] // your auth scopes, used later when running the AppScript
-);
-var outcome = JSON.parse(json);
-// outcome can contain either:
-// { url: "..." } // authorization URL to put in a browser once to authorize
-// or
-// { token: "..." } // the auth token to use, if the authorization URL has been used previously
-
-if (outcome.url!=null) {
-  // interrupt your elaboration, since you need first to authorize the operation
-  throw "Copy and paste this URL to a browser:\n"+outcome.url;
-}
-else {
-  var token = outcome.token;
-  // you can continue with your elaboration, using this token
-}
-```
 
 **Any subsequent invocation** to generateGCPAuthToken will get back a valid auth token.
 
