@@ -32,17 +32,66 @@ var prm01Object = utils.createUser(companyId, siteId, userCodeId, description, p
 , roles);
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| companyId | company id that identifies the user \(text value\) |
-| siteId | site id that identifies the user \(numeric value\) |
-| userCodeId | username for the user to check out \(text value\) |
-| description | user description \(mandatory argument\) **** |
-| password | password \(mandatory argument\) |
-| languageId | language id to link to the user |
-| additionalData | can be null: if specified, it is a javascript object containing additional data to fill in PRM01\_USERS; e.g. { dateExpirationPassword: new Date\(\) } |
-| roles | a list of javascript objects; each object is related to a role to bind to the user; the javascript object for a role must have the following attributes: companyId, siteId, roleId, startDate, endDate \(this one is optional\) |
-| **prm01Object** | the resulting value is a javascript object containing the record in PRM01\_USERS for the specified user. |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Argument</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">companyId</td>
+      <td style="text-align:left">company id that identifies the user (text value)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">siteId</td>
+      <td style="text-align:left">site id that identifies the user (numeric value)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">userCodeId</td>
+      <td style="text-align:left">username for the user to check out (text value)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">description</td>
+      <td style="text-align:left">user description (mandatory argument)<b> </b>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">password</td>
+      <td style="text-align:left">password (mandatory argument)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">languageId</td>
+      <td style="text-align:left">language id to link to the user</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">additionalData</td>
+      <td style="text-align:left">
+        <p>can be null: if specified, it is a javascript object containing additional
+          data to fill in PRM01_USERS;</p>
+        <p>e.g.</p>
+        <p><b>{ dateExpirationPassword: new Date() }</b>
+        </p>
+        <p>&lt;b&gt;&lt;/b&gt;</p>
+        <p>Note: if you need to set personal data about the user (stored in SUB02_SUBJECTS
+          table<b>)</b>, you can use later the <b>updatePeopleData</b> method.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">roles</td>
+      <td style="text-align:left">a list of javascript objects; each object is related to a role to bind
+        to the user; the javascript object for a role must have the following attributes:
+        companyId, siteId, roleId, startDate, endDate (this one is optional)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>prm01Object</b>
+      </td>
+      <td style="text-align:left">the resulting value is a javascript object containing the record in PRM01_USERS
+        for the specified user.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Update an already existing user
 
