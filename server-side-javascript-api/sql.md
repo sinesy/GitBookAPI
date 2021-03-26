@@ -541,7 +541,95 @@ var json = utils.callBusinessComponent(119,params,{},{}); // here the required "
 
 
 
+## Execute bulk insert/update from a SQL query <a id="insertobject"></a>
 
+Use this method when you need to copy data from one table to another, having the same structure \(in terms of field types and mandatory constraints\), for example from one SQL schema to another.
+
+This is the fastest method to execute inserts or updates \(or both\), it can save up to 300.000 records in 30 seconds.
+
+**Syntax**
+
+```javascript
+var processedRows = utils.executeSqlBatch(Map settings);
+```
+
+**Details**
+
+The javascript object "settings" contains a few attributes:
+
+* **selectSql**: a mandatory String type attribute, containing the SQL query to execute in the source schema; this SQL query can contain aliases and bind variables
+* **selectParameters**: an optional javascript array containing the valus for the bind variables specified in the SQL query
+* **srcDataStoreId**: an optional numeric type attribute, identifying the source database schema by its datasource id
+* **insertSql**: this String type attribute defines the INSERT statement to execute, expressed with biding variables and in-line values \(e.g. NOW\(\), 'INSERT\_USER', 1, etc.\); for each field reported in the SQL query, there must be a corresponding bind variable for this INSERT statement and exactly in the same position; you are free to include additional fields in the INSERT clause, whose values do not coming from the SQL query, but they must be filled with in-line values
+* **updateSql**: this String type attribute defines the UPDATE statement to execute, expressed with biding variables and in-line values \(e.g. NOW\(\), 'UPDATE\_USER', etc.\); for each field reported in the SQL query, there must be a corresponding bind variable for this UPDATE statement and exactly in the same position; you are free to include additional fields in the INSERT clause, whose values do not coming from the SQL query, but they must be filled with in-line values. The UPDATE statement ends with the WHERE clause which must be defined with bind variables and must always refer a single record to update. When defining the "updateSql" attribute, you have also to specify the "pk" attribute
+* **pk**: this javascript array type attribute must be specified as long as you have defined the "updateSql" attribute and it reports the name of the fields in the SELECT clause which are used to fill in the binding variables of the WHERE clause for the UPDATE statement
+* **blockSize**: optional numeric type attribute; it defines the amount of records to enqueue before executing all of them and commit such block; if not specified, the default value is 10.000 records
+* **destDataStoreId**: an optional numeric type attribute, identifying the destination database schema by its datasource id
+
+
+
+Executes once the specified SQL query and for each fetched record:
+
+* if updateSql has been specified:
+  * execute massively N updates, where N is 10k \(or blockSize if specified\)
+  * execute a commit
+  * if there are 0 records updated, only for those ones, execute the insertSql \(if specified\)
+  * continue until the end of the result set
+* otherwise, the insertSql must be specified, therefore:
+  * execute massively N inserts, where N is 10k \(or blockSize if specified\)
+  * execute a commit
+  * continue until the end of the result set
+
+**Insert only example**
+
+```javascript
+utils.executeSqlBatch({
+    selectSql: "SELECT ID_CLIENTE, ETA, SESSO, PROV, TOTALE, CHECK_ACQ, PREDIZIONE, USER_CODE_ID, LAST_UPDATE FROM CLIENTI_BOGGI",
+    selectParameters: [],
+    srcDataStoreId: null,
+    destDataStoreId: 319,
+    insertSql: "INSERT INTO CLIENTI(ID_CLIENTE, ETA, SESSO, PROV, TOTAL, CHECK_ACQ, PREDIZIONE, USER_CODE_ID, LAST_UPDATE) VALUES(?,?,?,?,?,?,?,?,?)"
+});
+```
+
+Note that the select fields MUST be in the same order of ? variables in the insertSql statement
+
+
+
+**Update only example**
+
+```javascript
+utils.executeSqlBatch({
+    selectSql: "SELECT ID_CLIENTE, ETA, SESSO, PROV, TOTALE, CHECK_ACQ, PREDIZIONE, USER_CODE_ID, LAST_UPDATE FROM CLIENTI_BOGGI",
+    selectParameters: [],
+    srcDataStoreId: null,
+    destDataStoreId: 319,
+    updateSql: "UPDATE CLIENTI set ID_CLIENTE=?, ETA=?, SESSO=?, PROV=?, TOTAL=?, CHECK_ACQ=?, PREDIZIONE=?, USER_CODE_ID=?, LAST_UPDATE=? WHERE ID_CLIENTE=?",
+    pk: ["ID_CLIENTE"]
+});
+```
+
+Note that select fields MUST be in the same order of ? variables in the updateSql statement \(there must be as many SET clauses as the number of fields in the select clause\)
+
+Note that the "pk" attribute is mandatory in case of "updateSql" and it must contains the field names \(or alias\) of the select clause field**.**
+
+\*\*\*\*
+
+**Update + Insert example**
+
+```javascript
+utils.executeSqlBatch({
+    selectSql: "SELECT ID_CLIENTE, ETA, SESSO, PROV, TOTALE, CHECK_ACQ, PREDIZIONE, USER_CODE_ID, LAST_UPDATE FROM CLIENTI_BOGGI",
+    selectParameters: [],
+    srcDataStoreId: null,
+    destDataStoreId: 319,
+    insertSql: "INSERT INTO CLIENTI(ID_CLIENTE, ETA, SESSO, PROV, TOTAL, CHECK_ACQ, PREDIZIONE, USER_CODE_ID, LAST_UPDATE) VALUES(?,?,?,?,?,?,?,?,?)",
+    updateSql: "UPDATE CLIENTI set ID_CLIENTE=?, ETA=?, SESSO=?, PROV=?, TOTAL=?, CHECK_ACQ=?, PREDIZIONE=?, USER_CODE_ID=?, LAST_UPDATE=? WHERE ID_CLIENTE=?",
+    pk: ["ID_CLIENTE"]
+});
+```
+
+In this example, a block of 10.000 records are updated; for those records not updated \(because they do not exist yet\), a bulk insert is performed; in any case, the commit is execute at the end of this block. Then process the next 10.000 records and so on.
 
 
 
