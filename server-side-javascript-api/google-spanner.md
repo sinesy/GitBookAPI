@@ -92,6 +92,28 @@ var ok = utils.updateObjectOnGoogleSpanner(
 | dataModelId | a data model identifying a Spanner already existing table |
 | interruptException | flag used to fire an exception in case of SQL errors |
 
+## Google Spanner: merge a single record in a table from a javascript object
+
+This method is helpful when you need to update a record in a Spanner table, starting from the data model id related to such a table and a javascript object. The performed operation is a "merge", i.e. only attributes passed forward through the input objects are updated: the ones not passed are ignored and their previous values are maintained. Behind the scene, a select is first needed in order to get the whole record and this is then "updated" for the attributes passed as input: the merging object is finally saved on the table.
+
+**Syntax**
+
+```javascript
+var ok = utils.mergeObjectOnGoogleSpanner(
+  Map object,
+  Long dataModelId,
+  Boolean interruptExecution
+);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| object | a javascript object representing the record to update \(merge\); the object attributes must be the same defined as fields in the data model definition |
+| dataModelId | a data model identifying a Spanner already existing table |
+| interruptException | flag used to fire an exception in case of SQL errors |
+
 ## Google Spanner: update multiple records in a table from a list of javascript objects
 
 This method is helpful when you need to update one or more records in a Spanner table, starting from the data model id related to such a table.
