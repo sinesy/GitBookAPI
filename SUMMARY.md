@@ -48,6 +48,7 @@
 * [Whatsapp](server-side-javascript-api/whatsapp.md)
 * [Google Cloud Storage](server-side-javascript-api/google-cloud-storage.md)
 * [Google GSuite](server-side-javascript-api/google.md)
+* [Google Spanner](server-side-javascript-api/google-spanner.md)
 * [Google BigQuery](server-side-javascript-api/google-bigquery.md)
 * [Google Datastore](server-side-javascript-api/google-datatore.md)
 * [Google App Engine](server-side-javascript-api/app-engine-1.md)
