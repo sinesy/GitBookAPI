@@ -467,8 +467,6 @@ This method is helpful when you need to update one or more records in a BigQuery
 
 **Syntax**
 
-\*\*\*\*
-
 ```javascript
 var ok = utils.deleteObjectOnBigQuery(
   Map object,
@@ -485,10 +483,29 @@ var ok = utils.deleteObjectOnBigQuery(
 | dataModelId | a data model identifying a BigQuery already existing table |
 | interruptException | flag used to fire an exception in case of SQL errors |
 
-  
+##  Google BigQuery: insert a large number of record in a table from Google Datastore
+
+This method is helpful when you need to execute a bulk insert of records in a BigQuery table, starting from records coming from Google Datastore. 
+
+**Syntax**
+
+```javascript
+var ok = utils.bulkImportFromDSToBigQuery(
+  String gql,
+  Long dataModelId,
+  Boolean interruptExecution
+);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| gql | a GQL query to execute on Google Datastore: for each record read, a corresponding record is inserted in the BigQuery table \(the BigQuery tale must be a duplicate of the one in Datastore, created through the Data Model -&gt; Duplicate object from Datastore functionality\) |
+| dataModelId | a data model identifying a BigQuery already existing table |
+| interruptException | flag used to fire an exception in case of SQL errors |
 
 
-bulkImportFromDSToBigQuery\(String gql,Long datastoreDataModelId,String location,String bigQueryTable,**boolean** interruptExecution,Object...pars\)
 
 
 
