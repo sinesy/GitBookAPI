@@ -347,3 +347,152 @@ var errorsString = utils.importBigQueryThroughStreaming(datasetName, tableName, 
 
 Return errors during import, expressed as a JSON map; null if there are NOT errors
 
+## Google BigQuery: execute a SQL query 
+
+It is possible to execute a SQL query on a single BigQuery table and get the whole result set as a JSON string.
+
+**Syntax**
+
+```javascript
+var json = utils.executeQueryOnBigQuery(
+  String sql,
+  Long dataModelId,
+  Boolean interruptExecution,
+  Object... pars
+);
+```
+
+| Argument | Description |
+| :--- | :--- |
+| sql | SQL query to execute; the constraint is that the query must retrieve all fields of the table identified by the data model id; you can make the WHERE condition as complex as needed. |
+| dataModelId | a data model identifying a BigQuery already existing table |
+| interruptException | flag used to fire an exception in case of SQL errors |
+
+**Important note:** do NOT use this method to retrieve a long result se \(more than a hundred records\).
+
+## Google BigQuery: execute a SQL query **and retrieve a block of data**
+
+It is possible to execute a SQL query on a single BigQuery table and get a partial result set, a block of data to fill in a grid. This method is helpful within a server-side javascript business component bounded to a grid.
+
+**Syntax**
+
+```javascript
+var json = utils.getPartialResultOnBigQuery(
+  String sql,
+  Long dataModelId,
+  Boolean interruptExecution,
+  Object... pars
+);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| sql | SQL query to execute; the constraint is that the query must retrieve all fields of the table identified by the data model id; you can make the WHERE condition as complex as needed. |
+| dataModelId | a data model identifying a BigQuery already existing table |
+| interruptException | flag used to fire an exception in case of SQL errors |
+
+This method also parses the HTTP request parameters passed forward by the calling grid \(curernt block of data and block size\) as well as filtering and sorting conditions coming from the grid.
+
+## Google BigQuery: insert records in a table from a list of javascript objects
+
+This method is helpful when you need to insert one or more records in a BigQuery table, starting from the data model id related to such a table.
+
+**Syntax**
+
+```javascript
+var ok = utils.insertObjectsOnBigQuery(
+  Map[] objects,
+  Long dataModelId,
+  Boolean interruptExecution
+);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| objects | a javascript array of objects, where each object represents a record to insert; the object attributes must be the same defined as fields in the data model definition |
+| dataModelId | a data model identifying a BigQuery already existing table |
+| interruptException | flag used to fire an exception in case of SQL errors |
+
+## Google BigQuery: update a single record in a table from a javascript object
+
+This method is helpful when you need to update a record in a BigQuery table, starting from the data model id related to such a table.
+
+**Syntax**
+
+```javascript
+var ok = utils.updateObjectOnBigQuery(
+  Map object,
+  Long dataModelId,
+  Boolean interruptExecution
+);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| object | a javascript object representing the record to update; the object attributes must be the same defined as fields in the data model definition |
+| dataModelId | a data model identifying a BigQuery already existing table |
+| interruptException | flag used to fire an exception in case of SQL errors |
+
+## Google BigQuery: update multiple records in a table from a list of javascript objects
+
+This method is helpful when you need to update one or more records in a BigQuery table, starting from the data model id related to such a table.
+
+**Syntax**
+
+```javascript
+var ok = utils.updateObjectsOnBigQuery(
+  Map[] objects,
+  Long dataModelId,
+  Boolean interruptExecution
+);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| objects | a javascript array of objects, where each object represents a record to update; the object attributes must be the same defined as fields in the data model definition |
+| dataModelId | a data model identifying a BigQuery already existing table |
+| interruptException | flag used to fire an exception in case of SQL errors |
+
+## Google BigQuery: delete one or more records starting from a list of javascript objects
+
+This method is helpful when you need to update one or more records in a BigQuery table, starting from the data model id related to such a table.
+
+**Syntax**
+
+\*\*\*\*
+
+```javascript
+var ok = utils.deleteObjectOnBigQuery(
+  Map object,
+  Long dataModelId,
+  Boolean interruptExecution
+);
+```
+
+**Details**
+
+| Argument | Description |
+| :--- | :--- |
+| object | a javascript object representing a record to delete; the object attributes must be the same defined as fields in the data model definition |
+| dataModelId | a data model identifying a BigQuery already existing table |
+| interruptException | flag used to fire an exception in case of SQL errors |
+
+  
+
+
+bulkImportFromDSToBigQuery\(String gql,Long datastoreDataModelId,String location,String bigQueryTable,**boolean** interruptExecution,Object...pars\)
+
+
+
+
+
+
+
