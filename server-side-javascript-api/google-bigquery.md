@@ -395,6 +395,26 @@ var json = utils.getPartialResultOnBigQuery(
 
 This method also parses the HTTP request parameters passed forward by the calling grid \(curernt block of data and block size\) as well as filtering and sorting conditions coming from the grid.
 
+The method above does not reckon the total amount of records. In case you need to show that number on a grid, you can do it through the following method:
+
+```javascript
+var json = utils.getPartialResultOnBigQueryWithSettings(
+  String sql,
+  Long dataModelId,
+  Boolean interruptExecution,
+  Map settings,
+  Object... pars
+);
+```
+
+where settings is a javascript object \(it can be passed as null\) containing:
+
+```javascript
+{
+  total: true|false // set it to true to force total records count
+}
+```
+
 ## Google BigQuery: insert records in a table from a list of javascript objects
 
 This method is helpful when you need to insert one or more records in a BigQuery table, starting from the data model id related to such a table.
