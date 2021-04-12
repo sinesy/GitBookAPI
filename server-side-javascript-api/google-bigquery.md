@@ -1,5 +1,21 @@
 # Google BigQuery
 
+## Google BigQuery: preview
+
+It is a datawarehouse, not a relational database!
+
+It is good at enquiring big data, not to write single records!
+
+Main features:
+
+* No Primary key is needed
+* No indexes are required
+* Cost per amount of data analyzed: 
+  * analyzed, NOT read
+  * data \(bytes per record x number of records analyzed\), not number of records
+* Bulk insert very fast
+* Not optimized for single records writing
+
 ## Google BigQuery: create a dataset
 
 In order to work with BigQuery, you need to setup Google settings and assign to the auth key permissions about BigQuery.
