@@ -411,7 +411,8 @@ where settings is a javascript object \(it can be passed as null\) containing:
 
 ```javascript
 {
-  total: true|false // set it to true to force total records count
+  count: true|false, // set it to true to force total records count
+  cacheCount: true|false // execute SELECT COUNT(*) once and then cache it
 }
 ```
 
