@@ -507,13 +507,18 @@ var ok = utils.deleteObjectOnBigQuery(
 
 This method is helpful when you need to execute a bulk insert of records in a BigQuery table, starting from records coming from Google Datastore. 
 
+The import is very fast and it is based on the creation of a csv file behind the scenes, containing data read from Datastore and to load in BigQuery using a special utility method provided by BigQuery. This file must be temporarely stored in Google Cloud Storage \(managed internally by Platform\) and for that reason a GCS "region" \(location: US, EU, etc\) is required.
+
 **Syntax**
 
 ```javascript
-var ok = utils.bulkImportFromDSToBigQuery(
+var ok = bulkImportFromDSToBigQuery(
   String gql,
-  Long dataModelId,
-  Boolean interruptExecution
+  Long datastoreDataModelId,
+  String location,
+  String bigQueryTable,
+  boolean interruptExecution,
+  Object...pars
 );
 ```
 
@@ -522,8 +527,11 @@ var ok = utils.bulkImportFromDSToBigQuery(
 | Argument | Description |
 | :--- | :--- |
 | gql | a GQL query to execute on Google Datastore: for each record read, a corresponding record is inserted in the BigQuery table \(the BigQuery tale must be a duplicate of the one in Datastore, created through the Data Model -&gt; Duplicate object from Datastore functionality\) |
-| dataModelId | a data model identifying a BigQuery already existing table |
+| dataStoreDataModelId | a data model identifying an already existing Datastore entity |
+| location | a region in GCS where saving a temporary csv file \(managed by Platform\); allowed values: EU, US, ASIA; See FILE\_UPLOAD -&gt; GCS\_LOCATION global parameter |
+| bigQueryTable | an already existing BigQuery table, having exactly the same structure of the original entity in Datastore and created through the "Duplicate" feature available in Data Models list |
 | interruptException | flag used to fire an exception in case of SQL errors |
+| pars | optional parameters needed by the GQL query specified by the first argument |
 
 
 
