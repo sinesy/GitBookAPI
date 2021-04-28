@@ -152,6 +152,8 @@ Delete the passed file.
 
 ## getDbPath\(String dbType\)
 
+> Since 6.02 version
+
 Returns the path of the specify app local SQLite database.
 
 Required arguments:
@@ -160,7 +162,16 @@ Required arguments:
 | :--- | :--- |
 | dbType | db type, allowed values are: "DBCON" \(platform tables\), "DBRO" \(readonly tables\), "DBRW" \(readwrite tables\), "DBNOSYNC" \(no sync database\) |
 
+## writeTempFile\(fileName, base64\)
+
 > Since 6.02 version
+
+Write a base64 content to a file and returns the file absolute path.
+
+| Argument | Description |
+| :--- | :--- |
+| fileName | file name |
+| base64 | content on base64 format |
 
 
 

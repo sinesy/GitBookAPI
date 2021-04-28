@@ -162,3 +162,7 @@ var fun1 = function() { };
 showMessageDialog(opts,"fun1");
 ```
 
+## getAllUserSessionKeys\(\)
+
+Return an array with all key in user session.
+

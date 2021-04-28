@@ -97,6 +97,18 @@ A lite version of getWebContent, this version not manages cookies, session and n
 
 > Since 6.0.1 version
 
+## getWebContentAdvanced\(url,httpMethod,contentType,bodyContent,headers, timeoutMS\)
+
+Works like getWebContent, but the returns consists of:
+
+* responseCode
+* headers
+* body
+
+the getWebContent instead returns the body directly, or null in case of responseCode different from 200
+
+> Since 6.0.2 version
+
 ## sendFile\(url, filePath, fileName, jsCallback\); <a id="sendfile"></a>
 
 Invoke a remote serverto pass a local file using the POST HTTP method and the multi-part content type: a file and a filename will be passed.  
@@ -151,4 +163,8 @@ var fun = functioin(jsonData){
 ## logConnectionData\(\)
 
 Save the connection data on server con60, this function don't block the user interface.
+
+## md5HexDigest\(stringToEncode\)
+
+Return the string encode with md5
 

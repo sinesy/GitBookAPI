@@ -399,5 +399,30 @@ addFormPanelControl(279, controlArgs, constraints, style);
 
 ```
 
+## setFormPanelDatePickerStyle\(panelId, attributeName, style\)
 
+> Since 6.0.2
+
+Set the style of a date picker controls.
+
+| Argument | Description |
+| :--- | :--- |
+| panelId | panel identifier |
+| attributeName | attribute name |
+| style | the control sytle \(see setFormPanelStyle\) |
+
+Style accept the following properties:
+
+* showNowButton: only works on iOs Picker
+* title: only works on iOs Picker
+
+## resetFormPanelControls\(panelId\)
+
+> Since 6.0.2
+
+Reset the panel to its initial state, remove any runtime components added
+
+| Argument | Description |
+| :--- | :--- |
+| panelId | panel identifier |
 
