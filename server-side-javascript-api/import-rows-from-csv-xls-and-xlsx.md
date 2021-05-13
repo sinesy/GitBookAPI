@@ -107,3 +107,10 @@ utils.importRowsFromFile(
 );
 ```
 
+This is an example of errors file  
+Column A: coordinate of error cell  
+Column B: value in cell  
+Column C: type of error
+
+![](../.gitbook/assets/image.png)
+
