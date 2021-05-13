@@ -1298,3 +1298,35 @@ var exportedRowsNumber = utils.createXLSXFileFromSQLQuery(
 
 ![](../.gitbook/assets/footers.png)
 
+## Reading a xls or xlsx file stored in the specified path <a id="getcsvcontent"></a>
+
+Read up to the specified number of rows, starting from the specified index \(1..x\) from the xls or xlsx file stored in the specified path and get back the content of a specific folder
+
+dirId path identifier  
+fileName name of the xls or xlsx file  
+attributeNames, list of attributes, assigned to each column, starting from leftmost column to the right
+
+**Syntax**
+
+```javascript
+var list = utils.getExcelRowsBlock(Long dirId,String fileName,Long sheetIndex,
+    Long fromRow,Long toRow,String... attributeNames);
+```
+
+startRow row index; if null it is the first row, i.e. 1
+
+blockSize max number of rows to read, if available; if null it is set to 10000
+
+attributeNames, list of attributes, assigned to each column, starting from leftmost column to the right
+
+```text
+ return a list of js objects, where each object is expressed as a set of couples <attributename, related value>
+```
+
+A list of js objects, where each object is expressed as a set of couples &lt;attributename, related value&gt;; a 0 length list in case of no more rows available.  
+It supports also nested objects and list of objects: it depends on the definition of the attribute lists.  
+A few examples of attributes:  
+\[ "attr1", "subobject.attrsub1", "subobject.attrsub2", "sublist\[0\].subattr3","sublist\[0\].subattr4","sublist\[1\].subattr5" \]
+
+##  <a id="getcsvcontent"></a>
+
