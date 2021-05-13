@@ -1,3 +1,7 @@
+---
+description: (version 6.0.2)
+---
+
 # Import Cells from xlsx
 
 ## Get a metadata from db table
