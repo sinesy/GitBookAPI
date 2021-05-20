@@ -535,14 +535,24 @@ args['INPUT_PARAM'] = 'EXAMPLE';
 reloadMapPanel603(args);
 ```
 
-## loadHTMLOnPreviewPanelXXX\(html\)
+## loadHTMLOnPreviewPanel\(XXX, html\)
 
 where XXX is the previewidentifier \(CON12\) - load the htmlin the preview panel
 
 ```javascript
 var html = "&lt;html&gt;&lt;body&gt;.....&lt;/body&gt;&lt;/html&gt;"
 
-loadHTMLOnPreviewPanel603(html);
+loadHTMLOnPreviewPanel(603,html);
+```
+
+## loadURLOnWebView\(XXX, url\)
+
+load the url passed in a webview
+
+```javascript
+var url = "https://www.google.it/"
+
+loadURLOnWebView(603,urlml);
 ```
 
 ## showCardPanel\(cardPanelid, panelid\)
