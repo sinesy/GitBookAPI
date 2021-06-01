@@ -4,7 +4,7 @@ Since version 6.0.1 of Platform, there is a new type of panel: the ChipsPanel, w
 
 There are 2 ways to create it:
 
-* in version 6.0.1 it is possible to create an instance of this panel only programmatically, using the object Tinet.ChipsPanel
+* in version 6.0.1 it is possible to create an instance of this panel only programmatically, using the object **Tinet.ChipsPanel**
 * starting from version 6.0.2, it is also possible to use the wizard for window/panels creation and configure this panel graphically
 
 A Chips panel can render a series of chips on a "column layout", i.e. from left to right and from top to bottom, according to the available space.
@@ -37,18 +37,90 @@ var myChipsPanel = ne Tinet.ChipsPanel({
 
 **Syntax**
 
-| Attribute | Description |
-| :--- | :--- |
-| listeners.afterDetail | optional callback, invoked each time the end user clicks on a chip |
-| listeners.afterRemove | optional callback, invoked each time the end user clicks on the X button, within the chip, in order to remove it |
-| listeners.beforeRemove | optional callback, invoked each time the end user clicks on the X button: this callback can interrupt the removal of the chips, if a "return false" is returned |
-| listeners.beforeDetail | optional callback, invoked each time the end user clicks on a chip: this callback can interrupt the opening of the chip tooltip, if a "return false" is returned |
-| compId | this is an optional attribute: if specified, the ChipsPanel will fetch data from a remote business component for lists and use this data to fill in the panel with a chip for each element in the returned list. If not specified, it is up to the programmer to fill in the panel, either using the "load" method \(add multiple chips at the same time and remove the previous ones\) or through the "addChip" method \(add a single chip to the already existing chips\) |
-| panelId | this is an optional attribute: it must be filled with the current panel id ONLY IF the "compId" attribute has been specified. Moreover, if the application has activated the checking of roles on the server side, you have also to include the current compId in the list of compIds allowed to be invoked by the client. |
-| valueField | mandatory attribute used to define the unique identifier for the chip, among the attributes stored within the chip |
-| displayField | mandatory attribute used to show it as the chip description |
-
-
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Attribute</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">listeners.afterDetail</td>
+      <td style="text-align:left">optional callback, invoked each time the end user clicks on a chip</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">listeners.afterRemove</td>
+      <td style="text-align:left">optional callback, invoked each time the end user clicks on the X button,
+        within the chip, in order to remove it</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">listeners.beforeRemove</td>
+      <td style="text-align:left">optional callback, invoked each time the end user clicks on the X button:
+        this callback can interrupt the removal of the chips, if a &quot;return
+        false&quot; is returned</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">listeners.beforeDetail</td>
+      <td style="text-align:left">optional callback, invoked each time the end user clicks on a chip: this
+        callback can interrupt the opening of the chip tooltip, if a &quot;return
+        false&quot; is returned</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">compId</td>
+      <td style="text-align:left">this is an optional attribute: if specified, the ChipsPanel will fetch
+        data from a remote business component for lists and use this data to fill
+        in the panel with a chip for each element in the returned list. If not
+        specified, it is up to the programmer to fill in the panel, either using
+        the &quot;load&quot; method (add multiple chips at the same time and remove
+        the previous ones) or through the &quot;addChip&quot; method (add a single
+        chip to the already existing chips)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">panelId</td>
+      <td style="text-align:left">this is an optional attribute: it must be filled with the current panel
+        id ONLY IF the &quot;compId&quot; attribute has been specified. Moreover,
+        if the application has activated the checking of roles on the server side,
+        you have also to include the current compId in the list of compIds allowed
+        to be invoked by the client.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">valueField</td>
+      <td style="text-align:left">mandatory attribute used to define the unique identifier for the chip,
+        among the attributes stored within the chip</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">displayField</td>
+      <td style="text-align:left">mandatory attribute used to show it as the chip description</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">translation</td>
+      <td style="text-align:left">optional flag; if set to true, Platform will attempt to show within the
+        chip a description coming from an attribute which can be &quot;displayField&quot;
+        if this is related to the right language id used by the current user (e.g.
+        displayField = &quot;descriptionIt&quot; for language id = &quot;IT&quot;)
+        or an alternative attribute reckoned starting from the prefix of &quot;displayField&quot;
+        and suffix coming from the current language id (e.g. displayField = &quot;descriptionIt&quot;
+        with language id = &quot;EN&quot; would lead to use as description the
+        value of &quot;descriptionEn&quot; attribute</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">chipTooltip</td>
+      <td style="text-align:left">
+        <p>optional attribute: it contains HTML and attribute values, each expressed
+          as {attribute}; example:</p>
+        <p>&lt;b&gt;&lt;/b&gt;</p>
+        <p>&lt;b&gt;Code: {code}&lt;/b&gt;&lt;br/&gt;
+          <br />{description}</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">chipStyle</td>
+      <td style="text-align:left">optional attribute: it can contains additional CSS settings to pass forward
+        when rendering a chip</td>
+    </tr>
+  </tbody>
+</table>
 
 
 
@@ -56,7 +128,7 @@ var myChipsPanel = ne Tinet.ChipsPanel({
 
 You can use a javascript event and use it to create an Ext.Window containing a ChipsPanel object or you can include this panel in an already existing or new window. In the latter case, you can use the Window creation wizard and choose the Custom panel or open an already existing window and again add a Custom panel.
 
-When defining the Custom panel, you have to refer a javascript global function which must get back the ChipsPanel. Consequently, you have also to define such a function in some .js file included in the web context or in the starting js action bound to the application.
+When defining the Custom panel, you have to refer a javascript global function which must get back the ChipsPanel. Consequently, you have also to define such a function in some .js file included in the web context or in the starting javascript action bound to the application.
 
 An example of this function is reported below:
 
@@ -83,9 +155,36 @@ function getMyChipsPanel() {
 }
 ```
 
-In this example the Chips panel is filled in through the "load" method which will invoke asynchronously a server-side business component for lists and use the objects contained in the response to create chips. Each object must contain the attributes defined int he ChipsPanel definition, i.e. valueField and displayField \(and also the ones referred int he chipsTooltip attribute, if specified\).
+In this example the Chips panel is filled in through the "**load**" method which will invoke asynchronously a server-side business component for lists and use the objects contained in the response to create chips. Each object must contain the attributes defined int he ChipsPanel definition, i.e. valueField and displayField \(and also the ones referred int he chipsTooltip attribute, if specified\).
 
+An alternative way to fill in the panel is through the load method, which can accept a list of objects and optionally also optional CSS settings:
 
+```text
+var opts = null;
+
+chipsPanel.load({
+  vos: [{ 
+    progId: 123,
+    descriptionIt: "UnDueTre",
+    descriptionen: "OneTwoThree"
+  },
+  ...
+  ],
+  opts
+});
+```
+
+Finally, you can add chips through the "addChip" method:
+
+```text
+var opts = null;
+
+chipsPanel.addChip({
+    progId: 123,
+    descriptionIt: "UnDueTre",
+    descriptionen: "OneTwoThree"
+}, opts);
+```
 
 
 
