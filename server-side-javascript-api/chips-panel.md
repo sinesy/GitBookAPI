@@ -11,7 +11,11 @@ A Chips panel can render a series of chips on a "column layout", i.e. from left 
 
 Each chip is composed of a description and an X button, used to remove the chip from the panel.
 
+![](../.gitbook/assets/schermata-2021-06-01-alle-14.43.28.png)
+
 When clicking on the chip, a tooltip window is shown and used to report additional data about the chip, like the code and description associated to the chip and a "remove" button, used to remove the chip from the panel.
+
+![](../.gitbook/assets/schermata-2021-06-01-alle-14.43.17.png)
 
 Each chip contains behind the scene a javascript object, which be accessed as "**vo**" attribute in the chip object. The unique identifier of the chip \(**valueField** property\) and the description to show in the chip \(**displayField** property\) must be part of this javascript object.
 
