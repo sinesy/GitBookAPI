@@ -18,7 +18,7 @@ Each chip contains behind the scene a javascript object, which be accessed as "*
 A Tinet.ChipsPanel has the following syntax:
 
 ```text
-var myChipsPanel = ne Tinet.ChipsPanel({
+var myChipsPanel = new Tinet.ChipsPanel({
     listeners: {
       afterDetail: function(vo) {},
       afterRemove: function(vo) {},
