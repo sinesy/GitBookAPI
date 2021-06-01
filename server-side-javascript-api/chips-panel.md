@@ -161,15 +161,15 @@ Apart from that, ChipsPanel provides also a few utility method, described below:
       <td style="text-align:left">get the chip (UI component) starting from its itemId property</td>
     </tr>
     <tr>
-      <td style="text-align:left">getChipByValue</td>
+      <td style="text-align:left">getChipByValue(value)</td>
       <td style="text-align:left">get the chip (UI component) starting from the unique identifier (valueField)</td>
     </tr>
     <tr>
-      <td style="text-align:left">getDataByItemId</td>
+      <td style="text-align:left">getDataByItemId(itemId)</td>
       <td style="text-align:left">get the vo embedded in a chip, starting from the chimp itemId</td>
     </tr>
     <tr>
-      <td style="text-align:left">getDataByValue</td>
+      <td style="text-align:left">getDataByValue(value)</td>
       <td style="text-align:left">get the vo embedded in a chip, starting from its unique identifier (valueField)</td>
     </tr>
     <tr>
