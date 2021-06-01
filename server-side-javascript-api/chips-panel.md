@@ -124,6 +124,74 @@ var myChipsPanel = ne Tinet.ChipsPanel({
 
 
 
+The Tinet.ChipsPanel inherits from Ext.Panel and you can also use any other settings coming from Ext.Panel, including its methods.
+
+Apart from that, ChipsPanel provides also a few utility method, described below:
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Method</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">removeAll()</td>
+      <td style="text-align:left">Remove all chips added to the panel; this method is also invoked automatically
+        each time the &quot;load&quot; method is called</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">addChip(vo,opts)</td>
+      <td style="text-align:left">vo is a javascript object, to embed in the chip and including the attributes
+        referred by &quot;valueField&quot;, &quot;displayField&quot; and any other
+        attribute referred in &quot;chipTooltip&quot;</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">removeChip(vo)</td>
+      <td style="text-align:left">remove a chip from the panel, starting from the vo embedded on it</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <br />getChipByItemId(itemId)</td>
+      <td style="text-align:left">get the chip (UI component) starting from its itemId property</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">getChipByValue</td>
+      <td style="text-align:left">get the chip (UI component) starting from the unique identifier (valueField)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">getDataByItemId</td>
+      <td style="text-align:left">get the vo embedded in a chip, starting from the chimp itemId</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">getDataByValue</td>
+      <td style="text-align:left">get the vo embedded in a chip, starting from its unique identifier (valueField)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">getChips()</td>
+      <td style="text-align:left">get the list of chips currently shown (list of UI components)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">load()</td>
+      <td style="text-align:left">load all data from the remote business component; in order to use this
+        method, both panelId and compId panel properties must be defined</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <p>load({</p>
+        <p>vos: [...],</p>
+        <p>opts: {...}</p>
+        <p>})</p>
+      </td>
+      <td style="text-align:left">load all data from a local list of objects; &quot;opts&quot; is optional
+        and applied to all items</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
 ### Creating a ChipsPanel programmatically
 
 You can use a javascript event and use it to create an Ext.Window containing a ChipsPanel object or you can include this panel in an already existing or new window. In the latter case, you can use the Window creation wizard and choose the Custom panel or open an already existing window and again add a Custom panel.
@@ -185,6 +253,14 @@ chipsPanel.addChip({
     descriptionen: "OneTwoThree"
 }, opts);
 ```
+
+
+
+### Customizing the chips theme
+
+You can customize the chimps theme through CSS. All default settings are stored in app.css default file, in the section named "chips".
+
+When overriding it, you can change for example the tooltip window width, colors, borders, etc.
 
 
 
