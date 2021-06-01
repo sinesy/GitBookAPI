@@ -47,6 +47,7 @@
 * [Import Rows from csv, xls and xlsx](server-side-javascript-api/import-rows-from-csv-xls-and-xlsx.md)
 * [User management](server-side-javascript-api/user-management.md)
 * [Whatsapp](server-side-javascript-api/whatsapp.md)
+* [Chips panel](server-side-javascript-api/chips-panel.md)
 * [Google Cloud Storage](server-side-javascript-api/google-cloud-storage.md)
 * [Google GSuite](server-side-javascript-api/google.md)
 * [Google Spanner](server-side-javascript-api/google-spanner.md)
