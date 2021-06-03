@@ -147,12 +147,37 @@ Optionally, you can pass forward any payload \(for example a unique identifier a
 **Syntax**
 
 ```javascript
-utils.getElementFromQueueByNote(String payload,String namespace);
+var json = utils.getElementFromQueueByNote(String payload,String namespace);
 ```
 
 The payload argument is used to search for an element still inside the queue, having that payload bounded.
 
-If it exists, the method returns the element in queue \(a Map Java object related to the enqueued element\). If the method returns null, it means the element has been already processed and removed from the queue.
+If it exists, the method returns the element in queue \(a JSON String representing the enqueued element\). 
+
+An example of returned JSON is:
+
+```javascript
+{
+  "appId": "GAE",
+  "companyId": "00000",
+  "siteId": 100,
+  "queueName": "queue1",
+  "actionId": 119,
+  "note": "123",
+  "status": "ERROR",
+  "createDate": "Jun 3, 2021 3:59:53 PM",
+  "json": "{\"userInfo\":{\"applicationId\":\"GAE\",\"companyId\":\"00000\",\"siteId\":100,\"useGridSuffix\":false,\"prm40ApplUserPars\":{},\"customApplUserVars\":{},\"useFormSuffix\":false,\"username\":\"ADMIN\",\"languageId\":\"EN\"},\"internalState\":{\"appParams\":{},\"enabledFunctionIds\":{},\"customTraslations\":{},\"syncAlfrescoUsers\":false,\"syncAlfrescoUserRoles\":false,\"syncAlfrescoRoles\":false,\"password\":\"admin\",\"showRoleId\":false,\"showSiteId\":false,\"editUserSiteId\":false,\"googleServiceAccountEmail\":\"711439762495-38h1rs18fbp4scgt4th1gqok4qjltb2u@developer.gserviceaccount.com\",\"googlePrivateKeyString\":\"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 hHvg2NS9+Oc03CU6KVfsSPsbAgIEAA\\u003d\\u003d\",\"googleServiceAccountAdminUser\":\"lorenzo.zimolo@sinesy.it\",\"googleClientSecret\":\"j6tPwEOOlmePBmkdJImga3Vc\",\"showAlertMenuItem\":false,\"showChatPopupMessage\":false,\"hideChatToastMessage\":false,\"autoDefineUploadFileName\":false,\"disableGoogleaMapLibs\":false,\"hidePlatformLogo\":false,\"maxNumberOfExportableRows\":100000,\"menuButtonsCols\":5,\"menuButtonsAutosize\":true,\"menuButtonsWidth\":150,\"menuButtonsHeight\":50,\"menuButtonsImageWidth\":32,\"menuButtonsImageHeight\":32,\"menuButtonsRoundBorder\":0,\"menuButtonsTextUpperCase\":false,\"hideImagesInTabsMenu\":false,\"menuButtonsShowBack\":false,\"menuButtonsNoEsc\":false,\"encriptPasswords\":false,\"duplicatePerCompany\":true,\"checkFunctionIdsWhenReadingData\":false,\"autoEncriptData\":true,\"reshowButtonsMenu\":false,\"windowPanesToHide\":{},\"exportUsingHSSF\":false,\"datasetId\":\"sinesy4wsplatform\",\"licensed\":true,\"fileStorage\":\"FILE_SYSTEM\",\"googleCloudStorageLocation\":\"US\",\"googleCloudProjectId\":\"sinesy4wsplatform\",\"googleSpeechVoiceFlag\":false,\"twilioAccountId\":\"AC8acaec2fc5eaf209a18f05e50a8b2675\",\"twilioAuthToken\":\"449958d1458f8852ed183a64c40ec5d1\",\"sdi\":false,\"createCompanySite\":true,\"aliasesRequestNum\":{},\"enabledMenuFunctionIds\":{},\"namespace\":\"SVIL\",\"enabledComponentIds\":[],\"headersLowercase\":true,\"removeSession\":false,\"autoEncriptParams\":false,\"bigQueryDataset\":\"test_mauro\",\"userInfo\":{\"applicationId\":\"GAE\",\"companyId\":\"00000\",\"siteId\":100,\"useGridSuffix\":false,\"prm40ApplUserPars\":{},\"customApplUserVars\":{},\"useFormSuffix\":false,\"username\":\"ADMIN\",\"languageId\":\"EN\"}},\"vo\":{\"id\":123}}"
+}
+```
+
+There are two possibilities for having still and element returned:
+
+* the element is still in queue; in such a case, the "status" attribute is set to "ENQUEUED"
+* the element has been dequeued but not processed correctly and error was fired during the elaboration; in such a case, the "status" attribute is set to "ERROR"
+
+If the method returns null, it means the element has been already processed and removed from the queue.
+
+\*\*\*\*
 
 **Example**
 
@@ -190,10 +215,17 @@ var namespace = "...";
 
 var element = utils.getElementFromQueueByNote(myDocumentId, namespace);
 if (element!=null) {
-    // the enqueued element is still there
+    // the enqueued element can be in queue or dequeued and terminated with errors
+    var outcome = JSON.parse(element);
+    if (outcome.status=="ENQUEUED") {
+      // element still enqueued...
+    } 
+    else {
+      // what to do in such a case?
+    }
 }
 else {
-    // the element has been dequeued and processed and no more in queue
+    // the element has been dequeued and processed correctly and no more in queue
 }
 ```
 
