@@ -121,10 +121,11 @@ var uuid = utils.enqueueActionWithNoteAsString(
       "QueueName",
       actionIdInvokedByTheQueue,
       { /* parameters to pass forward to the enqueued action*/ },
-      null,
-      null,
-      false,
-      null
+      null, // priority: not managed
+      null, // process wait time: not managed
+      false, // log execution: not managed
+      null, // optional payload, expressed as a String
+      null  // optional: max retries as a number
 );
 var json = utils.blockingWaitAllElements(20,[uuid]);
 if (json=="[]") {
@@ -136,6 +137,67 @@ utils.setReturnValue(json);
 ```
 
 Bear in mind that cached response for an enqueued action is available up to 1 minute, after that time, the content is automatically removed from the cache.
+
+## Checking for element termination
+
+When enqueuing an element in AppEngine, the "**enqueueActionWithNoteAsString**" method returns an uuid identifying the specific element appended to the queue.
+
+Optionally, you can pass forward any payload \(for example a unique identifier as String or a JSON String\) to such method, using the "note" argument. You can later use this information to check for the element termination, using the "**getElementFromQueueByNote**" method, which enquiry the queue management system, searching from an element having the specified payload.
+
+**Syntax**
+
+```javascript
+utils.getElementFromQueueByNote(String payload,String namespace);
+```
+
+The payload argument is used to search for an element still inside the queue, having that payload bounded.
+
+If it exists, the method returns the element in queue \(a Map Java object related to the enqueued element\). If the method returns null, it means the element has been already processed and removed from the queue.
+
+**Example**
+
+Thread where the element is enqueued:
+
+```javascript
+var myDocumentId = "...";
+var documentToProcess = {
+  id: myDocumentId,
+  ...
+};
+
+var uuid = utils.enqueueActionWithNoteAsString(
+      "QueueName",
+      actionIdInvokedByTheQueue,
+      documentToProcess, // parameters to pass forward to the enqueued action
+      null, // priority: not managed
+      null, // process wait time: not managed
+      false, // log execution: not managed
+      myDocumentId, // payload, expressed as a String
+      null  // optional: max retries as a number
+);
+
+
+
+
+
+```
+
+Another thread, checking for element termination
+
+```javascript
+var myDocumentId = "..."; // the same value used in the firdt thread
+var namespace = "...";
+
+var element = utils.getElementFromQueueByNote(myDocumentId, namespace);
+if (element!=null) {
+    // the enqueued element is still there
+}
+else {
+    // the element has been dequeued and processed and no more in queue
+}
+```
+
+
 
 ## Concurrent writing operations
 
