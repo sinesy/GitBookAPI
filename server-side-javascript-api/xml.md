@@ -22,9 +22,68 @@ Returns an XML representation, expressed as a list of Javascript objects, where 
 
 **Example**
 
-JohnDoe...
+```markup
+<?xml version="1.0"?>
 
-JaneRoe...
+<resultset statement="SELECT * FROM dual" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <row>
+        <field name="COD_COMPANY">0</field>
+        <field name="TIPO">1</field>
+        <field name="DES_DESCRIZIONE">Description 1</field>
+        <field name="LOGO" xsi:nil="true" />
+        <field name="ATTIVA">T</field>
+        <field name="UTENTE_CREAZIONE" xsi:nil="true" />
+        <field name="DATA_CREAZIONE">2021-01-15 09:15:56</field>
+        <field name="UTENTE_MODIFICA" xsi:nil="true" />
+        <field name="DATA_MODIFICA" xsi:nil="true" />
+        <field name="VERSIONE">0</field>
+    </row>
+    
+    <row>
+        <field name="COD_COMPANY">0</field>
+        <field name="TIPO">2</field>
+        <field name="DES_DESCRIZIONE">Description 2</field>
+        <field name="LOGO" xsi:nil="true" />
+        <field name="ATTIVA">T</field>
+        <field name="UTENTE_CREAZIONE" xsi:nil="true" />
+        <field name="DATA_CREAZIONE">2021-01-15 13:42:35</field>
+        <field name="UTENTE_MODIFICA" xsi:nil="true" />
+        <field name="DATA_MODIFICA" xsi:nil="true" />
+        <field name="VERSIONE">0</field>
+    </row>
+    
+    <row>
+        <field name="COD_COMPANY">0</field>
+        <field name="TIPO">3</field>
+        <field name="DES_DESCRIZIONE">Description 3</field>
+        <field name="LOGO" xsi:nil="true" />
+        <field name="ATTIVA">T</field>
+        <field name="UTENTE_CREAZIONE" xsi:nil="true" />
+        <field name="DATA_CREAZIONE">2021-01-15 13:42:35</field>
+        <field name="UTENTE_MODIFICA" xsi:nil="true" />
+        <field name="DATA_MODIFICA" xsi:nil="true" />
+        <field name="VERSIONE">0</field>
+    </row>
+
+</resultset>
+```
+
+```javascript
+var textFile = utils.readTextFile("/path/test.xml");
+var xmlDocNodes = utils.parseXML(textFile);
+var rows = xmlDocNodes[0].get('subTags');
+for (var i=0; i<rows.length;i++) {
+    var row = rows[i];
+    var fields = row.get('subTags');
+    for(var f=0; f<fields.length; f++) {
+        var field = fields[f];
+        var name = field.get('name');
+        var tagValue = field.get('tagValue');
+        utils.log('Row ' + i + ', ' + name + " = " + tagValue, 'DEBUG');
+    }
+}
+```
 
 ## Search for the specified path within the XML document parse result
 
