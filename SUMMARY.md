@@ -31,6 +31,7 @@
 
 ## Server-side Javascript API
 
+* [Monitoring](server-side-javascript-api/monitoring.md)
 * [Alert](server-side-javascript-api/alert.md)
 * [Email](server-side-javascript-api/email.md)
 * [HTTP](server-side-javascript-api/http.md)
