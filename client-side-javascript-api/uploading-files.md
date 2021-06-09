@@ -118,11 +118,19 @@ uploadFile(
 
 **Note**: this function can be invoked anywhere on the application UI; however, you cannot customize the content of the window, for example by adding additional input fields, specific to your UI. If you need to customize the upload popup window, you'd better use the next function.
 
-## Upload a file, starting from a custom window
+## Upload a file, starting from an editable panel
 
-In case you need to customize completely the content of the popup window hosting your file to upload, you can define a Platform window containing a Platform Editable Panel, where you can include any type of input fields. The only constraint is to include also a **File Type Field**, available only with Editable Panels.
+In case you need to customize completely the content of the popup window hosting your file to upload, you can define a Platform window containing a Platform **Editable Panel,** where you can include any type of input fields. The only constraint is to include also a **File Type Field**, available only with Editable Panels.
+
+#### Filtering upload content
 
 Optionally, you can fill in the advanced property **File Type**, with a list of allowed mime types separated by a comma \(e.g. "image/jpg,image/png"\).
+
+#### Multiple upload
+
+Optionally, you can also select the "**Multiple Uploa**d" checkbox column, if you want to let the end user select multiple files at one time and upload all of them in a unique HTTP request.
+
+#### Customizing upload file field
 
 Such a special field is composed of a readonly text field containing the file name to upload and a button used to open the operating system file selection window to select the file to upload. These field provides CSS classes having this format:
 
