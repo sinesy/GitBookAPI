@@ -254,15 +254,15 @@ uploadFileFromForm(
 );
 ```
 
-Server-side javascript action
+#### Server-side javascript action
 
 On the server side, there must be a javascript action to invoke when passing forward file\(s\) and data. The "uploadFileFromForm" utility function would pass forward both and at the time the action starts, the uploaded file\(s\) are already saved on the file system, within the specified directory id.
 
-On the "vo" javascript object available in input by the action, there is all data passed forward and a few additional attributes:
+On the "**vo**" javascript object available in input by the action, there is all data passed forward and a few additional attributes:
 
-* filenames, a String containing the list of file names uploaded, separated by a comma
-* filename, a String reporting the first file uploaded; do not use this attribute in case you have configured the editable panel to work with multiple files
-* dirId - the numeric identifier of the directory where files have been saved
+* **filenames**, a String containing the list of file names uploaded, separated by a comma
+* **filename**, a String reporting the first file uploaded; do not use this attribute in case you have configured the editable panel to work with multiple files
+* **dirId** - the numeric identifier of the directory where files have been saved
 
 You can manage the uploaded files \(e.g. to move them to a final destination\) starting from the "filenames" attribute.
 
