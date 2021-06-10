@@ -348,6 +348,47 @@ previewFile(
 
 **Note**: not all file formats can be showed as a preview; it depends on the browser plugins/extensions installed; it can work for most of the image formats, PDF \(if Acrobat reader has been installed\), text files, but it is unlikely that it can work for Office documents.
 
+## Upload a file, starting from a multiple file upload panel
+
+Since 6.0.1 version there is a new panel, which can be included in a window as any other panel type, which contains:
+
+* a drag'n drop area where a user can drop files selected from his local file system
+* a selection button used to access the default files window and select multiple files from the local file system, as an alternative to the previous approach
+* an upload button to upload all these files to the standard server-side web service and then invoke a server-side javascript action to process the received files
+
+![](../.gitbook/assets/schermata-2021-06-10-alle-15.35.12.png)
+
+Optionally, it is also possible to show an additional area within the same panel, used to show all selected files and see:
+
+* file name
+* file size
+* a file preview, in case the file is an image
+
+![](../.gitbook/assets/schermata-2021-06-10-alle-15.36.23.png)
+
+In order to use this panel, a Custom Panel must be created and within the javascript function to specify, create such a new panel:
+
+```text
+function getMyMultipleUploadPanel() {
+  var p = new Tinet.MultipleUploadPanel({
+      actionId: 149,
+      dirId: 9,
+      showList: true,
+      afterUpload: function() {}
+  });
+  return p;
+}
+```
+
+**Syntax**
+
+| Argument | Description |
+| :--- | :--- |
+| actionId | mandatory attribute: the action on the server-side to invoke after uploading files |
+| dirId | mandatory attribute: where saving files on the server |
+| showList | true/false: used to show the additional area contaning the list of selected files to upload |
+| afterUpload | an optional callback, invoked by Platform after a successful upload |
+
 
 
 
