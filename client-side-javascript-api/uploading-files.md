@@ -386,7 +386,7 @@ function getMyMultipleUploadPanel() {
 | :--- | :--- |
 | actionId | mandatory attribute: the action on the server-side to invoke after uploading files |
 | dirId | mandatory attribute: where saving files on the server |
-| showList | true/false: used to show the additional area contaning the list of selected files to upload |
+| showList | true/false: used to show the additional area containing the list of selected files to upload |
 | afterUpload | an optional callback, invoked by Platform after a successful upload |
 
 
