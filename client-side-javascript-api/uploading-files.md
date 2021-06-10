@@ -389,7 +389,7 @@ function getMyMultipleUploadPanel() {
 | showList | true/false: used to show the additional area containing the list of selected files to upload |
 | afterUpload | an optional callback, invoked by Platform after a successful upload |
 
-
+You can customize the theme, starting from the default settings defined in app.css
 
 
 
