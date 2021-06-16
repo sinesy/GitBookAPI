@@ -19,7 +19,8 @@ utils.importRowsFromFile(
       Map inputData, 
       Long destErrorsFileDirId, 
       String destErrorsFileName,
-      boolean rollbackIfErrors 
+      boolean rollbackIfErrors,
+      boolean async 
 );
 ```
 
@@ -85,6 +86,10 @@ utils.importRowsFromFile(
       <td style="text-align:left">true: if there are errors it cancels everything; false: confirms only
         the successfully imported rows</td>
     </tr>
+    <tr>
+      <td style="text-align:left">async</td>
+      <td style="text-align:left">true: the process send an alert to user when is finished</td>
+    </tr>
   </tbody>
 </table>
 
@@ -103,6 +108,7 @@ utils.importRowsFromFile(
       { "FIELD1": 123, "USERNAME": "TEST_USER" }, 
       9, 
       "errors_of_example.xlsx",
+      true,
       true 
 );
 ```
