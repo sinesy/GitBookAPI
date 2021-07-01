@@ -312,3 +312,60 @@ When comparing Platform with the schema above:
   * 3 distinct queues, if it makes sense to parallelize these 3 operations; a **blockingWaitAllElements** is required, in order to check out if all operations completed correctly or to manage the undo task
   * a unique queue, where the "Payment Service" is enqueued, waiting for its termination through the **blockingWaitAllElements** method; when completed correctly, the second actions is enqueued; same approach for the third. Undo operations are managed after each **blockingWaitAllElements** termination, if needed.
 
+
+
+## How to recycle enqueued elements with problems
+
+Every time a GAE action enqueues an element to Google Cloud Task, the same element is also saved in the QueueElements entity by Platform. This entity contains:
+
+* id - element identifier
+* json - the input data to pass forward to the element to process
+* app id, company id, site id, namespace
+* status
+
+The status attribute is set to ENQUEUED every time and element is enqueued.
+
+When the Task manager extracts the element, it is processed and a few alternative outcomes can arise:
+
+* the elaboration terminates correctly: the record is removed automatically from QueueElements entity
+* the elaboration was interrupted by an error: 
+  * if the max number of retries has not reached yet, the record is marked with ERROR status and managed again, up to the max number of retries set
+  * f the max number of retries has been reached, the record is marked with ERROR status: not more attempts and carried out and the record remains in QueueElements for ever
+
+Another abnormal scenario is when an element is never extracted from the Task manager: in such a case, the record still remains in QueueElements with status ENQUEUED.
+
+It is possible to use the following GAE javascript function to re-process a single element in QueueElements: after re-enqueuing it, the record is also removed from QueueElements.
+
+```javascript
+var rows = utils.reinsertElements(
+    null, //String companyId,
+    null, //Long actionId,
+    null, // String queueName,
+    null, //String status,
+    "019d9ca7-5c06-464a-8eb7-00afb8cbe47e" // id in QueueElements
+);
+utils.debug("reinsertElements: "+rows);
+```
+
+It is possible to use the same GAE javascript function to re-process multiple elements in QueueElements: the ones matching the filtering conditions passed forward to the method; after re-enqueuing a record matching the filtering criteria, that record is also removed from QueueElements.
+
+```javascript
+var actionId = ...
+var rows = utils.reinsertElements(
+    "00000", // reinsert only records having this company id
+    actionId, //reinsert only records having this action id,
+    "MYQUEUE", // reinsert only records having this queue name,
+    "ERROR", // reinsert only records having this status,
+    null // do not set it
+);
+utils.debug("reinsertElements: "+rows);
+```
+
+
+
+ 
+
+
+
+
+
