@@ -21,7 +21,7 @@ Possible settings parameters:
 var settings = new Object();
 settings.asMainWindow = 'Y';
 settings.anchoredToPanel = 129;
-setting.anchoredToAttribute = 'myBtn';
+settings.anchoredToAttribute = 'myBtn';
 
 openWindow123(args, settings);
 
@@ -29,7 +29,7 @@ openWindow123(args, settings);
 var settings = new Object();
 settings.asMainWindow = 'Y';
 settings.anchoredToPanel = 'this';
-setting.anchoredToAttribute = 'this';
+settings.anchoredToAttribute = 'this';
 
 openWindow123(args, settings);
 ```
