@@ -558,11 +558,11 @@ var processedRows = utils.executeSqlBatch(Map settings);
 The javascript object "settings" contains a few attributes:
 
 * **selectSql**: a mandatory String type attribute, containing the SQL query to execute in the source schema; this SQL query can contain aliases and bind variables
-* **selectParameters**: an optional javascript array containing the valus for the bind variables specified in the SQL query
+* **selectParameters**: an optional java.util.ArrayList  containing the values for the bind variables specified in the SQL query
 * **srcDataStoreId**: an optional numeric type attribute, identifying the source database schema by its datasource id
 * **insertSql**: this String type attribute defines the INSERT statement to execute, expressed with biding variables and in-line values \(e.g. NOW\(\), 'INSERT\_USER', 1, etc.\); for each field reported in the SQL query, there must be a corresponding bind variable for this INSERT statement and exactly in the same position; you are free to include additional fields in the INSERT clause, whose values do not coming from the SQL query, but they must be filled with in-line values
 * **updateSql**: this String type attribute defines the UPDATE statement to execute, expressed with biding variables and in-line values \(e.g. NOW\(\), 'UPDATE\_USER', etc.\); for each field reported in the SQL query, there must be a corresponding bind variable for this UPDATE statement and exactly in the same position; you are free to include additional fields in the INSERT clause, whose values do not coming from the SQL query, but they must be filled with in-line values. The UPDATE statement ends with the WHERE clause which must be defined with bind variables and must always refer a single record to update. When defining the "updateSql" attribute, you have also to specify the "pk" attribute
-* **pk**: this javascript array type attribute must be specified as long as you have defined the "updateSql" attribute and it reports the name of the fields in the SELECT clause which are used to fill in the binding variables of the WHERE clause for the UPDATE statement
+* **pk**: this java.util.ArrayList type attribute must be specified as long as you have defined the "updateSql" attribute and it reports the name of the fields in the SELECT clause which are used to fill in the binding variables of the WHERE clause for the UPDATE statement
 * **blockSize**: optional numeric type attribute; it defines the amount of records to enqueue before executing all of them and commit such block; if not specified, the default value is 10.000 records
 * **destDataStoreId**: an optional numeric type attribute, identifying the destination database schema by its datasource id
 
@@ -583,9 +583,12 @@ Executes once the specified SQL query and for each fetched record:
 **Insert only example**
 
 ```javascript
+var selectParameters = new java.util.ArrayList();
+// selectParameters.add(...);
+
 utils.executeSqlBatch({
     selectSql: "SELECT ID_CLIENTE, ETA, SESSO, PROV, TOTALE, CHECK_ACQ, PREDIZIONE, USER_CODE_ID, LAST_UPDATE FROM CLIENTI_BOGGI",
-    selectParameters: [],
+    selectParameters: selectParameters,
     srcDataStoreId: null,
     destDataStoreId: 319,
     insertSql: "INSERT INTO CLIENTI(ID_CLIENTE, ETA, SESSO, PROV, TOTAL, CHECK_ACQ, PREDIZIONE, USER_CODE_ID, LAST_UPDATE) VALUES(?,?,?,?,?,?,?,?,?)"
@@ -599,13 +602,19 @@ Note that the select fields MUST be in the same order of ? variables in the inse
 **Update only example**
 
 ```javascript
+var selectParameters = new java.util.ArrayList();
+// selectParameters.add(...);
+
+var pk = new java.util.ArrayList();
+pk.add("ID_CLIENTE");
+
 utils.executeSqlBatch({
     selectSql: "SELECT ID_CLIENTE, ETA, SESSO, PROV, TOTALE, CHECK_ACQ, PREDIZIONE, USER_CODE_ID, LAST_UPDATE FROM CLIENTI_BOGGI",
-    selectParameters: [],
+    selectParameters: selectParameters,
     srcDataStoreId: null,
     destDataStoreId: 319,
     updateSql: "UPDATE CLIENTI set ID_CLIENTE=?, ETA=?, SESSO=?, PROV=?, TOTAL=?, CHECK_ACQ=?, PREDIZIONE=?, USER_CODE_ID=?, LAST_UPDATE=? WHERE ID_CLIENTE=?",
-    pk: ["ID_CLIENTE"]
+    pk: pk
 });
 ```
 
@@ -618,14 +627,20 @@ Note that the "pk" attribute is mandatory in case of "updateSql" and it must con
 **Update + Insert example**
 
 ```javascript
+var selectParameters = new java.util.ArrayList();
+// selectParameters.add(...);
+
+var pk = new java.util.ArrayList();
+pk.add("ID_CLIENTE");
+
 utils.executeSqlBatch({
     selectSql: "SELECT ID_CLIENTE, ETA, SESSO, PROV, TOTALE, CHECK_ACQ, PREDIZIONE, USER_CODE_ID, LAST_UPDATE FROM CLIENTI_BOGGI",
-    selectParameters: [],
+    selectParameters: selectParameters,
     srcDataStoreId: null,
     destDataStoreId: 319,
     insertSql: "INSERT INTO CLIENTI(ID_CLIENTE, ETA, SESSO, PROV, TOTAL, CHECK_ACQ, PREDIZIONE, USER_CODE_ID, LAST_UPDATE) VALUES(?,?,?,?,?,?,?,?,?)",
     updateSql: "UPDATE CLIENTI set ID_CLIENTE=?, ETA=?, SESSO=?, PROV=?, TOTAL=?, CHECK_ACQ=?, PREDIZIONE=?, USER_CODE_ID=?, LAST_UPDATE=? WHERE ID_CLIENTE=?",
-    pk: ["ID_CLIENTE"]
+    pk: pk
 });
 ```
 
