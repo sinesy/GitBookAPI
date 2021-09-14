@@ -566,6 +566,8 @@ The javascript object "settings" contains a few attributes:
 * **blockSize**: optional numeric type attribute; it defines the amount of records to enqueue before executing all of them and commit such block; if not specified, the default value is 10.000 records
 * **destDataStoreId**: an optional numeric type attribute, identifying the destination database schema by its datasource id
 
+**Important note:** when appending writing operations, these are collected through the JDBC driver in use; it is up to the driver to either pass appended data to the database server or accumulate it on the client side; in the latter case, the memory consumption can increase significantly on the application server and a memory heap error could happen because of that. In order to prevent such a critical error, it is a good practice to limit the amount of collected data to a lower value, so it is better to **set the blockSize property to a relatively lower value**, like 100 o 500 and pay attention to the memory consumption: do not increase it if you note a potentially critical amount of memory consumed \(e.g. hundreds of MB\).
+
 
 
 Executes once the specified SQL query and for each fetched record:
