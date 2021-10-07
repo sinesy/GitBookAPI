@@ -160,6 +160,34 @@ Note: the a single javascript object returned in the list has the following stru
 }
 ```
 
+## Create a role
+
+This method allows to create a role to the current application
+
+**Syntax**:
+
+```javascript
+var objectPrm02 = utils.createRole(String companyId, Long siteId,String roleId,String description);
+```
+
+| Argument | Description |
+| :--- | :--- |
+| companyId | company id that identifies the user \(text value\) |
+| siteId | site id that identifies the user \(numeric value\) |
+| roleId | ROLE\_ID to create |
+| description | role description |
+| **objectPrm02** | the resulting value is the current record in PRM02\_ROLES for the specified role |
+
+**Creating a role for another application**
+
+There is another method you can use to create a role for another application. In such a case, the application id for the other application must be specified.
+
+**Syntax**:
+
+```javascript
+var objectPrm02 = utils.createRoleForApplication(String appId,String companyId, Long siteId,String roleId,String description);
+```
+
 ## Add a role to the specified user
 
 This method allows to add a role to the specified user.
@@ -178,7 +206,7 @@ var objectPrm01 = utils.addUserRole(companyId, siteId, userCodeId, roles);
 | roles | list of javascript objects, where each object has the following attributes: companyId, siteId, roleId, startDate, endDate \(the last one is optional\) |
 | **objectPrm01** | the resulting value is the current record in PRM01\_USERS for the specified user |
 
-## Update a role to the specified user
+## Add a role for the specified user
 
 This method allows to update a role to the specified user.
 
@@ -195,4 +223,14 @@ var objectPrm01 = utils.addUserRole(companyId, siteId, userCodeId, roles);
 | userCodeId | username for the user to check out \(text value\) |
 | roles | list of javascript objects, where each object has the following attributes: companyId, siteId, roleId, startDate, endDate \(the last one is optional\) |
 | **objectPrm01** | the resulting value is the current record in PRM01\_USERS for the specified user |
+
+**Add a role for another application**
+
+There is another method you can use to add a role to a user, but for another application. In such a case, the application id for the other application must be specified.
+
+**Syntax**:
+
+```javascript
+var objectPrm01 = utils.addUserRoleForApplication(appId, companyId, siteId, userCodeId, roles);
+```
 
