@@ -678,9 +678,15 @@ The operation of Insert a new record in progressives table is also supported.
 
       **Arguments**: settings - a javascript object, containing a series of attributes, all mandatory
 
-      datasourceId - data source id where the progressives table is stored
+|              |                                                       |
+| ------------ | ----------------------------------------------------- |
+| datasourceId | data source id where the progressives table is stored |
+| tableName    |                                                       |
+|              |                                                       |
 
-      tableName - string representing the name of the progressives table
+      **datasourceId** - 
+
+      **tableName** - string representing the name of the progressives table
 
       pkFields - javascript array containing the list of fields composing the PK
 
