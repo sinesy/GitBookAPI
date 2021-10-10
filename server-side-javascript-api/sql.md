@@ -650,5 +650,7 @@ In this example, a block of 10.000 records are updated; for those records not up
 
 
 
+### Execute bulk insert/update from a SQL query
+
 Cached Progressive calculation
 
