@@ -678,16 +678,19 @@ The operation of Insert a new record in progressives table is also supported.
 
       **Arguments**: settings - a javascript object, containing a series of attributes, all mandatory
 
-|              |                                                                                         |
-| ------------ | --------------------------------------------------------------------------------------- |
-| datasourceId | data source id where the progressives table is stored                                   |
-| tableName    | string representing the name of the progressives table                                  |
-| pkFields     | javascript array containing the list of fields composing the PK                         |
-| pkValues     | javascript array containing the values of the PK fields                                 |
-| updateFields | additional fields to update when increasing the current value on the progressives table |
-|              |                                                                                         |
-|              |                                                                                         |
-|              |                                                                                         |
+|                   |                                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------------ |
+| datasourceId      | data source id where the progressives table is stored                                                  |
+| tableName         | string representing the name of the progressives table                                                 |
+| pkFields          | javascript array containing the list of fields composing the PK                                        |
+| pkValues          | javascript array containing the values of the PK fields                                                |
+| updateFields      | additional fields to update when increasing the current value on the progressives table                |
+| updateValues      | values for the additional fields to update when increasing the current value on the progressives table |
+| currentValueField | field name in the progressives table containing the current value                                      |
+| incrementValue    | how much to increase the current value (number                                                         |
+|                   |                                                                                                        |
+|                   |                                                                                                        |
+|                   |                                                                                                        |
 
       
 
@@ -697,11 +700,11 @@ The operation of Insert a new record in progressives table is also supported.
 
        \- 
 
-      updateValues - values for the additional fields to update when increasing the current value on the progressives table
+       \- 
 
-      currentValueField - field name in the progressives table containing the current value
+       \- 
 
-      incrementValue - how much to increase the current value (number)
+       \- )
 
       initialValue - initial value to set, when inserting the record because not found yet
 
