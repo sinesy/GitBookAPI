@@ -654,21 +654,13 @@ In this example, a block of 10.000 records are updated; for those records not up
 
 In case you have a progressives table used to calculate a progressive and it is  invoked a very high amount of times concurrently, it is likely to have locks or a low performance.
 
-This method can be used to increase the progressives table a lower number of times, since the update is performed on the table rarely, since the writing opeation
+This method can be used to increase the progressives table a lower number of times, since the update is performed on the table rarely, since the writing operation would increase the current value not by 1, but by an "increment" value.
 
-     would increase the current value not by 1, but by an "increment" value.
+Every time this method is invoked, a new increment is returned without any update operation, since the current value is cached and incremented programatically in the cache, until the max "increment" value is reach: only at that point the update operation is called again.
 
-      Every time this method is invoked, a new increment is returned without any update operation,
+The operation of Insert a new record in progressives table is also supported.
 
-      since the current value is cached and incremented programatically in the cache, until
-
-      the max "increment" value is reach: only at that point the update operation is called again.
-
-      The operation of Insert a new record in progressives table is also supported.
-
-      
-
-      Example:
+**Example:**
 
       \- progressives table already contains the record with current value 1
 
