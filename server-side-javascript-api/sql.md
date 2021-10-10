@@ -687,32 +687,12 @@ The operation of Insert a new record in progressives table is also supported.
 | updateFields      | additional fields to update when increasing the current value on the progressives table                |
 | updateValues      | values for the additional fields to update when increasing the current value on the progressives table |
 | currentValueField | field name in the progressives table containing the current value                                      |
-| incrementValue    | how much to increase the current value (number                                                         |
-|                   |                                                                                                        |
-|                   |                                                                                                        |
-|                   |                                                                                                        |
+| incrementValue    | how much to increase the current value (number**)**                                                    |
+| initialValue      |  initial value to set, when inserting the record because not found yet                                 |
+| insertFields      | list of fields in the progressives table to insert; DO NOT include the currentValueField               |
+| insertValues      | list of values for the fields to insert in the progressives table                                      |
 
-      
-
-       \- 
-
-       \- 
-
-       \- 
-
-       \- 
-
-       \- 
-
-       \- )
-
-      initialValue - initial value to set, when inserting the record because not found yet
-
-      insertFields - list of fields in the progressives table to insert; DO NOT include the currentValueField
-
-      insertValues - list of values for the fields to insert in the progressives table
-
-      
+     
 
 Example:
 
