@@ -669,17 +669,14 @@ The operation of Insert a new record in progressives table is also supported.
 
       ...
 
-*
-
-the method is invoked for the 1000th time:  cached current value is 1001: no more increments can be done; 
-
-        the record is updated to 1001+1000 = 2001 and returns 1002; cached incremented value is now 1002
+* the method is invoked for the 1000th time:  cached current value is 1001: no more increments can be done;
+* the record is updated to 1001+1000 = 2001 and returns 1002; cached incremented value is now 1002
 
       ..
 
       
 
-      Arguments: settings - a javascript object, containing a series of attributes, all mandatory
+      **Arguments**: settings - a javascript object, containing a series of attributes, all mandatory
 
       datasourceId - data source id where the progressives table is stored
 
