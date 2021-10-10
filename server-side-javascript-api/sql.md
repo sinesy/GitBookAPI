@@ -706,37 +706,27 @@ The operation of Insert a new record in progressives table is also supported.
 
       
 
-      Example:
+Example:
 
       
 
-      var settings = {
-
-            datasourceId: null,
-
-            tableName: "INI21\_GLOBAL_SEQUENCES",
-
-            pkFields: \["TABLE_NAME","FIELD_NAME"],
-
-            pkValues: \["AAAA","PROG_ID"],
-
-            updateFields: \["USER_ID_UPDATE","LAST_UPDATE"],
-
-            updateValues: \[userInfo.username,utils.getCurrentDateAndTime()],
-
-            currentValueField: "CURRENT_VALUE",
-
-            incrementValue: 2,
-
-            initialValue: utils.getInitialValue(),
-
-            insertFields: \["INITIAL_VALUE","INCREMENT_VALUE","IS_CYCLE","MAX_NUMBER","USER_ID_CREATE","CREATE_DATE","ROW_VERSION","STATUS"],
-
-            insertValues: \[utils.getInitialValue(),2,"F",null,userInfo.username,utils.getCurrentDateAndTime(),0,"E"]
-
-      };
-
-      var p = utils.getCachedProgressive(settings);
+  
 
 ###
 
+```
+     var settings = {
+            datasourceId: null,
+            tableName: "INI21_GLOBAL_SEQUENCES",
+            pkFields: ["TABLE_NAME","FIELD_NAME"],
+            pkValues: ["AAAA","PROG_ID"],
+            updateFields: ["USER_ID_UPDATE","LAST_UPDATE"],
+            updateValues: [userInfo.username,utils.getCurrentDateAndTime()],
+            currentValueField: "CURRENT_VALUE",
+            incrementValue: 2,
+            initialValue: utils.getInitialValue(),
+            insertFields: ["INITIAL_VALUE","INCREMENT_VALUE","IS_CYCLE","MAX_NUMBER","USER_ID_CREATE","CREATE_DATE","ROW_VERSION","STATUS"],
+            insertValues: [utils.getInitialValue(),2,"F",null,userInfo.username,utils.getCurrentDateAndTime(),0,"E"]
+      };
+      var p = utils.getCachedProgressive(settings);
+```
