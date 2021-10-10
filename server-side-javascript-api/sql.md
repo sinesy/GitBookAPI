@@ -662,17 +662,16 @@ The operation of Insert a new record in progressives table is also supported.
 
 **Example:**
 
-      \- progressives table already contains the record with current value 1
-
-      \- the method is invoked for the first time with increment value = 1000
-
-      \- the method updates the record with 1+1000 = 1001 and returns 2; cached incremented value is now 2
-
-      \- the method is invoked again and the cached current value is incremented to 3; 3 is returned
+* progressives table already contains the record with current value 1
+* the method is invoked for the first time with increment value = 1000
+* the method updates the record with 1+1000 = 1001 and returns 2; cached incremented value is now 2
+* the method is invoked again and the cached current value is incremented to 3; 3 is returned
 
       ...
 
-      \- the method is invoked for the 1000th time:  cached current value is 1001: no more increments can be done; 
+*
+
+the method is invoked for the 1000th time:  cached current value is 1001: no more increments can be done; 
 
         the record is updated to 1001+1000 = 2001 and returns 1002; cached incremented value is now 1002
 
