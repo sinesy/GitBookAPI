@@ -1,6 +1,6 @@
 # Sql
 
-## Generic SQL execution \(NO SQL queries\) <a id="executesql"></a>
+## Generic SQL execution (NO SQL queries) <a href="executesql" id="executesql"></a>
 
 **Syntax**
 
@@ -10,14 +10,14 @@ var rows = utils.executeSql(sql, dataSourceId, separatedTransaction, interruptEx
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| rows | int value: number of processed rows |
-| sql | string value: sql to execute; it can contains ? or :XXX |
-| dataSourceId | num value; it can be null and used to specify a different db to use with the sql statement |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
-| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql statement. |
+| Argument             | Description                                                                                                                                                                                                          |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| rows                 | int value: number of processed rows                                                                                                                                                                                  |
+| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                              |
+| dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                           |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE_NEW EJB directive)                                                               |
+| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                       |
+| params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
 
 An :XXX variable can be replaced by vo or params values
 
@@ -35,7 +35,7 @@ true, // fire an Exception in case of error
 
 Note: every SQL instruction will be logged.
 
-## Generic SQL execution \(NO SQL queries\) without logging it
+## Generic SQL execution (NO SQL queries) without logging it
 
 **Syntax**
 
@@ -51,14 +51,14 @@ params
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| rows | int value: number of processed rows |
-| sql | string value: sql to execute; it can contains ? or :XXX |
-| dataSourceId | num value; it can be null and used to specify a different db to use with the sql statement |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
-| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql statement. |
+| Argument             | Description                                                                                                                                                                                                          |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| rows                 | int value: number of processed rows                                                                                                                                                                                  |
+| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                              |
+| dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                           |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE_NEW EJB directive)                                                               |
+| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                       |
+| params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
 
 An :XXX variable can be replaced by vo or params values
 
@@ -77,7 +77,7 @@ true, // fire an Execution in case of error
 
 Note: the SQL operation will not be logged. This method csan be useful with bulk operations, whose execution could slow down if a log message were produced for each execution.
 
-## SQL query execution <a id="executequery"></a>
+## SQL query execution <a href="executequery" id="executequery"></a>
 
 **Syntax**
 
@@ -93,14 +93,14 @@ params
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| jsonList | string value: list of json objects, i.e. the result of the query execution |
-| sql | string value: sql to execute; it can contains ? or :XXX |
-| dataSourceId | num value; it can be null and used to specify a different db to use with the sql statement |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
-| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql query. |
+| Argument             | Description                                                                                                                                                                                                      |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| jsonList             | string value: list of json objects, i.e. the result of the query execution                                                                                                                                       |
+| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                          |
+| dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                       |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE_NEW EJB directive)                                                           |
+| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                   |
+| params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql query. |
 
 An :XXX variable can be replaced by vo or params values
 
@@ -118,7 +118,7 @@ true, // fire an Execution in case of error
 var username = rows[0].userCodeId;
 ```
 
-## SQL query execution with very long result sets <a id="executequery"></a>
+## SQL query execution with very long result sets <a href="executequery" id="executequery"></a>
 
 **From 5.4.0 version**
 
@@ -143,14 +143,14 @@ utils.executeQueryWithCallback(
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| callbackFunName | string value: the name of a callback function, defined inside the action, which will be automatically invoked for each record read from the SQL query. This method must have an argument, which is a js object, representing the record |
-| sql | string value: sql to execute; it can contains ? or :XXX |
-| dataSourceId | num value; it can be null and used to specify a different db to use with the sql statement |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
-| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql query. |
+| Argument             | Description                                                                                                                                                                                                                             |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| callbackFunName      | string value: the name of a callback function, defined inside the action, which will be automatically invoked for each record read from the SQL query. This method must have an argument, which is a js object, representing the record |
+| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                                                 |
+| dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                                              |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE_NEW EJB directive)                                                                                  |
+| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                                          |
+| params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql query.                        |
 
 An :XXX variable can be replaced by vo or params values
 
@@ -207,32 +207,32 @@ utils.executeQueryWithCallback(
 utils.closeCSVFile(fileId);
 ```
 
-## Execute the specified SQL query and enrich it by adding filtering/sorting and pagination settings <a id="getpartialresult"></a>
+## Execute the specified SQL query and enrich it by adding filtering/sorting and pagination settings <a href="getpartialresult" id="getpartialresult"></a>
 
 These settings can be defined through ListCommand object automatically created when this method is invoked through a "Server JS business component" connected to a grid panel.
 
 **Syntax**
 
-```text
+```
 var json = utils.getPartialResult(sql, dataStoreId, separatedTransaction, interruptExecution, pars);
 ```
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| Details |  |
-| sql | base SQL query |
-| dataStoreId | optional data source id \(a number\) |
-| separatedTransaction | flag used to define if this query has to be perfomed in a separated transaction |
-| interruptExecution | flag used to defined if the whole server side transation must be interruped and roolbacked in case of errors |
-| pars | optional \(can be expressed as \[\] in js\) list of parameters binded to ? variables in the SQL query |
+| Argument             | Description                                                                                                  |
+| -------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Details              |                                                                                                              |
+| sql                  | base SQL query                                                                                               |
+| dataStoreId          | optional data source id (a number)                                                                           |
+| separatedTransaction | flag used to define if this query has to be perfomed in a separated transaction                              |
+| interruptExecution   | flag used to defined if the whole server side transation must be interruped and roolbacked in case of errors |
+| pars                 | optional (can be expressed as \[] in js) list of parameters binded to ? variables in the SQL query           |
 
-```text
+```
  Returns a list of records, expressed in JSON format, which also includes "valueObjectList", "moreRows" and "resultSetLength" attributes.
 ```
 
-In case of a complex SQL query including aliases, it could be needed to decode the field \(to filter/sort\) from the grid panel into an alias. You can do it through a specific utility method:setDecodeField\(fieldToDecode, decodedField\).
+In case of a complex SQL query including aliases, it could be needed to decode the field (to filter/sort) from the grid panel into an alias. You can do it through a specific utility method:setDecodeField(fieldToDecode, decodedField).
 
 In this way, you can control exactly which fields to apply in case of filtering or sorting conditions.
 
@@ -253,7 +253,7 @@ var json = utils.getPartialResult(
 utils.setReturnValue(json);
 ```
 
-## Stored SQL function execution <a id="executestoredfunction"></a>
+## Stored SQL function execution <a href="executestoredfunction" id="executestoredfunction"></a>
 
 **Syntax**
 
@@ -263,29 +263,29 @@ var json = utils.executeStoredFunction( sql, dataSourceId, separatedTransaction,
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| json | string value: the result of the function execution |
-| sql | string value: stored function to execute, including its parameters between parenthesis \(see example below\); it can contains ? or XXX |
-| dataSourceId | num value; it can be null and used to specify a different db to |
+| Argument     | Description                                                                                                                          |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| json         | string value: the result of the function execution                                                                                   |
+| sql          | string value: stored function to execute, including its parameters between parenthesis (see example below); it can contains ? or XXX |
+| dataSourceId | num value; it can be null and used to specify a different db to                                                                      |
 
-```text
+```
  use with the sql statement
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
+| Argument             | Description                                                                                                                                                    |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE_NEW EJB directive)         |
 | interruptedExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| params | array value: can be \[\]; it represents values which replace ? symbols in sql |
+| params               | array value: can be \[]; it represents values which replace ? symbols in sql                                                                                   |
 
-**Example** 
+**Example **
 
 ```javascript
 var returnedValue = utils.executeStoredFunction("usercheck1(?, ?)",....
 ```
 
-## Progressive <a id="getprogressive"></a>
+## Progressive <a href="getprogressive" id="getprogressive"></a>
 
 **Syntax**
 
@@ -295,12 +295,12 @@ var value = utils.getProgressive(String tableName, String columnName,Boolean sep
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| tableName | String: name of table for calculating progressive |
-| columnName | String: column name of field to calculating progressive |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
-| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
+| Argument             | Description                                                                                                                                                    |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| tableName            | String: name of table for calculating progressive                                                                                                              |
+| columnName           | String: column name of field to calculating progressive                                                                                                        |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE_NEW EJB directive)         |
+| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
 
 ## Counter
 
@@ -312,18 +312,18 @@ var value = utils.getCount(String tableName, String valueColumnName, String incr
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| value | Long: new value of counter |
-| tableName | String: name of table for calculating counter |
-| valueColumnName | String: column name of field to calculating counter |
-| incrementValue | String: increment value for counter |
-| where | String: where condition for query |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed \(as for a REQUIRE\_NEW EJB directive\) |
-| interruptExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| dataSourceId | additional data source to use when executing this SQL statement; if set to null, the default database connection will be used |
+| Argument             | Description                                                                                                                                                    |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| value                | Long: new value of counter                                                                                                                                     |
+| tableName            | String: name of table for calculating counter                                                                                                                  |
+| valueColumnName      | String: column name of field to calculating counter                                                                                                            |
+| incrementValue       | String: increment value for counter                                                                                                                            |
+| where                | String: where condition for query                                                                                                                              |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE_NEW EJB directive)         |
+| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
+| dataSourceId         | additional data source to use when executing this SQL statement; if set to null, the default database connection will be used                                  |
 
-## Get the current date <a id="getcurrentdate"></a>
+## Get the current date <a href="getcurrentdate" id="getcurrentdate"></a>
 
 helpful when executing a SQL query and a bind variable should be filled out by a dynamic value which is the current date.
 
@@ -333,7 +333,7 @@ helpful when executing a SQL query and a bind variable should be filled out by a
 var currentDate = utils.getCurrentDate();
 ```
 
-## Execute synchronously a server-side JS action <a id="executeaction"></a>
+## Execute synchronously a server-side JS action <a href="executeaction" id="executeaction"></a>
 
 A new SQL transaction is created for this action.
 
@@ -345,18 +345,18 @@ var json = utils.executeAction(Long actionId,Map vo,Map params,Map headers);
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| actionId | action id related to the action to execute |
-| vo | value object to pass |
-| params | request parameters to pass; read on the other side through reqParams.xxx |
-| header | request headers; read on the other side through reqHeaders.xxx |
+| Argument | Description                                                              |
+| -------- | ------------------------------------------------------------------------ |
+| actionId | action id related to the action to execute                               |
+| vo       | value object to pass                                                     |
+| params   | request parameters to pass; read on the other side through reqParams.xxx |
+| header   | request headers; read on the other side through reqHeaders.xxx           |
 
-## Execute synchronously a server-side JS action on the same transaction <a id="executeaction"></a>
+## Execute synchronously a server-side JS action on the same transaction <a href="executeaction" id="executeaction"></a>
 
 The same SQL transaction is reused for this action. This method is recommended in case of database locks when executing the action: a lock usually means that the logic executed here works on the same data managed by the calling action and both are trying to write the same records. In such cases, it is not correct to execute a second action on another transaction, so this second method is the right one to use.
 
-Bear in mind that errors \(javascript exceptions\) fired during the execution of this action will be affect the main action too, since it is the same transaction. If you do not want that data written by the main action will not be rollbacked, use try-catch keywords to surround the executeActionSameTransaction instruction.
+Bear in mind that errors (javascript exceptions) fired during the execution of this action will be affect the main action too, since it is the same transaction. If you do not want that data written by the main action will not be rollbacked, use try-catch keywords to surround the executeActionSameTransaction instruction.
 
 **Syntax**
 
@@ -366,12 +366,12 @@ var json = utils.executeActionSameTransaction(Long actionId,Map vo,Map params,Ma
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| actionId | action id related to the action to execute |
-| vo | value object to pass |
-| params | request parameters to pass; read on the other side through reqParams.xxx |
-| header | request headers; read on the other side through reqHeaders.xxx |
+| Argument | Description                                                              |
+| -------- | ------------------------------------------------------------------------ |
+| actionId | action id related to the action to execute                               |
+| vo       | value object to pass                                                     |
+| params   | request parameters to pass; read on the other side through reqParams.xxx |
+| header   | request headers; read on the other side through reqHeaders.xxx           |
 
 ## How to get the field names and types for every fields in the select clause of a SQL query to execute
 
@@ -385,16 +385,16 @@ var jsonList = utils.getQueryColumns(sql, dataStoreId, separatedTransaction, int
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| sql | SQL query to execute, in order to fetch information about each field in the select clause |
-| dataStoreId | optional parameter \(can be null\); it defines the additional datastore to use when executing the query |
-| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not |
-| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an errore during the execution of the SQL query |
-| pars | list of parameters required by the SQL query, one for each binding variable; if not needed, set to \[\] |
-| jsonList | the list of select fields is expressed as a JSON string, having the following format: \[ { "fieldName": "FIELDXX", "fieldType": 1\|2\|... }, { … } , …\] where the fieldType reports the field type according to the JDBC Java.sql.Types notation. |
+| Argument             | Description                                                                                                                                                                                                                                       |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| sql                  | SQL query to execute, in order to fetch information about each field in the select clause                                                                                                                                                         |
+| dataStoreId          | optional parameter (can be null); it defines the additional datastore to use when executing the query                                                                                                                                             |
+| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not                                                                                                                                                     |
+| interruptExecution   | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an errore during the execution of the SQL query                                                                         |
+| pars                 | list of parameters required by the SQL query, one for each binding variable; if not needed, set to \[]                                                                                                                                            |
+| jsonList             | the list of select fields is expressed as a JSON string, having the following format: \[ { "fieldName": "FIELDXX", "fieldType": 1\|2\|... }, { … } , …] where the fieldType reports the field type according to the JDBC Java.sql.Types notation. |
 
-## Execute a SQL insert instruction, starting from a javascript object, instead of defining explicitelly the SQL script. <a id="insertobject"></a>
+## Execute a SQL insert instruction, starting from a javascript object, instead of defining explicitelly the SQL script. <a href="insertobject" id="insertobject"></a>
 
 **Syntax**
 
@@ -404,16 +404,16 @@ var ok = utils.insertObject(obj, tableName, dataSourceId, separatedTransaction, 
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| obj | a Javascript object containing the data to save in the specified table; data is related to the table fields and each object attribute name is expressed in "camel" format, i.e. if the table field has name PRODUCT\_CODE, the attribute name must be productCode |
-| tableName | table name to use when creating the SQL insert instruction; field names as retrieved starting from the data model linked to the current table name: that means that it is mandatory to define a \(writable\) data model for that table, before invoking this javascript method; values are fechted starting from the obj argument |
-| dataSourceId | optional parameter \(can be null\); it defines the additional datastore to use when executing the SQL insert |
-| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not |
-| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the SQL query |
-| ok | true in case of SQL instruction executed correctly, an exception otherwise |
+| Argument             | Description                                                                                                                                                                                                                                                                                                                     |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| obj                  | a Javascript object containing the data to save in the specified table; data is related to the table fields and each object attribute name is expressed in "camel" format, i.e. if the table field has name PRODUCT_CODE, the attribute name must be productCode                                                                |
+| tableName            | table name to use when creating the SQL insert instruction; field names as retrieved starting from the data model linked to the current table name: that means that it is mandatory to define a (writable) data model for that table, before invoking this javascript method; values are fechted starting from the obj argument |
+| dataSourceId         | optional parameter (can be null); it defines the additional datastore to use when executing the SQL insert                                                                                                                                                                                                                      |
+| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not                                                                                                                                                                                                                                   |
+| interruptExecution   | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the SQL query                                                                                                                                                        |
+| ok                   | true in case of SQL instruction executed correctly, an exception otherwise                                                                                                                                                                                                                                                      |
 
-## Execute a SQL update instruction, starting from a javascript object, instead of defining explicitelly the SQL script <a id="updateobject"></a>
+## Execute a SQL update instruction, starting from a javascript object, instead of defining explicitelly the SQL script <a href="updateobject" id="updateobject"></a>
 
 **Syntax**
 
@@ -423,18 +423,18 @@ var ok = utils.updateObject(obj, emptyAsNull, forceAttributesToNull, tableName, 
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| obj | a Javascript object containing the data to save in the specified table; data is related to the table fields and each object attribute name is expressed in "camel" format, i.e. if the table field has name PRODUCT\_CODE, the attribute name must be productCode |
-| tableName | table name to use when creating the SQL update instruction; field names as retrieved starting from the data model linked to the current table name: that means that it is mandatory to define a \(writable\) data model for that table, before invoking this javascript method; values are fechted starting from the obj argument |
-| emptyAsNull | this boolean flag can be set to true to force the conversion of ‘’ string values to null; it can be helpful to clear up some table fields |
-| forceAttributesToNull | this boolean flag can be used to force to null every table field not referred in the javascript object but defined in the linked data model |
-| dataSourceId | optional parameter \(can be null\); it defines the additional datastore to use when executing the SQL update |
-| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not |
-| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an errore during the execution of the SQL query |
-| ok | true in case of SQL instruction executed correctly, an exception otherwise |
+| Argument              | Description                                                                                                                                                                                                                                                                                                                     |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| obj                   | a Javascript object containing the data to save in the specified table; data is related to the table fields and each object attribute name is expressed in "camel" format, i.e. if the table field has name PRODUCT_CODE, the attribute name must be productCode                                                                |
+| tableName             | table name to use when creating the SQL update instruction; field names as retrieved starting from the data model linked to the current table name: that means that it is mandatory to define a (writable) data model for that table, before invoking this javascript method; values are fechted starting from the obj argument |
+| emptyAsNull           | this boolean flag can be set to true to force the conversion of ‘’ string values to null; it can be helpful to clear up some table fields                                                                                                                                                                                       |
+| forceAttributesToNull | this boolean flag can be used to force to null every table field not referred in the javascript object but defined in the linked data model                                                                                                                                                                                     |
+| dataSourceId          | optional parameter (can be null); it defines the additional datastore to use when executing the SQL update                                                                                                                                                                                                                      |
+| separatedTransaction  | boolean flag used to define if the SQL query must be execute on a separated transation or not                                                                                                                                                                                                                                   |
+| interruptExecution    | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an errore during the execution of the SQL query                                                                                                                                                       |
+| ok                    | true in case of SQL instruction executed correctly, an exception otherwise                                                                                                                                                                                                                                                      |
 
-## Execute a SQL delete instruction, starting from a javascript object, instead of defining explicitelly the SQL script <a id="deleteobject"></a>
+## Execute a SQL delete instruction, starting from a javascript object, instead of defining explicitelly the SQL script <a href="deleteobject" id="deleteobject"></a>
 
 **Syntax**
 
@@ -444,14 +444,14 @@ var ok = utils.deleteObject(obj, tableName, dataSourceId, separatedTransaction, 
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| obj | a Javascript object containing the data to delete in the specified table; data is related to the table fields and each object attribute name is expressed in "camel" format, i.e. if the table field has name PRODUCT\_CODE, the attribute name must be productCode; only fields which are part of the primary key will be taken into account |
-| tableName | table name to use when creating the SQL delete instruction; field names as retrieved starting from the data model linked to the current table name: that means that it is mandatory to define a \(writable\) data model for that table, before invoking this javascript method; values are fechted starting from the obj argument: only the attributes related to the primary key will be used |
-| dataSourceId | optional parameter \(can be null\); it defines the additional datastore to use when executing the SQL delete |
-| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not |
-| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an errore during the execution of the SQL query |
-| ok | true in case of SQL instruction executed correctly, an exception otherwise |
+| Argument             | Description                                                                                                                                                                                                                                                                                                                                                                                  |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| obj                  | a Javascript object containing the data to delete in the specified table; data is related to the table fields and each object attribute name is expressed in "camel" format, i.e. if the table field has name PRODUCT_CODE, the attribute name must be productCode; only fields which are part of the primary key will be taken into account                                                 |
+| tableName            | table name to use when creating the SQL delete instruction; field names as retrieved starting from the data model linked to the current table name: that means that it is mandatory to define a (writable) data model for that table, before invoking this javascript method; values are fechted starting from the obj argument: only the attributes related to the primary key will be used |
+| dataSourceId         | optional parameter (can be null); it defines the additional datastore to use when executing the SQL delete                                                                                                                                                                                                                                                                                   |
+| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not                                                                                                                                                                                                                                                                                                |
+| interruptExecution   | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an errore during the execution of the SQL query                                                                                                                                                                                                                    |
+| ok                   | true in case of SQL instruction executed correctly, an exception otherwise                                                                                                                                                                                                                                                                                                                   |
 
 ## How to extract a binary object from a BLOB field
 
@@ -469,17 +469,17 @@ var base64String = utils.getBlobAsBase64(
 );
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| datastoreId | identifier for a data source; it can be set to null \(default Platform repository scheme\) |
-| sql | SQL query to execute, in order to extract the BLOB field value; the query should always include a single field in the SELECT clause, the BLOB type field and can include in the WHERE clause variables expressed as :XXX or ? |
-| params | javascript list containing the values for the bind variables reported in the SQL query and expressed as ? |
+| Argument    | Description                                                                                                                                                                                                                   |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| datastoreId | identifier for a data source; it can be set to null (default Platform repository scheme)                                                                                                                                      |
+| sql         | SQL query to execute, in order to extract the BLOB field value; the query should always include a single field in the SELECT clause, the BLOB type field and can include in the WHERE clause variables expressed as :XXX or ? |
+| params      | javascript list containing the values for the bind variables reported in the SQL query and expressed as ?                                                                                                                     |
 
 This method returns a String whose content is the Base64 representation of the BLOB field content.
 
 ## Call a business component from a server-side js business component
 
-It is available a js function to invoke from within a server-side js b.c. \(not from an action\) to call another business component. 
+It is available a js function to invoke from within a server-side js b.c. (not from an action) to call another business component. 
 
 Basically, it can be used to pass forward all request parameters received in input from the starting b.c and get a response to use as the final result to pass back.
 
@@ -496,12 +496,12 @@ callBusinessComponent(
 
 
 
-| Argument | Description |
-| :--- | :--- |
-| compId | identifier for the b.c. to call; bear in mind that all request parameters received from the current b.c. are automatically passed forward to the one specified here; optionally, you can replace request names through the other function arguments |
-| additionalReqParams | it can be null; if specified, it is a js object containing additional request parameters to pass forward; for example, if you wanna call a b.c. for a detail, input parameters a required \(the ones expressed as :XXX in the called b.c.\); you can use this argument to specify these input parameters, if not already available in the starting b.c. input |
-| decodedReqParams | it can be null: if specified, it is a js object containing mappings between request parameters in input and the new request parameter name which must replace the one mapped; e.g. { itemCode: "codice", description: "desc" } in case the UI passes itemCode and description request parameters and you need to pass foward to the called b.c. different parameter names |
-| decodedFilterNames | it can be null: if specified, it is a js object to use ONLY in case of a b.c. for lists; it represents a sub-case of the previous argument: it works only on quickFilterNames and filterNames request attributes and it goes into depth to these values and replace attribute names with new ones |
+| Argument            | Description                                                                                                                                                                                                                                                                                                                                                               |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| compId              | identifier for the b.c. to call; bear in mind that all request parameters received from the current b.c. are automatically passed forward to the one specified here; optionally, you can replace request names through the other function arguments                                                                                                                       |
+| additionalReqParams | it can be null; if specified, it is a js object containing additional request parameters to pass forward; for example, if you wanna call a b.c. for a detail, input parameters a required (the ones expressed as :XXX in the called b.c.); you can use this argument to specify these input parameters, if not already available in the starting b.c. input               |
+| decodedReqParams    | it can be null: if specified, it is a js object containing mappings between request parameters in input and the new request parameter name which must replace the one mapped; e.g. { itemCode: "codice", description: "desc" } in case the UI passes itemCode and description request parameters and you need to pass foward to the called b.c. different parameter names |
+| decodedFilterNames  | it can be null: if specified, it is a js object to use ONLY in case of a b.c. for lists; it represents a sub-case of the previous argument: it works only on quickFilterNames and filterNames request attributes and it goes into depth to these values and replace attribute names with new ones                                                                         |
 
 **Example of a server-side js b.c. invoking a b.c. for grids**
 
@@ -541,11 +541,11 @@ var json = utils.callBusinessComponent(119,params,{},{}); // here the required "
 
 
 
-## Execute bulk insert/update from a SQL query <a id="insertobject"></a>
+## Execute bulk insert/update from a SQL query <a href="insertobject" id="insertobject"></a>
 
-Use this method when you need to copy data from one table to another, having the same structure \(in terms of field types and mandatory constraints\), for example from one SQL schema to another.
+Use this method when you need to copy data from one table to another, having the same structure (in terms of field types and mandatory constraints), for example from one SQL schema to another.
 
-This is the fastest method to execute inserts or updates \(or both\), it can save up to 300.000 records in 30 seconds.
+This is the fastest method to execute inserts or updates (or both), it can save up to 300.000 records in 30 seconds.
 
 **Syntax**
 
@@ -560,25 +560,25 @@ The javascript object "settings" contains a few attributes:
 * **selectSql**: a mandatory String type attribute, containing the SQL query to execute in the source schema; this SQL query can contain aliases and bind variables
 * **selectParameters**: an optional java.util.ArrayList  containing the values for the bind variables specified in the SQL query
 * **srcDataStoreId**: an optional numeric type attribute, identifying the source database schema by its datasource id
-* **insertSql**: this String type attribute defines the INSERT statement to execute, expressed with biding variables and in-line values \(e.g. NOW\(\), 'INSERT\_USER', 1, etc.\); for each field reported in the SQL query, there must be a corresponding bind variable for this INSERT statement and exactly in the same position; you are free to include additional fields in the INSERT clause, whose values do not coming from the SQL query, but they must be filled with in-line values
-* **updateSql**: this String type attribute defines the UPDATE statement to execute, expressed with biding variables and in-line values \(e.g. NOW\(\), 'UPDATE\_USER', etc.\); for each field reported in the SQL query, there must be a corresponding bind variable for this UPDATE statement and exactly in the same position; you are free to include additional fields in the INSERT clause, whose values do not coming from the SQL query, but they must be filled with in-line values. The UPDATE statement ends with the WHERE clause which must be defined with bind variables and must always refer a single record to update. When defining the "updateSql" attribute, you have also to specify the "pk" attribute
+* **insertSql**: this String type attribute defines the INSERT statement to execute, expressed with biding variables and in-line values (e.g. NOW(), 'INSERT_USER', 1, etc.); for each field reported in the SQL query, there must be a corresponding bind variable for this INSERT statement and exactly in the same position; you are free to include additional fields in the INSERT clause, whose values do not coming from the SQL query, but they must be filled with in-line values
+* **updateSql**: this String type attribute defines the UPDATE statement to execute, expressed with biding variables and in-line values (e.g. NOW(), 'UPDATE_USER', etc.); for each field reported in the SQL query, there must be a corresponding bind variable for this UPDATE statement and exactly in the same position; you are free to include additional fields in the INSERT clause, whose values do not coming from the SQL query, but they must be filled with in-line values. The UPDATE statement ends with the WHERE clause which must be defined with bind variables and must always refer a single record to update. When defining the "updateSql" attribute, you have also to specify the "pk" attribute
 * **pk**: this java.util.ArrayList type attribute must be specified as long as you have defined the "updateSql" attribute and it reports the name of the fields in the SELECT clause which are used to fill in the binding variables of the WHERE clause for the UPDATE statement
 * **blockSize**: optional numeric type attribute; it defines the amount of records to enqueue before executing all of them and commit such block; if not specified, the default value is 10.000 records
 * **destDataStoreId**: an optional numeric type attribute, identifying the destination database schema by its datasource id
 
-**Important note:** when appending writing operations, these are collected through the JDBC driver in use; it is up to the driver to either pass appended data to the database server or accumulate it on the client side; in the latter case, the memory consumption can increase significantly on the application server and a memory heap error could happen because of that. In order to prevent such a critical error, it is a good practice to limit the amount of collected data to a lower value, so it is better to **set the blockSize property to a relatively lower value**, like 100 o 500 and pay attention to the memory consumption: do not increase it if you note a potentially critical amount of memory consumed \(e.g. hundreds of MB\).
+**Important note: **when appending writing operations, these are collected through the JDBC driver in use; it is up to the driver to either pass appended data to the database server or accumulate it on the client side; in the latter case, the memory consumption can increase significantly on the application server and a memory heap error could happen because of that. In order to prevent such a critical error, it is a good practice to limit the amount of collected data to a lower value, so it is better to** set the blockSize property to a relatively lower value**, like 100 o 500 and pay attention to the memory consumption: do not increase it if you note a potentially critical amount of memory consumed (e.g. hundreds of MB).
 
 
 
 Executes once the specified SQL query and for each fetched record:
 
 * if updateSql has been specified:
-  * execute massively N updates, where N is 10k \(or blockSize if specified\)
+  * execute massively N updates, where N is 10k (or blockSize if specified)
   * execute a commit
-  * if there are 0 records updated, only for those ones, execute the insertSql \(if specified\)
+  * if there are 0 records updated, only for those ones, execute the insertSql (if specified)
   * continue until the end of the result set
 * otherwise, the insertSql must be specified, therefore:
-  * execute massively N inserts, where N is 10k \(or blockSize if specified\)
+  * execute massively N inserts, where N is 10k (or blockSize if specified)
   * execute a commit
   * continue until the end of the result set
 
@@ -620,11 +620,11 @@ utils.executeSqlBatch({
 });
 ```
 
-Note that select fields MUST be in the same order of ? variables in the updateSql statement \(there must be as many SET clauses as the number of fields in the select clause\)
+Note that select fields MUST be in the same order of ? variables in the updateSql statement (there must be as many SET clauses as the number of fields in the select clause)
 
-Note that the "pk" attribute is mandatory in case of "updateSql" and it must contains the field names \(or alias\) of the select clause field**.**
+Note that the "pk" attribute is mandatory in case of "updateSql" and it must contains the field names (or alias) of the select clause field**.**
 
-\*\*\*\*
+****
 
 **Update + Insert example**
 
@@ -646,9 +646,9 @@ utils.executeSqlBatch({
 });
 ```
 
-In this example, a block of 10.000 records are updated; for those records not updated \(because they do not exist yet\), a bulk insert is performed; in any case, the commit is execute at the end of this block. Then process the next 10.000 records and so on.
+In this example, a block of 10.000 records are updated; for those records not updated (because they do not exist yet), a bulk insert is performed; in any case, the commit is execute at the end of this block. Then process the next 10.000 records and so on.
 
 
 
-
+Cached Progressive calculation
 
