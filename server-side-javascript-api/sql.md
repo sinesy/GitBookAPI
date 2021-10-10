@@ -650,7 +650,101 @@ In this example, a block of 10.000 records are updated; for those records not up
 
 
 
-### Execute bulk insert/update from a SQL query
+### Cached progressive calculation
 
-Cached Progressive calculation
+In case you have a progressives table used to calculate a progressive and it is  invoked a very high amount of times concurrently, it is likely to have locks or a low performance.
+
+This method can be used to increase the progressives table a lower number of times, since the update is performed on the table rarely, since the writing opeation
+
+     would increase the current value not by 1, but by an "increment" value.
+
+      Every time this method is invoked, a new increment is returned without any update operation,
+
+      since the current value is cached and incremented programatically in the cache, until
+
+      the max "increment" value is reach: only at that point the update operation is called again.
+
+      The operation of Insert a new record in progressives table is also supported.
+
+      
+
+      Example:
+
+      \- progressives table already contains the record with current value 1
+
+      \- the method is invoked for the first time with increment value = 1000
+
+      \- the method updates the record with 1+1000 = 1001 and returns 2; cached incremented value is now 2
+
+      \- the method is invoked again and the cached current value is incremented to 3; 3 is returned
+
+      ...
+
+      \- the method is invoked for the 1000th time:  cached current value is 1001: no more increments can be done; 
+
+        the record is updated to 1001+1000 = 2001 and returns 1002; cached incremented value is now 1002
+
+      ..
+
+      
+
+      Arguments: settings - a javascript object, containing a series of attributes, all mandatory
+
+      datasourceId - data source id where the progressives table is stored
+
+      tableName - string representing the name of the progressives table
+
+      pkFields - javascript array containing the list of fields composing the PK
+
+      pkValues - javascript array containing the values of the PK fields
+
+      updateFields - additional fields to update when increasing the current value on the progressives table
+
+      updateValues - values for the additional fields to update when increasing the current value on the progressives table
+
+      currentValueField - field name in the progressives table containing the current value
+
+      incrementValue - how much to increase the current value (number)
+
+      initialValue - initial value to set, when inserting the record because not found yet
+
+      insertFields - list of fields in the progressives table to insert; DO NOT include the currentValueField
+
+      insertValues - list of values for the fields to insert in the progressives table
+
+      
+
+      Example:
+
+      
+
+      var settings = {
+
+            datasourceId: null,
+
+            tableName: "INI21\_GLOBAL_SEQUENCES",
+
+            pkFields: \["TABLE_NAME","FIELD_NAME"],
+
+            pkValues: \["AAAA","PROG_ID"],
+
+            updateFields: \["USER_ID_UPDATE","LAST_UPDATE"],
+
+            updateValues: \[userInfo.username,utils.getCurrentDateAndTime()],
+
+            currentValueField: "CURRENT_VALUE",
+
+            incrementValue: 2,
+
+            initialValue: utils.getInitialValue(),
+
+            insertFields: \["INITIAL_VALUE","INCREMENT_VALUE","IS_CYCLE","MAX_NUMBER","USER_ID_CREATE","CREATE_DATE","ROW_VERSION","STATUS"],
+
+            insertValues: \[utils.getInitialValue(),2,"F",null,userInfo.username,utils.getCurrentDateAndTime(),0,"E"]
+
+      };
+
+      var p = utils.getCachedProgressive(settings);
+
+###
 
