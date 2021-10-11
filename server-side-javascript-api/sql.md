@@ -678,7 +678,7 @@ The operation of Insert a new record in progressives table is also supported.
 
       **Arguments**: settings - a javascript object, containing a series of attributes, all mandatory
 
-|                   |                                                                                                        |
+| Property          | Description                                                                                            |
 | ----------------- | ------------------------------------------------------------------------------------------------------ |
 | datasourceId      | data source id where the progressives table is stored                                                  |
 | tableName         | string representing the name of the progressives table                                                 |
