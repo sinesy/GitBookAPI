@@ -10,10 +10,10 @@ var translation = utils.getResource(entry)
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
+| Argument    | Description                                       |
+| ----------- | ------------------------------------------------- |
 | translation | string value: the translation for the entry value |
-| entry | string value: the entry to translate |
+| entry       | string value: the entry to translate              |
 
 ## Get translation for a specific language, given an entry
 
@@ -25,11 +25,11 @@ var translation = utils.getResourceByLanguageId(entry, languageId)
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| translation | string value: the translation for the entry value |
-| entry | string value: the entry to translate |
-| languageId | string value: the language id to use when translating the entry |
+| Argument    | Description                                                     |
+| ----------- | --------------------------------------------------------------- |
+| translation | string value: the translation for the entry value               |
+| entry       | string value: the entry to translate                            |
+| languageId  | string value: the language id to use when translating the entry |
 
 ## Get language id for a specific username
 
@@ -41,12 +41,12 @@ var languageId = utils.getLanguageIdFromUsername(userId)
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| languageId | string value: the language id expressed like \(IT,EN,...\) |
-| userId | string value: the username to use to get language id |
+| Argument   | Description                                              |
+| ---------- | -------------------------------------------------------- |
+| languageId | string value: the language id expressed like (IT,EN,...) |
+| userId     | string value: the username to use to get language id     |
 
-## Log a message <a id="log"></a>
+## Log a message <a href="log" id="log"></a>
 
 **Syntax**
 
@@ -56,10 +56,10 @@ utils.log(msg, type);
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| msg | string value: message to log |
-| type | string value: message type; allowed values:INFO,WARN,DEBUG,ERROR |
+| Argument | Description                                                      |
+| -------- | ---------------------------------------------------------------- |
+| msg      | string value: message to log                                     |
+| type     | string value: message type; allowed values:INFO,WARN,DEBUG,ERROR |
 
 Since 5.2.1 version
 
@@ -73,7 +73,7 @@ utils.debug(msg);
 utils.error(msg);
 ```
 
-## Set the return message <a id="setreturnvalue"></a>
+## Set the return message <a href="setreturnvalue" id="setreturnvalue"></a>
 
 this method can be omitted; in that case a default json message with success: true will be sent back
 
@@ -87,7 +87,7 @@ utils.setReturnValue(response)
 
 response - string value: messagge to send back
 
-## Convert a number to its text representation <a id="numbertotext"></a>
+## Convert a number to its text representation <a href="numbertotext" id="numbertotext"></a>
 
 **Syntax**
 
@@ -97,16 +97,16 @@ var text = utils.numberToText(num, decimals, languageId, showDecimals, sep)
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| text | string value: the text representation of the number \(e.g. duecento ventiquattro/00\) |
-| num | a number, including a decimal number |
-| decimals | a number, it is used to round the num to this number of decimals |
-| languageId | language identifier |
-| showDecimals | true/false; define if the decimal part must be included |
-| sep | integer vs decimal separator, e.g. / |
+| Argument     | Description                                                                         |
+| ------------ | ----------------------------------------------------------------------------------- |
+| text         | string value: the text representation of the number (e.g. duecento ventiquattro/00) |
+| num          | a number, including a decimal number                                                |
+| decimals     | a number, it is used to round the num to this number of decimals                    |
+| languageId   | language identifier                                                                 |
+| showDecimals | true/false; define if the decimal part must be included                             |
+| sep          | integer vs decimal separator, e.g. /                                                |
 
-## Round a number to the specified number of decimals <a id="round"></a>
+## Round a number to the specified number of decimals <a href="round" id="round"></a>
 
 **Syntax**
 
@@ -116,10 +116,10 @@ var result = utils.round(num,decimals)
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| result | rounded decimal number |
-| num | a decimal number |
+| Argument | Description                                                 |
+| -------- | ----------------------------------------------------------- |
+| result   | rounded decimal number                                      |
+| num      | a decimal number                                            |
 | decimals | number of decimals that the final number must be rounded to |
 
 ## Get absolute path of WEB-INF/classes folder of Platform application
@@ -132,13 +132,13 @@ var path = utils.getBasePath()
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| path | the absolute path of WEB-INF/classes folder of Platform application |
+| Argument | Description                                                         |
+| -------- | ------------------------------------------------------------------- |
+| path     | the absolute path of WEB-INF/classes folder of Platform application |
 
 It can be helpful for instance to get the basedir for a more complex organization of files.
 
-## Get a parameter value <a id="getparameter"></a>
+## Get a parameter value <a href="getparameter" id="getparameter"></a>
 
 **Syntax**
 
@@ -148,9 +148,9 @@ var paramValue = utils.getParameter(paramName)
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| paramName | a string value representing a parameter named defined at installation level \(CON44 table\) or at application level \(CON07 table\) |
+| Argument   | Description                                                                                                                                                                                                                   |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| paramName  | a string value representing a parameter named defined at installation level (CON44 table) or at application level (CON07 table)                                                                                               |
 | paramValue | the value defined for the specified parameter name or null if not found; if the parameter is found as an application parameter, that value is returned, otherwise it will be returned the value defined at installation level |
 
 ## Remove time from date
@@ -163,13 +163,13 @@ var newDate = utils.removeTime(java.util.Date date)
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| date | java.util.Date: date without time |
+| Argument | Description                       |
+| -------- | --------------------------------- |
+| date     | java.util.Date: date without time |
 
-## Convert the date to String with the specify format <a id="convertdatetostring"></a>
+## Convert the date to String with the specify format <a href="convertdatetostring" id="convertdatetostring"></a>
 
-\(default: "yyyy-MM-dd'T'HH:mm:ss"\)
+(default: "yyyy-MM-dd'T'HH:mm:ss")
 
 **Syntax**
 
@@ -179,12 +179,12 @@ stringDate = utils.convertDateToString(java.util.Date date, String format)
 
 **Detail**
 
-| Argument | Description |
-| :--- | :--- |
-| date | java.util.Date: date to convert in string |
-| format | String: date format for string |
+| Argument | Description                               |
+| -------- | ----------------------------------------- |
+| date     | java.util.Date: date to convert in string |
+| format   | String: date format for string            |
 
-## Convert the date js object to a java.sql.Date \(for a DATE typefield\)
+## Convert the date js object to a java.sql.Date (for a DATE typefield)
 
 helpful in case you want to use it with a **utils.executeSql** or **utils.executeQuery** methods and pass it as a parameter
 
@@ -196,11 +196,11 @@ var javasqlDateValue = utils.convertDateToSqlDate(java.util.Date date)
 
 **Detail**
 
-| Argument | Description |
-| :--- | :--- |
-| date | java.util.Date: date to convert in string |
+| Argument | Description                               |
+| -------- | ----------------------------------------- |
+| date     | java.util.Date: date to convert in string |
 
-## Convert the date js object to a java.sql.Date \(for a DATETIME/TIMESTAMP typefield\)
+## Convert the date js object to a java.sql.Date (for a DATETIME/TIMESTAMP typefield)
 
 helpful in case you want to use it with a **utils.executeSql** or **utils.executeQuery** methods and pass it as a parameter
 
@@ -212,11 +212,11 @@ var javasqlTimestampValue= utils.convertDateToTimestamp(java.util.Date date)
 
 **Detail**
 
-| Argument | Description |
-| :--- | :--- |
-| date | java.util.Date: date to convert in string |
+| Argument | Description                               |
+| -------- | ----------------------------------------- |
+| date     | java.util.Date: date to convert in string |
 
-## Execute a command on the shell <a id="executeshellcommand"></a>
+## Execute a command on the shell <a href="executeshellcommand" id="executeshellcommand"></a>
 
 Optionally, a list of arguments can be passed to the command.
 
@@ -230,10 +230,10 @@ var exitCode = utils.executeShellCommand(command, arg1, arg2, ...)
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| command | command to execute; it must include the absolute path to the command and must end with a .sh or .bat with no spaces within |
-| arguments | zero or more String type arguments; \[\] otherwise |
+| Argument  | Description                                                                                                                |
+| --------- | -------------------------------------------------------------------------------------------------------------------------- |
+| command   | command to execute; it must include the absolute path to the command and must end with a .sh or .bat with no spaces within |
+| arguments | zero or more String type arguments; \[] otherwise                                                                          |
 
 ## Convert a javascript object to its JSON representation
 
@@ -245,9 +245,9 @@ var json = utils.getJSONString(obj);
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| obj | javascript object to convert to its JSON representation |
+| Argument | Description                                             |
+| -------- | ------------------------------------------------------- |
+| obj      | javascript object to convert to its JSON representation |
 
 ## Convert a list of javascript objects into its JSON representation
 
@@ -259,12 +259,12 @@ var json = utils.getJSONList(jsObjectsList);
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| jsObjectList | list of javascript objects to convert to JSON format |
-| _return value_ | JSON representation of a list of objects |
+| Argument       | Description                                          |
+| -------------- | ---------------------------------------------------- |
+| jsObjectList   | list of javascript objects to convert to JSON format |
+| _return value_ | JSON representation of a list of objects             |
 
-Note: this result is NOT compatible with an Ext.grid.GridPanel data protocol: see **getListResponse** instead.
+Note: this result is NOT compatible with an Ext.grid.GridPanel data protocol: see **getListResponse **instead.
 
 ## Convert a list of javascript objects into its JSON representation and embed it to a “Ext.grid.GridPanel like” data representation
 
@@ -278,12 +278,12 @@ var json = utils.getListResponse(jsObjectsList, resultSetLength, moreRows);
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| jsObjectsList | list of javascript objects to convert to JSON format |
-| resultSetLenght | a number : list of objects \(can be list.length\) |
-| moreRows | flag used to specify |
-| _return value_ | returns a JSON content compatible with Ext grids |
+| Argument        | Description                                          |
+| --------------- | ---------------------------------------------------- |
+| jsObjectsList   | list of javascript objects to convert to JSON format |
+| resultSetLenght | a number : list of objects (can be list.length)      |
+| moreRows        | flag used to specify                                 |
+| _return value_  | returns a JSON content compatible with Ext grids     |
 
 ## Replace all occurrences of the “specified” pattern within “text” with the new value
 
@@ -295,17 +295,17 @@ var newtext = utils.replaceAll(text, pattern, newValue)
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| text | text to analyze |
-| pattern | pattern to search for |
+| Argument | Description                                        |
+| -------- | -------------------------------------------------- |
+| text     | text to analyze                                    |
+| pattern  | pattern to search for                              |
 | newValue | value that replaces all occurrences of the pattern |
 
 Returns a new text where all occurrences of “pattern” have been replaced with “newValue”.
 
 ## **Enqueuing server-side js actions**
 
-```text
+```
 enqueueAction(queueName, actionId, params, priority, processWaitTime, logExecution);
 ```
 
@@ -318,19 +318,45 @@ The arguments are:
 * **processWaitTime**– optional; if specified, the process will not be started before that time, expressed in seconds
 * **logExecution**– true to log in the predefined table LOG60\_LOGS the execution of the process
 
-Note: the javascript object specified through the "param" can accept an optional attribute named "**queueTimeout**": when the action execution time overpasses that value, \(expressed in minutes\), the element is marked as "timeout" in the queue and the queue is then unlocked, in order to allow extracting new elements from it. Note that the current action is still under execution and this could create drawbacks in case of actions which should be executed sequentially, since the work on the same set of data,by writing them.
+Note: the javascript object specified through the "param" can accept an optional attribute named "**queueTimeout**": when the action execution time overpasses that value, (expressed in minutes), the element is marked as "timeout" in the queue and the queue is then unlocked, in order to allow extracting new elements from it. Note that the current action is still under execution and this could create drawbacks in case of actions which should be executed sequentially, since the work on the same set of data,by writing them.
 
 There is a variant of the method described above, having one more argument:
 
-```text
+```
 enqueueActionWithNote(queueName, actionId, params, priority, processWaitTime, logExecution, note);
 ```
 
 where **note** is a string value which will be saved in the NOTE field of the CON77\_QUEUES table. This field can be helpful to carry out custom logic on the enqueued elements, for instance to execute statistics about the amount of data not processed yet.
 
+****
+
+## **Enqueuing multiple elements in queue, starting from a SQL query**
+
+It is possible to speed up the enqueuing process of a large amount of elements, starting from a SQL query whose result (a list of records) represents the data to pass forward to each element in the queue. For each record read from the SQL query, an element is enqueued in the specified queue: such an element would receive in input the current record.
+
+This can improve the enqueuing process of about 40%.
+
+**Syntax**
+
+```
+utils.enqueueActionsFromSqlQuery(
+  String queueName,String payload,Long actionId,
+  Long datasourceId,String sqlQuery,Object[] params
+);
+```
+
+| Argument     | Description                                                                                                                      |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| queueName    | name of the queue where all elements will be inserted                                                                            |
+| payload      | optional  payload to pass forward to each element                                                                                |
+| actionId     | to enqueued action id                                                                                                            |
+| datasourceId | optional datasource id where the SQL query will be executed                                                                      |
+| sqlQuery     | SQL query to execute: for each record, an element will be enqueued and the record would represent the input data                 |
+| params       | optional list of parameters to pass to the SQL Query (where they are referred always as ?); set to \[] in case of no parameters. |
+
 ## **Adding a web service invocation as a process to a specific queue**
 
-```text
+```
 var queueId = utils.enqueueWebService(queueName, url, params, priority, processWaitTime, logExecution);
 ```
 
@@ -345,16 +371,16 @@ The required arguments are:
 
 ## **Adding a shell command as a process to a specific queue**
 
-```text
+```
 var queueId = utils.enqueueShellCommand(queueName, cmd, priority, processWaitTime, logExecution);
 ```
 
 The required arguments are:
 
-* **queueName** – optional: queue name; if not specified, the process will be enqueued in the DEFAULT queue+
-* **cmd** – shell command to execute
+* **queueName **– optional: queue name; if not specified, the process will be enqueued in the DEFAULT queue+
+* **cmd **– shell command to execute
 * **priority**– optional; if specified, processes within the same queue will be sorted according to the priority rathe than to the enqueing time
-* **processWaitTime** – optional; if specified, the process will not be started before that time, expressed in seconds
+* **processWaitTime **– optional; if specified, the process will not be started before that time, expressed in seconds
 * **logExecution**– true to log in LOG60\_LOGS the execution of the process
 
 ## Create a link to access the web app from an email or other external media
@@ -447,7 +473,7 @@ The required arguments are:
 
 * **token** – encrypted content, expressed as a String received in input
 
-This method returns a String object.  
+This method returns a String object.\
 **Important note**: use this method only in combination with getEncToken, since it can only decrypt content previously decripted by it.
 
 ## Adds or subtracts the specified amount of time to the given calendar field, based on the calendar's rules
@@ -462,12 +488,12 @@ utils.addDate(String date, String format, String field, int amount): //convert t
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| field | String: the calendar field |
-| amount | number: the amount of date or time to be added to the field |
+| Argument | Description                                                 |
+| -------- | ----------------------------------------------------------- |
+| field    | String: the calendar field                                  |
+| amount   | number: the amount of date or time to be added to the field |
 
-## Convert a text to an hash key \(md5\)
+## Convert a text to an hash key (md5)
 
 MD5 is an hash function you can use to convert a text to a text-based key; multiple invocations to the function with the same input always provide the same result, but the hash function does not provide a unique value: different texts could return the same hash key. This is helpful to check out on the database table the existence of a specific record, starting from its md5 representation.
 
@@ -477,14 +503,14 @@ var md5Text= utils.md5(String text);
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| text | text to convert to an hash key |
-| md5Text | the MD5 hash key corresponding to the input text |
+| Argument | Description                                      |
+| -------- | ------------------------------------------------ |
+| text     | text to convert to an hash key                   |
+| md5Text  | the MD5 hash key corresponding to the input text |
 
 ## Setting a value in a value object to save from a server-side js action
 
-In case you are saving data from a grid or form, using the standard Platform saving system \(form Save button on the UI\), you can inject new attributes or change attribute values just before saving data on the server. Using the "before saving data on insert/update" event, you can link a server-side js action. Here you can execute any kind of business logic and the use calculated data and inject it in the "vo" which is just to be saved, through the following method:
+In case you are saving data from a grid or form, using the standard Platform saving system (form Save button on the UI), you can inject new attributes or change attribute values just before saving data on the server. Using the "before saving data on insert/update" event, you can link a server-side js action. Here you can execute any kind of business logic and the use calculated data and inject it in the "vo" which is just to be saved, through the following method:
 
 ```javascript
 utils.setAttributeValue(String attrName,Object value);
@@ -492,10 +518,8 @@ utils.setAttributeValue(String attrName,Object value);
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
+| Argument | Description                                                           |
+| -------- | --------------------------------------------------------------------- |
 | attrName | attribute name to set in the "vo" Platform is working on to save data |
-| value | value to set for this attribute |
-
-
+| value    | value to set for this attribute                                       |
 
