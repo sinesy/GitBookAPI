@@ -18,6 +18,7 @@
 
 * [Global methods and UI API](client-side-javascript-api/extjs-api-34.md)
 * [Uploading files](client-side-javascript-api/uploading-files.md)
+* [Window](client-side-javascript-api/window.md)
 
 ## Server-side issues
 
@@ -75,4 +76,3 @@
 * [Crashlytics](mobile-javascript-api/crashlytics.md)
 * [Push notifications](mobile-javascript-api/push-notifications.md)
 * [Others](mobile-javascript-api/others.md)
-
