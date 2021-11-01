@@ -21,7 +21,7 @@ params
 | rows                 | int value: number of processed rows                                                                                                                                                                                  |
 | sqlFile              | absolute path + file name, related to the SQL script to execute                                                                                                                                                      |
 | dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                           |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE_NEW EJB directive)                                                               |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)                                                              |
 | interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                       |
 | params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
 
@@ -304,7 +304,7 @@ The returned javascript object contains the following attributes:
 * personCountry
 * mimeType - MIME type for the embedded file; e.g. application/xml, application/pdf, etc.
 * destFilePath - absolute path + file name, related to the embedded file
-* signDate - the sign date, expressed as a javascript Date  
+* signDate - the sign date, expressed as a javascript Date &#x20;
 
 ## Create a zip file containing the list of passed files <a href="zipfiles" id="zipfiles"></a>
 
@@ -451,7 +451,7 @@ Data could be retrieved from a SQL query, through the **executeQueryWithCallback
 var fileId = utils.openTextFile(fileName, overwrite, directoryId, fileAppend);
 ```
 
-or 
+or&#x20;
 
 ```javascript
 var fileId = utils.openTextFile(fileName, overwrite, directoryId, fileAppend, charsetName);
@@ -809,7 +809,7 @@ var processedRows = utils.readCSVFileAndWriteToTable(
 | skipFirstRowflag  | true or false, indicating whether the first row in the file should me skipped, for instance because it contains the column header names.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | datastoreId       | data source id which identifies where the table to load is located                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | tableName         | name of the table where data will be loaded                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| defaultFieldNames | javascript object containing the list of additional table fields to fill in, expressed as field name + value; example: { STATUS: "E", CREATE_DATE: new java.sql.Date() }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| defaultFieldNames | javascript object containing the list of additional table fields to fill in, expressed as field name + value; example: { STATUS: "E", CREATE\_DATE: new java.sql.Date() }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | csvFields         | list of javascript objects, one for each CSV column; the object structure can contains optionally these attributes: { fieldName: "....", convertToSqlDate: "yyyy-MM-dd", convertToSqlTimestamp: "yyyy-MM-dd HH:mm:ss" }. This object allows to define whether the CSV column must be used to fill in the corresponding table field specified through "fieldName" attribute; if this attribute is omitted, the CSV column is ignored when importing the row; the other two attributes (convertXXXX) are optional and must be used in case a CSV column must be mapped to a DATE or DATETIME table field. Another property is trim: true\|false, used to remove spaces from text type fields. |
 
 **Example**
@@ -1039,8 +1039,8 @@ utils.importDataInCloudSQL(instance, bucketPath, dbSchema, dataSourceId, tableNa
 
 **Example**
 
-```javascript
-utils.importDataInCloudSQL(
+```
+var processedRows = utils.importDataInCloudSQL(
     "cloudsqlinstancename",
     "gs://mybucket/myfile.csv",
     "mydatabaseschema",
@@ -1050,6 +1050,26 @@ utils.importDataInCloudSQL(
     50,// max number of seconds to wait
     ["STATISTICS","VALUE","POSITION","DDS","TOTALE","PERCENTUALE"] // table field names/CSV columns
 );
+utils.debug("Processed Rows: " + processedRows);
+```
+
+```javascript
+var response = utils.importDataInCloudSQL(
+    "cloudsqlinstancename",
+    "gs://mybucket/myfile.csv",
+    "mydatabaseschema",
+    mydatasourceid,
+    "mytable",
+    "MYFIELD = 'XYZ' ",
+    50,// max number of seconds to wait
+    ["STATISTICS","VALUE","POSITION","DDS","TOTALE","PERCENTUALE"] // table field names/CSV columns
+);
+utils.debug("Processed Id: " + response.name);
+utils.debug("Rows: " + response.processedRows);
+utils.debug("Status: " + response.status);
+utils.debug("Start: " + response.startTime);
+utils.debug("End: " + response.endTime);
+utils.debug("Operation Type: " + response.operationType);
 ```
 
 ## Convert a TIFF image to a JPEG image
@@ -1173,7 +1193,7 @@ Structure of the javascript object for "grouping":
 
 List of supported colors, in background/foreground colors:
 
-AQUA , AUTOMATIC , BLACK , BLACK1 , BLUE , BLUE_GREY , BLUE1 , BRIGHT_GREEN , BRIGHT_GREEN1 , BROWN , CORAL , CORNFLOWER_BLUE , DARK_BLUE , DARK_GREEN , DARK_RED , DARK_TEAL , DARK_YELLOW , GOLD , GREEN , GREY\_25\_PERCENT , GREY\_40\_PERCENT , GREY\_50\_PERCENT , GREY\_80\_PERCENT , INDIGO , LAVENDER , LEMON_CHIFFON , LIGHT_BLUE , LIGHT_CORNFLOWER_BLUE , LIGHT_GREEN , LIGHT_ORANGE , LIGHT_TURQUOISE , LIGHT_TURQUOISE1 , LIGHT_YELLOW , LIME , MAROON , OLIVE_GREEN , ORANGE , ORCHID , PALE_BLUE , PINK , PINK1 , PLUM , RED , RED1 , ROSE , ROYAL_BLUE , SEA_GREEN , SKY_BLUE , TAN , TEAL , TURQUOISE , TURQUOISE1 , VIOLET , WHITE , WHITE1 , YELLOW , YELLOW1
+AQUA , AUTOMATIC , BLACK , BLACK1 , BLUE , BLUE\_GREY , BLUE1 , BRIGHT\_GREEN , BRIGHT\_GREEN1 , BROWN , CORAL , CORNFLOWER\_BLUE , DARK\_BLUE , DARK\_GREEN , DARK\_RED , DARK\_TEAL , DARK\_YELLOW , GOLD , GREEN , GREY\_25\_PERCENT , GREY\_40\_PERCENT , GREY\_50\_PERCENT , GREY\_80\_PERCENT , INDIGO , LAVENDER , LEMON\_CHIFFON , LIGHT\_BLUE , LIGHT\_CORNFLOWER\_BLUE , LIGHT\_GREEN , LIGHT\_ORANGE , LIGHT\_TURQUOISE , LIGHT\_TURQUOISE1 , LIGHT\_YELLOW , LIME , MAROON , OLIVE\_GREEN , ORANGE , ORCHID , PALE\_BLUE , PINK , PINK1 , PLUM , RED , RED1 , ROSE , ROYAL\_BLUE , SEA\_GREEN , SKY\_BLUE , TAN , TEAL , TURQUOISE , TURQUOISE1 , VIOLET , WHITE , WHITE1 , YELLOW , YELLOW1
 
 For a preview of these colors, see the following link:
 
