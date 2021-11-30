@@ -1,5 +1,41 @@
 # Other
 
+## **Camel-case**
+
+camel(name, firstCharUpper)
+
+Convert a database field or an upper-case parameter containing underscores (\_) to the camel case format, i.e. lowercase and the underscore remove and next character to uppercase.
+
+Example:
+
+var x = utils.camel("ABC\_DEF",false); -> x = "abcDef"
+
+var x = utils.camel("ABC\_DEF",true); -> x = "AbcDef"
+
+****
+
+## **Snake-case**
+
+camelToSnake(name, toUpperCase)
+
+It is the opposite function of the camel-case function: it converts a camel case string to snake case, i.e a string expressed in lowercase with an underscore (\_) separating each uppercase character in the original string.
+
+Example:
+
+var x = utils.camelToSnake("abcDEF",false); -> x = "abc\__d\_e\__f"
+
+var x = utils.camelToSnake("abcDEF",true); -> x = "ABC\__D\_E\__F"
+
+## **Uncamel**
+
+uncamel(attributeName)
+
+It converts an attribute name to a field name, according to Java convention.
+
+Example:
+
+var x = utils.uncamel("abcD1",true); -> x = "ABC\__D1_"
+
 ## Get translation, given an entry
 
 **Syntax**
@@ -46,7 +82,7 @@ var languageId = utils.getLanguageIdFromUsername(userId)
 | languageId | string value: the language id expressed like (IT,EN,...) |
 | userId     | string value: the username to use to get language id     |
 
-## Log a message <a href="log" id="log"></a>
+## Log a message <a href="#log" id="log"></a>
 
 **Syntax**
 
@@ -73,7 +109,7 @@ utils.debug(msg);
 utils.error(msg);
 ```
 
-## Set the return message <a href="setreturnvalue" id="setreturnvalue"></a>
+## Set the return message <a href="#setreturnvalue" id="setreturnvalue"></a>
 
 this method can be omitted; in that case a default json message with success: true will be sent back
 
@@ -87,7 +123,7 @@ utils.setReturnValue(response)
 
 response - string value: messagge to send back
 
-## Convert a number to its text representation <a href="numbertotext" id="numbertotext"></a>
+## Convert a number to its text representation <a href="#numbertotext" id="numbertotext"></a>
 
 **Syntax**
 
@@ -106,7 +142,7 @@ var text = utils.numberToText(num, decimals, languageId, showDecimals, sep)
 | showDecimals | true/false; define if the decimal part must be included                             |
 | sep          | integer vs decimal separator, e.g. /                                                |
 
-## Round a number to the specified number of decimals <a href="round" id="round"></a>
+## Round a number to the specified number of decimals <a href="#round" id="round"></a>
 
 **Syntax**
 
@@ -138,7 +174,7 @@ var path = utils.getBasePath()
 
 It can be helpful for instance to get the basedir for a more complex organization of files.
 
-## Get a parameter value <a href="getparameter" id="getparameter"></a>
+## Get a parameter value <a href="#getparameter" id="getparameter"></a>
 
 **Syntax**
 
@@ -167,7 +203,7 @@ var newDate = utils.removeTime(java.util.Date date)
 | -------- | --------------------------------- |
 | date     | java.util.Date: date without time |
 
-## Convert the date to String with the specify format <a href="convertdatetostring" id="convertdatetostring"></a>
+## Convert the date to String with the specify format <a href="#convertdatetostring" id="convertdatetostring"></a>
 
 (default: "yyyy-MM-dd'T'HH:mm:ss")
 
@@ -216,7 +252,7 @@ var javasqlTimestampValue= utils.convertDateToTimestamp(java.util.Date date)
 | -------- | ----------------------------------------- |
 | date     | java.util.Date: date to convert in string |
 
-## Execute a command on the shell <a href="executeshellcommand" id="executeshellcommand"></a>
+## Execute a command on the shell <a href="#executeshellcommand" id="executeshellcommand"></a>
 
 Optionally, a list of arguments can be passed to the command.
 
@@ -264,7 +300,7 @@ var json = utils.getJSONList(jsObjectsList);
 | jsObjectList   | list of javascript objects to convert to JSON format |
 | _return value_ | JSON representation of a list of objects             |
 
-Note: this result is NOT compatible with an Ext.grid.GridPanel data protocol: see **getListResponse **instead.
+Note: this result is NOT compatible with an Ext.grid.GridPanel data protocol: see **getListResponse** instead.
 
 ## Convert a list of javascript objects into its JSON representation and embed it to a “Ext.grid.GridPanel like” data representation
 
@@ -377,10 +413,10 @@ var queueId = utils.enqueueShellCommand(queueName, cmd, priority, processWaitTim
 
 The required arguments are:
 
-* **queueName **– optional: queue name; if not specified, the process will be enqueued in the DEFAULT queue+
-* **cmd **– shell command to execute
+* **queueName** – optional: queue name; if not specified, the process will be enqueued in the DEFAULT queue+
+* **cmd** – shell command to execute
 * **priority**– optional; if specified, processes within the same queue will be sorted according to the priority rathe than to the enqueing time
-* **processWaitTime **– optional; if specified, the process will not be started before that time, expressed in seconds
+* **processWaitTime** – optional; if specified, the process will not be started before that time, expressed in seconds
 * **logExecution**– true to log in LOG60\_LOGS the execution of the process
 
 ## Create a link to access the web app from an email or other external media
@@ -457,7 +493,7 @@ var token = utils.getEncToken(String... data);
 
 The required arguments are:
 
-* **data** – data list to encode 
+* **data** – data list to encode&#x20;
 
 This method returns a String object, that can be used for instance in the method **createAllowedLinkWithRtk**.
 
