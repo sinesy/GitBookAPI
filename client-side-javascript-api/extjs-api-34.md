@@ -126,8 +126,9 @@ Through the following methods, it is possible to contact the server-side layer a
 **function callAction(config)** - Invoke a server-side js action with a synchronous HTTP request. The argument is a js object having this format:
 
 > ```javascript
-> { actionId: xyz, // identifier of the server-side action to invoke
->  httpMethod: "GET|POST", // optional argument; allowed values: GET|POST. Default value: POST
+> { 
+>   actionId: xyz, // identifier of the server-side action to invoke
+>   httpMethod: "GET|POST", // optional argument; allowed values: GET|POST. Default value: POST
 >   params: { ... }, // js optional argument; object containing additional parameters to add to the http request; can be null
 >   obj: { ... } // optional argument; js object to send to the action; can be null
 > }
@@ -135,23 +136,48 @@ Through the following methods, it is possible to contact the server-side layer a
 
 This method returns an HTTP response, expressed as a javascript object
 
+It is strongly recommended to use the method below and not the current one, since in a web application, requests should be asynchronous, so that there are not frozen windows.
+
+
+
 **callAsyncAction(config)** - Invoke a server-side js action with an asynchronous HTTP request. The argument is a js object having this format:
 
 ```javascript
-{ actionId: xyz, // identifier of the server-side action to invoke
-
-httpMethod: "GET|POST", // optional argument; allowed values: GET|POST. Default value: POST
-
-params: { ... }, // js optional argument; object containing additional parameters to add to the http request; can be null
-
-obj: { ... }, // optional argument; js object to send to the action; can be null
-
-callback: function(json){}, // json is a text formatted content
-
-callbackError: function(json,status) {} // json is a text formatted content related to the error, status the HTTP error code (a number), e.g. 401
-
+{ 
+  actionId: xyz, // identifier of the server-side action to invoke
+  httpMethod: "GET|POST", // optional argument; allowed values: GET|POST. Default value: POST
+  params: { ... }, // js optional argument; object containing additional parameters to add to the http request; can be null
+  obj: { ... }, // optional argument; js object to send to the action; can be null
+  callback: function(json){}, // json is a text formatted content
+  callbackError: function(json,status) {} // json is a text formatted content related to the error, status the HTTP error code (a number), e.g. 401
 }
 ```
+
+Example when sending a complex content (e.g. multiple data) to a server-side javascript action:
+
+```javascript
+var myComplexObject = {
+  attr1: "...",
+  attr2: ...
+};
+
+callAsyncAction({
+  actionId: 1,
+  httpMethod: "POST",
+  params: { applicationId: "MY_APP }, // usually, complex data should be sent through "obj" attribute and NOT the current one
+  obj: myComplexObject,
+  callback: function(json) {
+    var res = JSON.parse(json); // server-side response, in case the request has been sent successfully
+    //...
+  },
+  callback: function(json,status) {
+    var res = JSON.parse(json); // server-side response, in case the request was wrong
+    //...
+  }
+});
+```
+
+****
 
 **getCustomApplUserVar(varName)** - get from the server-side layer a user variable, identified by the specified argument.
 
