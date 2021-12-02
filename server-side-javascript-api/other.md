@@ -559,3 +559,53 @@ utils.setAttributeValue(String attrName,Object value);
 | attrName | attribute name to set in the "vo" Platform is working on to save data |
 | value    | value to set for this attribute                                       |
 
+
+
+## Convert a javascript object to a JSON string to work with in an action
+
+In case you need to convert a javascript object to a JSON string within a server-side javascript action, you can use the following  method:
+
+```javascript
+var jsonString = utils.stringify(Object obj);
+```
+
+**Details**
+
+| Argument | Description                  |
+| -------- | ---------------------------- |
+| obj      | javascript object to convert |
+
+Such a method is helpful in case of a complex object containing java-type objects rather than javascript-type data.
+
+As an alternative, you can use the standard javascript utility function:
+
+```javascript
+var jsonString = JSON.stringify(jsonCarrello,jsonReplacer)
+```
+
+
+
+## Convert a javascript object to a JSON strings compatible with a database field
+
+In case you need to convert a javascript object to a JSON string  you wanna save in to a database field, you have to save it using escape characters, otherwise it would be impossibile to use JSON.parse() later. This is a utility method you can use for that:
+
+```javascript
+var jsonString = utils.stringifyForDatabaseField(Object obj);
+```
+
+**Details**
+
+| Argument | Description                  |
+| -------- | ---------------------------- |
+| obj      | javascript object to convert |
+
+Example:
+
+```
+var obj = {
+  text: "ABC"
+};
+var text = utils.stringifyForDatabaseField(obj);
+// text is "{ \"text\": \"ABC\" }"
+// and it can be saved into a database field and then used to be reconverted to a js object
+```
