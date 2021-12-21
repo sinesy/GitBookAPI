@@ -621,7 +621,7 @@ When you need to invoke a second server-side js class, starting from a first ser
 
 Example:
 
-```
+```javascript
 var actionId = ...
 var vo = {
   ...
