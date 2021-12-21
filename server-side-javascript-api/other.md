@@ -609,3 +609,35 @@ var text = utils.stringifyForDatabaseField(obj);
 // text is "{ \"text\": \"ABC\" }"
 // and it can be saved into a database field and then used to be reconverted to a js object
 ```
+
+
+
+## Invoking a server-side action from another one
+
+When you need to invoke a second server-side js class, starting from a first server-side javascript action and pass forward some input data, you can use one of the following two methods, deferring only for the transaction management:
+
+* **utils.executeActionSameTransaction(Long actionId,Map vo,Map params,Map headers)** - the invoked action inherits the same transaction, that is to say, if the first one has written data in the database and does not commit data yet, this data is visibile from the second action as well
+* **utils.executeAction(Long actionId,Map vo,Map params,Map headers)** - the invoked action creates its own SQL transaction, which is independent from the one owned by the first action; pay attention in such a scenario: you cannot see data written by the first action not committed yet and you cannot update data written by the first action or this would leads to a database lock!
+
+Example:
+
+```
+var actionId = ...
+var vo = {
+  ...
+};
+var jsonResult = utils.executeActionSameTransaction(
+  actionId,
+  vo,
+  {}, // params,
+  {}  // headers
+);
+
+```
+
+The action invocation is synchronous in both scenarios: the calling action suspends its execution until the called action terminates; moreover, in case of exceptions not managed by the called action, these exceptions will be propagated to the first action , which must be designed to manage them as well.
+
+
+
+
+
