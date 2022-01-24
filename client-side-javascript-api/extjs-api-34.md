@@ -46,6 +46,19 @@ Show an input dialog having "ok"and "cancel" button.
 * modal flag used to set this window as a modal window (optional)
 * inputValue optional value to set in
 
+**showMoreInputDialog(title, labels, attributes, okFun, modal, cancelFun, defaultAttributesValue)**
+
+Show an input dialog highly customizable, in terms of number of labels/input fields to show.
+
+It contains also an "ok" and "cancel" button.
+
+* title - window title
+* labels - javascript arrays containing a list of Strings, i.e. messages to show within the window, one below the other; each line contains a label + input field
+* attributes -  javascript arrays containing a list of Strings, i.e. attribute names, each representing an input field to show; the 2 arrays must have the same length: each line contains a label + input field, where an input field is identified by its attribute name
+* okFun - callback function to invoke when user has pressed "ok" button
+* modal - flag used to set this window as a modal window (optional)
+* defaultAttributesVaulues - optional hashmap (javascript object), containing couples \<attribute name, default value> to set as a default value in input fields
+
 **setFieldValueByItemId(win,formItemId,name,value)**
 
 Set a value into the specified field.
