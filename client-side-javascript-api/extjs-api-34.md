@@ -57,7 +57,7 @@ It contains also an "ok" and "cancel" button.
 * attributes -  javascript arrays containing a list of Strings, i.e. attribute names, each representing an input field to show; the 2 arrays must have the same length: each line contains a label + input field, where an input field is identified by its attribute name
 * okFun - callback function to invoke when user has pressed "ok" button
 * modal - flag used to set this window as a modal window (optional)
-* defaultAttributesVaulues - optional hashmap (javascript object), containing couples \<attribute name, default value> to set as a default value in input fields
+* defaultAttributesVaulues - optional javascript array, having the same length of labels/attributes and containing the default value for each attribute, reported positionally;
 
 **setFieldValueByItemId(win,formItemId,name,value)**
 
