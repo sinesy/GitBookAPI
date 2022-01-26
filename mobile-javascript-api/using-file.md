@@ -175,30 +175,3 @@ Write a base64 content to a file and returns the file absolute path.
 
 
 
-## Scale a jpg image
-
-
-
-Create an image jpg file, starting from an already existing jpg image file and scale it, using a new width x height.
-
-**Syntax**:
-
-```
-  utils.scaleJpgFile(
-    Long srcJpgDirId,
-    String srcJpgFileName,
-    Long destDirId,
-    String destFileName,
-    Long maxWidth, 
-    Long maxHeight
-  );
-```
-
-| srcJpgDirId    | directory id where the already existing jpg image file has been stored |
-| -------------- | ---------------------------------------------------------------------- |
-| srcJpgFileName | already existing jpg file name                                         |
-| destDirId      | directory id where creating a new scaled jpg image                     |
-| destFileName   | jpg file name to create, generated starting from the source image      |
-| maxWidth       | new image width                                                        |
-| maxHeight      | new image height                                                       |
-
