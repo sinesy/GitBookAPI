@@ -306,7 +306,7 @@ The returned javascript object contains the following attributes:
 * destFilePath - absolute path + file name, related to the embedded file
 * signDate - the sign date, expressed as a javascript Date &#x20;
 
-## Create a zip file containing the list of passed files <a href="zipfiles" id="zipfiles"></a>
+## Create a zip file containing the list of passed files <a href="#zipfiles" id="zipfiles"></a>
 
 **Syntax**
 
@@ -323,7 +323,7 @@ var ok = utils.zipFiles(baseDir,files,zipFile,deleteFilesAfterZip);
 | zipFile             | zip file to create, including the absolute path (i.e. "C:/aaa/bbb/zipFileName.zip") |
 | deleteFilesAfterZip | flag used to decide if input files must be deleted after the zip creation           |
 
-## Copy the source file to the destination file <a href="copyfile" id="copyfile"></a>
+## Copy the source file to the destination file <a href="#copyfile" id="copyfile"></a>
 
 Since "destFile" contains a file name too, the source file can be renamed when copied.
 
@@ -394,7 +394,7 @@ utils.addFileToMobileDevices(String fullPathName,String fileName,String username
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | username -it can be null | if so, the file is linked to all registered devices; if this argument is not empty, then the file is linked to all devices binded to this username |
 
-## Create a text file and fill in with the passed content <a href="createtextfile" id="createtextfile"></a>
+## Create a text file and fill in with the passed content <a href="#createtextfile" id="createtextfile"></a>
 
 **Syntax**
 
@@ -412,7 +412,7 @@ var outcome = utils.createTextFile(String fileName, String fileContent, Boolean 
 | directoryId | directory identifier, used to define the absolute path, in the central server, where the file will be stored; if null, there must be one only entry for this application |
 | outcome     | true in case of the operation has beenexecuted successfully, an exception otherwise                                                                                      |
 
-## Create a text file with specify charset and fill in with the passed content <a href="getcsvcontent" id="getcsvcontent"></a>
+## Create a text file with specify charset and fill in with the passed content <a href="#getcsvcontent" id="getcsvcontent"></a>
 
 **Syntax**
 
@@ -433,7 +433,7 @@ var outcome = utils.createTextFile(String fileName, String fileContent,
 | outcome     | true in case of the operation has beenexecuted successfully, an exception otherwise                                                                                      |
 | charsetName | name charset                                                                                                                                                             |
 
-## Writing a very long text file on the server file system <a href="getcsvcontent" id="getcsvcontent"></a>
+## Writing a very long text file on the server file system <a href="#getcsvcontent" id="getcsvcontent"></a>
 
 **From 5.3.1 version**
 
@@ -518,7 +518,7 @@ utils.executeQueryWithCallback(
 utils.closeTextFile(fileId);
 ```
 
-## Read a text file located on the server <a href="readtextfile" id="readtextfile"></a>
+## Read a text file located on the server <a href="#readtextfile" id="readtextfile"></a>
 
 ```javascript
 var textString = utils.readTextFile(filePath);
@@ -612,7 +612,7 @@ utils.readTextFile(String filePath,String callbackFunName,String charset);
 | callbackFunName | callback function name, invoked by this one for each row                 |
 | charset         | charset to use when reading file; e.g. UTF-8                             |
 
-## Delete a file previously stored in a specific path <a href="deletefile" id="deletefile"></a>
+## Delete a file previously stored in a specific path <a href="#deletefile" id="deletefile"></a>
 
 **Syntax**
 
@@ -660,7 +660,7 @@ imagePath: absolute path + image file name where saving the image
 fire an exception in case of errors.
 ```
 
-## Reading an xls file stored in the specified path <a href="getxlscontent" id="getxlscontent"></a>
+## Reading an xls file stored in the specified path <a href="#getxlscontent" id="getxlscontent"></a>
 
 Read up to 10000 rows x 1000 columns from the xls file stored in the specified path and get back the content of a specific folder
 
@@ -683,7 +683,7 @@ var list = utils.getXlsContent(String dirId,String fileName,int sheetIndex,int f
 
 Values stored in each js object can be accessed as: object.get("attributeName")
 
-## Reading a csv file stored in the specified path <a href="getcsvcontent" id="getcsvcontent"></a>
+## Reading a csv file stored in the specified path <a href="#getcsvcontent" id="getcsvcontent"></a>
 
 Read up to the specified number of rows, starting from the specified index (0..x) from the csv file stored in the specified path and get back the content of a specific folder
 
@@ -722,7 +722,7 @@ It supports also nested objects and list of objects: it depends on the definitio
 A few examples of attributes:\
 \[ "attr1", "subobject.attrsub1", "subobject.attrsub2", "sublist\[0].subattr3","sublist\[0].subattr4","sublist\[1].subattr5" ]
 
-## Reading a very long csv file stored in the specified path <a href="getcsvcontent" id="getcsvcontent"></a>
+## Reading a very long csv file stored in the specified path <a href="#getcsvcontent" id="getcsvcontent"></a>
 
 **From 5.3.2 version**
 
@@ -774,7 +774,7 @@ utils.readCSVFile(
 );
 ```
 
-## Reading a very long csv file stored in the specified path and write it directly to a database table <a href="getcsvcontent" id="getcsvcontent"></a>
+## Reading a very long csv file stored in the specified path and write it directly to a database table <a href="#getcsvcontent" id="getcsvcontent"></a>
 
 **From 5.3.2 version**
 
@@ -837,7 +837,7 @@ var processedRows = utils.readCSVFileAndWriteToTable(
 );
 ```
 
-## Writing a csv file on the server file system <a href="getcsvcontent" id="getcsvcontent"></a>
+## Writing a csv file on the server file system <a href="#getcsvcontent" id="getcsvcontent"></a>
 
 Write a CSV file on the server file system, starting from a list of data provided in input.
 
@@ -878,7 +878,7 @@ var outcome = utils.createCSVFile(
 | printTitles      | flag true\|false, indicating whether the column headers must be included as the first row in the CSV file                                                                |
 | outcome          | "" in case of the operation has been executed successfully, the error message otherwise                                                                                  |
 
-## Writing a very long csv file on the server file system <a href="getcsvcontent" id="getcsvcontent"></a>
+## Writing a very long csv file on the server file system <a href="#getcsvcontent" id="getcsvcontent"></a>
 
 **From 5.3.2 version**
 
@@ -963,7 +963,7 @@ utils.executeQueryWithCallback(
 utils.closeCSVFile(fileId);
 ```
 
-## Writing a very long csv file on the server file system from a SQL query <a href="getcsvcontent" id="getcsvcontent"></a>
+## Writing a very long csv file on the server file system from a SQL query <a href="#getcsvcontent" id="getcsvcontent"></a>
 
 **From 5.3.2 version**
 
@@ -1012,7 +1012,7 @@ var errors = utils.createCSVFileFromSQLQuery(
 );
 ```
 
-## Writing data to CloudSQL from a CSV file stored in Google Cloud Storage <a href="getcsvcontent" id="getcsvcontent"></a>
+## Writing data to CloudSQL from a CSV file stored in Google Cloud Storage <a href="#getcsvcontent" id="getcsvcontent"></a>
 
 **From 5.3.2 version**
 
@@ -1294,7 +1294,7 @@ var exportedRowsNumber = utils.createXLSXFileFromSQLQuery(
 
 ![](../.gitbook/assets/footers.png)
 
-## Reading a xls or xlsx file stored in the specified path <a href="getcsvcontent" id="getcsvcontent"></a>
+## Reading a xls or xlsx file stored in the specified path <a href="#getcsvcontent" id="getcsvcontent"></a>
 
 Read up to the specified number of rows, starting from the specified index (1..x) from the xls or xlsx file stored in the specified path and get back the content of a specific folder
 
@@ -1333,3 +1333,64 @@ In case you need to retrieve the dimension of a file stored in the server file s
 ```javascript
 var length = utils.getFileLength(String absolutePath);
 ```
+
+
+
+## Scale a jpg image, using width & height
+
+
+
+Create an image jpg file, starting from an already existing jpg image file and scale it, using a new width x height.
+
+**Syntax**:
+
+```
+  utils.scaleJpgFile(
+    Long srcJpgDirId,
+    String srcJpgFileName,
+    Long destDirId,
+    String destFileName,
+    Long maxWidth, 
+    Long maxHeight
+  );
+```
+
+| srcJpgDirId    | directory id where the already existing jpg image file has been stored |
+| -------------- | ---------------------------------------------------------------------- |
+| srcJpgFileName | already existing jpg file name                                         |
+| destDirId      | directory id where creating a new scaled jpg image                     |
+| destFileName   | jpg file name to create, generated starting from the source image      |
+| maxWidth       | new image width                                                        |
+| maxHeight      | new image height                                                       |
+
+
+
+## Scale a jpg image, using a scale
+
+
+
+Create an image jpg file, starting from an already existing jpg image file and scale it, using a scale to reduce/enlarge it.
+
+**Syntax**:
+
+```
+  utils.scaleJpgFile(
+    Long srcJpgDirId,
+    String srcJpgFileName,
+    Long destDirId,
+    String destFileName,
+    Double scale
+  );
+```
+
+| srcJpgDirId    | directory id where the already existing jpg image file has been stored |
+| -------------- | ---------------------------------------------------------------------- |
+| srcJpgFileName | already existing jpg file name                                         |
+| destDirId      | directory id where creating a new scaled jpg image                     |
+| destFileName   | jpg file name to create, generated starting from the source image      |
+| scale          | scale ratio                                                            |
+
+
+
+
+
