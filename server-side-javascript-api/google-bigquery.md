@@ -570,11 +570,11 @@ var processedRecords = executeBigQueryDmlStatement(
 
 **Details**
 
-| Argument    | Description                                                                                                  |
-| ----------- | ------------------------------------------------------------------------------------------------------------ |
-| datasetName | the BigQuery dataset name, i.e. the schema where tables have been stored                                     |
-| sql         | the SQL instruction to execute on BigQuery dataset                                                           |
-| pars        | list of parameter values to pass forward, one for each  binding variable included in the SQL instruction (?) |
+| Argument    | Description                                                                                                                                   |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| datasetName | the BigQuery dataset name, i.e. the schema where tables have been storedM; you can let it empty, since it is not actually used                |
+| sql         | the SQL instruction to execute on BigQuery dataset; **pay attention to the table name: it must always be expressed as datasetname.tablename** |
+| pars        | list of parameter values to pass forward, one for each  binding variable included in the SQL instruction (?)                                  |
 
 
 
