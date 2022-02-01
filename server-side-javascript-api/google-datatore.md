@@ -2,8 +2,8 @@
 
 ## Execute a GQL query on Google Datastore
 
-The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.  
-The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators \(e.g. &lt;, &lt;=, etc.\).  
+The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.\
+The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators (e.g. <, <=, etc.).\
 See Datastore syntax to get detail information about the syntax to use when filtering entities.
 
 **Syntax**
@@ -14,13 +14,13 @@ var json = utils.executeQueryOnGoogleDatastore(gql,dataModelId,interruptExecutio
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| gql | string value: GQL query to execute; it can contain ? or :XXX |
-| dataModelId | it identifies the data model having "datastore" type, related to the entity to enquiry, so the GQL query must refer the same entity name related to the specified data model |
-| interruptExecution | boolean value; if true, an erroneous GQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql statement. |
-|  | XXX variable can be replaced by vo or params values |
+| Argument           | Description                                                                                                                                                                                                          |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| gql                | string value: GQL query to execute; it can contain ? or :XXX                                                                                                                                                         |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entity to enquiry, so the GQL query must refer the same entity name related to the specified data model                                         |
+| interruptExecution | boolean value; if true, an erroneous GQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                       |
+| params             | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
+|                    | XXX variable can be replaced by vo or params values                                                                                                                                                                  |
 
 Example
 
@@ -47,20 +47,20 @@ where **maxCachedEntities** is the max number of cached entities having the same
 
 ## Speeding up GQL queries
 
-The previous method **executeQueryOnGoogleDatastore** can sometimes return the result after a while. 
+The previous method **executeQueryOnGoogleDatastore** can sometimes return the result after a while.&#x20;
 
 A GQL query can be particularly slow when:
 
 * there are **many filter conditions in the WHERE clause**: even when the WHERE clause of a query includes only single property indexes, the query can be very slow; this is due to the internal mechanism used by Datastore, where the use of equality filters on one or more properties, leads to a "merged join", so something like first name = Bob and last name = James, leads to merging the results of the two conditions; consequently, the more indexes are used, the slower the query becomes.
 * the entity contains many properties: the more properties an entity contains, the more workload is spent to get all of them
-* the entity has **too** **many indexed properties**; Google states that: "_If a property will never be needed for a query,_ [_exclude the property from indexes_](https://cloud.google.com/datastore/docs/concepts/indexes#unindexed_properties)_. Unnecessarily indexing a property could result in **increased latency** and increased_ [_storage costs of index entries_](https://cloud.google.com/datastore/docs/concepts/storage-size#index_entry_size)_._"
-* there is not a composite index defined for the query: a composite index, even when you are not using "not equal" filters, can speed up the query execution 
+* the entity has **too** **many indexed properties**; Google states that: "_If a property will never be needed for a query,_ [_exclude the property from indexes_](https://cloud.google.com/datastore/docs/concepts/indexes#unindexed\_properties)_. Unnecessarily indexing a property could result in **increased latency** and increased_ [_storage costs of index entries_](https://cloud.google.com/datastore/docs/concepts/storage-size#index\_entry\_size)_._"
+* there is not a composite index defined for the query: a composite index, even when you are not using "not equal" filters, can speed up the query execution&#x20;
 * there are many writing operations in progress
 
 Consequently, good practices to speed up queries are:
 
 1. do not create queries having many filtering conditions; if you notice a poor performance, try to reduce the conditions or take into account the chance to define a composite index for such a query.
-2. if your entity contains a lot of properties and you do not need all of them \(i.e. you are not use retrieved data to update it later\), the query is a good candidate for a "projection query" \(see below\)
+2. if your entity contains a lot of properties and you do not need all of them (i.e. you are not use retrieved data to update it later), the query is a good candidate for a "projection query" (see below)
 3. remove all unnecessary indexes for properties
 4. do not overdo with the creation of composite indexes: you cannot create more than 200 composite indexes in a GCP project!
 
@@ -79,35 +79,35 @@ A projection query allows to specify only a part of all entity properties. Conse
 There are several requirements and limitations for a projection query:
 
 * you must define a composite index for it
-* properties specified in the SELECT clause 
+* properties specified in the SELECT clause&#x20;
   * must be indexed properties
   * cannot be included in the WHERE clause as equality filter
 * a timestamp property in the SELECT clause is returned as an integer
 
 For additional details,  read the following documents:
 
-{% embed url="https://cloud.google.com/datastore/docs/concepts/queries\#limitations\_on\_projections" %}
+{% embed url="https://cloud.google.com/datastore/docs/concepts/queries#limitations_on_projections" %}
 
 
 
-## Execute and cache a complex join-based GQL query on Google Datastore 
+## Execute and cache a complex join-based GQL query on Google Datastore&#x20;
 
-The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.  
-The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators \(e.g. &lt;, &lt;=, etc.\).  
+The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.\
+The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators (e.g. <, <=, etc.).\
 See Datastore syntax to get detail information about the syntax to use when filtering entities.
 
-This method is an extension of the previous one and not only executes the main GQL query but also **executes a secondary query** \(**or more than one**\) to fetch additional data coming from other entities; after doing it, combine the secondary results with the ones retrieved by the main query, in a similar way to the JOIN condition with SQL query: you have to specify the matching condition, i.e. which attribute in the main entity contains a value which is a primary key on the secondary entity and use it to combine results \(we can call such attribute in the main entity a sort of "**foreign key**"\). A more complex scenario is when the "foreign key" is no exactly the primary key on a secondary entity but only a part of it.
+This method is an extension of the previous one and not only executes the main GQL query but also **executes a secondary query** (**or more than one**) to fetch additional data coming from other entities; after doing it, combine the secondary results with the ones retrieved by the main query, in a similar way to the JOIN condition with SQL query: you have to specify the matching condition, i.e. which attribute in the main entity contains a value which is a primary key on the secondary entity and use it to combine results (we can call such attribute in the main entity a sort of "**foreign key**"). A more complex scenario is when the "foreign key" is no exactly the primary key on a secondary entity but only a part of it.
 
 For example, you can have a "Pricelist" entity having attributes like "companyId" = "00000", siteId = "500" and a "foreign key" attribute named "itemCode" containing something like "PROD1", "PROD2", etc. whereas a secondary entity "Items" can have a primary key attribute defined as a concatenation of values stored in other attributes, like companyId, siteId, itemCode, i.e. "00000\_500\_PROD1" or "00000\_500\_PROD2, etc.". In this example, the matching condition is NOT "itemCode" in "Pricelist" equals to the primary key in "Items", but a more complex one, like the concatenation companyId+"\_"+siteId+"\_"+itemCode.
 
-Platform supports all scenarios reported above: 
+Platform supports all scenarios reported above:&#x20;
 
 * a single attribute in main entity matching the primary key in the secondary entity
 * a concatenation of multiple attributes/constant values in main entity matching the primary key in the secondary entity
 
 Before seeing how to do it, it is important to define **relationships** at object level.
 
-In the data model definition, it is possible to define a number of relationships starting from the current data model \(a Datastore entity\) to any other, where each relation is identified by a "foreign key" attribute belonging to the main entity. This "foreign key" is not actually  used to create the matching condition but only to identify and distinguish different relationships.
+In the data model definition, it is possible to define a number of relationships starting from the current data model (a Datastore entity) to any other, where each relation is identified by a "foreign key" attribute belonging to the main entity. This "foreign key" is not actually  used to create the matching condition but only to identify and distinguish different relationships.
 
 ![](../.gitbook/assets/schermata-2020-04-30-alle-10.50.13.png)
 
@@ -115,7 +115,7 @@ Once done that, it is possible to use there relationships in a javascript busine
 
 ![](../.gitbook/assets/schermata-2020-04-30-alle-10.55.47.png)
 
-At this point, any panel \(a grid, a form panel, etc.\) created starting from this business component will inherit not only the attributes for the main entity but also the ones for any secondary entity activated through the corresponding relationship.
+At this point, any panel (a grid, a form panel, etc.) created starting from this business component will inherit not only the attributes for the main entity but also the ones for any secondary entity activated through the corresponding relationship.
 
 The javascript function to use in the business component in order to get a paginated list of results where additional queries are executed to match data of the main entity and secondary ones is described below.
 
@@ -133,21 +133,21 @@ var json = utils.executeQueryOnGoogleDatastoreWithSettings(
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| gql | string value: GQL query to execute; it can contain ? or :XXX |
-| dataModelId | it identifies the data model having "datastore" type, related to the entity to enquiry, so the GQL query must refer the same entity name related to the specified data model |
-| interruptExecution | boolean value; if true, an erroneous GQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| settings | optional javascript object \(can be null\); if set, it allows to define one of more "virtual joins" to secondary objects |
-| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql statement. |
+| Argument           | Description                                                                                                                                                                                                          |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| gql                | string value: GQL query to execute; it can contain ? or :XXX                                                                                                                                                         |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entity to enquiry, so the GQL query must refer the same entity name related to the specified data model                                         |
+| interruptExecution | boolean value; if true, an erroneous GQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                       |
+| settings           | optional javascript object (can be null); if set, it allows to define one of more "virtual joins" to secondary objects                                                                                               |
+| params             | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
 
 The "**settings**" javascript object can contain a series of attributes, all optionals, to use according to the need:
 
-* **secondaryObjects** attribute: it contains a list of descriptors, one for each secondary entity to match; each descriptor defines the secondary object to match and the attribute name in the main entity which would contain **the whole secondary object.** For example, if the main entity "Mob03ItemPrices" has a relationship with "Mob02Items", the resulting JSON produced by the b.c. would be:  
+* **secondaryObjects** attribute: it contains a list of descriptors, one for each secondary entity to match; each descriptor defines the secondary object to match and the attribute name in the main entity which would contain **the whole secondary object.** For example, if the main entity "Mob03ItemPrices" has a relationship with "Mob02Items", the resulting JSON produced by the b.c. would be: &#x20;
 
 { valueObjectList: \[{ attributes for Mob03ItemPrices...., mob02Items: { attributes for Mob02Items... } }..
 
-* **secondaryAttributes**: attribute: it contains a list of descriptors, one for each secondary entity to match; each descriptor defines the secondary object to match and a series of attribute names in the main entity which would contain the corresponding attributes found in the secondary object. This variant is finer than the first one, which works on the whole secondary object. This second version is helpful **to map secondary values to virtual attributes in the main entity**. For example, if the main entity "Mob03ItemPrices" does not have a relationship with "Mob02Items" but only a virtual attribute to map, the resulting JSON produced by the b.c. would be: 
+* **secondaryAttributes**: attribute: it contains a list of descriptors, one for each secondary entity to match; each descriptor defines the secondary object to match and a series of attribute names in the main entity which would contain the corresponding attributes found in the secondary object. This variant is finer than the first one, which works on the whole secondary object. This second version is helpful **to map secondary values to virtual attributes in the main entity**. For example, if the main entity "Mob03ItemPrices" does not have a relationship with "Mob02Items" but only a virtual attribute to map, the resulting JSON produced by the b.c. would be:&#x20;
 
 { valueObjectList: \[{ attributes for Mob03ItemPrices....,  virtualAttributeOfMob02Items: "...."  }..
 
@@ -189,9 +189,9 @@ var settings = {
 
 **Note:** "objectName" and "dataModelId" are interchangeable, whereas "where" attribute is optional.
 
-**Note**: the "**longResultSet**" attribute should be set to true when the secondary entity contain a large amount of records \(e.g. more than 10-20 records\). If set to true, a multiple secondary queries are executed, one for each records fetched for the main query. Each fetching read a single record, which is also cached \(for 5 minutes\). Secondary query is skipped if the same records has been already read previously and cached. If the attribute longResultSet ****is set to false**,** a single secondary query is executed and all results cached: this solution is faster than the previous one, but it consumes more memory and CANNOT BE USED for large result sets!
+**Note**: the "**longResultSet**" attribute should be set to true when the secondary entity contain a large amount of records (e.g. more than 10-20 records). If set to true, a multiple secondary queries are executed, one for each records fetched for the main query. Each fetching read a single record, which is also cached (for 5 minutes). Secondary query is skipped if the same records has been already read previously and cached. If the attribute longResultSet **** is set to false**,** a single secondary query is executed and all results cached: this solution is faster than the previous one, but it consumes more memory and CANNOT BE USED for large result sets!
 
-**Very important note:** every query represents an additional cost with Datastore,  every record read  ****represents an additional cost with Datastore. Consequently, **do not abuse with the executeQueryOnGoogleDatastoreWithSettings method usage**, since it consumes potentially more resources on Datastore and increases the involved costs.
+**Very important note:** every query represents an additional cost with Datastore,  every record read **** represents an additional cost with Datastore. Consequently, **do not abuse with the executeQueryOnGoogleDatastoreWithSettings method usage**, since it consumes potentially more resources on Datastore and increases the involved costs.
 
 
 
@@ -247,8 +247,8 @@ utils.setReturnValue(json);
 
 **This method can be coupled with a grid panel where the data loading is limited to a block of data. Optional filtering/sorting conditions coming from the grid are automatically applied to the base GQL query. Note that filterable/sortable columns should be carefully defined according to the limits come with the Google Datastore and custom indexes must be defined in the Datastore first.**
 
-The datastore must be already configured as a global parameter.Once done that, it is possible to execute a query statement, in order to fetch a list of entities.  
-The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators \(e.g. &lt;, &lt;=, etc.\).  
+The datastore must be already configured as a global parameter.Once done that, it is possible to execute a query statement, in order to fetch a list of entities.\
+The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators (e.g. <, <=, etc.).\
 See Datastore syntax to get detail information about the syntax to use when filtering entities.
 
 **Syntax**
@@ -259,13 +259,13 @@ var json = utils.getPartialResultOnGoogleDatastore(gql,dataModelId,interruptExec
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| gql | string value: GQL query to execute; it can contain ? or :XXX |
-| dataModelId | it identifies the data model having "datastore" type, related to the entity to insert |
-| interruptExecution | boolean value; if true, an erroneous insert instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql statement. |
-|  | XXX variable can be replaced by vo or params values |
+| Argument           | Description                                                                                                                                                                                                          |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| gql                | string value: GQL query to execute; it can contain ? or :XXX                                                                                                                                                         |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entity to insert                                                                                                                                |
+| interruptExecution | boolean value; if true, an erroneous insert instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                    |
+| params             | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
+|                    | XXX variable can be replaced by vo or params values                                                                                                                                                                  |
 
 **Example**
 
@@ -303,26 +303,26 @@ utils.setReturnValue(json);
 The "additional settings" argument allows to enable result caching, through two optional attributes:
 
 * maxCachedEntities - max number of results stored for the specified Entity
-* expirationTime, expressed in minutes \(optional, if not specified, it is set to 10 minutes\)
+* expirationTime, expressed in minutes (optional, if not specified, it is set to 10 minutes)
 
-## Execute a GQL query into a Google Datastore: only a block of data is fetched, together with join-based GQL secondary queries on Google Datastore 
+## Execute a GQL query into a Google Datastore: only a block of data is fetched, together with join-based GQL secondary queries on Google Datastore&#x20;
 
-The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.  
-The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators \(e.g. &lt;, &lt;=, etc.\).  
+The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.\
+The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators (e.g. <, <=, etc.).\
 See Datastore syntax to get detail information about the syntax to use when filtering entities.
 
-This method is an extension of the previous one and not only executes the main GQL query but also **executes a secondary query** \(**or more than one**\) to fetch additional data coming from other entities; after doing it, combine the secondary result with the one retrieved by the main query, in a similar way to the JOIN condition with SQL query: you have to specify the matching condition, i.e. which attribute in the main entity contains a value which is a primary key on the secondary entity and use it to combine results \(we can call such attribute in the main entity a sort of "**foreign key**"\). A more complex scenario is when the "foreign key" is no exactly the primary key on a secondary entity but only a part of it.
+This method is an extension of the previous one and not only executes the main GQL query but also **executes a secondary query** (**or more than one**) to fetch additional data coming from other entities; after doing it, combine the secondary result with the one retrieved by the main query, in a similar way to the JOIN condition with SQL query: you have to specify the matching condition, i.e. which attribute in the main entity contains a value which is a primary key on the secondary entity and use it to combine results (we can call such attribute in the main entity a sort of "**foreign key**"). A more complex scenario is when the "foreign key" is no exactly the primary key on a secondary entity but only a part of it.
 
 For example, you can have a "Pricelist" entity having attributes like "companyId" = "00000", siteId = "500" and a "foreign key" attribute named "itemCode" containing something like "PROD1", "PROD2", etc. whereas a secondary entity "Items" can have a primary key attribute defined as a concatenation of values stored  in other attributes, like companyId, siteId, itemCode, i.e. "00000\_500\_PROD1" or "00000\_500\_PROD2, etc.". In this example, the matching condition is NOT "itemCode" in "Pricelist" equals to the primary key in "Items", but a more complex one, like the concatenation companyId+"\_"+siteId+"\_"+itemCode.
 
-Platform supports all scenarios reported above: 
+Platform supports all scenarios reported above:&#x20;
 
 * a single attribute in main entity matching the primary key in the secondary entity
 * a concatenation of multiple attributes/constant values in main entity matching the primary key in the secondary entity
 
 Before seeing how to do it, it is important to define **relationships** at object level.
 
-In the data model definition, it is possible to define a number of relationships starting from the current data model \(a Datastore entity\) to any other, where each relation is identified by a "foreign key" attribute belonging to the main entity. This "foreign key" is not actually  used to create the matching condition but only to identify and distinguish different relationships.
+In the data model definition, it is possible to define a number of relationships starting from the current data model (a Datastore entity) to any other, where each relation is identified by a "foreign key" attribute belonging to the main entity. This "foreign key" is not actually  used to create the matching condition but only to identify and distinguish different relationships.
 
 ![](../.gitbook/assets/schermata-2020-04-30-alle-10.50.13.png)
 
@@ -330,7 +330,7 @@ Once done that, it is possible to use there relationships in a javascript busine
 
 ![](../.gitbook/assets/schermata-2020-04-30-alle-10.55.47.png)
 
-At this point, any panel \(a grid, a form panel, etc.\) created starting from this business component will inherit not only the attributes for the main entity but also the ones for any secondary entity activated through the corresponding relationship.
+At this point, any panel (a grid, a form panel, etc.) created starting from this business component will inherit not only the attributes for the main entity but also the ones for any secondary entity activated through the corresponding relationship.
 
 The javascript function to use in the business component in order to get a paginated list of results where additional queries are executed to match data of the main entity and secondary ones is described below.
 
@@ -348,21 +348,21 @@ var json = utils.getPartialResultOnGoogleDatastoreWithSettings(
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| gql | string value: GQL query to execute; it can contain ? or :XXX |
-| dataModelId | it identifies the data model having "datastore" type, related to the entity to enquiry, so the GQL query must refer the same entity name related to the specified data model |
-| interruptExecution | boolean value; if true, an erroneous GQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| settings | optional javascript object \(can be null\); if set, it allows to define one of more "virtual joins" to secondary objects |
-| params | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma \(do not use \[\]\); these additional parameters represent values which replace ? symbols in the sql statement. |
+| Argument           | Description                                                                                                                                                                                                          |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| gql                | string value: GQL query to execute; it can contain ? or :XXX                                                                                                                                                         |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entity to enquiry, so the GQL query must refer the same entity name related to the specified data model                                         |
+| interruptExecution | boolean value; if true, an erroneous GQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                       |
+| settings           | optional javascript object (can be null); if set, it allows to define one of more "virtual joins" to secondary objects                                                                                               |
+| params             | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
 
 The "**settings**" javascript object can contain a series of attributes, all optionals, to use according to the need:
 
-* **secondaryObjects** attribute: it contains a list of descriptors, one for each secondary entity to match; each descriptor defines the secondary object to match and the attribute name in the main entity which would contain **the whole secondary object.** For example, if the main entity "Mob03ItemPrices" has a relationship with "Mob02Items", the resulting JSON produced by the b.c. would be:  
+* **secondaryObjects** attribute: it contains a list of descriptors, one for each secondary entity to match; each descriptor defines the secondary object to match and the attribute name in the main entity which would contain **the whole secondary object.** For example, if the main entity "Mob03ItemPrices" has a relationship with "Mob02Items", the resulting JSON produced by the b.c. would be: &#x20;
 
 { valueObjectList: \[{ attributes for Mob03ItemPrices...., mob02Items: { attributes for Mob02Items... } }..
 
-* **secondaryAttributes**: attribute: it contains a list of descriptors, one for each secondary entity to match; each descriptor defines the secondary object to match and a series of attribute names in the main entity which would contain the corresponding attributes found in the secondary object. This variant is finer than the first one, which works on the whole secondary object. This second version is helpful **to map secondary values to virtual attributes in the main entity**. For example, if the main entity "Mob03ItemPrices" does not have a relationship with "Mob02Items" but only a virtual attribute to map, the resulting JSON produced by the b.c. would be: 
+* **secondaryAttributes**: attribute: it contains a list of descriptors, one for each secondary entity to match; each descriptor defines the secondary object to match and a series of attribute names in the main entity which would contain the corresponding attributes found in the secondary object. This variant is finer than the first one, which works on the whole secondary object. This second version is helpful **to map secondary values to virtual attributes in the main entity**. For example, if the main entity "Mob03ItemPrices" does not have a relationship with "Mob02Items" but only a virtual attribute to map, the resulting JSON produced by the b.c. would be:&#x20;
 
 { valueObjectList: \[{ attributes for Mob03ItemPrices....,  virtualAttributeOfMob02Items: "...."  }..
 
@@ -404,9 +404,9 @@ var settings = {
 
 **Note:** "objectName" and "dataModelId" are interchangeable, whereas "where" attribute is optional.
 
-**Note**: the "**longResultSet**" attribute should be set to true when the secondary entity contain a large amount of records \(e.g. more than 10-20 records\). If set to true, a multiple secondary queries are executed, one for each records fetched for the main query. Each fetching read a single record, which is also cached \(for 5 minutes\). Secondary query is skipped if the same records has been already read previously and cached. If the attribute longResultSet ****is set to false**,** a single secondary query is executed and all results cached: this solution is faster than the previous one, but it consumes more memory and CANNOT BE USED for large result sets!
+**Note**: the "**longResultSet**" attribute should be set to true when the secondary entity contain a large amount of records (e.g. more than 10-20 records). If set to true, a multiple secondary queries are executed, one for each records fetched for the main query. Each fetching read a single record, which is also cached (for 5 minutes). Secondary query is skipped if the same records has been already read previously and cached. If the attribute longResultSet **** is set to false**,** a single secondary query is executed and all results cached: this solution is faster than the previous one, but it consumes more memory and CANNOT BE USED for large result sets!
 
-**Very important note:** every query represents an additional cost with Datastore,  every record read  ****represents an additional cost with Datastore. Consequently, **do not abuse with the getPartialResultOnGoogleDatastoreWithSettings method usage**, since it consumes potentially more resources on Datastore and increases the involved costs.
+**Very important note:** every query represents an additional cost with Datastore,  every record read **** represents an additional cost with Datastore. Consequently, **do not abuse with the getPartialResultOnGoogleDatastoreWithSettings method usage**, since it consumes potentially more resources on Datastore and increases the involved costs.
 
 
 
@@ -529,13 +529,13 @@ var jsonString = utils.getEntityAsJSON(String entityName,Object key,int maxCache
 
 **Syntax**
 
-| Argument | Description |
-| :--- | :--- |
-| entityName | entity name identifying the table in Datastore \(it is case sensitive\) |
-| key | primary key value |
-| maxCachedEntities | max number of cached objects for this entity; this is helpful to reduce the cost involved with the reading operation; set it to 0 to by-pass the cache and get a freshed object \(not recommended\) |
-| expirationTime | expiration time, expressed in minutes; after that time, the object is removed from cache |
-| jsonString | a string representation \(JSON format\) of the returned object; a Date value is returned with this format: yyyy-MM-dd HH:mm:ss a null value is returned in case no object is retrieved starting from the specified pk value |
+| Argument          | Description                                                                                                                                                                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| entityName        | entity name identifying the table in Datastore (it is case sensitive)                                                                                                                                                               |
+| key               | primary key value                                                                                                                                                                                                                   |
+| maxCachedEntities | max number of cached objects for this entity; this is helpful to reduce the cost involved with the reading operation; set it to 0 to by-pass the cache and get a freshed object (not recommended)                                   |
+| expirationTime    | expiration time, expressed in minutes; after that time, the object is removed from cache                                                                                                                                            |
+| jsonString        | <p>a string representation (JSON format) of the returned object; a Date value is returned with this format: yyyy-MM-dd HH:mm:ss<br>a null value is returned in case no object is retrieved starting from the specified pk value</p> |
 
 ## Insert a single entity into the Google Datastore
 
@@ -551,12 +551,12 @@ var json = utils.insertObjectOnGoogleDatastore(obj, dataModelId, interruptExecut
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| obj | a Javascript object containing the data to save in the specified Datastore entity |
-| dataModelId | it identifies the data model having "datastore" type, related to the entity to insert |
+| Argument           | Description                                                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| obj                | a Javascript object containing the data to save in the specified Datastore entity                                                                                        |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entity to insert                                                                                    |
 | interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation |
-| ok | true in case of the operation has been executed successfully, an exception otherwise |
+| ok                 | true in case of the operation has been executed successfully, an exception otherwise                                                                                     |
 
 Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
 
@@ -572,12 +572,12 @@ var json = utils.insertObjectsOnGoogleDatastore(objects, dataModelId, interruptE
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| objects | a Javascript array containing a list of objects to save in the specified Datastore entity; insert is transactional |
-| dataModelId | it identifies the data model having "datastore" type, related to the entities to insert |
+| Argument           | Description                                                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| objects            | a Javascript array containing a list of objects to save in the specified Datastore entity; insert is transactional                                                       |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entities to insert                                                                                  |
 | interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation |
-| ok | true in case of the operation has been executed successfully, an exception otherwise |
+| ok                 | true in case of the operation has been executed successfully, an exception otherwise                                                                                     |
 
 Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
 
@@ -595,22 +595,22 @@ var json = utils.updateObjectOnGoogleDatastore(obj, dataModelId, interruptExecut
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| obj | a Javascript object containing the data to save in the specified Datastore entity |
-| dataModelId | it identifies the data model having "datastore" type, related to the entity to update |
+| Argument           | Description                                                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| obj                | a Javascript object containing the data to save in the specified Datastore entity                                                                                        |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entity to update                                                                                    |
 | interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation |
-| ok | true in case of the operation has been executed successfully, an exception otherwise |
+| ok                 | true in case of the operation has been executed successfully, an exception otherwise                                                                                     |
 
 Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
 
-## Merge a single entity into the Google Datastore \(for lazy people\)
+## Merge a single entity into the Google Datastore (for lazy people)
 
 Suppose you only have part of the data of an entity and you need to update the entity. Datastore requires that all the declared attributes are passed forward, since not reported ones are automatically removed from the entity in the Datastore. The best thing would be not to be in this scenario: an entity to update should always be read first, using getEntity of getEntityFromJSON.
 
 In case you do not have all required attributes, you have the following function available: it merges the data passed in with the one already stored in the Datastore. Behind the scenes, the entity is first read from Datastore and all attributes provided in input are used to replace the ones read from the database. The pk is mandatory as input data.
 
-Optionally, you can also provide a list of attributes you do not include in the input data  and that you want to remove from the entity \(set to null\).
+Optionally, you can also provide a list of attributes you do not include in the input data  and that you want to remove from the entity (set to null).
 
 The datastore must be already configured as a global parameter.Once done that, it is possible to execute operations on the Google Datastore.
 
@@ -622,13 +622,13 @@ var json = utils.mergeObjectOnGoogleDatastore(obj, attributesToSetToNull, dataMo
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| obj | a Javascript object containing the data to save in the specified Datastore entity; not all attributes must be specified \(but the pk is mandatory\), the others are still written, since the whole entity has been read before the writing operation |
-| attributesToSetToNull | can be set to null; if specified, it is a Javascript array containing a list of attribute names, the ones to remove from the entity |
-| dataModelId | it identifies the data model having "datastore" type, related to the entity to update |
-| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation |
-| ok | true in case of the operation has been executed successfully, an exception otherwise |
+| Argument              | Description                                                                                                                                                                                                                                        |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| obj                   | a Javascript object containing the data to save in the specified Datastore entity; not all attributes must be specified (but the pk is mandatory), the others are still written, since the whole entity has been read before the writing operation |
+| attributesToSetToNull | can be set to null; if specified, it is a Javascript array containing a list of attribute names, the ones to remove from the entity                                                                                                                |
+| dataModelId           | it identifies the data model having "datastore" type, related to the entity to update                                                                                                                                                              |
+| interruptExecution    | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation                                                                           |
+| ok                    | true in case of the operation has been executed successfully, an exception otherwise                                                                                                                                                               |
 
 Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
 
@@ -648,12 +648,12 @@ var json = utils.updateObjectsOnGoogleDatastore(objects, dataModelId, interruptE
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| objects | a Javascript array containing a list of objects to save in the specified Datastore entity. Update is transactional. |
-| dataModelId | it identifies the data model having "datastore" type, related to the entities to update |
+| Argument           | Description                                                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| objects            | a Javascript array containing a list of objects to save in the specified Datastore entity. Update is transactional.                                                      |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entities to update                                                                                  |
 | interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation |
-| ok | true in case of the operation has been executed successfully, an exception otherwise |
+| ok                 | true in case of the operation has been executed successfully, an exception otherwise                                                                                     |
 
 Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
 
@@ -671,12 +671,12 @@ var json = utils.deleteObjectOnGoogleDatastore(obj, dataModelId, interruptExecut
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| obj | a Javascript object related to the entity stored in the Datastore and to remove |
-| dataModelId | it identifies the data model having "datastore" type, related to the entity to remove |
+| Argument           | Description                                                                                                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| obj                | a Javascript object related to the entity stored in the Datastore and to remove                                                                                           |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entity to remove                                                                                     |
 | interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the  operation |
-| ok | true in case of the operation has been executed successfully, an exception otherwise |
+| ok                 | true in case of the operation has been executed successfully, an exception otherwise                                                                                      |
 
 ## Bulk update on Google Datastore
 
@@ -686,7 +686,7 @@ This method updates already existing entities in Datastore, starting from a GQL 
 
 It is possibile to specify new attributes/attributes to change, through the "valuesToSet" argument.
 
-It is possible to remove already existing attributes, through the "valuesToRemove" map \(e.g. { "attrName": true }
+It is possible to remove already existing attributes, through the "valuesToRemove" map (e.g. { "attrName": true }
 
 It is possible, optionally, to specify an action id, related to an action to execute for each fetched entity: it can be used to execute additional business logic and decide how to fill every entity. If specified, the bulk update will be slower.
 
@@ -698,12 +698,12 @@ utils.bulkUpdateOnGoogleDatastore(gql, valuesToSet, valuesToRemove, actionId);
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| gql | GQL query, used to read records to update; bulk update will be applied only of the records filtered in this query |
-| valuesToSet | map of attributes+values to set; here it is possible to specify new attributes or already existing attributes; |
-| valuesToRemove | map of attributes+useless values; only attribute names are used here, in order to remove them form the entity |
-| actionId | not managed yet; set to null |
+| Argument       | Description                                                                                                       |
+| -------------- | ----------------------------------------------------------------------------------------------------------------- |
+| gql            | GQL query, used to read records to update; bulk update will be applied only of the records filtered in this query |
+| valuesToSet    | map of attributes+values to set; here it is possible to specify new attributes or already existing attributes;    |
+| valuesToRemove | map of attributes+useless values; only attribute names are used here, in order to remove them form the entity     |
+| actionId       | not managed yet; set to null                                                                                      |
 
 ## Bulk delete on Google Datastore
 
@@ -719,9 +719,9 @@ utils.bulkDeleteOnGoogleDatastore(gql);
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| gql | GQL query, used to read records to delete; bulk delete will be applied only of the records filtered in this query |
+| Argument | Description                                                                                                       |
+| -------- | ----------------------------------------------------------------------------------------------------------------- |
+| gql      | GQL query, used to read records to delete; bulk delete will be applied only of the records filtered in this query |
 
 ## Move data from Datastore to BigQuery
 
@@ -741,11 +741,11 @@ utils.createBigQueryTableFromDatastoreEntities(
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| entityNames | list of Datastore entities to extract as is and move to BigQuery |
+| Argument    | Description                                                                              |
+| ----------- | ---------------------------------------------------------------------------------------- |
+| entityNames | list of Datastore entities to extract as is and move to BigQuery                         |
 | directoryId | directory identifier in Google Cloud Storage, where saving temporarely the exported data |
-| datasetName | dataset name in the BigQuery repository where re-creating the same tables |
+| datasetName | dataset name in the BigQuery repository where re-creating the same tables                |
 
 ## Move users definition form Platform Standard to Datastore
 
@@ -757,5 +757,4 @@ In case there is a Platform Standard installation used to manage a Platform for 
 utils.exportUsersToDatastore();
 ```
 
-This method moves users to Datastore Users entity \(for all company ids\).
-
+This method moves users to Datastore Users entity (for all company ids).

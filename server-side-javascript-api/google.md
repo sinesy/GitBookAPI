@@ -12,17 +12,17 @@ var calendarEvent = utils.addGoogleCalendarEvent(String title, Date beginDate, D
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| title | Event title |
+| Argument  | Description        |
+| --------- | ------------------ |
+| title     | Event title        |
 | beginDate | starting date+time |
-| endDate | ending date+time |
+| endDate   | ending date+time   |
 
 This event is created for the calendar associated to the current logged user.
 
 The resulting javascript object has the following structure:
 
-```text
+```
 String id;
 String title;
 String description;
@@ -36,7 +36,7 @@ String url;
 
 where "attendees" is a list of people invited to the event; each javascript object in this list has the following structure:
 
-```text
+```
 String id;
 String displayName;
 String email;
@@ -69,22 +69,22 @@ var calendarEvent = utils.addGoogleCalendarEventWithSettings(
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| title | Event title |
-| beginDate | starting date+time |
-| endDate | ending date+time |
-| description | additional description to include in the event |
-| location | can be null; it can be a complete address or a city, a province, etc. |
-| calendarId | can be null; if not filled, the default calendar for the current logged user will be used; if set, it is the calendar id where creating the event; the current admin user must have grants to save data into that calendar:; in order to retrieve the calendar id, go to Google Calendar, right click on the calendar on the list on the left and choose "Settings and sharing"; finally, search for "Calendar ID". |
-| creatorEmail | can be null; if not filled, the current logged user email will be used; if set, this will be the owner of the event \(if the specified email address in owner of the specified calendar\) |
-| attendesEmails | a Javascript array containing a list of email addresses, representing people invited to the event |
+| Argument       | Description                                                                                                                                                                                                                                                                                                                                                                                                         |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| title          | Event title                                                                                                                                                                                                                                                                                                                                                                                                         |
+| beginDate      | starting date+time                                                                                                                                                                                                                                                                                                                                                                                                  |
+| endDate        | ending date+time                                                                                                                                                                                                                                                                                                                                                                                                    |
+| description    | additional description to include in the event                                                                                                                                                                                                                                                                                                                                                                      |
+| location       | can be null; it can be a complete address or a city, a province, etc.                                                                                                                                                                                                                                                                                                                                               |
+| calendarId     | can be null; if not filled, the default calendar for the current logged user will be used; if set, it is the calendar id where creating the event; the current admin user must have grants to save data into that calendar:; in order to retrieve the calendar id, go to Google Calendar, right click on the calendar on the list on the left and choose "Settings and sharing"; finally, search for "Calendar ID". |
+| creatorEmail   | can be null; if not filled, the current logged user email will be used; if set, this will be the owner of the event (if the specified email address in owner of the specified calendar)                                                                                                                                                                                                                             |
+| attendesEmails | a Javascript array containing a list of email addresses, representing people invited to the event                                                                                                                                                                                                                                                                                                                   |
 
 This event is created for the calendar associated to the specified user/calendar.
 
 The resulting javascript object has the following structure:
 
-```text
+```
 String id;
 String title;
 String description;
@@ -98,7 +98,7 @@ String url;
 
 where "attendees" is a list of people invited to the event; each javascript object in this list has the following structure:
 
-```text
+```
 String id;
 String displayName;
 String email;
@@ -114,9 +114,9 @@ Boolean resource;
 
 Adding an event to Google Calendar with a conference linked to it. A conference can be:
 
-* Hangouts for consumers \([http://hangouts.google.com](http://hangouts.google.com)\) 
-* Classic Hangouts for G Suite users \([http://hangouts.google.com](http://hangouts.google.com)\)
-* Google Meet \([http://meet.google.com](http://meet.google.com)\) 
+* Hangouts for consumers ([http://hangouts.google.com](http://hangouts.google.com))&#x20;
+* Classic Hangouts for G Suite users ([http://hangouts.google.com](http://hangouts.google.com))
+* Google Meet ([http://meet.google.com](http://meet.google.com))&#x20;
 * "addOn" for 3P conference providers
 
 **Syntax**:
@@ -137,76 +137,23 @@ var calendarEvent = utils.addGoogleCalendarEventWithConference(
 
 **Description**:
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Argument</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">title</td>
-      <td style="text-align:left">Event title</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">beginDate</td>
-      <td style="text-align:left">starting date+time</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">endDate</td>
-      <td style="text-align:left">ending date+time</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">description</td>
-      <td style="text-align:left">additional description to include in the event</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">location</td>
-      <td style="text-align:left">can be null; it can be a complete address or a city, a province, etc.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">calendarId</td>
-      <td style="text-align:left">can be null; if not filled, the default calendar for the current logged
-        user will be used; if set, it is the calendar id where creating the event;
-        the current admin user must have grants to save data into that calendar:;
-        in order to retrieve the calendar id, go to Google Calendar, right click
-        on the calendar on the list on the left and choose &quot;Settings and sharing&quot;;
-        finally, search for &quot;Calendar ID&quot;.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">type</td>
-      <td style="text-align:left">
-        <p>link to the event a conference; allowed values are:</p>
-        <ul>
-          <li>&quot;eventHangout&quot; for Hangouts for consumers (<a href="http://hangouts.google.com">http://hangouts.google.com</a>)</li>
-          <li>&quot;eventNamedHangout&quot; for classic Hangouts for G Suite users (
-            <a
-            href="http://hangouts.google.com">http://hangouts.google.com</a>)</li>
-          <li>&quot;hangoutsMeet&quot; for Google Meet (<a href="http://meet.google.com">http://meet.google.com</a>)</li>
-          <li>&quot;addOn&quot; for 3P conference providers</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">creatorEmail</td>
-      <td style="text-align:left">can be null; if not filled, the current logged user email will be used;
-        if set, this will be the owner of the event (if the specified email address
-        in owner of the specified calendar)</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">attendesEmails</td>
-      <td style="text-align:left">a Javascript array containing a list of email addresses, representing
-        people invited to the event</td>
-    </tr>
-  </tbody>
-</table>
+| Argument       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| title          | Event title                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| beginDate      | starting date+time                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| endDate        | ending date+time                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| description    | additional description to include in the event                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| location       | can be null; it can be a complete address or a city, a province, etc.                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| calendarId     | can be null; if not filled, the default calendar for the current logged user will be used; if set, it is the calendar id where creating the event; the current admin user must have grants to save data into that calendar:; in order to retrieve the calendar id, go to Google Calendar, right click on the calendar on the list on the left and choose "Settings and sharing"; finally, search for "Calendar ID".                                                                      |
+| type           | <p>link to the event a conference; allowed values are: </p><ul><li>"eventHangout" for Hangouts for consumers (<a href="http://hangouts.google.com">http://hangouts.google.com</a>) </li><li>"eventNamedHangout" for classic Hangouts for G Suite users (<a href="http://hangouts.google.com">http://hangouts.google.com</a>)</li><li>"hangoutsMeet" for Google Meet (<a href="http://meet.google.com">http://meet.google.com</a>) </li><li>"addOn" for 3P conference providers</li></ul> |
+| creatorEmail   | can be null; if not filled, the current logged user email will be used; if set, this will be the owner of the event (if the specified email address in owner of the specified calendar)                                                                                                                                                                                                                                                                                                  |
+| attendesEmails | a Javascript array containing a list of email addresses, representing people invited to the event                                                                                                                                                                                                                                                                                                                                                                                        |
 
 This event is created for the calendar associated to the specified user/calendar.
 
 The resulting javascript object has the following structure:
 
-```text
+```
 String id;
 String title;
 String description;
@@ -221,7 +168,7 @@ String hangoutLink;
 
 where "attendees" is a list of people invited to the event; each javascript object in this list has the following structure:
 
-```text
+```
 String id;
 String displayName;
 String email;
@@ -245,12 +192,12 @@ var calendarEvent = utils.modifyGoogleCalendarEvent(String calendarEventId, Stri
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
+| Argument        | Description                                                                                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | calendarEventId | the event id, which is defined when an event is created the first time and available in the "calendar event" js object returned by the previous method. |
-| title | event title |
-| beginDate | starting date+time |
-| endDate | ending date+time |
+| title           | event title                                                                                                                                             |
+| beginDate       | starting date+time                                                                                                                                      |
+| endDate         | ending date+time                                                                                                                                        |
 
 This event is changed in the calendar associated to the current logged user.
 
@@ -266,8 +213,8 @@ utils.deleteGoogleCalendarEvent(String calendarEventId);
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
+| Argument        | Description                                                                                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | calendarEventId | the event id, which is defined when an event is created the first time and available in the "calendar event" js object returned by the previous method. |
 
 This event is removed from the calendar associated to the current logged user.
@@ -282,16 +229,16 @@ var file = utils.createGoogleDriveFolder(userId, folderName, parents, descriptio
 
 **Description:**
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| folderName | folder name |
-| parents | list of folder parents: the list of folders from the root must be specified |
-| description | optional folder description |
+| Argument    | Description                                                                                                                                                                                                             |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId      | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| folderName  | folder name                                                                                                                                                                                                             |
+| parents     | list of folder parents: the list of folders from the root must be specified                                                                                                                                             |
+| description | optional folder description                                                                                                                                                                                             |
 
 The method returns a javascript object having the following structure:
 
-```text
+```
    String id;
    String title;
    String description;
@@ -307,7 +254,7 @@ The method returns a javascript object having the following structure:
    Map<String,String> additionalAttributes = new HashMap<String,String>();
 ```
 
-The "id" value represents a unique identifier for the folder and can be used later to manage it \(rename, delete, etc.\)
+The "id" value represents a unique identifier for the folder and can be used later to manage it (rename, delete, etc.)
 
 ## Google Drive - delete a folder
 
@@ -319,11 +266,11 @@ var file = utils.deleteGoogleDriveFile(userId, fileId, skipTrash);
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | forder identifier \(it is the "id" attribute of the js object returned by the previous method\) |
-| skipTrash | boolean flag used to define how a folder deletion will be managed: true to permanently delete the folder; false to mark the folder as deleted and moved to the special "trash" folder \(in such a case, it can be restored\). |
+| Argument  | Description                                                                                                                                                                                                                 |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId    | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user.     |
+| fileId    | forder identifier (it is the "id" attribute of the js object returned by the previous method)                                                                                                                               |
+| skipTrash | boolean flag used to define how a folder deletion will be managed: true to permanently delete the folder; false to mark the folder as deleted and moved to the special "trash" folder (in such a case, it can be restored). |
 
 ## Google Drive - add permissions to folder
 
@@ -344,19 +291,19 @@ var file = utils.addPermissionsToGoogleDriveFolder(
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| folderId | folder id; permissions will be set for this folder and maybe to subfolders as well, according to the "recursive" boolean flag |
-| type | the type of sharing, one between “user”, “group”, “domain” or “default” |
-| value | the email of the user/group or the domain name |
-| fileRole | the role for files, one of “reader”, “writer” or “owner” |
-| folderRole | the role for folders, one of “reader”, “writer” or “owner |
-| additionalRoles | list of additional roles; optional string, for example \[“commenter”\] |
-| updateBaseFolder | boolean flag; if true applies permissions to the base folder identified by folderId |
-| recursive | boolean flag: if set to true, apply the specified permissions to all subfolders as well |
-| sendNotifications | boolean flag; if set to true, an email message will be sent to all destinations; the email message is defined through the next argument |
-| message | email notification message |
+| Argument          | Description                                                                                                                                                                                                             |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId            | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| folderId          | folder id; permissions will be set for this folder and maybe to subfolders as well, according to the "recursive" boolean flag                                                                                           |
+| type              | the type of sharing, one between “user”, “group”, “domain” or “default”                                                                                                                                                 |
+| value             | the email of the user/group or the domain name                                                                                                                                                                          |
+| fileRole          | the role for files, one of “reader”, “writer” or “owner”                                                                                                                                                                |
+| folderRole        | the role for folders, one of “reader”, “writer” or “owner                                                                                                                                                               |
+| additionalRoles   | list of additional roles; optional string, for example \[“commenter”]                                                                                                                                                   |
+| updateBaseFolder  | boolean flag; if true applies permissions to the base folder identified by folderId                                                                                                                                     |
+| recursive         | boolean flag: if set to true, apply the specified permissions to all subfolders as well                                                                                                                                 |
+| sendNotifications | boolean flag; if set to true, an email message will be sent to all destinations; the email message is defined through the next argument                                                                                 |
+| message           | email notification message                                                                                                                                                                                              |
 
 ## Google Drive - set permissions to file
 
@@ -377,17 +324,17 @@ var file = utils.setGoogleDriveFilePermissions(
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | file id |
-| type | the type of sharing, one between “user”, “group”, “domain” or “default” |
-| value | the email of the user/group or the domain name |
-| role | the role for files, one of “reader”, “writer” or “owner” |
-| additionalRoles | list of additional roles; optional string, for example \[“commenter”\] |
-| updateBaseFolder | boolean flag; if true applies permissions to the base folder identified by folderId |
-| sendNotifications | boolean flag; if set to true, an email message will be sent to all destinations; the email message is defined through the next argument |
-| message | email notification message |
+| Argument          | Description                                                                                                                                                                                                             |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId            | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId            | file id                                                                                                                                                                                                                 |
+| type              | the type of sharing, one between “user”, “group”, “domain” or “default”                                                                                                                                                 |
+| value             | the email of the user/group or the domain name                                                                                                                                                                          |
+| role              | the role for files, one of “reader”, “writer” or “owner”                                                                                                                                                                |
+| additionalRoles   | list of additional roles; optional string, for example \[“commenter”]                                                                                                                                                   |
+| updateBaseFolder  | boolean flag; if true applies permissions to the base folder identified by folderId                                                                                                                                     |
+| sendNotifications | boolean flag; if set to true, an email message will be sent to all destinations; the email message is defined through the next argument                                                                                 |
+| message           | email notification message                                                                                                                                                                                              |
 
 ## Google Drive - set property to a file
 
@@ -399,13 +346,13 @@ var file = utils.addGoogleDriveFileProperty(userId, fileId, key, value, visibili
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | file identifier |
-| key | property identifier |
-| value | property value |
-| visibility | allowed values: "PRIVATE" or "PUBLIC" |
+| Argument   | Description                                                                                                                                                                                                             |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId     | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId     | file identifier                                                                                                                                                                                                         |
+| key        | property identifier                                                                                                                                                                                                     |
+| value      | property value                                                                                                                                                                                                          |
+| visibility | allowed values: "PRIVATE" or "PUBLIC"                                                                                                                                                                                   |
 
 ## Google Drive - remove a property from a file
 
@@ -417,11 +364,11 @@ var file = utils.deleteGoogleDriveFileProperty(userId, fileId, key);
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | file identifier |
-| key | property identifier |
+| Argument | Description                                                                                                                                                                                                             |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId   | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId   | file identifier                                                                                                                                                                                                         |
+| key      | property identifier                                                                                                                                                                                                     |
 
 ## Google Drive - get folder/file information
 
@@ -433,14 +380,14 @@ var fileInfo = utils.getGoogleDriveFileInfo(userId, fileId);
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | file identifier |
+| Argument | Description                                                                                                                                                                                                             |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId   | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId   | file identifier                                                                                                                                                                                                         |
 
 The method returns a javascript object having the following structure:
 
-```text
+```
    String id;
    String title;
    String description;
@@ -468,15 +415,15 @@ var fileInfo = utils.setGoogleDriveFileAttributes(userId, fileId, fileAttributes
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | file identifier |
-| fileAttributes | a javascript object containing the file attributes to set |
+| Argument       | Description                                                                                                                                                                                                             |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId         | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId         | file identifier                                                                                                                                                                                                         |
+| fileAttributes | a javascript object containing the file attributes to set                                                                                                                                                               |
 
 The "fileAttributes" javascript object must have the following structure:
 
-```text
+```
   Boolean starred;
   Boolean trashed;
   Boolean restricted;
@@ -496,14 +443,14 @@ var revisions = utils.getGoogleDriveFileRevisions(userId, fileId);
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | file identifier |
+| Argument | Description                                                                                                                                                                                                             |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId   | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId   | file identifier                                                                                                                                                                                                         |
 
-The method returns a list of javascript objects, where each object \(related to a revision\) has the following structure:
+The method returns a list of javascript objects, where each object (related to a revision) has the following structure:
 
-```text
+```
   String version;
   String id;
   String date;
@@ -523,16 +470,16 @@ var files = utils.getGoogleDriveFolderContents(userId, folderId, query, trashed)
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| folderId | folder identifier |
-| query | optional query used to filter the folder content; see [https://developers.google.com/drive/web/search-parameters](https://developers.google.com/drive/web/search-parameters) for additional details |
-| trashed | boolean flag; true to fetch also deleted \(trashed\) files and folders. |
+| Argument | Description                                                                                                                                                                                                             |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId   | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| folderId | folder identifier                                                                                                                                                                                                       |
+| query    | optional query used to filter the folder content; see [https://developers.google.com/drive/web/search-parameters](https://developers.google.com/drive/web/search-parameters) for additional details                     |
+| trashed  | boolean flag; true to fetch also deleted (trashed) files and folders.                                                                                                                                                   |
 
-The method returns a list of javascript objects, where each object \(related to a file/folder\) has the following structure:
+The method returns a list of javascript objects, where each object (related to a file/folder) has the following structure:
 
-```text
+```
 String id;
 String title;
 String description;
@@ -544,7 +491,7 @@ String location;
 String url;
 ```
 
-## Google Drive - get folder content \(ids\)
+## Google Drive - get folder content (ids)
 
 Retrieve the folder content, in terms of files or subfolders, each expressed only through its id.
 
@@ -556,12 +503,12 @@ var fileIds = utils.getGoogleDriveFolderContentsIds(userId, folderId, query, tra
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| folderId | folder identifier |
-| query | optional query used to filter the folder content; see [https://developers.google.com/drive/web/search-parameters](https://developers.google.com/drive/web/search-parameters) for additional details |
-| trashed | boolean flag; true to fetch also deleted \(trashed\) files and folders. |
+| Argument | Description                                                                                                                                                                                                             |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId   | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| folderId | folder identifier                                                                                                                                                                                                       |
+| query    | optional query used to filter the folder content; see [https://developers.google.com/drive/web/search-parameters](https://developers.google.com/drive/web/search-parameters) for additional details                     |
+| trashed  | boolean flag; true to fetch also deleted (trashed) files and folders.                                                                                                                                                   |
 
 The method returns a list of file/folder ids.
 
@@ -577,18 +524,18 @@ var paginatedList = utils.searchInGoogleDrive(maxPageResults, pages, String next
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| maxPageResults | max number of files/subfolders to get back, that will fill in the page |
-| pages | page to read |
-| nextPageToken | token to pass forward to the next invocation of this method, in order to get the next page of results |
-| folderId | folder identifier to use when retrieving the content |
-| query | optional query to use to filter folder content |
-| trashed | boolean flag; true to fetch also deleted \(trashed\) files and folders. |
+| Argument       | Description                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------------- |
+| maxPageResults | max number of files/subfolders to get back, that will fill in the page                                |
+| pages          | page to read                                                                                          |
+| nextPageToken  | token to pass forward to the next invocation of this method, in order to get the next page of results |
+| folderId       | folder identifier to use when retrieving the content                                                  |
+| query          | optional query to use to filter folder content                                                        |
+| trashed        | boolean flag; true to fetch also deleted (trashed) files and folders.                                 |
 
 This method returns a javascript object containing the following structure:
 
-```text
+```
   List<T> list;
   String nextPageToken;
 ```
@@ -605,12 +552,12 @@ var file = utils.modifyGoogleDriveFileParents(userId, fileId, parentsToAdd, pare
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | folder identifier |
-| parentsToAdd | a comma separated list of folder ids that will be added as parents of the file/folder. Can be empty |
-| parentsToRemove | a comma separated list of folder ids that will be removed as parents of the file/folder. Can be empty |
+| Argument        | Description                                                                                                                                                                                                             |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId          | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId          | folder identifier                                                                                                                                                                                                       |
+| parentsToAdd    | a comma separated list of folder ids that will be added as parents of the file/folder. Can be empty                                                                                                                     |
+| parentsToRemove | a comma separated list of folder ids that will be removed as parents of the file/folder. Can be empty                                                                                                                   |
 
 ## Google Drive - move file
 
@@ -624,12 +571,12 @@ var file = utils.moveGoogleDriveFile(userId, fileId, newParents);
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | file identifier |
-| parentsToAdd | a comma separated list of folder ids that will be added as parents of the file/folder. Can be empty |
-| parentsToRemove | a comma separated list of folder ids that will be removed as parents of the file/folder. Can be empty |
+| Argument        | Description                                                                                                                                                                                                             |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId          | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId          | file identifier                                                                                                                                                                                                         |
+| parentsToAdd    | a comma separated list of folder ids that will be added as parents of the file/folder. Can be empty                                                                                                                     |
+| parentsToRemove | a comma separated list of folder ids that will be removed as parents of the file/folder. Can be empty                                                                                                                   |
 
 ## Google Drive - upload a file from the server file system
 
@@ -644,15 +591,15 @@ var file = utils.uploadAndRenameGoogleDriveFileInNamedFolderFromFS(userId, fsPat
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fsPath | the full path of the file to upload. This path is in the server where 4WS.Platform is installed |
-| baseFolderId | the id of the Drive folder where the named folder must be created |
-| folderName | a name of the folder where the file must be uploaded to. This folder must be in the base folder |
-| createFolderIfNotExists | true or false. Whether or not to create the folderName folder if not exists in the base folder |
-| fileName | the new name of the uploaded file. If null the original file name is used |
-| deleteJsFile | true or false. Specifies if the file on file system must be deleted or not after upload to Drive |
+| Argument                | Description                                                                                                                                                                                                             |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId                  | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fsPath                  | the full path of the file to upload. This path is in the server where 4WS.Platform is installed                                                                                                                         |
+| baseFolderId            | the id of the Drive folder where the named folder must be created                                                                                                                                                       |
+| folderName              | a name of the folder where the file must be uploaded to. This folder must be in the base folder                                                                                                                         |
+| createFolderIfNotExists | true or false. Whether or not to create the folderName folder if not exists in the base folder                                                                                                                          |
+| fileName                | the new name of the uploaded file. If null the original file name is used                                                                                                                                               |
+| deleteJsFile            | true or false. Specifies if the file on file system must be deleted or not after upload to Drive                                                                                                                        |
 
 ## Google Drive - replace an already existing Drive file from the server file system
 
@@ -666,13 +613,13 @@ var file = utils.updateGoogleDriveFileFromFS(userId, fileId, fsPath, deleteFsFil
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | file identifier, related to the already existing file in Drive |
-| fsPath | the full path of the file to upload. This path is in the server where 4WS.Platform is installed |
-| deleteFsFile | true or false. Specifies if the file on file system must be deleted or not after upload to Drive |
-| newRevision | true/false. If true the file will be new version of a possible homonymous file in the destination folder. If false two files with the same name will be present in the destination folder |
+| Argument     | Description                                                                                                                                                                                                             |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId       | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId       | file identifier, related to the already existing file in Drive                                                                                                                                                          |
+| fsPath       | the full path of the file to upload. This path is in the server where 4WS.Platform is installed                                                                                                                         |
+| deleteFsFile | true or false. Specifies if the file on file system must be deleted or not after upload to Drive                                                                                                                        |
+| newRevision  | true/false. If true the file will be new version of a possible homonymous file in the destination folder. If false two files with the same name will be present in the destination folder                               |
 
 ## Google Drive - download a file from Drive
 
@@ -686,12 +633,12 @@ utils.downloadFileFromGoogleDrive(userId, fileId, localPath, fileName);
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | file identifier, related to the already existing file in Drive |
-| localPath | the full path on the server file syste, where saving the file |
-| fileName | fileName to use when saving the file on the specified "localPath" |
+| Argument  | Description                                                                                                                                                                                                             |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId    | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId    | file identifier, related to the already existing file in Drive                                                                                                                                                          |
+| localPath | the full path on the server file syste, where saving the file                                                                                                                                                           |
+| fileName  | fileName to use when saving the file on the specified "localPath"                                                                                                                                                       |
 
 ## Google Drive - get an URL to download a file from Drive web page
 
@@ -705,14 +652,14 @@ var url = utils.getGoogleDriveFileDownloadURL(userId, fileId);
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | file identifier, related to the already existing file in Drive |
+| Argument | Description                                                                                                                                                                                                             |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId   | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId   | file identifier, related to the already existing file in Drive                                                                                                                                                          |
 
 ## Google Drive - get an URL to open a file from GDrive web page
 
-Returns the URL to open a file from Google Drive. This URL shoud be opened in a browser and must be used for files in Google format \(documents, spreadsheets, presentations, forms and so on\).
+Returns the URL to open a file from Google Drive. This URL shoud be opened in a browser and must be used for files in Google format (documents, spreadsheets, presentations, forms and so on).
 
 **Syntax**:
 
@@ -722,8 +669,7 @@ var url = utils.getGoogleDriveFileOpenURL(userId, fileId);
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| userId | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId | file identifier, related to the already existing file in Drive |
-
+| Argument | Description                                                                                                                                                                                                             |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId   | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId   | file identifier, related to the already existing file in Drive                                                                                                                                                          |

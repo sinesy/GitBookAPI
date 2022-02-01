@@ -2,9 +2,9 @@
 
 ## Checking for authorizations
 
-GAE javascript actions are stateless web services, that is to say, they do not store conversational state among different calls. 
+GAE javascript actions are stateless web services, that is to say, they do not store conversational state among different calls.&#x20;
 
-These actions can be invoked directly or, even better, through an alias \(api?cmd=...\).
+These actions can be invoked directly or, even better, through an alias (api?cmd=...).
 
 In any case, an authentication process is required, in order to successfully invoke an action.
 
@@ -21,7 +21,7 @@ Optionally, it is possible to ask Platform to fetch authorizations as well, when
 
 This can be carried out b y including in the request the "**loadRoles=Y**" header parameter.
 
-Finally, the **utils.checkRoles\(roleId\)** method can be included in any GAE action, in order to force Platform for GAE to check for that role as a role bound to the current user. This checking is performed ONLY IF "loadRoles=Y" has been previously included in the authentication request.
+Finally, the **utils.checkRoles(roleId)** method can be included in any GAE action, in order to force Platform for GAE to check for that role as a role bound to the current user. This checking is performed ONLY IF "loadRoles=Y" has been previously included in the authentication request.
 
 ## Reading data from Datastore
 
@@ -36,11 +36,11 @@ utils.setReturnValue(json);
 
 Parameters
 
-| Pararamer | Meaning |
-| :--- | :--- |
-| entityName | data model name, where the record to read is stored |
-| key | the id which identifies the record to read |
-| maxCachedEntities | total amount of records for this entity which will be cached in order to reduce the number of real readings and hence reduce the reading costs. It is recommended to always set this value &gt;0. **A 0 value is allowed when it is essential to get always a freshed version of the record** \(never for read only entities...\), i.e. for objects written concurrently. |
+| Pararamer         | Meaning                                                                                                                                                                                                                                                                                                                                                              |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| entityName        | data model name, where the record to read is stored                                                                                                                                                                                                                                                                                                                  |
+| key               | the id which identifies the record to read                                                                                                                                                                                                                                                                                                                           |
+| maxCachedEntities | total amount of records for this entity which will be cached in order to reduce the number of real readings and hence reduce the reading costs. It is recommended to always set this value >0. **A 0 value is allowed when it is essential to get always a freshed version of the record** (never for read only entities...), i.e. for objects written concurrently. |
 
 ## Reading data from Datastore
 
@@ -55,14 +55,14 @@ utils.setReturnValue(json);
 
 Parameters
 
-| Pararamer | Meaning |
-| :--- | :--- |
-| entityName | data model name, where the record to read is stored |
-| key | the id which identifies the record to read |
-| maxCachedEntities | total amount of records for this entity which will be cached in order to reduce the number of real readings and hence reduce the reading costs. It is recommended to always set this value &gt;0. **A 0 value is allowed when it is essential to get always a freshed version of the record** \(never for read only entities...\), i.e. for objects written concurrently. |
-| expirationTime | expiration time, expressed in minutes |
+| Pararamer         | Meaning                                                                                                                                                                                                                                                                                                                                                              |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| entityName        | data model name, where the record to read is stored                                                                                                                                                                                                                                                                                                                  |
+| key               | the id which identifies the record to read                                                                                                                                                                                                                                                                                                                           |
+| maxCachedEntities | total amount of records for this entity which will be cached in order to reduce the number of real readings and hence reduce the reading costs. It is recommended to always set this value >0. **A 0 value is allowed when it is essential to get always a freshed version of the record** (never for read only entities...), i.e. for objects written concurrently. |
+| expirationTime    | expiration time, expressed in minutes                                                                                                                                                                                                                                                                                                                                |
 
-## Execute a long HTTP\(s\) requestExecute a long HTTP\(s\) request
+## Execute a long HTTP(s) requestExecute a long HTTP(s) request
 
 AppEngine is a high scalable web container, used to run web services.
 
@@ -89,7 +89,7 @@ At this point, there are two possible scenarios:
 * the client invoking the current action does not need a feedback: that's all
 * the client needs a feedback and this action must wait for the termination of the enqueued action
 
-In the latter case, since the HTTP request launched by the client will terminate in 30 seconds \(because GAE will force its termination\), we can wait after the **enqueueActionWithNoteAsString** command, but not for more than 30 seconds. It can be helpful this method:
+In the latter case, since the HTTP request launched by the client will terminate in 30 seconds (because GAE will force its termination), we can wait after the **enqueueActionWithNoteAsString** command, but not for more than 30 seconds. It can be helpful this method:
 
 ```javascript
 var json = utils.blockingWaitAllElements(20,[uuid]);
@@ -98,13 +98,13 @@ utils.setReturnValue(json);
 
 In this example, this method will wait up to 20 seconds, until all enqueued elements specified in list will be terminated.
 
-If after the specified timeout \(expressed in seconds\), not all of the elements are still finished, the method ends gracefully and get back the list of not terminated element ids, which can be provided to the client.
+If after the specified timeout (expressed in seconds), not all of the elements are still finished, the method ends gracefully and get back the list of not terminated element ids, which can be provided to the client.
 
 Consequently, the client should invoked a second request, to a third action which should contain only the previous instructions, so that it can determine when the actions are terminated.
 
 ## Capturing enqueued action outcome
 
-The enqueued action can also provide a feedback to the invoking action or to any other action; the action return value \(JSON content\) is automatically cached internally, referred by the enqueued action uuid. That means that if the enqueued action terminates by providing some content \(either a successful or a wrong outcome\), like in this scenario:
+The enqueued action can also provide a feedback to the invoking action or to any other action; the action return value (JSON content) is automatically cached internally, referred by the enqueued action uuid. That means that if the enqueued action terminates by providing some content (either a successful or a wrong outcome), like in this scenario:
 
 ```javascript
 var response = { success: true, someData: "..." };
@@ -142,7 +142,7 @@ Bear in mind that cached response for an enqueued action is available up to 1 mi
 
 When enqueuing an element in AppEngine, the "**enqueueActionWithNoteAsString**" method returns an uuid identifying the specific element appended to the queue.
 
-Optionally, you can pass forward any payload \(for example a unique identifier as String or a JSON String\) to such method, using the "note" argument. You can later use this information to check for the element termination, using the "**getElementFromQueueByNote**" method, which enquiry the queue management system, searching from an element having the specified payload.
+Optionally, you can pass forward any payload (for example a unique identifier as String or a JSON String) to such method, using the "note" argument. You can later use this information to check for the element termination, using the "**getElementFromQueueByNote**" method, which enquiry the queue management system, searching from an element having the specified payload.
 
 **Syntax**
 
@@ -152,7 +152,7 @@ var json = utils.getElementFromQueueByNote(String payload,String namespace);
 
 The payload argument is used to search for an element still inside the queue, having that payload bounded.
 
-If it exists, the method returns the element in queue \(a JSON String representing the enqueued element\). 
+If it exists, the method returns the element in queue (a JSON String representing the enqueued element).&#x20;
 
 An example of returned JSON is:
 
@@ -177,7 +177,7 @@ There are two possibilities for having still and element returned:
 
 If the method returns null, it means the element has been already processed and removed from the queue.
 
-\*\*\*\*
+****
 
 **Example**
 
@@ -237,15 +237,15 @@ As long as the **updateObject/updateObjects** are used, the Google Datastore aut
 
 Let's take the classical example of a counter table "Counters" whose purpose is to reckon the next value for a counter. A Datastore object used for that goal would be something like:
 
-| Field | Type / PK |
-| :--- | :--- |
-| id \(companyId\_siteId\_docType\_year\_sectional\) | TEXT |
-| companyId | TEXT |
-| siteId | NUM |
-| docType | TEXT |
-| year | NUM |
-| sectional | TEXT |
-| currentValue | NUM |
+| Field                                            | Type / PK |
+| ------------------------------------------------ | --------- |
+| id (companyId\_siteId\_docType\_year\_sectional) | TEXT      |
+| companyId                                        | TEXT      |
+| siteId                                           | NUM       |
+| docType                                          | TEXT      |
+| year                                             | NUM       |
+| sectional                                        | TEXT      |
+| currentValue                                     | NUM       |
 
 The right GAE javascript action should manage the possibility of a concurrent access exception and attempt multiple times to get the next value:
 
@@ -296,13 +296,13 @@ utils.setReturnValue(JSON.stringify({ success: true, currentValue: currentValue 
 
 ## How to manage distributed transactions and SAGA
 
-Since Google Datastore is a NoSQL database, the ACID \(atomic, concurrent, isolated, durable\) properties supported by a relational database cannot be applied.
+Since Google Datastore is a NoSQL database, the ACID (atomic, concurrent, isolated, durable) properties supported by a relational database cannot be applied.
 
-Consequently, when multiple writing operations on different entity types are required, it is not possible to count on the Database behavior. The best way to manage a distributed transaction over multiple entity types, is to manage it as for a micro-service architecture, based on the SAGA pattern \(see for example: [https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part-2\](https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part-2%29\), using the "**command-orchestration sequencing logic**", where a main javascript action would orchestrate all operations, by invoking each of them sequentially.
+Consequently, when multiple writing operations on different entity types are required, it is not possible to count on the Database behavior. The best way to manage a distributed transaction over multiple entity types, is to manage it as for a micro-service architecture, based on the SAGA pattern (see for example: [https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part-2\\](https://blog.couchbase.com/saga-pattern-implement-business-transactions-using-microservices-part-2\)/), using the "**command-orchestration sequencing logic**", where a main javascript action would orchestrate all operations, by invoking each of them sequentially.
 
 In case of an error fired by any of the invoked actions, the main javascript action has the duty to "undo" any writing operation already carried out, by deleting them. That means that every invoking object should not only provide a "writing operation" but also an "undo" operation, to clean up any writing operation already done.
 
-![](https://i1.wp.com/blog.couchbase.com/wp-content/uploads/2018/01/Screen-Shot-2018-01-11-at-7.40.54-PM.png?resize=1300%2C796&ssl=1)
+![](https://i1.wp.com/blog.couchbase.com/wp-content/uploads/2018/01/Screen-Shot-2018-01-11-at-7.40.54-PM.png?resize=1300%2C796\&ssl=1)
 
 When comparing Platform with the schema above:
 
@@ -328,7 +328,7 @@ The status attribute is set to ENQUEUED every time and element is enqueued.
 When the Task manager extracts the element, it is processed and a few alternative outcomes can arise:
 
 * the elaboration terminates correctly: the record is removed automatically from QueueElements entity
-* the elaboration was interrupted by an error: 
+* the elaboration was interrupted by an error:&#x20;
   * if the max number of retries has not reached yet, the record is marked with ERROR status and managed again, up to the max number of retries set
   * f the max number of retries has been reached, the record is marked with ERROR status: not more attempts and carried out and the record remains in QueueElements for ever
 
@@ -363,9 +363,7 @@ utils.debug("reinsertElements: "+rows);
 
 
 
- 
-
-
+&#x20;
 
 
 
