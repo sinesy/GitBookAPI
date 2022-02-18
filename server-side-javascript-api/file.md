@@ -1406,9 +1406,9 @@ Write a very long PDF file on the server file system, through a 3 steps approach
 
 Data could be retrieved from a SQL query, through the **executeQueryWithCallback** method, since this will ensure a limited amount of memory consumption.
 
-**Important note**: the PDF file can be filled starting from a set of text lines; all lines inherit the same style (font + line height); lined are appended automatically, each at a predefined height; it is possibile to define the page size (e.g. A4, Letter, etc.) and margins; an a new page is automatically created when appended lines reach the bottom part of the current page.
+**Important note**: the PDF file can be filled starting from a set of text lines; all lines inherit the same style (font + line height); lines are appended automatically, each with the same specified height; it is possibile to define the page size (e.g. A4, Letter, etc.) and margins; a new page is automatically created when appended lines reach the bottom part of the current page.
 
-This method can be used to create up to 1M lines (more or less some ten thousand pages), approximately in 15 mins, consuming about 200Mb of memory. Memory is upper-bound limited to such amount, since data is automatically flushed every 1000 pages.
+This method can be used to create up to 1M lines (more or less some tens thousand pages), approximately in 15 mins, consuming about 200Mb of memory. Memory is upper-bound limited to such amount, since data is automatically flushed every 1000 pages.
 
 
 
