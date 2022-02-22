@@ -1517,3 +1517,35 @@ utils.addPageToPDFFile(fileId);
 
 ****
 
+## Writing a **background text to a** PDF file <a href="#getcsvcontent" id="getcsvcontent"></a>
+
+**From 6.0.2 version**
+
+Starting from an already existing PDF file, this method adds a text in the middle of the page, for each page, in the background.
+
+**Syntax for addPageToPDFFile method**
+
+It can be used to force the creation of a new page.
+
+```javascript
+utils.addBackgroundToPdf(
+  Long dirId,
+  String pdfFile,
+  String background,
+  Map settings
+);
+```
+
+**Details**
+
+| Argument   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dirId      | a directory id, where the already existing PDF file is stored                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| pdfFile    | PDF file name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| background | text to include in the background, for each page                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| settings   | <p>additional settings, expressed as a javascript object, having the following optional attributes:</p><p>{ </p><p>  red: 200, </p><p>  green: 200, </p><p>  blue: 200, </p><p>  fontName: "Helvetica-Bold", </p><p>  fontSize: 50, </p><p>  fileName: "newfile.pdf" </p><p>}</p><p></p><p>Allowed values for "fontName": "Courier-Bold", "Courier-BoldOblique", "Times-Roman", "Helvetica-Oblique", "Courier-Oblique", "Symbol", "Times-Italic", "Helvetica", "Helvetica-Bold", "Times-BoldItalic", "ZapfDingbats", "Times-Bold", "Helvetica-BoldOblique", "Courier"</p> |
+
+## &#x20;<a href="#getcsvcontent" id="getcsvcontent"></a>
+
+
+
