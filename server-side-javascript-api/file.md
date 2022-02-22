@@ -6,11 +6,11 @@
 
 ```javascript
 var rows = utils.executeSqlFile(
-sqlFile,
-dataSourceId,
-separatedTransaction,
-interruptExecution,
-params
+  sqlFile,
+  dataSourceId,
+  separatedTransaction,
+  interruptExecution,
+  params
 )
 ```
 
@@ -1523,9 +1523,7 @@ utils.addPageToPDFFile(fileId);
 
 Starting from an already existing PDF file, this method adds a text in the middle of the page, for each page, in the background.
 
-**Syntax for addPageToPDFFile method**
-
-It can be used to force the creation of a new page.
+**Syntax**
 
 ```javascript
 utils.addBackgroundToPdf(
@@ -1545,7 +1543,9 @@ utils.addBackgroundToPdf(
 | background | text to include in the background, for each page                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | settings   | <p>additional settings, expressed as a javascript object, having the following optional attributes:</p><p>{ </p><p>  red: 200, </p><p>  green: 200, </p><p>  blue: 200, </p><p>  fontName: "Helvetica-Bold", </p><p>  fontSize: 50, </p><p>  fileName: "newfile.pdf" </p><p>}</p><p></p><p>Allowed values for "fontName": "Courier-Bold", "Courier-BoldOblique", "Times-Roman", "Helvetica-Oblique", "Courier-Oblique", "Symbol", "Times-Italic", "Helvetica", "Helvetica-Bold", "Times-BoldItalic", "ZapfDingbats", "Times-Bold", "Helvetica-BoldOblique", "Courier"</p> |
 
-## &#x20;<a href="#getcsvcontent" id="getcsvcontent"></a>
+Note: if no settings has been specified, the default values reported above will be used.
+
+
 
 
 
