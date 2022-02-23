@@ -91,6 +91,22 @@ var fileId = utils.addLineToPDFFile(fileId, line, additionalSettings)
 | line               | String text to append to the current page; a new page is automatically created when the next line position would be over the max page height - bottom margin - line height. Page height depends on the page "size". It is possible to force a new page before reaching the bottom part of the page through the "addPageToPDFFile" method. |
 | additionalSettings | additional settings for the current line, expressed as a javascript object; not supported at the moment                                                                                                                                                                                                                                   |
 
+**Syntax for setLineToPDFFile method**
+
+```javascript
+var fileId = utils.setLineToPDFFile(fileId, x, y, line, additionalSettings)
+```
+
+**Details**
+
+| Argument           | Description                                                                                              |
+| ------------------ | -------------------------------------------------------------------------------------------------------- |
+| fileId             | a text id, representing the output stream, needed to work qwith the correct output stream                |
+| x                  | X coordinate where positioning the text                                                                  |
+| y                  | Y coordinate where positioning the text                                                                  |
+| line               | String text to include to the current page, at the specified position                                    |
+| additionalSettings | additional settings for the current line, expressed as a javascript object; not supported at the moment  |
+
 **Syntax for closePDFFile method**
 
 ```javascript
