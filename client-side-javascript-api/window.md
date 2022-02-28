@@ -91,3 +91,45 @@ windowA.markPanelsNotToReload("formPanel2");
 ```
 
 **Note**: bear in mind that this is not needed! Each time a grid or a form is reloaded, they internally change their state to "not to reload".
+
+
+
+### Waiting for BigQuery async saving completion on the UI
+
+In case a form or grid is saving data on Google Datastore and the Datastore object is synchronized with BigQuery, the saving operation on BigQuery is asynchronous, since it is slow.
+
+As a consequence, freshed data coming from BigQuery to show on the UI is really updated only after the asynchronous operation has been completed.
+
+In order to wait for this completion, it is possible to pass forward a parameter to a Form or Grid when saving data on insert or in update. This parameter would force the server layer to inform the UI when all writing operations on BigQuery have been completed.
+
+You can use the "before saving data in insert/edit" events in grid/form to include the following scriptlet:
+
+```javascript
+var uuid = addSaveCompletedEvent(gridxxx,function() {
+    // callback invoked when the async task on BQ has been completed
+    // after saving data on grid/form
+    /*
+    showToast({
+        title: "common.warning",
+        message: "Saving on BQ completed.",
+        sleep: 3
+    });
+    gridxxx.store.reload();
+    */
+});
+
+additionalParams = "&saveCompleted="+uuid;
+```
+
+Basically, it adds a listener on the UI, waiting for BQ saving completion, then the callback is invoked and can be used to reload data on that panel or in other panels.
+
+
+
+
+
+
+
+
+
+
+
