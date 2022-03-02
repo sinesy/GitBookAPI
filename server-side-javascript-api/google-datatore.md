@@ -305,6 +305,55 @@ The "additional settings" argument allows to enable result caching, through two 
 * maxCachedEntities - max number of results stored for the specified Entity
 * expirationTime, expressed in minutes (optional, if not specified, it is set to 10 minutes)
 
+## Execute a GQL query into a Google Datastore when reading the whole result set
+
+The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.\
+The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators (e.g. <, <=, etc.).\
+See Datastore syntax to get detail information about the syntax to use when filtering entities.
+
+In order to **enhance what Datastore supports in terms of filtering and sorting conditions,** it is possible to use Platform to execute any sorting operation as well as additional filtering conditions, **as long as the whole result set is fetched**.
+
+As a consequence, **you have to apply in any case a few filtering conditions** in order to significantly reduce the result set size, so that it is feasible to read the whole result set: **DO NOT DO IT if the resulting result set is larger than a few hundreds records**.
+
+In such a scenario, if the whole result set is loaded from Datastore using filtering conditions:
+
+attributeName1 operator1 value1 AND ... attributeNameN operatorN valueN&#x20;
+
+and can be additionally filtered and reduced using Platform filtering capabilities, i.e. by applying additional filtering conditions like:&#x20;
+
+attributeNameN+1 operatorN+1 value1 AND ...&#x20;
+
+Supported operators are: =, <>, >, >=, <, <=, IS NULL, IS NOT NULL, IN
+
+Moreover, **when the whole result set is loaded, sorting conditions are always managed internally by Platform** and not anymore by Datastore: in this way, no complex indexes must be defined on Datastore side.
+
+In order to setup this configuration, you have to:
+
+* check the "load all data" flag on the grid definition
+* on the server-side javascript business component, you have to use the getPartialResultOnGoogleDatastoreWithSettings method, as follows:
+
+```javascript
+var json = utils.getPartialResultOnGoogleDatastoreWithSettings(
+    "select * from Test where status='E' ",
+    319,
+    false,
+    { // additional settings
+        mainFilteringConditions: [
+            "attr1,attr2",
+            "attr1,attrN"
+        ]
+    },
+    [] // params
+);
+utils.setReturnValue(json);
+```
+
+As you can see, you have to specify at least one "main filtering condition", i.e. one attribute (or more attributes, like "attr1,attr2") which will be managed directly by Datastore: all other filtering conditions coming from quick filter or a filter panel are managed by Platform.
+
+As a consequence, you have to pay attention to the filters to apply to Datastore: **"main filters" must be mandatory (on the UI layer) and they must ensure that the whole result set is not larger then a few hundreds records**.
+
+
+
 ## Execute a GQL query into a Google Datastore: only a block of data is fetched, together with join-based GQL secondary queries on Google Datastore&#x20;
 
 The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.\
