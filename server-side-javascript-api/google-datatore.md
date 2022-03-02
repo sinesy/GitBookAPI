@@ -330,7 +330,7 @@ Moreover, **when the whole result set is loaded, sorting conditions are always m
 In order to setup this configuration, you have to:
 
 * check the "load all data" flag on the grid definition
-* on the server-side javascript business component, you have to use the getPartialResultOnGoogleDatastoreWithSettings method, as follows:
+* on the server-side javascript business component, you have to use the **getPartialResultOnGoogleDatastoreWithSettings** method, as follows:
 
 ```javascript
 var json = utils.getPartialResultOnGoogleDatastoreWithSettings(
@@ -349,6 +349,8 @@ utils.setReturnValue(json);
 ```
 
 As you can see, you have to specify at least one "main filtering condition", i.e. one attribute (or more attributes, like "attr1,attr2") which will be managed directly by Datastore: all other filtering conditions coming from quick filter or a filter panel are managed by Platform.
+
+Note that you can specify through "mainFilteringConditions" a list of main filtering conditions: these are  filters which can be applied on DS which could be used in alternative.
 
 As a consequence, you have to pay attention to the filters to apply to Datastore: **"main filters" must be mandatory (on the UI layer) and they must ensure that the whole result set is not larger then a few hundreds records**.
 
