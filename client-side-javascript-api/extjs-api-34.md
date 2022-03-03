@@ -132,6 +132,12 @@ Force a lookup validation, starting from the specified code ("code" argument), w
 
 This validation force automatically any event bound to the lookup (before validation, after validation, etc.)
 
+**showToast({title: "common.warning", message: "data changed", sleep: 3, css: "..." ]);**
+
+Show a toast message on the top part of the application. Mandatory attribute is "message".
+
+Optionally, you can include a custom CSS class name through the "css" attribute.
+
 ### Network methods
 
 Through the following methods, it is possible to contact the server-side layer and send/receive data, through REST web service invocation.
