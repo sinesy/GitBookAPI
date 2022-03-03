@@ -113,55 +113,37 @@ utils.sendAlertMessage(
 );
 ```
 
-## Show a toast message <a href="#executeshellcommand" id="executeshellcommand"></a>
+## Show a toast message <a href="executeshellcommand" id="executeshellcommand"></a>
 
 A toast message is a popup message shown starting from the top margin of the browser window, reporting a title and a text. The popup is automatically hidden after a few seconds.
 
 **Syntax**
 
 ```javascript
-showToast(settings)
+utils.showToast(settings)
 ```
 
 **Details**
 
 Settings is a javascript object containing the following attributes:
 
-| Argument | Description                                                                                                                                         |
-| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| title    | popup title                                                                                                                                         |
-| message  | message to show within the popup                                                                                                                    |
-| sleep    | optional; if specified, it represents the amount of time (in seconds) the popup will be visible; after that time, the popup is automatically hidden |
-| cls      | optional; if specified, it represents the CSS class to add to the popup                                                                             |
+| Argument  | Description                                                                                                                                         |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| title     | popup title                                                                                                                                         |
+| message   | message to show within the popup                                                                                                                    |
+| sleep     | optional; if specified, it represents the amount of time (in seconds) the popup will be visible; after that time, the popup is automatically hidden |
+| className | optional; if specified, it represents the CSS class to add to the popup                                                                             |
 
 
 
-**Example on the UI**
+**Example**
 
 ```javascript
 showToast({
     title: "common.warning",
     message: "data changed",
-    sleep: 3,
-    cls: "myCSSclassname"
+    sleep: 3
 });
-```
-
-**The same example, starting from the server**
-
-```javascript
-var toastArgs = {
-    title: "common.warning",
-    message: "data changed",
-    sleep: 3,
-    cls: "myCSSclassname"
-};
-utils.sendJavascriptMessage(
-  "ADMIN", // from username
-  toastArgs, // argument to pass forward to the client side js function
-  userInfo.username, // not necessarely it would be filled out in this way
-  "showToast"
-);
 ```
 
 
