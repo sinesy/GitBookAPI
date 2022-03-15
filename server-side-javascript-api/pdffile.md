@@ -196,6 +196,38 @@ utils.movePDFPage(fileId,pageIndex);
 
 ****
 
+**Syntax for getPDFPageCount method**
+
+It can be used to get the total number of pages in an already existing PDF document.
+
+```
+var nr = utils.getPDFPageCount(fileId);
+```
+
+**Details**
+
+| Argument | Description                                                                              |
+| -------- | ---------------------------------------------------------------------------------------- |
+| fileId   | a text id, representing the output stream, needed to work with the correct output stream |
+|          | total number of pages                                                                    |
+
+****
+
+**Syntax for getPDFOrientation method**
+
+It can be used to get the PDF page orientation, for an already existing PDF document.
+
+```
+var orientationString = utils.getPDFOrientation(fileId);
+```
+
+**Details**
+
+| Argument | Description                                                                              |
+| -------- | ---------------------------------------------------------------------------------------- |
+| fileId   | a text id, representing the output stream, needed to work with the correct output stream |
+|          | it returns either "portrait" or "landscape"                                              |
+
 ****
 
 ## Writing a **background text to a** PDF file <a href="#getcsvcontent" id="getcsvcontent"></a>
