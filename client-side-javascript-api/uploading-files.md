@@ -1,6 +1,6 @@
 # Uploading files
 
-The easiest way to upload files through platform is using the built-in functionalities available at grid and form level: you have just to define a "File path" or "File image" type column or control and bound to it a directory id and Platform will manage the rest. When showing a grid/form containing such a field, Platform will provide a standard popup window used to:
+The easiest way to upload files through platform is using the built-in functionalities available at grid and form level: you have just to define a "**File path**" or "**File image**" type column or control and bound to it a directory id and Platform will manage the rest. When showing a grid/form containing such a field, Platform will provide a standard popup window used to:
 
 * upload a file
 * download a file (previously uploaded)
@@ -18,7 +18,7 @@ In case you need more freedom when working with files to upload, there are addit
 
 ## Upload a file, starting from an application event
 
-Application events are linked to client-side javascript actions: you can listen to saving events, button click events or any other. You can use a client-side javascript action to invoke a built-in javascript function provided by Platform, through which you can manage a file upload.
+Application events are linked to client-side javascript actions: you can listen to saving events, button click events or any other. You can use a **client-side javascript action** to invoke a **built-in javascript function** provided by Platform, through which you can manage a file upload.
 
 **Syntax**
 
@@ -44,7 +44,35 @@ uploadFile(
 | beforeUploadCallback  | <p>callback function invoked just before the uploading; format:</p><p></p><p>function({ filename: "..." }) { </p><p>  return true|false </p><p>} </p><p></p><p>false can block the uploading. </p><p></p><p>You can change the file name by working on the "filename" argument</p> |
 | afterUploadCallback   | <p>callback function invoked after the uploading; format: </p><p></p><p>function({ filename: "....", success: true|false, message: "..." }) </p><p></p><p>The popup window is automatically closed just before this callback is invoked</p>                                        |
 | errorOnUploadCallback | <p>callback function invoked in case of errors on uploading; format: </p><p></p><p>function({ error: "..." })</p><p></p><p>The popup window is automatically closed just before this callback is invoked</p>                                                                       |
-| additionalSettings    | <p>contains an optional js object having the following attributes: </p><p></p><p>{ </p><p>   acceptMimes: "image/jpg,image/.png", // a list of mime types separated by ,</p><p>   encriptAttachments: true|false, </p><p>   panelId: ...</p><p>}</p>                               |
+| additionalSettings    | contains an optional js object; more details are reported below.                                                                                                                                                                                                                   |
+
+The optional "additionalSettings" attribute can be filled with a javascript object, used to provide additional settings, expressed as attributes. Supported attributes within this object are:
+
+* acceptMimes: "image/jpg,image/.png", i.e. a list of mime types separated by a comma (,)
+* encriptAttachments: true|false
+* panelId: ...
+* okButtonText: "..." - text to set for the Ok button
+* okButtonTooltip: "..." - tooltip to set for the Ok button
+* downloadButtonText: "..." - text to set for the Download button
+* downloadButtonTooltip: "..." - tooltip to set for the Download button
+* previewButtonText: "..." - text to set for the Preview button
+* previewButtonTooltip: "..." - tooltip to set for the Preview button
+* uploadFileLabel: "..." - text to the for the label to the left of the File input field
+* buttonsOnWindow: false|true - flag used to move the buttons at window level (centered) rather than at form level (the default)
+* hideDownloadButton: true|false - flag used to hide the Download button
+* hidePreviewButton: true|false - flag used to hide the Preview button
+
+Moreover, there are a few CSS classes available for most of the components included in the window:
+
+* uploadFile-downloadButton - CSS class name set for the Download button
+* uploadFile-previewButton - CSS class name set for the Preview button
+* uploadFile-okButton - CSS class name set for the Ok button
+* uploadFile-form - CSS class name set for the form panel within the window
+* uploadFile-label - CSS class name set for the label to the left of the file input field
+* uploadFile-file - CSS class name set for the file input field
+* uploadFile-window - CSS class name set for the whole window
+
+
 
 **Note**: this function can be invoked anywhere on the application UI; however, you cannot customize the content of the window, for example by adding additional input fields, specific to your UI. If you need to customize the upload popup window, you'd better use the next function.
 
@@ -58,7 +86,7 @@ Optionally, you can fill in the advanced property **File Type**, with a list of 
 
 #### Multiple upload
 
-Optionally, you can also select the "**Multiple Uploa**d" checkbox column, if you want to let the end user select multiple files at one time and upload all of them in a unique HTTP request.
+Optionally, you can also select the "**Multiple Upload**" checkbox column, if you want to let the end user select multiple files at one time and upload all of them in a unique HTTP request.
 
 #### Customizing upload file field
 
