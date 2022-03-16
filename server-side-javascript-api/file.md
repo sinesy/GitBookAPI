@@ -655,9 +655,55 @@ utils.debug("End: " + response.endTime);
 utils.debug("Operation Type: " + response.operationType)
 ```
 
-##
 
 
+## Getting the charset for a text type file <a href="#getcsvcontent" id="getcsvcontent"></a>
+
+**From 6.0.2 version**
+
+Starting from text type file stored in the server file system, it returns the file charset.
+
+**Syntax**
+
+```
+ var string = utils.getTxtFileCharset(String fileName)
+```
+
+The return value can be any of the following:
+
+* Chinese
+  * ISO-2022-CN
+  * BIG-5
+  * EUC-TW
+  * HZ-GB-2312
+  * GB-18030
+* Cyrillic
+  * ISO-8859-5
+  * KOI8-R
+  * WINDOWS-1251
+  * MACCYRILLIC
+  * IBM866
+  * IBM855
+* Greek
+  * ISO-8859-7
+  * WINDOWS-1253
+* Hebrew
+  * ISO-8859-8
+  * WINDOWS-1255
+* Japanese
+  * ISO-2022-JP
+  * Shift\_JIS
+  * EUC-JP
+* Korean
+  * ISO-2022-KR
+  * EUC-KR
+* Unicode
+  * **UTF-8**
+  * UTF-16BE / UTF-16LE
+  * UTF-32BE / UTF-32LE / X-ISO-10646-UCS-4-3412 / X-ISO-10646-UCS-4-2143
+* Others
+  * **WINDOWS-1252**
+  * **US-ASCII**
 
 
 
