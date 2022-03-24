@@ -99,13 +99,13 @@ var fileId = utils.setLineToPDFFile(fileId, x, y, line, additionalSettings)
 
 **Details**
 
-| Argument           | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| fileId             | a text id, representing the output stream, needed to work qwith the correct output stream                                                                                                                                                                                                                                                                                                                                                                                                        |
-| x                  | X coordinate where positioning the text                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| y                  | Y coordinate where positioning the text                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| line               | String text to include to the current page, at the specified position                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| additionalSettings | <p>additional settings for the current line, expressed as a javascript object, having the following optional attributes:</p><p>{ </p><p>  fontName: "Helvetica-Bold", </p><p>  fontSize: 50 </p><p>}</p><p></p><p>Allowed values for "fontName": "Courier-Bold", "Courier-BoldOblique", "Times-Roman", "Helvetica-Oblique", "Courier-Oblique", "Symbol", "Times-Italic", "Helvetica", "Helvetica-Bold", "Times-BoldItalic", "ZapfDingbats", "Times-Bold", "Helvetica-BoldOblique", "Courier"</p> |
+| Argument           | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| fileId             | a text id, representing the output stream, needed to work qwith the correct output stream                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| x                  | X coordinate where positioning the text                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| y                  | Y coordinate where positioning the text                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| line               | String text to include to the current page, at the specified position                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| additionalSettings | <p><strong>mandatory</strong> settings for the current line, expressed as a javascript object, having the following optional attributes:</p><p>{ </p><p>  fontName: "Helvetica-Bold", </p><p>  fontSize: 50 </p><p>}</p><p></p><p>Allowed values for "fontName": "Courier-Bold", "Courier-BoldOblique", "Times-Roman", "Helvetica-Oblique", "Courier-Oblique", "Symbol", "Times-Italic", "Helvetica", "Helvetica-Bold", "Times-BoldItalic", "ZapfDingbats", "Times-Bold", "Helvetica-BoldOblique", "Courier"</p> |
 
 **Syntax for closePDFFile method**
 
@@ -257,6 +257,37 @@ utils.addBackgroundToPdf(
 | settings   | <p>additional settings, expressed as a javascript object, having the following optional attributes:</p><p>{ </p><p>  red: 200, </p><p>  green: 200, </p><p>  blue: 200, </p><p>  fontName: "Helvetica-Bold", </p><p>  fontSize: 50, </p><p>  fileName: "newfile.pdf" </p><p>}</p><p></p><p>Allowed values for "fontName": "Courier-Bold", "Courier-BoldOblique", "Times-Roman", "Helvetica-Oblique", "Courier-Oblique", "Symbol", "Times-Italic", "Helvetica", "Helvetica-Bold", "Times-BoldItalic", "ZapfDingbats", "Times-Bold", "Helvetica-BoldOblique", "Courier"</p> |
 
 Note: if no settings has been specified, the default values reported above will be used.
+
+
+
+
+
+## Protecting **a** PDF file <a href="#getcsvcontent" id="getcsvcontent"></a>
+
+**From 6.0.2 version**
+
+Starting from an already existing PDF file, this method defines the protection policy to add to a document for password-based protection: it protects a PDF document with password for the document owner and in read-only for the generic user\
+
+
+**Syntax**
+
+```javascript
+utils.protectPdf(
+  String passwordRestriction,
+  String passwordOwner,
+  String fullPathSrc,
+  String fullPathDst
+);
+```
+
+**Details**
+
+| Argument            | Description                                                                |
+| ------------------- | -------------------------------------------------------------------------- |
+| passwordRestriction | password for the read-only user                                            |
+| passwordOwner       | password for the document owner                                            |
+| fullPathSrc         | absolute path + PDF file name for the already existing PDF file to protect |
+| fullPathDest        | absolute path + PDF file name for the PDF file protected                   |
 
 
 
