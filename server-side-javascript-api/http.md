@@ -1,8 +1,8 @@
 # HTTP
 
-## Execute an HTTP\(s\) connection and fetch the result
+## Execute an HTTP(s) connection and fetch the result
 
-result expressed as a String \(e.g. a JSON or XML result content\)
+result expressed as a String (e.g. a JSON or XML result content)
 
 **Syntax**
 
@@ -12,17 +12,17 @@ var json = utils.getWebContent(uri, replaceVariables, httpMethod, contentType, r
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| uri | URI, expressed as http:// or https:// with or without variables, expressed as :XXX |
-| replaceVariables | flag used to replace variables within the uri \(variables are expressed as :XXX\) |
-| httpMethod \(optional | can be null\); if specified, it defines the HTTP method: GET, POST |
-| contentType \(optional | can be null\); if specified, it defines the content type request \(e.g. application/json\) |
-| requestBody \(optional | can be null\); if specified, it defines the request body, expressed as a String \(e.g. a JSON or XML content\) |
-| user \(optional | can be null\); if specified, it defines the username for a BASIC authentication |
-| pwd \(optional | can be null\); if specified, it defines the password for a BASIC authentication |
+| Argument              | Description                                                                                                 |
+| --------------------- | ----------------------------------------------------------------------------------------------------------- |
+| uri                   | URI, expressed as http:// or https:// with or without variables, expressed as :XXX                          |
+| replaceVariables      | flag used to replace variables within the uri (variables are expressed as :XXX)                             |
+| httpMethod (optional  | can be null); if specified, it defines the HTTP method: GET, POST                                           |
+| contentType (optional | can be null); if specified, it defines the content type request (e.g. application/json)                     |
+| requestBody (optional | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content) |
+| user (optional        | can be null); if specified, it defines the username for a BASIC authentication                              |
+| pwd (optional         | can be null); if specified, it defines the password for a BASIC authentication                              |
 
-```text
+```
  Returns the HTTP response, expressed as a String (e.g. a JSON or XML result).
 ```
 
@@ -81,9 +81,9 @@ catch(e) {
 }
 ```
 
-## Execute an HTTP\(s\) connection and fetch the result \(with headers\)
+## Execute an HTTP(s) connection and fetch the result (with headers)
 
-result expressed as a String \(e.g. a JSON or XML result content\)
+result expressed as a String (e.g. a JSON or XML result content)
 
 **Syntax**
 
@@ -93,19 +93,19 @@ var json = utils.getWebContentWithHeaders(uri, replaceVariables, httpMethod, con
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| uri | URI, expressed as http:// or https:// with or without variables, expressed as :XXX |
-| replaceVariables | flag used to replace variables within the uri \(variables are expressed as :XXX\) |
-| httpMethod \(optional | can be null\); if specified, it defines the HTTP method: GET, POST |
-| contentType \(optional | can be null\); if specified, it defines the content type request \(e.g. application/json\) |
-| requestBody \(optional | can be null\); if specified, it defines the request body, expressed as a String \(e.g. a JSON or XML content\) |
-| user \(optional | can be null\); if specified, it defines the username for a BASIC authentication |
-| pwd \(optional | can be null\); if specified, it defines the password for a BASIC authentication |
-| charSet \(optional | can be null\); if specified, it defines the char set to use for the request body \(req property "Accept-Charset"\); if not specified, it is autodefined as "UTF-8" |
-| headers\(optional | can be null\); if specified, it defines a collection of attribute-values to pass as request headers; it is expressed as a javascript object: { attr1: value2, attr2: value2, ... } |
+| Argument              | Description                                                                                                                                                                       |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| uri                   | URI, expressed as http:// or https:// with or without variables, expressed as :XXX                                                                                                |
+| replaceVariables      | flag used to replace variables within the uri (variables are expressed as :XXX)                                                                                                   |
+| httpMethod (optional  | can be null); if specified, it defines the HTTP method: GET, POST                                                                                                                 |
+| contentType (optional | can be null); if specified, it defines the content type request (e.g. application/json)                                                                                           |
+| requestBody (optional | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                                                                       |
+| user (optional        | can be null); if specified, it defines the username for a BASIC authentication                                                                                                    |
+| pwd (optional         | can be null); if specified, it defines the password for a BASIC authentication                                                                                                    |
+| charSet (optional     | can be null); if specified, it defines the char set to use for the request body (req property "Accept-Charset"); if not specified, it is autodefined as "UTF-8"                   |
+| headers(optional      | can be null); if specified, it defines a collection of attribute-values to pass as request headers; it is expressed as a javascript object: { attr1: value2, attr2: value2, ... } |
 
-```text
+```
  Returns the HTTP response, expressed as a String (e.g. a JSON or XML result).
 ```
 
@@ -139,9 +139,9 @@ catch(e) {
 }
 ```
 
-## Execute an HTTP\(s\) connection and fetch the result \(most flexible version\)
+## Execute an HTTP(s) connection and fetch the result (most flexible version)
 
-result expressed as a String \(e.g. a JSON or XML result content\)
+result expressed as a String (e.g. a JSON or XML result content)
 
 **Syntax**
 
@@ -163,23 +163,30 @@ var json = utils.getWebContentWithHeaders(
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| uri | URI, expressed as http:// or https:// with or without variables, expressed as :XXX |
-| replaceVariables | flag used to replace variables within the uri \(variables are expressed as :XXX\) |
-| httpMethod \(optional | can be null\); if specified, it defines the HTTP method: GET, POST |
-| contentType \(optional | can be null\); if specified, it defines the content type request \(e.g. application/json\) |
-| requestBody \(optional | can be null\); if specified, it defines the request body, expressed as a String \(e.g. a JSON or XML content\) |
-| user \(optional | can be null\); if specified, it defines the username for a BASIC authentication |
-| pwd \(optional | can be null\); if specified, it defines the password for a BASIC authentication |
-| charSet \(optional | can be null\); if specified, it defines the char set to use for the request body \(req property "Accept-Charset"\); if not specified, it is autodefined as "UTF-8" |
-| headers\(optional | can be null\); if specified, it defines a collection of attribute-values to pass as request headers; it is expressed as a javascript object: { attr1: value2, attr2: value2, ... } |
-| timeout | optional argument: can be set to null; timeout for the request, expressed in seconds; helpful when the service to invoke could be very slow |
-| additionalSettings | optional argument: can be set to null; it is a javascript object containing additional settings; supported attributes: { log: true\|false } |
+| Argument              | Description                                                                                                                                                                       |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| uri                   | URI, expressed as http:// or https:// with or without variables, expressed as :XXX                                                                                                |
+| replaceVariables      | flag used to replace variables within the uri (variables are expressed as :XXX)                                                                                                   |
+| httpMethod (optional  | can be null); if specified, it defines the HTTP method: GET, POST                                                                                                                 |
+| contentType (optional | can be null); if specified, it defines the content type request (e.g. application/json)                                                                                           |
+| requestBody (optional | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                                                                       |
+| user (optional        | can be null); if specified, it defines the username for a BASIC authentication                                                                                                    |
+| pwd (optional         | can be null); if specified, it defines the password for a BASIC authentication                                                                                                    |
+| charSet (optional     | can be null); if specified, it defines the char set to use for the request body (req property "Accept-Charset"); if not specified, it is autodefined as "UTF-8"                   |
+| headers(optional      | can be null); if specified, it defines a collection of attribute-values to pass as request headers; it is expressed as a javascript object: { attr1: value2, attr2: value2, ... } |
+| timeout               | optional argument: can be set to null; timeout for the request, expressed in seconds; helpful when the service to invoke could be very slow                                       |
+| additionalSettings    | optional argument: can be set to null; it is a javascript object containing additional settings                                                                                   |
 
-```text
+```
  Returns the HTTP response, expressed as a String (e.g. a JSON or XML result).
 ```
+
+Supported attributes by "additionalSettings" argument:
+
+* **log**: true|false - used to turn down the automatic logging of an HTTP request; helpful when you don't want to log credentials passed forward or when you have a large number of requests
+* **enableSNIExtension**: true|false - used to customize the SNI settings per single request
+
+
 
 HTTP response codes included between 200 and 399 are managed as correct answers and the response is sent back throughthe "json" return variable.
 
@@ -211,7 +218,7 @@ catch(e) {
 }
 ```
 
-## Execute an HTTP\(s\) connection and fetch the result \(binary content\)
+## Execute an HTTP(s) connection and fetch the result (binary content)
 
 result expressed as a binary content and store it into the specified file
 
@@ -221,17 +228,17 @@ result expressed as a binary content and store it into the specified file
 utils.getBinaryContent(toFile, uri, replaceVariables, httpMethod, contentType, requestBody, user, pwd);
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| Details |  |
-| toFile | absolute path including the file name, related to the local binary file to create and fill in with the result of this HTTP request |
-| uri | URI, expressed as http:// or https:// with or without variables, expressed as :XXX |
-| replaceVariables | flag used to replace variables within the uri \(variables are expressed as :XXX\) |
-| httpMethod \(optional | can be null\); if specified, it defines the HTTP method: GET, POST |
-| contentType \(optional | can be null\); if specified, it defines the content type request \(e.g. application/json\) |
-| requestBody \(optional | can be null\); if specified, it defines the request body, expressed as a String \(e.g. a JSON or XML content\) |
-| user \(optional | can be null\); if specified, it defines the username for a BASIC authentication |
-| pwd \(optional | can be null\); if specified, it defines the password for a BASIC authentication |
+| Argument              | Description                                                                                                                        |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Details               |                                                                                                                                    |
+| toFile                | absolute path including the file name, related to the local binary file to create and fill in with the result of this HTTP request |
+| uri                   | URI, expressed as http:// or https:// with or without variables, expressed as :XXX                                                 |
+| replaceVariables      | flag used to replace variables within the uri (variables are expressed as :XXX)                                                    |
+| httpMethod (optional  | can be null); if specified, it defines the HTTP method: GET, POST                                                                  |
+| contentType (optional | can be null); if specified, it defines the content type request (e.g. application/json)                                            |
+| requestBody (optional | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                        |
+| user (optional        | can be null); if specified, it defines the username for a BASIC authentication                                                     |
+| pwd (optional         | can be null); if specified, it defines the password for a BASIC authentication                                                     |
 
 Fetches the HTTP response, expressed as a binary content and stores in to the specified file.
 
@@ -245,7 +252,7 @@ utils.getBinaryContent(...);
 
 ## Execute an Alfresco web script
 
-starts with "service/xyz?..." and fetch the result, expresses as a String \(e.g. a JSON or XML result content\)
+starts with "service/xyz?..." and fetch the result, expresses as a String (e.g. a JSON or XML result content)
 
 **Syntax**
 
@@ -255,11 +262,10 @@ var responseBody = utils.getAlfrescoWebScript(uri, replaceVariables, httpMethod,
 
 **Details**
 
-| Argument | Description |
-| :--- | :--- |
-| uri | last part of the URI to pass to the Alfresco base URL, in order to invoke a webscript, i.e. from the webscript name to required parameters |
-| replaceVariables | flag used to define if :XXX value in the uri must be replaced by Platform defined variables |
-| httpMethod | optional: HTTP method to use: GET, POST, etc. |
-| bodyRequest | optional: body request to pass, expressed as a String |
-| charSet | optional: the request/response charset to use; if not specified, Unicode charset will be used \(UTF-8\); possible values: UTF-8, Windows-1252 |
-
+| Argument         | Description                                                                                                                                 |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| uri              | last part of the URI to pass to the Alfresco base URL, in order to invoke a webscript, i.e. from the webscript name to required parameters  |
+| replaceVariables | flag used to define if :XXX value in the uri must be replaced by Platform defined variables                                                 |
+| httpMethod       | optional: HTTP method to use: GET, POST, etc.                                                                                               |
+| bodyRequest      | optional: body request to pass, expressed as a String                                                                                       |
+| charSet          | optional: the request/response charset to use; if not specified, Unicode charset will be used (UTF-8); possible values: UTF-8, Windows-1252 |
