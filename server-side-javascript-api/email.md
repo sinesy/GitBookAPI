@@ -28,9 +28,56 @@ utils.sendEmail(from, to, cc, bcc, subject, body, isHtmlContent, returnReceipt, 
 
 This method will fire an exception if the email has NOT been sent correctly (e.g. attachment file not found).
 
-IMPORTANT NOTE:
 
-In order to use this feature, you have also to define a few parameters:
+
+**Example without attachments**:
+
+```javascript
+utils.sendEmail(
+  "fromemailaddress@mydomain.com", // from address
+  "toemailaddress@domain.com", // to address, can be a list of email addresses, separated by a comma (,)
+  null, // carbon copy 
+  null, // blank carbon copy 
+  "email title", // subject
+  "email body", // it can be plain text or HTML formatted text 
+  true, // isHtmlContent, false to set plain text 
+  false, // returnReceipt
+  false, // zipFiles, in case of attachments
+  false, // deleteFilesAfterSending, in case of attachments
+  null, // dirId, in case of attachments
+  null, // fileName, in case of attachments
+  null, // filesToAttach, in case of attachments
+);
+```
+
+****
+
+**Example with attachments**:
+
+```javascript
+var myDirId = ...; // directory id, representing the base dir where files have been stored; defined in Administration -> Directories
+var filesToAttach = ["myfile1.txt", "myfile2.pdf", ...];
+
+utils.sendEmail(
+  "fromemailaddress@mydomain.com", // from address
+  "toemailaddress@domain.com", // to address, can be a list of email addresses, separated by a comma (,)
+  null, // carbon copy 
+  null, // blank carbon copy 
+  "email title", // subject
+  "email body", // it can be plain text or HTML formatted text 
+  true, // isHtmlContent, false to set plain text 
+  false, // returnReceipt
+  false, // zipFiles, in case of attachments
+  false, // deleteFilesAfterSending, in case of attachments
+  myDirId, // dirId, in case of attachments
+  null, // fileName, in case of attachments
+  [], // filesToAttach, in case of attachments
+);
+```
+
+****
+
+**Important note:** in order to use this feature, you have also to define a few global/application parameters:
 
 ```
  MAIL_SMTP_HOST
