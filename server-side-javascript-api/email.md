@@ -125,6 +125,8 @@ utils.sendEmail(smtpHost, smtpPort, useTLS, protocol, smtpUsername, smtpPassword
 
 This method will fire an exception if the email has NOT been sent correctly (e.g. attachment file not found).
 
+
+
 ## Send an email message to a user
 
 **Syntax**
@@ -229,7 +231,38 @@ utils.sendAlertEmailFromTemplate(String from,Number templateId,String destinatio
 
 Note: in order to use this feature, you have first to define an application parameters named "SHOW\_ALERT\_MENU\_ITEM" to "Y", otherwise these messages cannot be showed on the client side.
 
-Note: in order to send email, additional application/common parameters must be defined:
+
+
+**Example without attachments**:
+
+```javascript
+var templateId = ...; // the template id defined in UI -> Templates
+
+// suppose you template text is something like: 
+// "Hi :NAME <br/>Pleased to meet you!"
+// then there is a :NAME variable to fill in here:
+var templateObj = {
+  name: "Hohn Doe"
+};
+
+utils.sendAlertEmailFromTemplate(
+  "fromemailaddress@mydomain.com", // from address
+  templateId, 
+  "toemailaddress@domain.com", // to address, can be a list of email addresses, separated by a comma (,)
+  null, // carbon copy 
+  null, // blank carbon copy 
+  null, // priority
+  true, // isHtmlContent, false to set plain text 
+  templateObj,
+  null, // dirId, in case of attachments
+  null, // fileName, in case of attachments
+  null, // filesToAttach, in case of attachments
+);
+```
+
+****
+
+**Note**: in order to send email, additional application/common parameters must be defined:
 
 ```
  MAIL_SMTP_HOST
