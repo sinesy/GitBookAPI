@@ -146,7 +146,7 @@ result expressed as a String (e.g. a JSON or XML result content)
 **Syntax**
 
 ```javascript
-var json = utils.getWebContentWithHeaders(
+var json = utils.getWebContentWithSettings(
   uri, 
   replaceVariables, 
   httpMethod, 
@@ -198,24 +198,6 @@ In case of HTTP response codes above or equal to 400, an exception is fired and 
 var url = "http://host/context?par1=abc de&par2=ab\ncd";
 url = encodeURI(url);
 utils.getWeb...
-```
-
-**Example**
-
-```javascript
-try {
-
- var json = utils.getWebContentWithHeaders(...);
-
- ...
-
-}
-
-catch(e) {
-
- // e.message would containthe error message
-
-}
 ```
 
 ## Execute an HTTP(s) connection and fetch the result (binary content)
