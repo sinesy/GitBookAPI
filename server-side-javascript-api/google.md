@@ -477,7 +477,7 @@ var files = utils.getGoogleDriveFolderContents(userId, folderId, query, trashed)
 | query    | optional query used to filter the folder content; see [https://developers.google.com/drive/web/search-parameters](https://developers.google.com/drive/web/search-parameters) for additional details                     |
 | trashed  | boolean flag; true to fetch also deleted (trashed) files and folders.                                                                                                                                                   |
 
-The method returns a list of javascript objects, where each object (related to a file/folder) has the following structure:
+The method returns a Java List containing Java objects, where each object (related to a file/folder) has the following structure:
 
 ```
 String id;
@@ -489,6 +489,17 @@ EventAttendee creator;
 List<EventAttendee>attendees;
 String location;
 String url;
+```
+
+Example:
+
+```
+var files = ...
+for(var i=0;i<files.size();i++) {
+  var file = files.get(i);
+  var id = file.id;
+  //...
+}
 ```
 
 ## Google Drive - get folder content (ids)
