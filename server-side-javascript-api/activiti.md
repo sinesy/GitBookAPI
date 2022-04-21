@@ -1,4 +1,4 @@
-# Activiti
+# Activiti BPM
 
 ## Activiti BPM - Start a process
 
@@ -34,9 +34,15 @@ In order to access to these values, you have to use the get("attrname") method; 
 
 var id = responseObj.get("id");
 
+
+
 ## Activiti BPM - Complete a manual task
 
-Method used to start and complete a manual task for the current logged user.
+Method used to complete a manual task for the current logged user.
+
+DO NOT USE THIS METHOD IF THE TASK IS NOT ASSIGNED TO THE CURRENT USER: you cannot use this method if the Manual Task does not have an assigned user and such a suer is the current user!
+
+In case of troubles, use [closeActivitiTask](https://4wsplatform.gitbook.io/api/server-side-javascript-api/activiti#activiti-bpm-how-to-close-a-task) method.
 
 **Syntax**:
 

@@ -47,7 +47,7 @@
 * [Reporting](server-side-javascript-api/reporting.md)
 * [Sql](server-side-javascript-api/sql.md)
 * [XML](server-side-javascript-api/xml.md)
-* [Activiti](server-side-javascript-api/activiti.md)
+* [Activiti BPM](server-side-javascript-api/activiti.md)
 * [Archiflow](server-side-javascript-api/archiflow.md)
 * [Import Cells from xlsx](server-side-javascript-api/import-cells-from-xlsx.md)
 * [Import Rows from csv, xls and xlsx](server-side-javascript-api/import-rows-from-csv-xls-and-xlsx.md)
