@@ -17,18 +17,22 @@ var responseObj = utils.startActivitiProcess(
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| appId | application id having the process defined internally |
-| processDefinitionId | process id defined when creating the workflow though the Activiti Web Designer |
-| params | optional parameters which can override the default ones; for example there can be attributes like "username" and "password" which can be used instead of the current logged user, when starting the process |
-| processVariables | input parameters defined for the Start task within the process definition |
+| Argument            | Description                                                                                                                                                                                                 |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| appId               | application id having the process defined internally                                                                                                                                                        |
+| processDefinitionId | process id defined when creating the workflow though the Activiti Web Designer                                                                                                                              |
+| params              | optional parameters which can override the default ones; for example there can be attributes like "username" and "password" which can be used instead of the current logged user, when starting the process |
+| processVariables    | input parameters defined for the Start task within the process definition                                                                                                                                   |
 
-The responseObj javascript object can contain:
+The responseObj is a Java object containing:
 
 * success - boolean flag reporting whether the process was started successfully
 * id  - the process instance id related to the instance just started, in case of success = true
 * msg - error message, in case of success = false
+
+In order to access to these values, you have to use the get("attrname") method; example:
+
+var id = responseObj.get("id");
 
 ## Activiti BPM - Complete a manual task
 
@@ -46,11 +50,11 @@ var responseObj = utils.completeActivitiTask(
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| processInstanceId | instance id related to a process started |
-| params | optional parameters which can override the default ones; for example there can be attributes like "username" and "password" which can be used instead of the current logged user, when starting the process |
-| processVariables | input parameters to pass forward to the manual task to start/complete |
+| Argument          | Description                                                                                                                                                                                                 |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| processInstanceId | instance id related to a process started                                                                                                                                                                    |
+| params            | optional parameters which can override the default ones; for example there can be attributes like "username" and "password" which can be used instead of the current logged user, when starting the process |
+| processVariables  | input parameters to pass forward to the manual task to start/complete                                                                                                                                       |
 
 The responseObj javascript object can contain:
 
@@ -69,8 +73,8 @@ utils.deleteProcessInstance(String processInstanceId);
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
+| Argument          | Description                              |
+| ----------------- | ---------------------------------------- |
 | processInstanceId | instance id related to a process to kill |
 
 In case of errors, an exception is fired.
@@ -88,10 +92,10 @@ var json utils.getActivitiProcessInstancesVariables(
 );
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| processInstanceId | instance id related to a process to kill |
-| processDefinitionId | process id |
+| Argument            | Description                              |
+| ------------------- | ---------------------------------------- |
+| processInstanceId   | instance id related to a process to kill |
+| processDefinitionId | process id                               |
 
 The method returns a JSON string representing the list of variables, having the following format:
 
@@ -122,7 +126,7 @@ In case of errors, an exception is fired.
 
 Method used to get the description, in JSON format, of the static definition of a process.
 
-Such a description contains all objects defined in a process: user tasks, automatic tasks \(service/script tasks\), gateways \(if, fork, join\), start/ends events.
+Such a description contains all objects defined in a process: user tasks, automatic tasks (service/script tasks), gateways (if, fork, join), start/ends events.
 
 **Syntax**:
 
@@ -136,11 +140,11 @@ var json = utils.getActivitiProcessAsJson(
 
 **Description**:
 
-| Argument | Description |
-| :--- | :--- |
-| processId | identifier of the process  |
-| includeSubProcesses | boolean value used to enable the retrieval of tasks for all referring sub-processes; if set to true, the "invocation process" task is replaced by the whole subprocess tasks  |
-| tasksDueDates | javascript object; if set, it contains the due date for each task id; each attribute is the processId.taskId \(including task ids for all referred sub-processes\) and its value is the due date, expressed as a String either in "yyyy-MM-dd HH:mm:ss" format or using the ISO-8610 format \(see [https://en.wikipedia.org/wiki/ISO\_8601\#Dates](https://en.wikipedia.org/wiki/ISO_8601#Dates)\) |
+| Argument            | Description                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| processId           | identifier of the process                                                                                                                                                                                                                                                                                                                                                                      |
+| includeSubProcesses | boolean value used to enable the retrieval of tasks for all referring sub-processes; if set to true, the "invocation process" task is replaced by the whole subprocess tasks                                                                                                                                                                                                                   |
+| tasksDueDates       | javascript object; if set, it contains the due date for each task id; each attribute is the processId.taskId (including task ids for all referred sub-processes) and its value is the due date, expressed as a String either in "yyyy-MM-dd HH:mm:ss" format or using the ISO-8610 format (see [https://en.wikipedia.org/wiki/ISO\_8601#Dates](https://en.wikipedia.org/wiki/ISO\_8601#Dates)) |
 
 The  response is a String representing the process descriptor, expressed in JSON format. An exception is fired in case of errors or null if the processed has not been found.
 
@@ -170,18 +174,18 @@ The JSON has the following content:
 }]
 ```
 
-By and large, the result is always a list, where each js object is related to an element of the process \(a task, a gateway, an event, etc\); the elements in the list are not reported in a specific order.
+By and large, the result is always a list, where each js object is related to an element of the process (a task, a gateway, an event, etc); the elements in the list are not reported in a specific order.
 
 Each js object always contains the following attributes:
 
 * **name** - the task name
 * **id** - the task id, helpful to refer the task in the rest of the application or to sort the task reference in a database table
-* **type** - the element type; if can be: **startEvent, endEvent, userTask, serviceTask, scriptTask, parallelGateway, inclusiveGateway**, **callActivity** \(in case of an invocation of a sub-process\), **boundaryEvent** \(a timer linked to a userTask\)
-* **sources** - list of ids related to all elements having a link starting from them and arriving in the current element \(predecessors\)
-* **targets** - list of ids related to all elements having a link whose origin is the current element \(destinations\)
-* **flowConditions** - list of conditions, one for each target reported above, indicating the boolean condition to fulfill, in order to go onto the corresponding target \(in case of **exclusiveGateway** task\)
-* **flowNames** - list of names for the conditions, one for each target reported above, in order to go onto the corresponding target \(in case of **exclusiveGateway** task\)
-* **sequence** - a string representing the execution order of each task with regards to each other; in case of gateway \(if, parallel execution\), the sequence is expressed as "num1.num2"; in this way tasks belonging to different branches of the same original gateway task can continue with a consistent enumeration; when a join task is met, the sequence returns to "num" format; recursive sequence is supported as well \(n1.n2.n3...\). In case of sub-processes \(with "includeSubProcesses" flag set to true\) the sequence is defined in "num1.num2" format again.
+* **type** - the element type; if can be: **startEvent, endEvent, userTask, serviceTask, scriptTask, parallelGateway, inclusiveGateway**, **callActivity** (in case of an invocation of a sub-process), **boundaryEvent** (a timer linked to a userTask)
+* **sources** - list of ids related to all elements having a link starting from them and arriving in the current element (predecessors)
+* **targets** - list of ids related to all elements having a link whose origin is the current element (destinations)
+* **flowConditions** - list of conditions, one for each target reported above, indicating the boolean condition to fulfill, in order to go onto the corresponding target (in case of **exclusiveGateway** task)
+* **flowNames** - list of names for the conditions, one for each target reported above, in order to go onto the corresponding target (in case of **exclusiveGateway** task)
+* **sequence** - a string representing the execution order of each task with regards to each other; in case of gateway (if, parallel execution), the sequence is expressed as "num1.num2"; in this way tasks belonging to different branches of the same original gateway task can continue with a consistent enumeration; when a join task is met, the sequence returns to "num" format; recursive sequence is supported as well (n1.n2.n3...). In case of sub-processes (with "includeSubProcesses" flag set to true) the sequence is defined in "num1.num2" format again.
 
 Additionally, according to the **type**, there can be other attributes:
 
@@ -256,7 +260,7 @@ https://<yourhostandport/<platformwebcontext>/activiti/process-definitions-diagr
 
 where id is the full key for a process.
 
-Example: 
+Example:&#x20;
 
 ```javascript
 var id = "SIN00000_00000_M7:4:3251";
@@ -413,7 +417,7 @@ The same operation can be executed also within a server-side javascript action, 
 utils.setTaskAssignee(String taskInstanceId,String assignee);
 ```
 
-## Activiti BPM - How to get the list of running tasks 
+## Activiti BPM - How to get the list of running tasks&#x20;
 
 URL
 
@@ -425,7 +429,7 @@ You can add any number of additional filters to get a subset of all running task
 
 The whole list of available filters is reported here:
 
-{% embed url="https://www.activiti.org/5.x/userguide/\#restTasksGet" %}
+{% embed url="https://www.activiti.org/5.x/userguide/#restTasksGet" %}
 
 The result is something like:
 
@@ -468,7 +472,7 @@ The same operation can be executed also within a server-side javascript action, 
 var json = utils.enquiryTasks(HashMap pars);
 ```
 
- 
+&#x20;
 
 ## Activiti BPM - How to get the list of tasks assigned to other users where the specified user is a candidate
 
@@ -482,7 +486,7 @@ You can add any number of additional filters to get a subset of all running task
 
 The whole list of available filters is reported here:
 
-[https://www.activiti.org/5.x/userguide/\#restTasksGet](https://www.activiti.org/5.x/userguide/#restTasksGet)
+[https://www.activiti.org/5.x/userguide/#restTasksGet](https://www.activiti.org/5.x/userguide/#restTasksGet)
 
 The returned list of tasks only includes tasks already assigned to other users, but which have the specified username as a candidate for those tasks.
 
@@ -539,53 +543,12 @@ There is a server-side javascript function available to get the list of tasks po
 var json = utils.getActivitiUserCandidateTasks(candidate, processInstanceId, taskDefinitionKey);
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Argument</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">candidate</td>
-      <td style="text-align:left">mandatory argument; username to use when filtering the tasks list: only
-        tasks where the user is a candidate will be fetched</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">processInstanceId</td>
-      <td style="text-align:left">optional argument: if set, the tasks list is filtered not only by username
-        but also by process instance id</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">taskDefinitionKey</td>
-      <td style="text-align:left">optional argument: if set, the tasks list is filtered not only by username
-        but also by the task definition id, i.e. the code specified in the BPM
-        model, when creating a task (if not filled, it is automatically defined
-        by Activiti as a UUID)</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">returned value</td>
-      <td style="text-align:left">
-        <p>a JSON string, expressed as { valueObjectList: [{...},....] }</p>
-        <p>where an element of the list is something like:</p>
-        <p>{</p>
-        <p>&quot;id&quot;: &quot;...&quot;, // instance task id</p>
-        <p>&quot;owner&quot;: null,</p>
-        <p>&quot;assignee&quot;: &quot;...&quot;, // username</p>
-        <p>&quot;name&quot;: &quot;...&quot;, // the task description, as defined
-          in the BPM model</p>
-        <p>&quot;description&quot;: null,</p>
-        <p>&quot;dueDate&quot;: &quot;2020-05-20T10:09:10.000+0000&quot;,</p>
-        <p>&quot;taskDefinitionKey&quot;: &quot;...&quot;,</p>
-        <p>&quot;processInstanceId&quot;: &quot;...&quot;,</p>
-        <p>&quot;processDefinitionId&quot;: &quot;...&quot;</p>
-        <p>}</p>
-        <p></p>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Argument          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| candidate         | mandatory argument; username to use when filtering the tasks list: only tasks where the user is a candidate will be fetched                                                                                                                                                                                                                                                                                                                                                                                                              |
+| processInstanceId | optional argument: if set, the tasks list is filtered not only by username but also by process instance id                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| taskDefinitionKey | optional argument: if set, the tasks list is filtered not only by username but also by the task definition id, i.e. the code specified in the BPM model, when creating a task (if not filled, it is automatically defined by Activiti as a UUID)                                                                                                                                                                                                                                                                                         |
+| returned value    | <p>a JSON string, expressed as { valueObjectList: [{...},....] } </p><p>where an element of the list is something like:</p><p>{ </p><p>  "id": "...", // instance task id</p><p>  "owner": null, </p><p>  "assignee": "...", // username</p><p>  "name": "...", // the task description, as defined in the BPM model</p><p>  "description": null, </p><p>  "dueDate": "2020-05-20T10:09:10.000+0000", </p><p>  "taskDefinitionKey": "...", </p><p>  "processInstanceId": "...",</p><p>  "processDefinitionId": "..." </p><p>}</p><p></p> |
 
 ## Activiti BPM - how to close a task
 
@@ -598,7 +561,7 @@ There are 3 ways to close a task for an instance process. In any case, the task 
 In order to close the task, you can:
 
 * use the standard "**To do**" functionality, provided by Platform and close a task
-* close a task, starting from its "**task id**", which is related to a specific process instance id, user and task; you can get the "task id", through one of the methods described above \(getActivitiUserAssignedTasks or getActivitiUserCandidateTasks\)
+* close a task, starting from its "**task id**", which is related to a specific process instance id, user and task; you can get the "task id", through one of the methods described above (getActivitiUserAssignedTasks or getActivitiUserCandidateTasks)
 * close a task starting from a **process instance id, a task definition key and a user**
 
 In any case, if some task properties are mandatory, you have to provide them, when closing the task, otherwise, an exception will be fired. An exception will be fired also when:
@@ -614,28 +577,10 @@ There are 2 server-side javascript methods available, in order to close a task, 
 utils.closeActivitiTask(taskInstanceId, map);
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Argument</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">taskInstanceId</td>
-      <td style="text-align:left">
-        <p>a valid task id (as a String), which can be retrieved starting from</p>
-        <p>getActivitiUserAssignedTasks or getActivitiUserCandidateTasks methods</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">map</td>
-      <td style="text-align:left">a javascript object containing all required values to pass forward to
-        activiti, in order to close the process</td>
-    </tr>
-  </tbody>
-</table>
+| Argument       | Description                                                                                                                                             |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| taskInstanceId | <p>a valid task id (as a String), which can be retrieved starting from </p><p>getActivitiUserAssignedTasks or getActivitiUserCandidateTasks methods</p> |
+| map            | a javascript object containing all required values to pass forward to activiti, in order to close the process                                           |
 
 **Syntax**:
 
@@ -643,37 +588,12 @@ utils.closeActivitiTask(taskInstanceId, map);
 utils.closeActivitiTask(processInstanceId, taskDefinitionKey, assignee, map);
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Argument</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">processInstanceId</td>
-      <td style="text-align:left">
-        <p>a valid process instance id (as a String), which can be retrieved starting
-          from</p>
-        <p>getActivitiUserAssignedTasks or getActivitiUserCandidateTasks methods</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">taskDefinitionKey</td>
-      <td style="text-align:left">a task definition key, as defined in the BPM model (its id)</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">assignee</td>
-      <td style="text-align:left">the username for the user who has the specified task assigned</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">map</td>
-      <td style="text-align:left">a javascript object containing all required values to pass forward to
-        activiti, in order to close the process</td>
-    </tr>
-  </tbody>
-</table>
+| Argument          | Description                                                                                                                                                         |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| processInstanceId | <p>a valid process instance id (as a String), which can be retrieved starting from </p><p>getActivitiUserAssignedTasks or getActivitiUserCandidateTasks methods</p> |
+| taskDefinitionKey | a task definition key, as defined in the BPM model (its id)                                                                                                         |
+| assignee          | the username for the user who has the specified task assigned                                                                                                       |
+| map               | a javascript object containing all required values to pass forward to activiti, in order to close the process                                                       |
 
 ## Activiti BPM - How to get the list of tasks assigned to a specific user
 
@@ -685,57 +605,16 @@ There is a server-side javascript function available to get the list of tasks as
 var json = utils.getActivitiUserAssignedTasks(assignee, processInstanceId, taskDefinitionKey);
 ```
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Argument</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">assignee</td>
-      <td style="text-align:left">mandatory argument; username to use when filtering the tasks list: only
-        tasks assigned to this user will be fetched</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">processInstanceId</td>
-      <td style="text-align:left">optional argument: if set, the tasks list is filtered not only by username
-        but also by process instance id</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">taskDefinitionKey</td>
-      <td style="text-align:left">optional argument: if set, the tasks list is filtered not only by username
-        but also by the task definition id, i.e. the code specified in the BPM
-        model, when creating a task (if not filled, it is automatically defined
-        by Activiti as a UUID)</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">returned value</td>
-      <td style="text-align:left">
-        <p>a JSON string, expressed as { valueObjectList: [{...},....] }</p>
-        <p>where an element of the list is something like:</p>
-        <p>{</p>
-        <p>&quot;id&quot;: &quot;...&quot;, // instance task id</p>
-        <p>&quot;owner&quot;: null,</p>
-        <p>&quot;assignee&quot;: &quot;...&quot;, // username</p>
-        <p>&quot;name&quot;: &quot;...&quot;, // the task description, as defined
-          in the BPM model</p>
-        <p>&quot;description&quot;: null,</p>
-        <p>&quot;dueDate&quot;: &quot;2020-05-20T10:09:10.000+0000&quot;,</p>
-        <p>&quot;taskDefinitionKey&quot;: &quot;...&quot;,</p>
-        <p>&quot;processInstanceId&quot;: &quot;...&quot;,</p>
-        <p>&quot;processDefinitionId&quot;: &quot;...&quot;</p>
-        <p>}</p>
-        <p></p>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| Argument          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| assignee          | mandatory argument; username to use when filtering the tasks list: only tasks assigned to this user will be fetched                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| processInstanceId | optional argument: if set, the tasks list is filtered not only by username but also by process instance id                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| taskDefinitionKey | optional argument: if set, the tasks list is filtered not only by username but also by the task definition id, i.e. the code specified in the BPM model, when creating a task (if not filled, it is automatically defined by Activiti as a UUID)                                                                                                                                                                                                                                                                                         |
+| returned value    | <p>a JSON string, expressed as { valueObjectList: [{...},....] } </p><p>where an element of the list is something like:</p><p>{ </p><p>  "id": "...", // instance task id</p><p>  "owner": null, </p><p>  "assignee": "...", // username</p><p>  "name": "...", // the task description, as defined in the BPM model</p><p>  "description": null, </p><p>  "dueDate": "2020-05-20T10:09:10.000+0000", </p><p>  "taskDefinitionKey": "...", </p><p>  "processInstanceId": "...",</p><p>  "processDefinitionId": "..." </p><p>}</p><p></p> |
 
 ## Activiti BPM - How to parse a duration/period expressed in ISO-8601 format
 
-A duration/period can be expressed in ISO.8601 \(see [https://en.wikipedia.org/wiki/ISO\_8601\#Dates](https://en.wikipedia.org/wiki/ISO_8601#Dates)\)
+A duration/period can be expressed in ISO.8601 (see [https://en.wikipedia.org/wiki/ISO\_8601#Dates](https://en.wikipedia.org/wiki/ISO\_8601#Dates))
 
 You can extract the time information from it, using the following javascript function:
 
@@ -743,9 +622,9 @@ You can extract the time information from it, using the following javascript fun
 var json = utils.convertISO8601(period)
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| period | a String containg a duration expressed in ISO-8601 format, e.g. "PT1M" \(i.e. 1 minute\) |
+| Argument | Description                                                                            |
+| -------- | -------------------------------------------------------------------------------------- |
+| period   | a String containg a duration expressed in ISO-8601 format, e.g. "PT1M" (i.e. 1 minute) |
 
 The returning string is in JSON format and always contains as follows:
 
@@ -765,7 +644,7 @@ The example above is related to the input string "PT1M".
 
 ## Activiti BPM - How to add a duration/period expressed in ISO-8601 format to a Date
 
-A duration/period can be expressed in ISO.8601 \(see [https://en.wikipedia.org/wiki/ISO\_8601\#Dates](https://en.wikipedia.org/wiki/ISO_8601#Dates)\)
+A duration/period can be expressed in ISO.8601 (see [https://en.wikipedia.org/wiki/ISO\_8601#Dates](https://en.wikipedia.org/wiki/ISO\_8601#Dates))
 
 You can add the duration to a Date object, using the following javascript function:
 
@@ -773,12 +652,10 @@ You can add the duration to a Date object, using the following javascript functi
 var json = utils.addISO8601(date,period)
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| date | a Date object |
-| period | a String containing a duration expressed in ISO-8601 format, e.g. "PT1M" \(i.e. 1 minute\) |
+| Argument | Description                                                                              |
+| -------- | ---------------------------------------------------------------------------------------- |
+| date     | a Date object                                                                            |
+| period   | a String containing a duration expressed in ISO-8601 format, e.g. "PT1M" (i.e. 1 minute) |
 
 The returning Date is like the input Date, incremented by the duration expressed through the "period" argument.
-
-
 
