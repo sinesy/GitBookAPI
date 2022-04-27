@@ -8,6 +8,42 @@ These methods can be grouped according to the usage in the following categories.
 
 ### UI methods
 
+**showWebContentInWindow(url,title,forceInWindow,settings) -** show a web content (e.g. HTML, PDF, image, etc) as an internal window, within the application.&#x20;
+
+Syntax:
+
+* url - URL related to the web content to show
+* title - window title
+* forceInWindow: boolean value, to set to false
+* settings - can be set to null, if you do not need to have a top/bottom bar
+
+Example:
+
+```
+showWebContentInWindow("https://www.google.it","Google",false);
+```
+
+Optionally, it is possibile also to inject a series of buttons to the top or bottom of the web content.
+
+Example:
+
+```
+showWebContentInWindow("https://www.google.it","Google",false,{
+    tbar: new Ext.Toolbar({
+        buttonAlign: 'center',
+        items: [
+            { xtype: 'spacer' },
+            {
+            xtype: 'button',
+            text: 'foobar',
+            handler: function(){
+               alert('ok');
+            }
+        }]
+    })
+});
+```
+
 **reloadApplication(reloadAuthorizations)** - reloadAuthorizations: boolean value, used to force the web page reloading; if the passed argument is set to true, then the user authorizations are reloaded as well.
 
 **closeAll(promptWarn)** - close the web application; if the passed argument is set to true, then a window dialog is shown, in order to prompt the user whether closing the web app or canceling that operation.
