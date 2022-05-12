@@ -622,12 +622,11 @@ var file = utils.moveGoogleDriveFile(userId, fileId, newParents);
 
 **Description**:
 
-| Argument        | Description                                                                                                                                                                                                             |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| userId          | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
-| fileId          | file identifier                                                                                                                                                                                                         |
-| parentsToAdd    | a comma separated list of folder ids that will be added as parents of the file/folder. Can be empty                                                                                                                     |
-| parentsToRemove | a comma separated list of folder ids that will be removed as parents of the file/folder. Can be empty                                                                                                                   |
+| Argument   | Description                                                                                                                                                                                                             |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| userId     | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user. |
+| fileId     | file identifier                                                                                                                                                                                                         |
+| newParents | a comma separated list of folder ids that will be added as parents of the file/folder. Can be empty                                                                                                                     |
 
 ## Google Drive - upload a file from the server file system
 
