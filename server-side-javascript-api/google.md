@@ -523,6 +523,46 @@ var fileIds = utils.getGoogleDriveFolderContentsIds(userId, folderId, query, tra
 
 The method returns a list of file/folder ids.
 
+## Google Drive - duplicate a file
+
+Starting from an already existing document in Drive, duplicate it with another name in the specified destination folder..
+
+**Syntax**:
+
+```javascript
+var paginatedList = utils.duplicateGoogleDriveFile(
+  String userId, 
+  String sourceFileId, 
+  String destinationFolderId, 
+  String newFileName, 
+  Boolean copyPermissions
+)
+```
+
+**Description**:
+
+| Argument            | Description                                                              |
+| ------------------- | ------------------------------------------------------------------------ |
+| userId              | email for the user used to create the file                               |
+| sourceFileId        | document id related to the already existing file in Drive to duplicate   |
+| destinationFolderId | folder id where copying the file                                         |
+| newFileName         | the new file name to assign to the duplicated document                   |
+| copyPermissions     | boolean flag used to inherit permissions assigned to the source document |
+
+The method returns a Java object, having the following structure:
+
+```
+String id;
+String title;
+String description;
+Date beginDate;
+Date endDate;
+EventAttendee creator;
+List<EventAttendee>attendees;
+String location;
+String url;
+```
+
 ## Google Drive - get folder content, one page a time
 
 Retrieve the folder content, in terms of files or subfolders, one page a time. It is possible to scroll along the whole content, by working through "maxPageResults" and "pages". This method can be helpful within a javascript business component for list, in case you want to show in a paginated grid the folder content and navigate through it, one page a time.
