@@ -256,7 +256,7 @@ The method returns a javascript object having the following structure:
 
 The "id" value represents a unique identifier for the folder and can be used later to manage it (rename, delete, etc.)
 
-## Google Drive - delete a folder
+## Google Drive - delete a file or folder
 
 **Syntax**:
 
@@ -269,7 +269,7 @@ var file = utils.deleteGoogleDriveFile(userId, fileId, skipTrash);
 | Argument  | Description                                                                                                                                                                                                                 |
 | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | userId    | optional username; if not specified, the userEmail value set as application property for Google service account will be used as owner for this folder. If this argument is defined, the folder owner will be this user.     |
-| fileId    | forder identifier (it is the "id" attribute of the js object returned by the previous method)                                                                                                                               |
+| fileId    | folder identifier (it is the "id" attribute of the js object returned by the previous method)                                                                                                                               |
 | skipTrash | boolean flag used to define how a folder deletion will be managed: true to permanently delete the folder; false to mark the folder as deleted and moved to the special "trash" folder (in such a case, it can be restored). |
 
 ## Google Drive - add permissions to folder
