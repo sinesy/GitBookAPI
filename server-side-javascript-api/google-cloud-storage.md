@@ -48,9 +48,7 @@ var descriptor = utils.createGoogleCloudStorageBucket(
 | storageClass   | String (optional - storage class: STANDARD, NEARLINE and DURABLE\_REDUCED\_AVAILABILITY. See https://cloud.google.com/storage/docs/storage-classes                                                                                                       |
 | returned value | <p>in case of errors, an exception fill be fired; the returned value is a javascript object having the following structure: </p><p>{ </p><p>  name: "...", // bucket name</p><p>  type: "...", // bucket type</p><p>  versioned: true|false </p><p>}</p> |
 
-\
-Get the bucket descriptor from Cloud Storage
---------------------------------------------
+## Get the bucket descriptor from Cloud Storage
 
 Before using this function, the GCP project must be set up correctly, i.e. you have to specify at global parameters level:
 
@@ -478,6 +476,38 @@ utils.setPublicLink(bucketName, objectName, publicLink)
 | bucketName | String: bucket name where the already existing file is located |
 | objectName | String: file name (with relative path if needed) of the file   |
 | publicLink | boolean: true to set it as public, false to set it as private  |
+
+This method will fire and exception in case of errors.
+
+
+
+## Delete a Google Cloud Storage file
+
+Before using this function, the GCP project must be set up correctly, i.e. you have to specify at global parameters level:
+
+* GOOGLE&#x20;
+  * Google: Service Account Email
+  * Google:  Service Account Key
+* FILE UPLOAD&#x20;
+  * Google Cloud Storage Location (US, EU, ASIA)
+  * Google Project Id
+
+Once done that, you can start using the Google Cloud Storage (GCS) service.
+
+The current javascript function allows to delete a file from a bucket.
+
+**Syntax**
+
+```
+utils.deleteGoogleCloudStorageObject(String bucketName, String objectName)
+```
+
+**Description**
+
+| Argument   | Description                                                            |
+| ---------- | ---------------------------------------------------------------------- |
+| bucketName | String: bucket name where the already existing file is located         |
+| objectName | String: file name (with relative path if needed) of the file to delete |
 
 This method will fire and exception in case of errors.
 
