@@ -383,35 +383,69 @@ var json = utils.executeQueryOnBigQuery(
 | sql                | SQL query to execute; the constraint is that the query must retrieve all fields of the table identified by the data model id; you can make the WHERE condition as complex as needed. |
 | dataModelId        | a data model identifying a BigQuery already existing table                                                                                                                           |
 | interruptException | flag used to fire an exception in case of SQL errors                                                                                                                                 |
+| pars               | list of values to pass forward to the query, for each ? (bind variable) defined in the SQL query                                                                                     |
 
-**Important note:** do NOT use this method to retrieve a long result se (more than a hundred records).
+**Note:** if your SQL query contains a SELECT clause like this one:
+
+```
+SELECT TABLE1.FIELD_A,TABLE2.FIELD_B FROM ...
+```
+
+as a result, the returning JSON would contain:
+
+```
+{
+  table1: {
+    fieldA: "..."
+  },
+  table2: {
+    fieldB: "..."
+  }
+}
+```
+
+that is, an inner object is created for each referred table.
+
+If you don't want inner objects in return, you have two choices:
+
+* set an alias for each field referred in the SELECT clause
+* use executeQueryWithSettings and pass forward the directive { noInnerObjects: true }
+
+
+
+**Important note:** do NOT use this method to retrieve a long result set (more than a hundred records).
+
+## Google BigQuery: execute a SQL query with settings
+
+It is possible to execute a SQL query on a single BigQuery table and get the whole result set as a JSON string.
+
+**Syntax**
+
+```javascript
+var json = utils.executeQueryOnBigQueryWithSettings(
+  String sql,
+  Long dataModelId,
+  Boolean interruptExecution,
+  Map settings,
+  Object... pars
+);
+```
+
+| Argument           | Description                                                                                                                                                                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| sql                | SQL query to execute; the constraint is that the query must retrieve all fields of the table identified by the data model id; you can make the WHERE condition as complex as needed.                                                       |
+| dataModelId        | a data model identifying a BigQuery already existing table                                                                                                                                                                                 |
+| interruptException | flag used to fire an exception in case of SQL errors                                                                                                                                                                                       |
+| settings           | <p>can be null; if set, it is a javascript object containing additional settings. </p><p>Supported attributes: </p><p><strong>noInnerObjects</strong>: true - get back a JSON string whose records do not contain inner objects</p><p></p> |
+| pars               | list of values to pass forward to the query, for each ? (bind variable) defined in the SQL query                                                                                                                                           |
+
+**Important note:** do NOT use this method to retrieve a long result set (more than a hundred records).
 
 ## Google BigQuery: execute a SQL query **and retrieve a block of data**
 
 It is possible to execute a SQL query on a single BigQuery table and get a partial result set, a block of data to fill in a grid. This method is helpful within a server-side javascript business component bounded to a grid.
 
 **Syntax**
-
-```javascript
-var json = utils.getPartialResultOnBigQuery(
-  String sql,
-  Long dataModelId,
-  Boolean interruptExecution,
-  Object... pars
-);
-```
-
-**Details**
-
-| Argument           | Description                                                                                                                                                                          |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| sql                | SQL query to execute; the constraint is that the query must retrieve all fields of the table identified by the data model id; you can make the WHERE condition as complex as needed. |
-| dataModelId        | a data model identifying a BigQuery already existing table                                                                                                                           |
-| interruptException | flag used to fire an exception in case of SQL errors                                                                                                                                 |
-
-This method also parses the HTTP request parameters passed forward by the calling grid (curernt block of data and block size) as well as filtering and sorting conditions coming from the grid.
-
-The method above does not reckon the total amount of records. In case you need to show that number on a grid, you can do it through the following method:
 
 ```javascript
 var json = utils.getPartialResultOnBigQueryWithSettings(
@@ -423,14 +457,53 @@ var json = utils.getPartialResultOnBigQueryWithSettings(
 );
 ```
 
-where settings is a javascript object (it can be passed as null) containing:
+**Details**
 
-```javascript
+| Argument           | Description                                                                                                                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| sql                | SQL query to execute; the constraint is that the query must retrieve all fields of the table identified by the data model id; you can make the WHERE condition as complex as needed. |
+| dataModelId        | a data model identifying a BigQuery already existing table                                                                                                                           |
+| interruptException | flag used to fire an exception in case of SQL errors                                                                                                                                 |
+| settings           | can be null; if set, it must contain a javascript object, whose content is described below                                                                                           |
+| pars               | list of values to pass forward to the query, for each ? (bind variable) defined in the SQL query                                                                                     |
+
+This method also parses the HTTP request parameters passed forward by the calling grid (current **block of data** and block size) as well as **filtering** and **sorting** **conditions** coming from the grid.
+
+
+
+**Note:** if your SQL query contains a SELECT clause like this one:
+
+```
+SELECT TABLE1.FIELD_A,TABLE2.FIELD_B FROM ...
+```
+
+as a result, the returning JSON would contain:
+
+```
 {
-  count: true|false, // set it to true to force total records count
-  cacheCount: true|false // execute SELECT COUNT(*) once and then cache it
+  table1: {
+    fieldA: "..."
+  },
+  table2: {
+    fieldB: "..."
+  }
 }
 ```
+
+that is, an inner object is created for each referred table.
+
+If you don't want inner objects in return, you have two choices:
+
+* set an alias for each field referred in the SELECT clause
+* pass forward the directive { noInnerObjects: true }
+
+
+
+**Note:** the **settings** argument is optional; if set, it contains a javascript object containing a series of directives:
+
+* noInnerObjects: true - returns a list of records, each without inner objects, i.e. a plain record
+
+
 
 ## Google BigQuery: insert records in a table from a list of javascript objects
 
