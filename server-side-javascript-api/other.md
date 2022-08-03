@@ -639,5 +639,57 @@ The action invocation is synchronous in both scenarios: the calling action suspe
 
 
 
+## Setting the company id in a server-side js action if not null
+
+In case the company id has not been set yet, this method allows to set it.
+
+```javascript
+utils.setCompanyId(String companyId);
+```
+
+**Details**
+
+| Argument  | Description                                                           |
+| --------- | --------------------------------------------------------------------- |
+| companyId | attribute name to set in the "vo" Platform is working on to save data |
+
+
+
+
+
+## Force the company id in a server-side js action
+
+This method set the company id in a server-side js action, independently of the fact the company id has been already set or not.
+
+```javascript
+utils.forceCompanyId(String companyId);
+```
+
+**Details**
+
+| Argument  | Description                                                           |
+| --------- | --------------------------------------------------------------------- |
+| companyId | attribute name to set in the "vo" Platform is working on to save data |
+
+
+
+
+
+## Force the site id in a server-side js action
+
+This method set the site id in a server-side js action, independently of the fact the site id has been already set or not.
+
+```javascript
+utils.setSiteId(Long siteId);
+```
+
+**Details**
+
+| Argument | Description                                                           |
+| -------- | --------------------------------------------------------------------- |
+| siteId   | attribute name to set in the "vo" Platform is working on to save data |
+
+
+
 
 
