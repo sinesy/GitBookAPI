@@ -220,6 +220,23 @@ stringDate = utils.convertDateToString(java.util.Date date, String format)
 | date     | java.util.Date: date to convert in string |
 | format   | String: date format for string            |
 
+## Convert the date String to a javascript Date
+
+helpful in case you want to use convert a date expressed as a String into a javascript Date (do not pass forward the javascript Date directly to a SQL instruction: convert it to a Java Date before, using the methods below).
+
+**Syntax**
+
+```javascript
+var javascriptDateValue = convertStringToDate(String dateAsString,String format)
+```
+
+**Detail**
+
+| Argument     | Description                               |
+| ------------ | ----------------------------------------- |
+| dateAsString | string to convert (e.g. "2022-12-31")     |
+| format       | format for the string (e.g. "yyyy-MM-dd") |
+
 ## Convert the date js object to a java.sql.Date (for a DATE typefield)
 
 helpful in case you want to use it with a **utils.executeSql** or **utils.executeQuery** methods and pass it as a parameter
