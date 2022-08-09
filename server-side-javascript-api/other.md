@@ -541,10 +541,11 @@ utils.addDate(String date, String format, String field, int amount): //convert t
 
 **Details**
 
-| Argument | Description                                                 |
-| -------- | ----------------------------------------------------------- |
-| field    | String: the calendar field                                  |
-| amount   | number: the amount of date or time to be added to the field |
+| Argument | Description                                                                                                                             |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| field    | String: the calendar field                                                                                                              |
+| amount   | number: the amount of date or time to be added to the field                                                                             |
+| field    | a String value representing the field to work with. Supported values: "DAY", "MONTH", "YEAR", "HOUR", "MINUTE", "SECOND", "MILLISECOND" |
 
 ## Convert a text to an hash key (md5)
 
