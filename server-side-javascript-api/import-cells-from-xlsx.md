@@ -14,10 +14,10 @@ Read the table structure from database and prepare the metadata for import
 var dbTableId = utils.createDbTableMetadata(Long datasourceId, String tableName);
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| datasourceId | optional parameter \(can be null\); it defines the additional datastore to use  |
-| tableName | table name |
+| Argument     | Description                                                                   |
+| ------------ | ----------------------------------------------------------------------------- |
+| datasourceId | optional parameter (can be null); it defines the additional datastore to use  |
+| tableName    | table name                                                                    |
 
 ## Update the table metadata
 
@@ -29,8 +29,8 @@ Update the table metadata if the table structure are changed
 utils.updateDbTableMetadata(Logn dbTableId);
 ```
 
-| Argument | Description |
-| :--- | :--- |
+| Argument  | Description          |
+| --------- | -------------------- |
 | dbTableId | id of table metadata |
 
 ## Create value for imports
@@ -52,16 +52,16 @@ var valueImportId = utils.createValueImports(
 );
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| dbTableId | id of table metadata for import |
-| directoryId | id of the directory where to search the file |
-| fileName | file name |
-| description | description for import \(can be null\) |
-| note | note for import \(can be null\) |
-| inputData | string in json format for data in import \(can be null\) |
-| breakOnColumnsEmpty | number of empty cells in row to stop reading values in the sheet \(default 5\) \(can be null\) |
-| breakOnRowsEmpty | number of empty rows to stop reading values in the sheet \(default 5\) \(can be null\) |
+| Argument            | Description                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| dbTableId           | id of table metadata for import                                                            |
+| directoryId         | id of the directory where to search the file                                               |
+| fileName            | file name                                                                                  |
+| description         | description for import (can be null)                                                       |
+| note                | note for import (can be null)                                                              |
+| inputData           | string in json format for data in import (can be null)                                     |
+| breakOnColumnsEmpty | number of empty cells in row to stop reading values in the sheet (default 5) (can be null) |
+| breakOnRowsEmpty    | number of empty rows to stop reading values in the sheet (default 5) (can be null)         |
 
 ## Duplicate value import
 
@@ -78,20 +78,22 @@ var valueImportId = utils.duplicateValueImports(
     String note, 
     String inputData, 
     Long breakOnColumnsEmpty, 
-    Long breakOnRowsEmpty
+    Long breakOnRowsEmpty,
+    Boolean ignoreSheet
 );
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| valueImportId | id of import to duplicate |
-| directoryId | id of the directory where to search the file; can bel null if you want read the old file |
-| fileName | file name; can bel null if you want read the old file |
-| description | description for import \(can be null\) |
-| note | note for import \(can be null\) |
-| inputData | string in json format for data in import \(can be null\) |
-| breakOnColumnsEmpty | number of empty cells in row to stop reading values in the sheet \(default 5\) \(can be null\) |
-| breakOnRowsEmpty | number of empty rows to stop reading values in the sheet \(default 5\) \(can be null\) |
+| Argument            | Description                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| valueImportId       | id of import to duplicate                                                                  |
+| directoryId         | id of the directory where to search the file; can bel null if you want read the old file   |
+| fileName            | file name; can bel null if you want read the old file                                      |
+| description         | description for import (can be null)                                                       |
+| note                | note for import (can be null)                                                              |
+| inputData           | string in json format for data in import (can be null)                                     |
+| breakOnColumnsEmpty | number of empty cells in row to stop reading values in the sheet (default 5) (can be null) |
+| breakOnRowsEmpty    | number of empty rows to stop reading values in the sheet (default 5) (can be null)         |
+| ignoreSheet         | ignore the deleted sheet and remove the references                                         |
 
 ## Import Cells from Excel File
 
@@ -110,14 +112,14 @@ var result = utils.importCellsFromExcelFile(
 );
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| valueImportId | id of import to duplicate |
-| directoryId | id of the directory where to search the file |
-| fileName | file name |
-| valueImportId | id of defined import  |
-| fieldsData | other value of fields table to valorize in import |
-| inputData | string in json format for data in import \(can be null\) |
+| Argument             | Description                                                                                                                      |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| valueImportId        | id of import to duplicate                                                                                                        |
+| directoryId          | id of the directory where to search the file                                                                                     |
+| fileName             | file name                                                                                                                        |
+| valueImportId        | id of defined import                                                                                                             |
+| fieldsData           | other value of fields table to valorize in import                                                                                |
+| inputData            | string in json format for data in import (can be null)                                                                           |
 | separatedTransaction | flag true\|false indicating whether the SQL query must be executed in a separated database transaction or within the current one |
 
 ## Check cells from excel file
@@ -134,12 +136,12 @@ var result = utils.checkCellsWithMetadataForImport(
 );
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| valueImportId | id of import to duplicate |
-| directoryId | id of the directory where to search the file |
-| fileName | file name |
-| valueImportId | id of defined import  |
+| Argument      | Description                                  |
+| ------------- | -------------------------------------------- |
+| valueImportId | id of import to duplicate                    |
+| directoryId   | id of the directory where to search the file |
+| fileName      | file name                                    |
+| valueImportId | id of defined import                         |
 
 ## Export areas from excel to new file excel
 
@@ -157,13 +159,13 @@ var result = utils.exportFromExcelFile(
 );
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| sourceDirId | id of the source file directory |
-| sourceFileName | source file name \(xlsx\) |
-| destDirId | id of the destination file directory |
-| destFileName | destination file name \(xlsx\) |
-| areas | list of cells area to export |
+| Argument       | Description                          |
+| -------------- | ------------------------------------ |
+| sourceDirId    | id of the source file directory      |
+| sourceFileName | source file name (xlsx)              |
+| destDirId      | id of the destination file directory |
+| destFileName   | destination file name (xlsx)         |
+| areas          | list of cells area to export         |
 
 Example
 
@@ -205,12 +207,12 @@ var result = utils.exportFromExcelFile(
 );
 ```
 
-| Argument | Description |
-| :--- | :--- |
-| sourceDirId | id of the source file directory |
-| sourceFileName | source file name \(xlsx\) |
-| spreadsheetId | id of the Google Spreadsheet |
-| areas | list of cells area to export |
+| Argument       | Description                     |
+| -------------- | ------------------------------- |
+| sourceDirId    | id of the source file directory |
+| sourceFileName | source file name (xlsx)         |
+| spreadsheetId  | id of the Google Spreadsheet    |
+| areas          | list of cells area to export    |
 
 Example
 
@@ -248,8 +250,8 @@ var result = utils.disableValueImport(
 );
 ```
 
-| Argument | Description |
-| :--- | :--- |
+| Argument      | Description                 |
+| ------------- | --------------------------- |
 | valueImportId | id of the import definition |
 
 ## Delete Import
@@ -264,7 +266,6 @@ var result = utils.deleteValueImport(
 );
 ```
 
-| Argument | Description |
-| :--- | :--- |
+| Argument      | Description                 |
+| ------------- | --------------------------- |
 | valueImportId | id of the import definition |
-
