@@ -504,6 +504,21 @@ If you don't want inner objects in return, you have two choices:
 * noInnerObjects: true - returns a list of records, each without inner objects, i.e. a plain record
 * select, from, where, groupBy, having, orderBy: optionals; in case of very complex queries (e.g. inner selects, union, join with select) it is recommended to let "sql" argument set to null and use these properties to explicitely define the parts of a SQL query; do not include the keywords SELECT, FROM, etc.; select + from are mandatory, in case "sql" argument is let empty.
 
+Example:
+
+```javascript
+var json = utils.getPartialResultOnBigQueryWithSettings(
+  null, // sql
+  xyz, // dataModelId,
+  true, // interruptExecution,
+  { // settings
+    select: "FIELD1,FIELD2",
+    from: "TABLE1 INNER JOIN TABLE2 ON..."
+  },
+  [...] // pars
+);
+```
+
 ## Google BigQuery: insert records in a table from a list of javascript objects
 
 This method is helpful when you need to insert one or more records in a BigQuery table, starting from the data model id related to such a table.
