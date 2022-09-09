@@ -502,8 +502,7 @@ If you don't want inner objects in return, you have two choices:
 **Note:** the **settings** argument is optional; if set, it contains a javascript object containing a series of directives:
 
 * noInnerObjects: true - returns a list of records, each without inner objects, i.e. a plain record
-
-
+* select, from, where, groupBy, having, orderBy: optionals; in case of very complex queries (e.g. inner selects, union, join with select) it is recommended to let "sql" argument set to null and use these properties to explicitely define the parts of a SQL query; do not include the keywords SELECT, FROM, etc.; select + from are mandatory, in case "sql" argument is let empty.
 
 ## Google BigQuery: insert records in a table from a list of javascript objects
 
