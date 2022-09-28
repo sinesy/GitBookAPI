@@ -251,3 +251,45 @@ var responseBody = utils.getAlfrescoWebScript(uri, replaceVariables, httpMethod,
 | httpMethod       | optional: HTTP method to use: GET, POST, etc.                                                                                               |
 | bodyRequest      | optional: body request to pass, expressed as a String                                                                                       |
 | charSet          | optional: the request/response charset to use; if not specified, Unicode charset will be used (UTF-8); possible values: UTF-8, Windows-1252 |
+
+## Execute an HTTP(s) connection using NLTM authentication
+
+result expressed as a String (e.g. a JSON or XML result content)
+
+**Syntax**
+
+```javascript
+var json = utils.getWebContentWithNTLM(
+  uri, 
+  contentType, 
+  httpMethod, 
+  requestBody, 
+  user, 
+  pwd,
+  workstation,
+  domain
+);
+```
+
+**Details**
+
+| Argument               | Description                                                                                                 |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------- |
+| uri                    | URI, expressed as http:// or https:// with or without variables, expressed as :XXX                          |
+| contentType (optional) | can be null); if specified, it defines the content type request (e.g. application/json)                     |
+| httpMethod (optional   | can be null); if specified, it defines the HTTP method: GET, POST                                           |
+| requestBody (optional) | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content) |
+| user (optional)        | Windows username                                                                                            |
+| pwd (optional)         | Windows password                                                                                            |
+| workstation            | Windows workstation                                                                                         |
+| domain                 | Windows domain                                                                                              |
+
+```
+ Returns the HTTP response, expressed as a String (e.g. a JSON or XML result).
+```
+
+HTTP response codes included between 200 and 399 are managed as correct answers and the response is sent back through the "json" return variable.
+
+In case of HTTP response codes above or equal to 400, an exception is fired an the exception content would contain the message sent back by the invoked web service; consequently, it would be better to surround this instruction between try-catch.
+
+##
