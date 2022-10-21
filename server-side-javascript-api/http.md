@@ -267,7 +267,8 @@ var json = utils.getWebContentWithNTLM(
   user, 
   pwd,
   workstation,
-  domain
+  domain,
+  settings
 );
 ```
 
@@ -283,6 +284,7 @@ var json = utils.getWebContentWithNTLM(
 | pwd (optional)         | Windows password                                                                                            |
 | workstation            | Windows workstation                                                                                         |
 | domain                 | Windows domain                                                                                              |
+| settings               | optional js object; it can contain a few other settings, reported below                                     |
 
 ```
  Returns the HTTP response, expressed as a String (e.g. a JSON or XML result).
@@ -291,5 +293,27 @@ var json = utils.getWebContentWithNTLM(
 HTTP response codes included between 200 and 399 are managed as correct answers and the response is sent back through the "json" return variable.
 
 In case of HTTP response codes above or equal to 400, an exception is fired an the exception content would contain the message sent back by the invoked web service; consequently, it would be better to surround this instruction between try-catch.
+
+The "settings" js object can include the following attributes:
+
+* "connectionTimeout: an optional number defining the timeout for the connection
+* "headers": a js object containing request headers, e.g. required credentials
+
+Example:
+
+```
+var requestBody = "...";
+var json = utils.getWebContentWithNTLM(
+    'https://...', 
+    "application/json; charset=utf-8",
+    "POST",
+    requestBody,
+    "username",
+    "pwd",
+    "workstation",
+    "domain",
+    null
+); 
+```
 
 ##
