@@ -21,7 +21,11 @@ Optionally, it is possible to ask Platform to fetch authorizations as well, when
 
 This can be carried out b y including in the request the "**loadRoles=Y**" header parameter.
 
-Finally, the **utils.checkRoles(roleId)** method can be included in any GAE action, in order to force Platform for GAE to check for that role as a role bound to the current user. This checking is performed ONLY IF "loadRoles=Y" has been previously included in the authentication request.
+Finally, the **utils.checkRoleId(roleId)** method can be included in any GAE action, in order to force Platform for GAE to check for that role as a role bound to the current user. This checking is performed ONLY IF "loadRoles=Y" has been previously included in the authentication request.
+
+
+
+
 
 ## Reading data from Datastore
 
@@ -363,7 +367,162 @@ utils.debug("reinsertElements: "+rows);
 
 
 
-&#x20;
+## Execute an HTTP(s) connection using NLTM authentication
+
+result expressed as a String (e.g. a JSON or XML result content)
+
+**Syntax**
+
+```javascript
+var json = utils.getWebContentWithNTLM(
+  uri, 
+  contentType, 
+  httpMethod, 
+  requestBody, 
+  user, 
+  pwd,
+  workstation,
+  domain,
+  settings
+);
+```
+
+**Details**
+
+| Argument               | Description                                                                                                 |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------- |
+| uri                    | URI, expressed as http:// or https:// with or without variables, expressed as :XXX                          |
+| contentType (optional) | can be null); if specified, it defines the content type request (e.g. application/json)                     |
+| httpMethod (optional   | can be null); if specified, it defines the HTTP method: GET, POST                                           |
+| requestBody (optional) | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content) |
+| user (optional)        | Windows username                                                                                            |
+| pwd (optional)         | Windows password                                                                                            |
+| workstation            | Windows workstation                                                                                         |
+| domain                 | Windows domain                                                                                              |
+| settings               | optional js object; it can contain a few other settings, reported below                                     |
+
+```
+ Returns the HTTP response, expressed as a String (e.g. a JSON or XML result).
+```
+
+HTTP response codes included between 200 and 399 are managed as correct answers and the response is sent back through the "json" return variable.
+
+In case of HTTP response codes above or equal to 400, an exception is fired an the exception content would contain the message sent back by the invoked web service; consequently, it would be better to surround this instruction between try-catch.
+
+The "settings" js object can include the following attributes:
+
+* "connectionTimeout: an optional number defining the timeout for the connection
+* "headers": a js object containing request headers, e.g. required credentials
+
+Example:
+
+```
+var requestBody = "...";
+var json = utils.getWebContentWithNTLM(
+    'https://...', 
+    "application/json; charset=utf-8",
+    "POST",
+    requestBody,
+    "username",
+    "pwd",
+    "workstation",
+    "domain",
+    null
+); 
+```
 
 
+
+## Call a business component from a server-side js business component
+
+It is available a js function to invoke from within a server-side js b.c. (not from an action) to call another business component.&#x20;
+
+Basically, it can be used to pass forward all request parameters received in input from the starting b.c and get a response to use as the final result to pass back.
+
+**Syntax**
+
+```javascript
+callBusinessComponent(
+  Long compId,
+  Map additionalReqParams,
+  Map decodedReqParams,
+  Map decodedFilterNames
+)
+```
+
+
+
+| Argument            | Description                                                                                                                                                                                                                                                                                                                                                               |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| compId              | identifier for the b.c. to call; bear in mind that all request parameters received from the current b.c. are automatically passed forward to the one specified here; optionally, you can replace request names through the other function arguments                                                                                                                       |
+| additionalReqParams | it can be null; if specified, it is a js object containing additional request parameters to pass forward; for example, if you wanna call a b.c. for a detail, input parameters a required (the ones expressed as :XXX in the called b.c.); you can use this argument to specify these input parameters, if not already available in the starting b.c. input               |
+| decodedReqParams    | it can be null: if specified, it is a js object containing mappings between request parameters in input and the new request parameter name which must replace the one mapped; e.g. { itemCode: "codice", description: "desc" } in case the UI passes itemCode and description request parameters and you need to pass foward to the called b.c. different parameter names |
+| decodedFilterNames  | it can be null: if specified, it is a js object to use ONLY in case of a b.c. for lists; it represents a sub-case of the previous argument: it works only on quickFilterNames and filterNames request attributes and it goes into depth to these values and replace attribute names with new ones                                                                         |
+
+**Example of a server-side js b.c. invoking a b.c. for grids**
+
+```javascript
+var json = utils.callBusinessComponent(109,{},{},{
+     codice: "uid", // replace "codice" input req param with "uid"
+     descrizione: "companyTitle"
+});
+var res = JSON.parse(json);
+// scroll all results returned by the called b.c. and create a new 
+// response, containing the data needed
+var list = [];
+for(var i=0;i<res.valueObjectList.length;i++) {
+    list.push({
+        codice: res.valueObjectList[i].uid,
+        descrizione: res.valueObjectList[i].companyTitle
+    });
+}
+
+var _res = {
+    valueObjectList: list,
+    moreRows: res.moreRows
+};
+utils.setReturnValue(JSON.stringify(_res));
+```
+
+## Execute a long HTTP(s) requestExecute a long HTTP(s) request
+
+AppEngine is a high scalable web container, used to run web services.
+
+In order to provide scalability, it limits all HTTP requests to 30 seconds only. It goes without saying that in case of longer operations, like in case of a sequence of writing operations, there is the need for a queue and the real operations must be postponed to the queue execution.
+
+The best approach is to enqueue operations in a GAE action, using something like:
+
+```javascript
+var uuid = utils.enqueueActionWithNoteAsString(
+      "QueueName",
+      actionIdInvokedByTheQueue,
+      { /* parameters to pass forward to the enqueued action*/ },
+      null,
+      null,
+      false,
+      null
+);
+```
+
+This method gets back a unique identifier for the element in queue.
+
+At this point, there are two possible scenarios:
+
+* the client invoking the current action does not need a feedback: that's all
+* the client needs a feedback and this action must wait for the termination of the enqueued action
+
+In the latter case, since the HTTP request launched by the client will terminate in 30 seconds (because GAE will force its termination), we can wait after the **enqueueActionWithNoteAsString** command, but not for more than 30 seconds. It can be helpful this method:
+
+```javascript
+var json = utils.blockingWaitAllElements(20,[uuid]);
+utils.setReturnValue(json);
+```
+
+In this example, this method will wait up to 20 seconds, until all enqueued elements specified in list will be terminated.
+
+If after the specified timeout (expressed in seconds), not all of the elements are still finished, the method ends gracefully and get back the list of not terminated element ids, which can be provided to the client.
+
+Consequently, the client should invoked a second request, to a third action which should contain only the previous instructions, so that it can determine when the actions are terminated.
+
+##
 
