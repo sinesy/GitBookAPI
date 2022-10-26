@@ -719,5 +719,54 @@ Note: in case of a data model where there are attributes having type **Array**, 
 
 ## Delete a single entity from the Google Datastore <a href="#delete-a-single-entity-from-the-google-datastore" id="delete-a-single-entity-from-the-google-datastore"></a>
 
-The entity is expressed as a Javascript object.The datastore must be already configured as a global parameter.Once done that, it is possible to execute operations on the Google Datastore.**Syntax**var json = utils.deleteObjectOnGoogleDatastore(obj, dataModelId, interruptExecution);**Details**ArgumentDescriptionobja Javascript object related to the entity stored in the Datastore and to removedataModelIdit identifies the data model having "datastore" type, related to the entity to removeinterruptExecutionboolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operationoktrue in case of the operation has been executed successfully, an exception otherwise
+The entity is expressed as a Javascript object.The datastore must be already configured as a global parameter.Once done that, it is possible to execute operations on the Google Datastore.
 
+****
+
+**Syntax**
+
+
+
+var json = utils.deleteObjectOnGoogleDatastore(obj, dataModelId, interruptExecution);
+
+**Details**
+
+ArgumentDescriptionobja Javascript object related to the entity stored in the Datastore and to removedataModelIdit identifies the data model having "datastore" type, related to the entity to removeinterruptExecutionboolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operationoktrue in case of the operation has been executed successfully, an exception otherwise
+
+
+
+## Get a parameter value <a href="#getparameter" id="getparameter"></a>
+
+**Syntax**
+
+var paramValue = utils.getParameter(paramName)
+
+**Details**
+
+ArgumentDescriptionparamNamea string value representing a parameter named defined at installation level (CON44 table) or at application level (CON07 table)
+
+paramValue **** the value defined for the specified parameter name or null if not found; if the parameter is found as an application parameter, that value is returned, otherwise it will be returned the value defined at installation level
+
+
+
+## Get a custom user parameter value <a href="#getparameter" id="getparameter"></a>
+
+**Syntax**
+
+var value =  utils.getCustomApplUserVars(String varName)
+
+
+
+## Replace internal representation of a javascript String (CompString) with a String
+
+**Syntax**
+
+var vo = utils.fixVo(vo)
+
+
+
+## Execute a javascript GAE action starting from another one
+
+**Syntax**
+
+var json = utils.executeAction(actionId, vo, params, headers);
