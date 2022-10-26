@@ -232,14 +232,26 @@ url = encodeURI(url);
 utils.getBinaryContent(...);
 ```
 
-## Execute an HTTP(s) connection and fetch the result (binary content)
+## Execute an HTTP(s) connection and fetch the result (binary content) optionally with a body requiest (binary content)
 
 result expressed as a binary content and store it into the specified file
+
+
 
 **Syntax**
 
 ```javascript
-utils.getBinaryContent(toFile, uri, replaceVariables, httpMethod, contentType, requestBody, user, pwd);
+utils.getBinaryContentWithSettings(
+  toFile, 
+  uri, 
+  replaceVariables, 
+  httpMethod, 
+  contentType, 
+  requestBody, 
+  user, 
+  pwd, 
+  settings
+);
 ```
 
 | Argument              | Description                                                                                                                        |
@@ -256,12 +268,28 @@ utils.getBinaryContent(toFile, uri, replaceVariables, httpMethod, contentType, r
 
 Fetches the HTTP response, expressed as a binary content and stores in to the specified file.
 
-**Important note**: Please pay attention to the URL definition: it must respect the HTTP syntax, which means it cannot contains special characters, such as a space or \n. In case of special characters, you will get an HTTP error when trying to use the URL. In such a scenario, use the **encodeURI** method:
+You can pass forward a String based request body as usually (using "requestBody" argument) or pass forward a binary content, using the "**settings**" argument, where specifying a "**fromFile**" attribute, filled with an absolute path (including file name) to the file to pass forward, which must be located in the server file system.
+
+
+
+**Example**
 
 ```javascript
-var url = "http://host/context?par1=abc de&par2=ab\ncd";
+var url = "http://host/context?par1=abc...";
 url = encodeURI(url);
-utils.getBinaryContent(...);
+utils.getBinaryContent(
+  "/mylocalpath/outputfile", // toFile
+  url, 
+  false, // replaceVariables
+  "POST", // httpMethod
+  "application/octet-stream", // content type 
+  null, // requestBody is null, since the input binary content is passed through "settings"
+  null, // user
+  null, // pwd
+  { // settings
+    fromFile: "/mylocalpath/inputfile"
+  }
+);
 ```
 
 ## Execute an Alfresco web script
