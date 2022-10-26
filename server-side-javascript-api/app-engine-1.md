@@ -524,5 +524,200 @@ If after the specified timeout (expressed in seconds), not all of the elements a
 
 Consequently, the client should invoked a second request, to a third action which should contain only the previous instructions, so that it can determine when the actions are terminated.
 
-##
+
+
+## Get directory path
+
+Syntax:
+
+**var path = utils.getDirectoryPath(directoryId)**
+
+## Caching values
+
+Available methods:
+
+* **addValueInCache(String varName,Object value)** - expiration in 1 day
+* **addValueInCache(String varName,Object value,Long expirationTime)**- expiration expressed in minutes
+* **removeValueInCache(String varName)**
+* **removeValuesFromCache(String keyPrefix)** - Remove multiple values from cache: the one whose key starts with the specified pattern.
+* **invalidateAll()**
+* **Object getValueInCache(String varName)** - **return** if the variable is stored in cache, it returns the corresponding value, otherwise an exception will be fired
+* **var string = clearCache(String varNamesStr,String keysStr)** - Invoke GAE instance and ask for clearing up a list of variable names from the MemCache. Alternatively, if keys is specified as well, it removes only part of it. Arguments:
+  * **varNames** a varName or many variable names separated by a comma (e.g. "MOTPROM,MOTPROM\_BANCHES")
+  * **keys** optional: can be null; a key within or many keys, separated by a comma; if specified, the cached entry related to varName must be a map and such a map inside the cache will not be removed completely, but only the entries related to the specified keys
+
+## SQL query execution with very long result set <a href="#executequery" id="executequery"></a>
+
+In case of a SQL query returning a very long result set, it is NOT recommended to use the previous method, since it gives back the whole result set at once, which is dangerous because it can consume a large amount of memory on the server.
+
+A better solution is represented by the following method, where the result set is read row by row: for each row, a callback function is invoked, in order to process it.
+
+Consequently, this method cannot be coupled to the user interface, since it would mean that all data would be read in the end. This approach is good when the row processing does not involve the UI, but some other operation on the server side, like writing a text file, starting from the result set.
+
+**Syntax**
+
+```javascript
+utils.executeQueryWithCallback(
+  callbackFunName,
+  sql,
+  dataStoreId,
+  separatedTransaction,
+  interruptExecution,
+  params
+)
+```
+
+**Details**
+
+| Argument             | Description                                                                                                                                                                                                                             |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| callbackFunName      | string value: the name of a callback function, defined inside the action, which will be automatically invoked for each record read from the SQL query. This method must have an argument, which is a js object, representing the record |
+| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                                                 |
+| dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                                              |
+| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)                                                                                 |
+| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                                          |
+| params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql query.                        |
+
+## Generic SQL execution (NO SQL queries) without logging it
+
+**Syntax**
+
+```javascript
+var rows = utils.executeSqlNoLog(
+sql,
+dataSourceId,
+separatedTransaction,
+interruptExecution,
+params
+)
+```
+
+**Details**
+
+| Argument             | Description                                                                                                                                                                                                          |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| rows                 | int value: number of processed rows                                                                                                                                                                                  |
+| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                              |
+| dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                           |
+| separatedTransaction | boolean value; ignored: it is always separated                                                                                                                                                                       |
+| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                       |
+| params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
+
+Note: the SQL operation will not be logged. This method csan be useful with bulk operations, whose execution could slow down if a log message were produced for each execution.
+
+
+
+## Generic SQL execution (NO SQL queries) <a href="#executesql" id="executesql"></a>
+
+**Syntax**
+
+```javascript
+var rows = utils.executeSql(sql, dataSourceId, separatedTransaction, interruptExecution, params)
+```
+
+**Details**
+
+| Argument             | Description                                                                                                                                                                                                          |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| rows                 | int value: number of processed rows                                                                                                                                                                                  |
+| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                              |
+| dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                           |
+| separatedTransaction | boolean value; ignored: it is always separated                                                                                                                                                                       |
+| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                       |
+| params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
+
+## Execute a GQL query on Google Datastore
+
+The datastore must be already configured as a global parameter. Once done that, it is possible to execute a query statement, in order to fetch a list of entities.\
+The query language is GQL: filtering and sorting conditions are strictly ruled by the Google datastore. That means that additional indexes could be defined before executing the query. For instance, = operators can be used without additional indexes, but it is not so for sorting conditions or filtering conditions having not equal operators (e.g. <, <=, etc.).\
+See Datastore syntax to get detail information about the syntax to use when filtering entities.
+
+**Syntax**
+
+```javascript
+var json = utils.executeQueryOnGoogleDatastore(gql,dataModelId,interruptExecution, params);
+```
+
+**Details**
+
+| Argument           | Description                                                                                                                                                                                                          |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| gql                | string value: GQL query to execute; it can contain ? or :XXX                                                                                                                                                         |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entity to enquiry, so the GQL query must refer the same entity name related to the specified data model                                         |
+| interruptExecution | boolean value; if true, an erroneous GQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                       |
+| params             | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
+|                    | XXX variable can be replaced by vo or params values                                                                                                                                                                  |
+
+Example
+
+```javascript
+var json = utils.executeQueryOnGoogleDatastore(
+"SELECT * FROM Products WHERE companyId=:COMPANY_ID AND enabled='Y' ",
+XXX, // XXX must be the data model id
+true, // fire an Execution in case of error
+[]
+);
+```
+
+Note: every GQL instruction will be logged.
+
+Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
+
+**Important note:** please use the cached version of this method as often as possible:
+
+```javascript
+var json = utils.executeCachedQueryOnGoogleDatastore(maxCachedEntities, gql,dataModelId,interruptExecution, params);
+```
+
+where **maxCachedEntities** is the max number of cached entities having the same entity name specified in the GQL query.
+
+## Insert a single entity into the Google Datastore
+
+The entity is expressed as a Javascript object.
+
+The datastore must be already configured as a global parameter.Once done that, it is possible to execute operations on the Google Datastore.
+
+**Syntax**
+
+```javascript
+var json = utils.insertObjectOnGoogleDatastore(obj, dataModelId, interruptExecution);
+```
+
+**Details**
+
+| Argument           | Description                                                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| obj                | a Javascript object containing the data to save in the specified Datastore entity                                                                                        |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entity to insert                                                                                    |
+| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation |
+| ok                 | true in case of the operation has been executed successfully, an exception otherwise                                                                                     |
+
+Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
+
+## Update a single entity into the Google Datastore
+
+The entity is expressed as a Javascript object
+
+The datastore must be already configured as a global parameter.Once done that, it is possible to execute operations on the Google Datastore.
+
+**Syntax**
+
+```javascript
+var json = utils.updateObjectOnGoogleDatastore(obj, dataModelId, interruptExecution);
+```
+
+**Details**
+
+| Argument           | Description                                                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| obj                | a Javascript object containing the data to save in the specified Datastore entity                                                                                        |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entity to update                                                                                    |
+| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation |
+| ok                 | true in case of the operation has been executed successfully, an exception otherwise                                                                                     |
+
+Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
+
+## Delete a single entity from the Google Datastore <a href="#delete-a-single-entity-from-the-google-datastore" id="delete-a-single-entity-from-the-google-datastore"></a>
+
+The entity is expressed as a Javascript object.The datastore must be already configured as a global parameter.Once done that, it is possible to execute operations on the Google Datastore.**Syntax**var json = utils.deleteObjectOnGoogleDatastore(obj, dataModelId, interruptExecution);**Details**ArgumentDescriptionobja Javascript object related to the entity stored in the Datastore and to removedataModelIdit identifies the data model having "datastore" type, related to the entity to removeinterruptExecutionboolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operationoktrue in case of the operation has been executed successfully, an exception otherwise
 
