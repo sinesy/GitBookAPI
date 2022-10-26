@@ -232,6 +232,38 @@ url = encodeURI(url);
 utils.getBinaryContent(...);
 ```
 
+## Execute an HTTP(s) connection and fetch the result (binary content)
+
+result expressed as a binary content and store it into the specified file
+
+**Syntax**
+
+```javascript
+utils.getBinaryContent(toFile, uri, replaceVariables, httpMethod, contentType, requestBody, user, pwd);
+```
+
+| Argument              | Description                                                                                                                        |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Details               |                                                                                                                                    |
+| toFile                | absolute path including the file name, related to the local binary file to create and fill in with the result of this HTTP request |
+| uri                   | URI, expressed as http:// or https:// with or without variables, expressed as :XXX                                                 |
+| replaceVariables      | flag used to replace variables within the uri (variables are expressed as :XXX)                                                    |
+| httpMethod (optional  | can be null); if specified, it defines the HTTP method: GET, POST                                                                  |
+| contentType (optional | can be null); if specified, it defines the content type request (e.g. application/json)                                            |
+| requestBody (optional | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                        |
+| user (optional        | can be null); if specified, it defines the username for a BASIC authentication                                                     |
+| pwd (optional         | can be null); if specified, it defines the password for a BASIC authentication                                                     |
+
+Fetches the HTTP response, expressed as a binary content and stores in to the specified file.
+
+**Important note**: Please pay attention to the URL definition: it must respect the HTTP syntax, which means it cannot contains special characters, such as a space or \n. In case of special characters, you will get an HTTP error when trying to use the URL. In such a scenario, use the **encodeURI** method:
+
+```javascript
+var url = "http://host/context?par1=abc de&par2=ab\ncd";
+url = encodeURI(url);
+utils.getBinaryContent(...);
+```
+
 ## Execute an Alfresco web script
 
 starts with "service/xyz?..." and fetch the result, expresses as a String (e.g. a JSON or XML result content)
