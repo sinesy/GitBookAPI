@@ -2,6 +2,60 @@
 
 ## Execute an HTTP(s) connection and fetch the result
 
+Available since 6.0.2 version.
+
+Result expressed as a String (e.g. a JSON or XML result content)
+
+**Syntax**
+
+```javascript
+var json = utils.getWebContent(uri, settings);
+```
+
+**Argument detail**
+
+uri: URI, expressed as http:// or https:// with or without variables, expressed as :XXX
+
+**Settings detail**
+
+| Argument                                      | Description                                                                                                                                                                       |
+| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| replaceVariables (optional) (default is true) | flag used to replace variables within the uri (variables are expressed as :XXX)                                                                                                   |
+| httpMethod                                    | if specified, it defines the HTTP method: GET, POST, PATCH, PUT, DELETE                                                                                                           |
+| contentType (optional)                        | can be null); if specified, it defines the content type request (e.g. application/json)                                                                                           |
+| requestBody (optional)                        | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                                                                       |
+| user (optional)                               | can be null); if specified, it defines the username for a BASIC authentication                                                                                                    |
+| pwd (optional)                                | can be null); if specified, it defines the password for a BASIC authentication                                                                                                    |
+| charSet (optional)                            | can be null); if specified, it defines the char set to use for the request body (req property "Accept-Charset"); if not specified, it is autodefined as "UTF-8"                   |
+| headers(optional)                             | can be null); if specified, it defines a collection of attribute-values to pass as request headers; it is expressed as a javascript object: { attr1: value2, attr2: value2, ... } |
+| timeout (optional) (recommended)              | optional argument: can be set to null; timeout for the request, expressed in seconds; helpful when the service to invoke could be very slow                                       |
+| additionalSettings (optional)                 | optional argument: can be set to null; it is a javascript object containing additional settings                                                                                   |
+
+**Example**
+
+<pre><code><strong>var url = "http://host/context?par1=abc de&#x26;par2=ab\ncd";
+</strong>url = encodeURI(url);
+var settings = {
+	"replaceVariables": true,
+	"httpMethod": 'POST',
+	"contentType": null,
+	"requestBody": null,
+	"user": "ADMIN",
+	"pwd": "ADMIN",
+	"cookie": true,
+	"headers": {
+	    "number": 1,
+	    "text": "ciao"
+	},
+	"additionalSettings": {	    
+	}
+	"log": false,
+	"timeout": 10
+};
+utils.getWebContent(url, settings);</code></pre>
+
+## Execute an HTTP(s) connection and fetch the result
+
 result expressed as a String (e.g. a JSON or XML result content)
 
 **Syntax**
@@ -32,11 +86,9 @@ In case of HTTP response codes above or equal to 400, an exception is fired \_an
 
 **Important note**: Please pay attention to the URL definition: it must respect the HTTP syntax, which means it cannot contains special characters, such as a space or \n. In case of special characters, you will get an HTTP error when trying to use the URL. In such a scenario, use the **encodeURI** method:
 
-```javascript
-var url = "http://host/context?par1=abc de&par2=ab\ncd";
-url = encodeURI(url);
-utils.getWeb...
-```
+<pre class="language-javascript"><code class="lang-javascript"><strong>var url = "http://host/context?par1=abc de&#x26;par2=ab\ncd";
+</strong>url = encodeURI(url);
+utils.getWeb...</code></pre>
 
 **Examples with errors:**
 
