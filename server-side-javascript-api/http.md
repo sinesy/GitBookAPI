@@ -20,8 +20,8 @@ uri: URI, expressed as http:// or https:// with or without variables, expressed 
 
 | Argument                                      | Description                                                                                                                                                                       |
 | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| replaceVariables (optional) (default is true) | flag used to replace variables within the uri (variables are expressed as :XXX)                                                                                                   |
 | httpMethod                                    | if specified, it defines the HTTP method: GET, POST, PATCH, PUT, DELETE                                                                                                           |
+| replaceVariables (optional) (default is true) | flag used to replace variables within the uri (variables are expressed as :XXX)                                                                                                   |
 | contentType (optional)                        | can be null); if specified, it defines the content type request (e.g. application/json)                                                                                           |
 | requestBody (optional)                        | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                                                                       |
 | user (optional)                               | can be null); if specified, it defines the username for a BASIC authentication                                                                                                    |
@@ -30,6 +30,11 @@ uri: URI, expressed as http:// or https:// with or without variables, expressed 
 | headers(optional)                             | can be null); if specified, it defines a collection of attribute-values to pass as request headers; it is expressed as a javascript object: { attr1: value2, attr2: value2, ... } |
 | timeout (optional) (recommended)              | optional argument: can be set to null; timeout for the request, expressed in seconds; helpful when the service to invoke could be very slow                                       |
 | additionalSettings (optional)                 | optional argument: can be set to null; it is a javascript object containing additional settings                                                                                   |
+| requestBody (optional)                        | if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                                                                                     |
+| dirId (optional)                              | directory id of file to send                                                                                                                                                      |
+| sendFileName (optional)                       | file name to send                                                                                                                                                                 |
+| cookie (optional) (default is false)          | true if you want use the cookie                                                                                                                                                   |
+| log (optional) (default is true)              | false if you don't want write the logs                                                                                                                                            |
 
 **Example**
 
