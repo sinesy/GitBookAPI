@@ -53,7 +53,7 @@ var settings = {
 	    "text": "ciao"
 	},
 	"additionalSettings": {	    
-	}
+	},
 	"log": false,
 	"timeout": 10
 };
