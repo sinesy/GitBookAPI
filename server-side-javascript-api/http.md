@@ -336,7 +336,7 @@ Settings can also accept an optional attribute named "**headers**" containing a 
 ```javascript
 var url = "http://host/context?par1=abc...";
 url = encodeURI(url);
-utils.getBinaryContent(
+utils.getBinaryContentWithSettings(
   "/mylocalpath/outputfile", // toFile
   url, 
   false, // replaceVariables
