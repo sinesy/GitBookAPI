@@ -327,6 +327,8 @@ Fetches the HTTP response, expressed as a binary content and stores in to the sp
 
 You can pass forward a String based request body as usually (using "requestBody" argument) or pass forward a binary content, using the "**settings**" argument, where specifying a "**fromFile**" attribute, filled with an absolute path (including file name) to the file to pass forward, which must be located in the server file system.
 
+Settings can also accept an optional attribute named "**headers**" containing a javascript object related to the set of request headers to pass forward.
+
 
 
 **Example**
@@ -344,7 +346,8 @@ utils.getBinaryContent(
   null, // user
   null, // pwd
   { // settings
-    fromFile: "/mylocalpath/inputfile"
+    fromFile: "/mylocalpath/inputfile",
+    headers: { ... }
   }
 );
 ```
