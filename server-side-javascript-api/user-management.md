@@ -70,15 +70,15 @@ This method updates an already existing record in PRM01\_USERS, i.e. update a us
 var prm01Object = utils.updateUser(companyId, siteId, userCodeId, languageId, additionalData);
 ```
 
-| Argument        | Description                                                                                                                                          |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| companyId       | company id that identifies the user (text value)                                                                                                     |
-| siteId          | site id that identifies the user (numeric value)                                                                                                     |
-| userCodeId      | username for the user to check out (text value)                                                                                                      |
-| password        | password (mandatory argument)                                                                                                                        |
-| languageId      | language id to link to the user                                                                                                                      |
-| additionalData  | can be null: if specified, it is a javascript object containing additional data to fill in PRM01\_USERS; e.g. { dateExpirationPassword: new Date() } |
-| **prm01Object** | the resulting value is a javascript object containing the record in PRM01\_USERS for the specified user.                                             |
+| Argument          | Description                                                                                                                                          |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| companyId         | company id that identifies the user (text value)                                                                                                     |
+| siteId            | site id that identifies the user (numeric value)                                                                                                     |
+| userCodeId        | username for the user to check out (text value)                                                                                                      |
+| decriptedPassword | plain password (mandatory argument); note: "password" field is automatically reckoned by Platform, starting from the plain password                  |
+| languageId        | language id to link to the user                                                                                                                      |
+| additionalData    | can be null: if specified, it is a javascript object containing additional data to fill in PRM01\_USERS; e.g. { dateExpirationPassword: new Date() } |
+| **prm01Object**   | the resulting value is a javascript object containing the record in PRM01\_USERS for the specified user.                                             |
 
 ## Update personal data for the specified user
 
