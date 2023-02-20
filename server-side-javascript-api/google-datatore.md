@@ -849,3 +849,102 @@ utils.exportUsersToDatastore();
 ```
 
 This method moves users to Datastore Users entity (for all company ids).
+
+
+
+
+
+
+
+## Upsert a single entity into the Google Datastore
+
+The datastore must be already configured as a global parameter. Once done that, it is possible to execute operations on the Google Datastore.
+
+**Upsert** operation means that starting from a full entity definition (all attributes must be defined), Datastore would execute either an insert operation if the entity is not defined yet or an update if the record already exists (in the latter case, the previous entity is replaced).
+
+**Syntax**
+
+```javascript
+var json = utils.upsertObjectOnGoogleDatastore(object, dataModelId, interruptExecution);
+```
+
+**Details**
+
+| Argument           | Description                                                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| object             | a Javascript object to save in the specified Datastore entity; insert or update is performed behind the scenes                                                           |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entities to insert                                                                                  |
+| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation |
+| ok                 | true in case of the operation has been executed successfully, an exception otherwise                                                                                     |
+
+Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
+
+**Prerequisites**:
+
+* each entity passed as argument must contain all attributes
+
+**This method does NOT include:**
+
+* before/after action execution custom login
+* row version increment
+* unique key checking
+* progressive generation
+* UUID generation
+* synchronization in BQ for objects where the "standard" sync has been set
+* synchronization in CloudSQL
+* synchronization in Spanner
+
+&#x20;&#x20;
+
+&#x20;  **This method DOES include:**
+
+* data type conversion (string date to date)
+* synchronization in BQ ONLY for objects where the "streaming" sync has been set
+* Date type attributes are automatically converted from String to Date, when needed, according to the object field definition (DATE vs DATE\_TIME)
+
+## Upsert multiple entities into the Google Datastore
+
+The datastore must be already configured as a global parameter. Once done that, it is possible to execute operations on the Google Datastore.
+
+**Upsert** operation means that starting from a full entity definition (all attributes must be defined), Datastore would execute either an insert operation if the entity is not defined yet or an update if the record already exists (in the latter case, the previous entity is replaced).
+
+**Syntax**
+
+```javascript
+var json = utils.upsertObjectsOnGoogleDatastore(objects, dataModelId, interruptExecution);
+```
+
+**Details**
+
+| Argument           | Description                                                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| objects            | a Javascript array containing a list of objects to save in the specified Datastore entity; insert or update is performed for each object                                 |
+| dataModelId        | it identifies the data model having "datastore" type, related to the entities to insert                                                                                  |
+| interruptExecution | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an error during the execution of the operation |
+| ok                 | true in case of the operation has been executed successfully, an exception otherwise                                                                                     |
+
+Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
+
+**Prerequisites**:
+
+* each entity passed as argument must contain all attributes
+
+**This method does NOT include:**
+
+* before/after action execution custom login
+* row version increment
+* unique key checking
+* progressive generation
+* UUID generation
+* synchronization in BQ for objects where the "standard" sync has been set
+* synchronization in CloudSQL
+* synchronization in Spanner
+
+&#x20;&#x20;
+
+&#x20;  **This method DOES include:**
+
+* data type conversion (string date to date)
+* synchronization in BQ ONLY for objects where the "streaming" sync has been set
+* Date type attributes are automatically converted from String to Date, when needed, according to the object field definition (DATE vs DATE\_TIME)
+
