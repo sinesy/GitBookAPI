@@ -588,6 +588,26 @@ var jsonString = utils.getEntityAsJSON(String entityName,Object key,int maxCache
 | expirationTime    | expiration time, expressed in minutes; after that time, the object is removed from cache                                                                                                                                            |
 | jsonString        | <p>a string representation (JSON format) of the returned object; a Date value is returned with this format: yyyy-MM-dd HH:mm:ss<br>a null value is returned in case no object is retrieved starting from the specified pk value</p> |
 
+## Get multiple entities from Google Datastore
+
+When you need to read multiple entities, it is better to use this method, since it reduces the latency due to reading a set of entities with the previous method invoked multiple times.
+
+In order to use the current method, you need to pass forward a list of keys, for all entities to fetch.
+
+An ad hoc method is provided in order to do it:
+
+```javascript
+var jsonString = utils.getEntitiesAsJSON(String entityName,Object[] keys);
+```
+
+**Syntax**
+
+| Argument   | Description                                                                                                                                                                                                                                   |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| entityName | entity name identifying the table in Datastore (it is case sensitive)                                                                                                                                                                         |
+| keys       | an array containing the list of keys for the entities to read (list of primary key values)                                                                                                                                                    |
+| jsonString | <p>a string representation (JSON format) of the list of returned entities; a Date value is returned with this format: yyyy-MM-dd HH:mm:ss<br>a null value is returned in case no object is retrieved starting from the specified pk value</p> |
+
 ## Insert a single entity into the Google Datastore
 
 The entity is expressed as a Javascript object.
