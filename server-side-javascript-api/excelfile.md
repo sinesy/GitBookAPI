@@ -245,7 +245,76 @@ A few examples of attributes:\
 
 
 
+## Writing an image in a xls file stored in the server file system <a href="#getcsvcontent" id="getcsvcontent"></a>
 
+Starting from an already existing Excel (xls), save one or more images in a series of cells, one for each image.
+
+**Syntax**
+
+```javascript
+utils.setImagesInXls(
+      Long dirId,
+      String srcFileName,
+      String destFileName,
+      String sheetName,
+      List<Map> images
+);
+```
+
+
+
+**Details**
+
+| Argument     | Description                                                                                             |
+| ------------ | ------------------------------------------------------------------------------------------------------- |
+| dirId        | directory id, where the already existing xls file has been stored; IT MUST BE IN THE SERVER FILE SYSTEM |
+| srcFileName  | xls file name                                                                                           |
+| destFileName | file name for the new xls file to create as a copy of the source file, where images will be included    |
+| sheetName    | sheet name in the source xls file where images must be stored                                           |
+| images       | list of javascript objects, one for each cell where saving the corresponding image                      |
+
+Each javascript object contained in the "images" array must have the following content:
+
+```
+{ 
+  x: 0, 
+  y: 0, 
+  w: 10, 
+  h: 1000,  
+  imagePath: "/opt/a.jpg" 
+}
+```
+
+**x** is the column index (mandatory)
+
+**y** is the row index (mandatory)
+
+**w** is the image width (optional)
+
+**h** is the image height (optional)
+
+**imagePath** (mandatory) is the image absolute path (path+name) on the server file system.
+
+
+
+**Important note**: do not save images too big or this would lead to a very large spreadsheet, difficult to save and later difficult to open by the end user.
+
+Just to make some examples:
+
+<pre><code><strong>1. image having 80kb size with 1000x1000 resolution
+</strong>   and excel having 1000 rows (images) -> final Excel size: 80MB size
+
+2. image having 2kb size with 180x180 resolution
+   and excel having 1000  rows  (images) -> final Excel size: 2MB size
+   and excel having 10000  rows (images) -> final Excel size: 20MB size   
+   and excel having 100000 rows (images) -> final Excel size: 200MB size
+   
+   1. image having 80kb size with 1000x1000 resolution
+   and excel having 1000 rows (images) -> final Excel size: 80MB size
+
+</code></pre>
+
+Therefore.. pay attention to the max number of rows allowed and the image size!
 
 
 
