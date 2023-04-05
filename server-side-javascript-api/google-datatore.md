@@ -652,6 +652,20 @@ var json = utils.insertObjectsOnGoogleDatastore(objects, dataModelId, interruptE
 
 Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
 
+**Note: the method reported above writes up to 25 entities per time.**
+
+If you want to overpass this limit, you have to use the following method instead:
+
+****
+
+```javascript
+var json = utils.insertObjectsOnGoogleDatastoreWithSettings(objects, dataModelId, interruptExecution, settings);
+```
+
+where the last argument is a js object containing a "size" attribute: you can use it to define the max number of entities to write per time.
+
+
+
 ## Update a single entity into the Google Datastore
 
 The entity is expressed as a Javascript object
@@ -767,6 +781,14 @@ var json = utils.updateObjectsOnGoogleDatastoreWithSettings(
 | ok                 | true in case of the operation has been executed successfully, an exception otherwise                                                                                                                           |
 
 Note: in case of a data model where there are attributes having type **Array**, this method will get back also the array value, expressed as a String whose values are separated by a comma.
+
+
+
+**Note: the method reported above writes up to 25 entities per time.**
+
+If you want to overpass this limit, you have to fill in the last argument "settings" (a js object) with the "size" attribute: you can use it to define the max number of entities to write per time.
+
+
 
 ## Delete a single entity from the Google Datastore
 
