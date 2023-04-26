@@ -189,9 +189,9 @@ var settings = {
 
 **Note:** "objectName" and "dataModelId" are interchangeable, whereas "where" attribute is optional.
 
-**Note**: the "**longResultSet**" attribute should be set to true when the secondary entity contain a large amount of records (e.g. more than 10-20 records). If set to true, a multiple secondary queries are executed, one for each records fetched for the main query. Each fetching read a single record, which is also cached (for 5 minutes). Secondary query is skipped if the same records has been already read previously and cached. If the attribute longResultSet **** is set to false**,** a single secondary query is executed and all results cached: this solution is faster than the previous one, but it consumes more memory and CANNOT BE USED for large result sets!
+**Note**: the "**longResultSet**" attribute should be set to true when the secondary entity contain a large amount of records (e.g. more than 10-20 records). If set to true, a multiple secondary queries are executed, one for each records fetched for the main query. Each fetching read a single record, which is also cached (for 5 minutes). Secondary query is skipped if the same records has been already read previously and cached. If the attribute longResultSet is set to false**,** a single secondary query is executed and all results cached: this solution is faster than the previous one, but it consumes more memory and CANNOT BE USED for large result sets!
 
-**Very important note:** every query represents an additional cost with Datastore,  every record read **** represents an additional cost with Datastore. Consequently, **do not abuse with the executeQueryOnGoogleDatastoreWithSettings method usage**, since it consumes potentially more resources on Datastore and increases the involved costs.
+**Very important note:** every query represents an additional cost with Datastore,  every record read  represents an additional cost with Datastore. Consequently, **do not abuse with the executeQueryOnGoogleDatastoreWithSettings method usage**, since it consumes potentially more resources on Datastore and increases the involved costs.
 
 
 
@@ -455,9 +455,9 @@ var settings = {
 
 **Note:** "objectName" and "dataModelId" are interchangeable, whereas "where" attribute is optional.
 
-**Note**: the "**longResultSet**" attribute should be set to true when the secondary entity contain a large amount of records (e.g. more than 10-20 records). If set to true, a multiple secondary queries are executed, one for each records fetched for the main query. Each fetching read a single record, which is also cached (for 5 minutes). Secondary query is skipped if the same records has been already read previously and cached. If the attribute longResultSet **** is set to false**,** a single secondary query is executed and all results cached: this solution is faster than the previous one, but it consumes more memory and CANNOT BE USED for large result sets!
+**Note**: the "**longResultSet**" attribute should be set to true when the secondary entity contain a large amount of records (e.g. more than 10-20 records). If set to true, a multiple secondary queries are executed, one for each records fetched for the main query. Each fetching read a single record, which is also cached (for 5 minutes). Secondary query is skipped if the same records has been already read previously and cached. If the attribute longResultSet is set to false**,** a single secondary query is executed and all results cached: this solution is faster than the previous one, but it consumes more memory and CANNOT BE USED for large result sets!
 
-**Very important note:** every query represents an additional cost with Datastore,  every record read **** represents an additional cost with Datastore. Consequently, **do not abuse with the getPartialResultOnGoogleDatastoreWithSettings method usage**, since it consumes potentially more resources on Datastore and increases the involved costs.
+**Very important note:** every query represents an additional cost with Datastore,  every record read  represents an additional cost with Datastore. Consequently, **do not abuse with the getPartialResultOnGoogleDatastoreWithSettings method usage**, since it consumes potentially more resources on Datastore and increases the involved costs.
 
 
 
@@ -656,7 +656,7 @@ Note: in case of a data model where there are attributes having type **Array**, 
 
 If you want to overpass this limit, you have to use the following method instead:
 
-****
+
 
 ```javascript
 var json = utils.insertObjectsOnGoogleDatastoreWithSettings(objects, dataModelId, interruptExecution, settings);
