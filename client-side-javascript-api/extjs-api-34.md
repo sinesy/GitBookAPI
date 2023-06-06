@@ -225,14 +225,14 @@ callAsyncAction({
     var res = JSON.parse(json); // server-side response, in case the request has been sent successfully
     //...
   },
-  callback: function(json,status) {
+  callbackError: function(json,status) {
     var res = JSON.parse(json); // server-side response, in case the request was wrong
     //...
   }
 });
 ```
 
-****
+
 
 **getCustomApplUserVar(varName)** - get from the server-side layer a user variable, identified by the specified argument.
 
@@ -292,7 +292,7 @@ Arguments:
 
 * volume; can be null; if not specified it is assumed to be 1.0 (max volume); if specified, must be a float value in the range 0.0-1.0
 
-****
+
 
 **Checking threads**
 
@@ -302,7 +302,7 @@ This is not a javascript method available on the web tier: it is a web service w
 
 This request can be invoked by a client to force the Queue Manager on the server side to check immediately for new elements in queue. This method is helpful in case of a Platform installation including a cluster of nodes, where one of these nodes is enrolled to be the "main node", .i.e. the node that executes all elements in queues. The main node would control for new elements in queue every 2 minutes. When calling the web service above, the check will be performed immediately.
 
-****
+
 
 **Camel-case**
 
@@ -316,7 +316,7 @@ var x = camel("ABC\_DEF",false); -> x = "abcDef"
 
 var x = camel("ABC\_DEF",true); -> x = "AbcDef"
 
-****
+
 
 **Snake-case**
 
@@ -330,7 +330,7 @@ var x = camelToSnake("abcDEF",false); -> x = "abc\__d\_e\__f"
 
 var x = camelToSnake("abcDEF",true); -> x = "ABC\__D\_E\__F"
 
-****
+
 
 ## ExtJS API 3.4
 
