@@ -359,5 +359,45 @@ getProgressiveForApplicationId(String appId,String tableName,String columnName,B
 ## Convert UCT String to time zone date
 
 ```
-utils.convertUTCStringToTimeZoneDate(String utcDateAsString,int hrs)
+/utils.convertUTCStringToTimeZoneDate(String utcDateAsString,int hrs)
+```
+
+## Send an email message to a user
+
+**Syntax**
+
+```javascript
+utils.sendAlertEmailWithConversation(from, subject, message, destinations, priority, isHtmlContent, returnReceipt, conversationId, messageTag, filesToAttach)
+```
+
+**Details**
+
+| Argument       | Description                                                                                                                                                                                                                                          |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| from           | username to use to send the message; can be null, if not specified, it will be automatically filled with the current logged user, whose email address must be defined in the user detail form                                                        |
+| subject        | email title                                                                                                                                                                                                                                          |
+| message        | message to send; it can be expressed in HTML format                                                                                                                                                                                                  |
+| destinations   | list of usernames who will receive the alert; they must be separated by a comma (,); for each username specified, its email address must be defined in the user detail form                                                                          |
+| priority       | priority to use for the messages to show to a specific user: messages having a higher priority will be showed at the top of the list; it can be null; if not specified, it will be set to "normal"; allowed values: 0 (minor), 1, (normal), 2 (high) |
+| conversationId | conversation id used to identify a chain of messages; optional: if not specified, each message represents the first and last message in the convo                                                                                                    |
+| messageTag     | optional hidden text to add to the message and used to search for specific messages stored in the message history                                                                                                                                    |
+| filesToAttach  | list of files, expressed with an absolute path.                                                                                                                                                                                                      |
+
+Note: in order to use this feature, you have first to define an application parameters named "SHOW\_ALERT\_MENU\_ITEM" to "Y", otherwise these messages cannot be showed on the client side.
+
+Note: in order to send email, additional application/common parameters must be defined:
+
+```
+ MAIL_SMTP_HOST
+ MAIL_SMTP_PORT
+```
+
+These are optional:
+
+```
+ MAIL_SMTP_PROTOCOL
+ MAIL_SMTP_USE_TLS
+ MAIL_SMTP_USERNAME
+ MAIL_SMTP_PASSWORD
+ 
 ```
