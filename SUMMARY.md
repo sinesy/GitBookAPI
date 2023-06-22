@@ -65,3 +65,4 @@
 ***
 
 * [Function JSS](function-jss.md)
+* [Function JSS 2](function-jss-2.md)

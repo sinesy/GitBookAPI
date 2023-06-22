@@ -362,6 +362,8 @@ getProgressiveForApplicationId(String appId,String tableName,String columnName,B
 /utils.convertUTCStringToTimeZoneDate(String utcDateAsString,int hrs)
 ```
 
+##
+
 ## Send an email message to a user
 
 **Syntax**
@@ -372,9 +374,8 @@ utils.sendAlertEmailWithConversation(from, subject, message, destinations, prior
 
 **Details**
 
-| Argument       | Description                                                                                                                                                                                                                                          |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | from           | username to use to send the message; can be null, if not specified, it will be automatically filled with the current logged user, whose email address must be defined in the user detail form                                                        |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | subject        | email title                                                                                                                                                                                                                                          |
 | message        | message to send; it can be expressed in HTML format                                                                                                                                                                                                  |
 | destinations   | list of usernames who will receive the alert; they must be separated by a comma (,); for each username specified, its email address must be defined in the user detail form                                                                          |
@@ -394,10 +395,12 @@ Note: in order to send email, additional application/common parameters must be d
 
 These are optional:
 
+{% code fullWidth="false" %}
 ```
  MAIL_SMTP_PROTOCOL
  MAIL_SMTP_USE_TLS
  MAIL_SMTP_USERNAME
  MAIL_SMTP_PASSWORD
 ```
+{% endcode %}
 
