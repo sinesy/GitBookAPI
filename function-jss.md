@@ -1,2030 +1,6037 @@
 # Function JSS
 
-## Send an email, using SMTP settings defined at application level/globally
+## addFileToMobileDevices
 
-**Syntax**
+Syntax
 
-```javascript
-utils.sendEmail(from, to, cc, bcc, subject, body, isHtmlContent, returnReceipt, zipFiles, deleteFilesAfterSending, dirId, fileName, filesToAttach)
-```
-
-**Details**
-
-| Argument                | Description                                                                                                                  |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| from                    | (optional, can be null) a string representing the email address to use as the "from address" to send the email               |
-| to                      | a string composed of one or more email addresses, separated by a comma (,)                                                   |
-| cc                      | carbon copy addresses - a string composed of one or more email addresses, separated by a comma (,)                           |
-| bcc                     | hidden addresses - a string composed of one or more email addresses, separated by a comma (,)                                |
-| subject                 | a string representing the email title                                                                                        |
-| body                    | the email body content                                                                                                       |
-| isHtmlContent           | a boolean flag used to define if the body content is in HTML format or not                                                   |
-| returnReceipt           | a boolean flag used to request a return receipt to the destinators                                                           |
-| zipFiles                | a boolean flag used to compress all files to attach in a unique zip file and send it, in order to reduce the email size      |
-| deleteFilesAfterSending | a boolean flag used to optionally delete files to attach, after sending the email                                            |
-| dirId                   | optional dir id used to save the message also to the server file system                                                      |
-| fileName                | optional file name required in case the dir id has been specified; the message will be save in eml format on the file system |
-| filesToAttach           | a list of files to attach, separated by a comma; use \[] to notinclude files; each file must include the absolute path       |
-
-This method will fire an exception if the email has NOT been sent correctly (e.g. attachment file not found).
-
-
-
-**Example without attachments**:
-
-```javascript
-utils.sendEmail(
-  "fromemailaddress@mydomain.com", // from address
-  "toemailaddress@domain.com", // to address, can be a list of email addresses, separated by a comma (,)
-  null, // carbon copy 
-  null, // blank carbon copy 
-  "email title", // subject
-  "email body", // it can be plain text or HTML formatted text 
-  true, // isHtmlContent, false to set plain text 
-  false, // returnReceipt
-  false, // zipFiles, in case of attachments
-  false, // deleteFilesAfterSending, in case of attachments
-  null, // dirId, in case of attachments
-  null, // fileName, in case of attachments
-  null, // filesToAttach, in case of attachments
-);
-```
-
-## Send an alert email from template with conversation and SMTP settings
-
-**Syntax**
-
-```javascript
-utils.sendAlertEmailFromTemplateWithConversationAndSMTPSettings(String from,Number templateId,String destinations,String carbonCopy,String blindCarbonCopy,String priority,boolean isHtmlContent,Map jsObj,Long conversationId,String messageTag,String smtpHost,String smtpPort,String protocol,String smtpUsername,String smtpPassword,String useTLS,Long dirId,String fileName,String[] filesToAttach)
-```
-
-| Argument        | Description                                                                                                                                                                                                                                          |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| from            | username to use to send the message; can be null, if not specified, it will be automatically filled with the current logged user, whose email address must be defined in the user detail form; it can be overridden by the template "from" field     |
-| templateId      | id of the template previously defined, used to set subject and body; optionally, the template can be optionally used to set from, to, cc, receipt flag too                                                                                           |
-| destinations    | list of usernames who will receive the alert; they must be separated by a comma (,); for each username specified, its email address must be defined in the user detail form; it can be overridden by the template "to" field                         |
-| priority        | priority to use for the messages to show to a specific user: messages having a higher priority will be showed at the top of the list; it can be null; if not specified, it will be set to "normal"; allowed values: 0 (minor), 1, (normal), 2 (high) |
-| jsObj           | javascript record which substitute the variables in the template previously defined                                                                                                                                                                  |
-| carbonCopy      | optional argument used to specify a separated list (by comma) of email addresses which will receive the email message in carbon copy                                                                                                                 |
-| blindCarbonCopy | optional argument used to specify a separated list (by comma) of email addresses which will receive the email message in blind carbon copy                                                                                                           |
-| isHtmlContent   | lag used to specify if the message text is formatted in HTML or plain text                                                                                                                                                                           |
-| conversationId  | conversation id used to identify a chain of messages; optional: if not specified, each message represents the first and last message in the convo                                                                                                    |
-| smtpHost        | SMPT host name to use                                                                                                                                                                                                                                |
-| smtpPort        | SMTP port                                                                                                                                                                                                                                            |
-| smtpUsername    | SMTP username to use to authetication to the SMTP server                                                                                                                                                                                             |
-| smtpPassword    | SMTP password to use to authetication to the SMTP server                                                                                                                                                                                             |
-| protocol        | Protocol to use (e.g. smtp vs smtps)                                                                                                                                                                                                                 |
-| useTLS          | flag to use (Y/N) to enable TLS                                                                                                                                                                                                                      |
-| fileName        | optional file name required in case the dir id has been specified; the message will be save in eml format on the file system                                                                                                                         |
-| dirId           | optional dir id used to save the message also to the server file system                                                                                                                                                                              |
-| filesToAttach   | a list of files to attach, separated by a comma; use \[] to notinclude files; each file must include the absolute path                                                                                                                               |
-
-```
- smtpXXX-SMTP settings, required to connect to an SMTP server
-```
-
-| Argument      | Description                                                                                                                  |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| dirId         | optional dir id used to save the message also to the server file system                                                      |
-| fileName      | optional file name required in case the dir id has been specified; the message will be save in eml format on the file system |
-| filesToAttach | list of files, expressed with an absolute path                                                                               |
-
-Note: in order to use this feature, you have first to define an application parameters named "SHOW\_ALERT\_MENU\_ITEM" to "Y", otherwise these messages cannot be showed on the client side.
-
-Note: in order to send email, additional application/common parameters must be defined:
-
-```
- MAIL_SMTP_HOST
- MAIL_SMTP_PORT
-```
-
-These are optional:
-
-```
- MAIL_SMTP_PROTOCOL
- MAIL_SMTP_USE_TLS
- MAIL_SMTP_USERNAME
- MAIL_SMTP_PASSWORD
-```
-
-## Execute Query Replace Variables
-
-
-
-**Syntax**
-
-```javascript
-utils.executeQueryReplaceVariables(String sql,String variablePrefix,Long dataStoreId,Boolean separatedTransaction,Boolean interruptExecution,Object[] pars)
-```
-
-| Argument             | Description                                                                                                                                                    |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                        |
-| variablePrefix       |                                                                                                                                                                |
-| dataStoreId          | optional data source id used by the .jasper template to read data from the database                                                                            |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)        |
-| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| pars                 | list of parameters required by the SQL query, one for each binding variable; if not needed, set to \[]                                                         |
-
-
-
-```
-utils.executeMappedQueryWithCallback(String callbackFunName,String where,String groupBy,String having,String orderBy,Long dataModelId,Boolean separatedTransaction,Boolean interruptExecution,Object[] pars)
-```
-
-| Argument             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| callbackFunName      | callback function name, invoked by this one for each row                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| where                | can be null; optional WHERE condition to include in the SQL query automatically executed (every 2 seconds) in order to check out if the data to import has been loaded. In null, it is assumed that the table is empty and the executed query would be "SELECT COUNT(\*) FROM tablename". This method terminates when the returned value is > 0. If this argument is filled in, the query would be "SELECT COUNT(\*) from tablename WHERE yourwhere". Again, the method terminates when there is at least one record |
-| groupBy              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| having               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| orderBy              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| dataModelId          | it identifies the data model having "datastore" type, related to the entities to insert                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)                                                                                                                                                                                                                                                                                                                                                              |
-| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                                                                                                                                                                                                                                                                                                                       |
-| pars                 | list of parameters required by the SQL query, one for each binding variable; if not needed, set to \[]                                                                                                                                                                                                                                                                                                                                                                                                               |
-
-## Get the partial result mapped with ommitted fields
-
-```
-utils.getMappedPartialResultWithFieldsToOmit(String where,String groupBy,String having,String orderBy,Long dataModelId,Boolean separatedTransaction,Boolean interruptExecution,String\u003e attributesMap,Long totalCount,String[] fieldsToOmit,Object[] pars)
-```
-
-| Argument             | Description                                                                                                                                                    |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| dataModelId          | it identifies the data model having "datastore" type, related to the entities to insert                                                                        |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)        |
-| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| attributesMap        |                                                                                                                                                                |
-| totalCount           |                                                                                                                                                                |
-| fieldsToOmit         |                                                                                                                                                                |
-| pars                 | list of parameters required by the SQL query, one for each binding variable; if not needed, set to \[]                                                         |
-
-## Get the partial result mapped with included fields
-
-```
-utils.getMappedPartialResultWithFieldsToInclude(String select,String where,String groupBy,String having,String orderBy,Long dataModelId,Boolean separatedTransaction,Boolean interruptExecution,String\u003e attributesMap,Long totalCount,Object[] pars)
-```
-
-| Argument             | Description                                                                                                                                                    |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| dataModelId          | it identifies the data model having "datastore" type, related to the entities to insert                                                                        |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)        |
-| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| attributesMap        |                                                                                                                                                                |
-| totalCount           |                                                                                                                                                                |
-| pars                 | list of parameters required by the SQL query, one for each binding variable; if not needed, set to \[]                                                         |
-
-## Send email with message template
-
-```
-utils.sendEmailWithMessageTemplate(String subject,String messageTemplate,Map jsObj,String from,String to,String cc,String bcc,String priority,Boolean isHtmlContent,Boolean returnReceipt,String smtpHost,String smtpPort,String protocol,String smtpUsername,String smtpPassword,String useTLS,Boolean zipFiles,Long dirId,String[] filesToAttach)
-```
-
-<table data-header-hidden><thead><tr><th width="337">Argument</th><th>Description</th></tr></thead><tbody><tr><td>Argument</td><td>Description</td></tr><tr><td>subject</td><td>email subject; can contain variables to replace, expressed as :XXX</td></tr><tr><td>messageTemplate</td><td>email body; can contain variables to replace, expressed as :XXX</td></tr><tr><td>jsObj</td><td>a collection of variable names/values, expressed as a javascript object { varName1: value1, ... } used to replace the subject/body content for all :XXX occurrences</td></tr><tr><td>from</td><td>email address sender</td></tr><tr><td>to</td><td>email address destination; can contain multiple addresses, separated by a comma (,)</td></tr><tr><td>cc</td><td>optional argument: can be null; carbon copy addresses</td></tr><tr><td>bcc</td><td>optional argument: can be null; blind carbon copy addresses</td></tr><tr><td>priority</td><td>optional argument: can be null; define the email message priority</td></tr><tr><td>isHtmlContent</td><td>a boolean flag used to define if the body content is in HTML format or not</td></tr><tr><td>returnReceipt</td><td>a boolean flag used to request a return receipt to the destinations</td></tr><tr><td>smtpHost</td><td>SMPT host name to use</td></tr><tr><td>smtpPort</td><td>SMTP port</td></tr><tr><td>protocol</td><td>Protocol to use (e.g. smtp vs smtps)</td></tr><tr><td>smtpUsername</td><td>SMTP username to use to authentication to the SMTP server</td></tr><tr><td>smtpPassword</td><td>SMTP password to use to authentication to the SMTP server</td></tr><tr><td>zipFiles</td><td>a boolean flag used to compress all files to attach in a unique zip file and send it, in order to reduce the email size</td></tr><tr><td>dirId</td><td>directory identifier, where attachment files are located; can be null, in case no attachment files are required</td></tr><tr><td>filesToAttach</td><td>a list of files to attach, separated by a comma; use [] to not include files; each file is expressed as "subdir/filename" , with regards to the base path expressed through the dir id; GCS are supported as well</td></tr></tbody></table>
-
-## Send an email, using SMTP settings passed forward and with a template text
-
-This method allows to send an email message with optional attachments, starting from a text representing the template for the email body.
-
-No template id is required here: the body text must be provided instead.&#x20;
-
-This method is helpful when there is not a single template to use, but a variety of alternative templates to use, according to specific conditions, like a different text per language, company id, site id, etc.
-
-Decoupling the template id from the template text, allows to pass forward a different text, not directly connected to a template, which not necessarely must be used here.
-
-**Syntax**
-
-```javascript
-var ok = utils.sendEmailWithMessageTemplateWithSettings(
-      String subject,
-      String messageTemplate,
-      Map jsObj,
-      String from,
-      String to,
-      String cc, 
-      String bcc,
-      String priority,
-      Boolean isHtmlContent,
-      Boolean returnReceipt,
-      String smtpHost,
-      String smtpPort,
-      String protocol,
-      String smtpUsername,
-      String smtpPassword,
-      String useTLS,
-      Boolean zipFiles,
-      Map additionalSettings,
-      Long dirId,
-      String... filesToAttach
-  )
-```
-
-**Details**
-
-| Argument           | Description                                                                                                                                                                                                        |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| subject            | email subject; can contain variables to replace, expressed as :XXX                                                                                                                                                 |
-| messageTemplate    | email body; can contain variables to replace, expressed as :XXX                                                                                                                                                    |
-| jsObj              | a collection of variable names/values, expressed as a javascript object { varName1: value1, ... } used to replace the subject/body content for all :XXX occurrences                                                |
-| from               | email address sender                                                                                                                                                                                               |
-| to                 | email address destination; can contain multiple addresses, separated by a comma (,)                                                                                                                                |
-| cc                 | optional argument: can be null; carbon copy addresses                                                                                                                                                              |
-| bcc                | optional argument: can be null; blind carbon copy addresses                                                                                                                                                        |
-| priority           | optional argument: can be null; define the email message priority                                                                                                                                                  |
-| isHtmlContent      | a boolean flag used to define if the body content is in HTML format or not                                                                                                                                         |
-| returnReceipt      | a boolean flag used to request a return receipt to the destinations                                                                                                                                                |
-| smtpHost           | SMPT host name to use                                                                                                                                                                                              |
-| smtpPort           | SMTP port                                                                                                                                                                                                          |
-| useTLS             | flag to use (Y/N) to enable TLS                                                                                                                                                                                    |
-| protocol           | Protocol to use (e.g. smtp vs smtps)                                                                                                                                                                               |
-| smtpUsername       | SMTP username to use to authentication to the SMTP server                                                                                                                                                          |
-| smtpPassword       | SMTP password to use to authentication to the SMTP server                                                                                                                                                          |
-| zipFiles           | a boolean flag used to compress all files to attach in a unique zip file and send it, in order to reduce the email size                                                                                            |
-| additionalSettings | <p>can be null; if specified, it represents a javascript object containing additional settings:</p><p>   {</p><p>      elmDirId = &#x3C;number></p><p>      elmFileName: "filename.elm"</p><p>   }</p>             |
-| dirId              | directory identifier, where attachment files are located; can be null, in case no attachment files are required                                                                                                    |
-| filesToAttach      | a list of files to attach, separated by a comma; use \[] to not include files; each file is expressed as "subdir/filename" , with regards to the base path expressed through the dir id; GCS are supported as well |
-
-This method returns false if the email has NOT been sent correctly (e.g. attachment file not found).
-
-**Example**
-
-Suppose to send an email, whose content changes according to the language and the company id  and site id, but there can be templates not always defined for all company+site+language combinations, so that if a template is not found at company+site+language it can be found at company+language and if not found yet, at language only level.
-
-In such a scenario, template messages can be stored on the Platform server file system as text files, organized in a series of subfolder, hierarchically:
-
-```javascript
-invoice_IT.txt
-invoice_EN.txt
-00000
-  invoice_IT.txt
-  invoice_EN.txt
-  100
-    invoice_IT.txt
-    invoice_EN.txt
-  101
-    ...
-00001
-  ...
-```
-
-Email subject must be translated according to the language as well. This can be done either by including subject as the first line of the file or by creating a second text file for subjects only or by including a custom translation in Platform. In this example, we suppose the email subject is defined as a Platform custom translation.
-
-```javascript
-var smtpHost = "smtp.mandrillapp.com";
-var smtpPort = "2525";
-var protocol = "smtp";
-var smtpUsername = "...;
-var smtpPassword = "...";
-var useTLS = "E";
-
-var dirId = 69; // this entry represent a GCS bucket where attachments are located
-var filesToAttach = [ "10I3P.jpg" ];
-
-function getMessageTemplateFile(baseDir) {
-    var files = utils.getFilesInPath(baseDir);
-    for(var i=0;i<files.length;i++) {
-        if (files[i]=="invoice_"+userInfo.languageId+".txt") {
-            return baseDir+"/"+files[i];
-        }
-        if (files[i]=="invoice_EN.txt") { // second choice: use EN as a default
-            return baseDir+"/"+files[i];
-        }
-    }
-    return null;
-}
-
-// let's get template message...
-// 1. first check for file in the longest path: company/site
-var templateBaseDirId = 49;
-var templateBaseDir = utils.getDirectoryPath(templateBaseDirId); // base dir where all template messages are located
-var messageTemplateFile = getMessageTemplateFile(templateBaseDir+"/"+userInfo.companyId+"/"+userInfo.siteId);
-// 2. second choice: check for file in the path: company
-if (messageTemplateFile==null) 
-  messageTemplateFile = getMessageTemplateFile(templateBaseDir+"/"+userInfo.companyId);
-// 3. last choice: check for file in thebase path:
-if (messageTemplateFile==null) 
-  messageTemplateFile = getMessageTemplateFile(templateBaseDir);
-
-if (messageTemplateFile==null)
-  throw "No message template found";
-else {
-    // get tempkate messgae file content...
-    var messageTemplate = utils.readTextFile(messageTemplateFile,"UTF-8");
-    
-    // send email...
-    var ok = utils.sendEmailWithMessageTemplate(
-        "Ciao", // utils.getResource("invoice.subject"), // subject
-        messageTemplate, 
-        {
-            NAME: "John",
-            SURNAME: "Smith"
-        }, // jsObj
-        "...", // from
-        "...", // to
-        null, //  cc
-        null, // bcc
-        null, // priority
-        true, // isHtmlContent
-        false, // returnReceipt,
-        smtpHost,
-        smtpPort,
-        protocol,
-        smtpUsername,
-        smtpPassword,
-        useTLS, 
-        false, // zipFiles, 
-        dirId, 
-        filesToAttach
-    );
-    if (!ok)
-     throw "Error while sending the email";
-}
-```
-
-## Get Progressive for application Id
-
-```
-getProgressiveForApplicationId(String appId,String tableName,String columnName,Boolean separatedTransaction,Boolean interruptExecution)
-```
-
-| Argument             | Description                                                                                                                                                    |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| appId                | application id having the process defined internally                                                                                                           |
-| tableName            | String: name of table for calculating counter                                                                                                                  |
-| columnName           | String: column name of field to calculating progressive                                                                                                        |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)        |
-| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-
-## Convert UCT String to time zone date
-
-```
-/utils.convertUTCStringToTimeZoneDate(String utcDateAsString,int hrs)
-```
-
-##
-
-## Send an email message to a user
-
-**Syntax**
-
-```javascript
-utils.sendAlertEmailWithConversation(from, subject, message, destinations, priority, isHtmlContent, returnReceipt, conversationId, messageTag, filesToAttach)
-```
-
-**Details**
-
-| from           | username to use to send the message; can be null, if not specified, it will be automatically filled with the current logged user, whose email address must be defined in the user detail form                                                        |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| subject        | email title                                                                                                                                                                                                                                          |
-| message        | message to send; it can be expressed in HTML format                                                                                                                                                                                                  |
-| destinations   | list of usernames who will receive the alert; they must be separated by a comma (,); for each username specified, its email address must be defined in the user detail form                                                                          |
-| priority       | priority to use for the messages to show to a specific user: messages having a higher priority will be showed at the top of the list; it can be null; if not specified, it will be set to "normal"; allowed values: 0 (minor), 1, (normal), 2 (high) |
-| conversationId | conversation id used to identify a chain of messages; optional: if not specified, each message represents the first and last message in the convo                                                                                                    |
-| messageTag     | optional hidden text to add to the message and used to search for specific messages stored in the message history                                                                                                                                    |
-| filesToAttach  | list of files, expressed with an absolute path.                                                                                                                                                                                                      |
-
-Note: in order to use this feature, you have first to define an application parameters named "SHOW\_ALERT\_MENU\_ITEM" to "Y", otherwise these messages cannot be showed on the client side.
-
-Note: in order to send email, additional application/common parameters must be defined:
-
-```
- MAIL_SMTP_HOST
- MAIL_SMTP_PORT
-```
-
-These are optional:
-
-{% code fullWidth="false" %}
-```
- MAIL_SMTP_PROTOCOL
- MAIL_SMTP_USE_TLS
- MAIL_SMTP_USERNAME
- MAIL_SMTP_PASSWORD
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.addFileToMobileDevices(String fullPathName,String fileName,String username);
 ```
 {% endcode %}
 
-## Get web content with headers and cookies
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| fullPathName | \[description...] |
+| fileName     | \[description...] |
+| username     | \[description...] |
 
+## addGoogleCalendarEvent
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return CalendarEvent type
+var risp = utils.addGoogleCalendarEvent(String title,Date beginDate,Date endDate);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| title     | \[description...] |
+| beginDate | \[description...] |
+| endDate   | \[description...] |
+
+## addGoogleCalendarEventWithConference
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return CalendarEvent type
+var risp = utils.addGoogleCalendarEventWithConference(String serviceAccountEmail,String privateKeyString,String userId,String title,Date beginDate,Date endDate,String description,String location,String calendarId,String type,String creatorEmail,String[] attendeeEmails);
+```
+{% endcode %}
+
+Details
+
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| serviceAccountEmail | \[description...] |
+| privateKeyString    | \[description...] |
+| userId              | \[description...] |
+| title               | \[description...] |
+| beginDate           | \[description...] |
+| endDate             | \[description...] |
+| description         | \[description...] |
+| location            | \[description...] |
+| calendarId          | \[description...] |
+| type                | \[description...] |
+| creatorEmail        | \[description...] |
+| attendeeEmails      | \[description...] |
+
+## addGoogleCalendarEventWithSettings
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return CalendarEvent type
+var risp = utils.addGoogleCalendarEventWithSettings(String serviceAccountEmail,String privateKeyString,String userId,String title,Date beginDate,Date endDate,String description,String location,String calendarId,String creatorEmail,String[] attendeeEmails);
+```
+{% endcode %}
+
+Details
+
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| serviceAccountEmail | \[description...] |
+| privateKeyString    | \[description...] |
+| userId              | \[description...] |
+| title               | \[description...] |
+| beginDate           | \[description...] |
+| endDate             | \[description...] |
+| description         | \[description...] |
+| location            | \[description...] |
+| calendarId          | \[description...] |
+| creatorEmail        | \[description...] |
+| attendeeEmails      | \[description...] |
+
+## addGoogleContact
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Contact type
+var risp = utils.addGoogleContact(String name,String surname,String email,String phone,Boolean shared);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| name     | \[description...] |
+| surname  | \[description...] |
+| email    | \[description...] |
+| phone    | \[description...] |
+| shared   | \[description...] |
+
+## addGoogleDriveFileProperty
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.addGoogleDriveFileProperty(String fileId,String key,String value,String visibility);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| fileId     | \[description...] |
+| key        | \[description...] |
+| value      | \[description...] |
+| visibility | \[description...] |
+
+## addGoogleDriveFileProperty
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.addGoogleDriveFileProperty(String userId,String fileId,String key,String value,String visibility);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| userId     | \[description...] |
+| fileId     | \[description...] |
+| key        | \[description...] |
+| value      | \[description...] |
+| visibility | \[description...] |
+
+## addISO8601
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Date type
+var risp = utils.addISO8601(Date dt,String period);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| dt       | \[description...] |
+| period   | \[description...] |
+
+## addPermissionsToGoogleDriveFolder
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.addPermissionsToGoogleDriveFolder(String folderId,String type,String value,String fileRole,String folderRole,String> additionalRoles,Boolean updateBaseFolder,Boolean recursive,Boolean sendNotifications,String message);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| folderId          | \[description...] |
+| type              | \[description...] |
+| value             | \[description...] |
+| fileRole          | \[description...] |
+| folderRole        | \[description...] |
+| additionalRoles   | \[description...] |
+| updateBaseFolder  | \[description...] |
+| recursive         | \[description...] |
+| sendNotifications | \[description...] |
+| message           | \[description...] |
+
+## addPermissionsToGoogleDriveFolder
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.addPermissionsToGoogleDriveFolder(String userId,String folderId,String type,String value,String fileRole,String folderRole,String> additionalRoles,Boolean updateBaseFolder,Boolean recursive,Boolean sendNotifications,String message);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| userId            | \[description...] |
+| folderId          | \[description...] |
+| type              | \[description...] |
+| value             | \[description...] |
+| fileRole          | \[description...] |
+| folderRole        | \[description...] |
+| additionalRoles   | \[description...] |
+| updateBaseFolder  | \[description...] |
+| recursive         | \[description...] |
+| sendNotifications | \[description...] |
+| message           | \[description...] |
+
+## addValueInCache
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.addValueInCache(String varName,Object value);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| varName  | \[description...] |
+| value    | \[description...] |
+
+## addValueInCache
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.addValueInCache(String varName,Object value,Long expirationTime);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| varName        | \[description...] |
+| value          | \[description...] |
+| expirationTime | \[description...] |
+
+## analyzeEntities
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.analyzeEntities(String text,String encodingType,Boolean htmlText);
+```
+{% endcode %}
+
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| text         | \[description...] |
+| encodingType | \[description...] |
+| htmlText     | \[description...] |
+
+## analyzeEntitySentiment
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.analyzeEntitySentiment(String text,String encodingType,Boolean htmlText);
+```
+{% endcode %}
+
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| text         | \[description...] |
+| encodingType | \[description...] |
+| htmlText     | \[description...] |
+
+## analyzeSentiment
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.analyzeSentiment(String text,String encodingType,Boolean htmlText);
+```
+{% endcode %}
+
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| text         | \[description...] |
+| encodingType | \[description...] |
+| htmlText     | \[description...] |
+
+## analyzeSyntax
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.analyzeSyntax(String text,String encodingType,Boolean htmlText);
+```
+{% endcode %}
+
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| text         | \[description...] |
+| encodingType | \[description...] |
+| htmlText     | \[description...] |
+
+## appendRangeGoogleSheet
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Integer type
+var risp = utils.appendRangeGoogleSheet(String userId,String spreadsheetId,String range,String valueInputOption,String insertDataOption,Object[][] vos);
+```
+{% endcode %}
+
+Details
+
+| Argument         | Description       |
+| ---------------- | ----------------- |
+| userId           | \[description...] |
+| spreadsheetId    | \[description...] |
+| range            | \[description...] |
+| valueInputOption | \[description...] |
+| insertDataOption | \[description...] |
+| vos              | \[description...] |
+
+## backupEntitiesInGCS
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.backupEntitiesInGCS(String[] entityNames,Long directoryId);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| entityNames | \[description...] |
+| directoryId | \[description...] |
+
+## bulkDeleteOnGoogleDatastore
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.bulkDeleteOnGoogleDatastore(String gql);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| gql      | \[description...] |
+
+## bulkImport
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String[] type
+var risp = utils.bulkImport(Long sourceDirId,Long destDirId,Long backupDirId,Long dataSourceId,String tableName,String csvFileName,String csvFileNameField,String csvUniqueIdField,String csvSep,Object> defaultValues,String> mapping,String nullString,Boolean skipWithErrors,Boolean skipFileNotInCSV,Long beforeInsertActionId,Long afterInsertActionId);
+```
+{% endcode %}
+
+Details
+
+| Argument             | Description       |
+| -------------------- | ----------------- |
+| sourceDirId          | \[description...] |
+| destDirId            | \[description...] |
+| backupDirId          | \[description...] |
+| dataSourceId         | \[description...] |
+| tableName            | \[description...] |
+| csvFileName          | \[description...] |
+| csvFileNameField     | \[description...] |
+| csvUniqueIdField     | \[description...] |
+| csvSep               | \[description...] |
+| defaultValues        | \[description...] |
+| mapping              | \[description...] |
+| nullString           | \[description...] |
+| skipWithErrors       | \[description...] |
+| skipFileNotInCSV     | \[description...] |
+| beforeInsertActionId | \[description...] |
+| afterInsertActionId  | \[description...] |
+
+## bulkImportFromDSToBigQuery
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.bulkImportFromDSToBigQuery(String gql,Long datastoreDataModelId,String location,String bigQueryTable,boolean interruptExecution,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument             | Description       |
+| -------------------- | ----------------- |
+| gql                  | \[description...] |
+| datastoreDataModelId | \[description...] |
+| location             | \[description...] |
+| bigQueryTable        | \[description...] |
+| interruptExecution   | \[description...] |
+| pars                 | \[description...] |
+
+## bulkImportFromDSToSpanner
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.bulkImportFromDSToSpanner(String gql,Long datastoreDataModelId,boolean interruptExecution,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument             | Description       |
+| -------------------- | ----------------- |
+| gql                  | \[description...] |
+| datastoreDataModelId | \[description...] |
+| interruptExecution   | \[description...] |
+| pars                 | \[description...] |
+
+## bulkImportFromFTP
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String[] type
+var risp = utils.bulkImportFromFTP(String host,Integer port,Boolean useSSL,String username,String password,String remoteDir,String fileFilter,Long destDirId,Long backupDirId,Long dataSourceId,String tableName,String csvFileName,String csvFileNameField,String csvUniqueIdField,String csvSep,Object> defaultValues,String> mappingCsvToFields,String nullString,Boolean skipWithErrors,Boolean skipFileNotInCSV,Long beforeInsertActionId,Long afterInsertActionId);
+```
+{% endcode %}
+
+Details
+
+| Argument             | Description       |
+| -------------------- | ----------------- |
+| host                 | \[description...] |
+| port                 | \[description...] |
+| useSSL               | \[description...] |
+| username             | \[description...] |
+| password             | \[description...] |
+| remoteDir            | \[description...] |
+| fileFilter           | \[description...] |
+| destDirId            | \[description...] |
+| backupDirId          | \[description...] |
+| dataSourceId         | \[description...] |
+| tableName            | \[description...] |
+| csvFileName          | \[description...] |
+| csvFileNameField     | \[description...] |
+| csvUniqueIdField     | \[description...] |
+| csvSep               | \[description...] |
+| defaultValues        | \[description...] |
+| mappingCsvToFields   | \[description...] |
+| nullString           | \[description...] |
+| skipWithErrors       | \[description...] |
+| skipFileNotInCSV     | \[description...] |
+| beforeInsertActionId | \[description...] |
+| afterInsertActionId  | \[description...] |
+
+## bulkUpdateOnGoogleDatastore
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.bulkUpdateOnGoogleDatastore(String gql,Map attributesToSet,Map attributesToRemove,Long actionId);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| gql                | \[description...] |
+| attributesToSet    | \[description...] |
+| attributesToRemove | \[description...] |
+| actionId           | \[description...] |
+
+## callGaeAction
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.callGaeAction(Long actionId,Boolean async);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| actionId | \[description...] |
+| async    | \[description...] |
+
+## checkGoogleSSOToken
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.checkGoogleSSOToken(String ssoAuthToken);
+```
+{% endcode %}
+
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| ssoAuthToken | \[description...] |
+
+## classifyText
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.classifyText(String text,Boolean htmlText);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| text     | \[description...] |
+| htmlText | \[description...] |
+
+## clearAllDatastoreEntities
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.clearAllDatastoreEntities);
+```
+{% endcode %}
+
+Details
+
+## clearCache
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.clearCache(String varNames);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| varNames | \[description...] |
+
+## clearCache
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.clearCache(String varNames,String keys);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| varNames | \[description...] |
+| keys     | \[description...] |
+
+## clearDatastoreEntities
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.clearDatastoreEntities(String entityName);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| entityName | \[description...] |
+
+## clearRangeGoogleSheet
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.clearRangeGoogleSheet(String userId,String spreadsheetId,String range);
+```
+{% endcode %}
+
+Details
+
+| Argument      | Description       |
+| ------------- | ----------------- |
+| userId        | \[description...] |
+| spreadsheetId | \[description...] |
+| range         | \[description...] |
+
+## closeActivitiTask
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.closeActivitiTask(String processInstanceId,String taskDefinitionKey,String assignee,Map map);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| processInstanceId | \[description...] |
+| taskDefinitionKey | \[description...] |
+| assignee          | \[description...] |
+| map               | \[description...] |
+
+## closeActivitiTask
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.closeActivitiTask(String taskInstanceId,Map map);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| taskInstanceId | \[description...] |
+| map            | \[description...] |
+
+## completeActivitiTask
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.completeActivitiTask(String processInstanceId,Map params,Map processVariables);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| processInstanceId | \[description...] |
+| params            | \[description...] |
+| processVariables  | \[description...] |
+
+## convertDocxToOtherFormat
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.convertDocxToOtherFormat(String docxFile,String newFile,Boolean deleteDocxFile,String format);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| docxFile       | \[description...] |
+| newFile        | \[description...] |
+| deleteDocxFile | \[description...] |
+| format         | \[description...] |
+
+## convertDocxToPdf
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.convertDocxToPdf(String docxFile,String pdfFile,Boolean deleteDocxFile);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| docxFile       | \[description...] |
+| pdfFile        | \[description...] |
+| deleteDocxFile | \[description...] |
+
+## convertHtmlToImage
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.convertHtmlToImage(String html,String imagePath);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| html      | \[description...] |
+| imagePath | \[description...] |
+
+## convertISO8601
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.convertISO8601(String period);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| period   | \[description...] |
+
+## convertListWithMapper
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.convertListWithMapper(String json,Map settings);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| json     | \[description...] |
+| settings | \[description...] |
+
+## convertObjectWithMapper
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.convertObjectWithMapper(String json,Map settings);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| json     | \[description...] |
+| settings | \[description...] |
+
+## convertPdfToImage
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.convertPdfToImage(Long pdfDirId,String pdfFileName,Long imgDirId,String imgExtension,Float scale);
+```
+{% endcode %}
+
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| pdfDirId     | \[description...] |
+| pdfFileName  | \[description...] |
+| imgDirId     | \[description...] |
+| imgExtension | \[description...] |
+| scale        | \[description...] |
+
+## convertTifToJpg
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.convertTifToJpg(Long tifDirId,String tifFileName,Long jpgDirId,String jpgFileName,Float compressionFactor);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| tifDirId          | \[description...] |
+| tifFileName       | \[description...] |
+| jpgDirId          | \[description...] |
+| jpgFileName       | \[description...] |
+| compressionFactor | \[description...] |
+
+## convertUrlToImage
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.convertUrlToImage(String url,String imagePath);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| url       | \[description...] |
+| imagePath | \[description...] |
+
+## copyGoogleCloudStorageObject
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.copyGoogleCloudStorageObject(String sourceBucketName,String sourceObjectName,Long sourceObjectVersion,String destinationBucketName,String destinationObjectName);
+```
+{% endcode %}
+
+Details
+
+| Argument              | Description       |
+| --------------------- | ----------------- |
+| sourceBucketName      | \[description...] |
+| sourceObjectName      | \[description...] |
+| sourceObjectVersion   | \[description...] |
+| destinationBucketName | \[description...] |
+| destinationObjectName | \[description...] |
+
+## copyGoogleSheet
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.copyGoogleSheet(String userId,String spreadsheetId,Integer sheetId,String destinationSpreadsheetId);
+```
+{% endcode %}
+
+Details
+
+| Argument                 | Description       |
+| ------------------------ | ----------------- |
+| userId                   | \[description...] |
+| spreadsheetId            | \[description...] |
+| sheetId                  | \[description...] |
+| destinationSpreadsheetId | \[description...] |
+
+## createBigQueryDataset
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.createBigQueryDataset(String datasetName);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| datasetName | \[description...] |
+
+## createBigQueryTable
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.createBigQueryTable(String datasetName,String tableName,Map> columns);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| datasetName | \[description...] |
+| tableName   | \[description...] |
+| columns     | \[description...] |
+
+## createBigQueryTableFromDatastoreEntities
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.createBigQueryTableFromDatastoreEntities(String[] entityNames,Long directoryId,String datasetName);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| entityNames | \[description...] |
+| directoryId | \[description...] |
+| datasetName | \[description...] |
+
+## createConDbForCurrentUser
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.createConDbForCurrentUser(String companyId,Long siteId,String username);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| companyId | \[description...] |
+| siteId    | \[description...] |
+| username  | \[description...] |
+
+## createCsvFromSqlQuery
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.createCsvFromSqlQuery(String sql,Long dataSourceId,Boolean includeRowNum,String replaceNullWith,Long fromRow,Long maxRowsToRead,String firstRow,String sep,Long dirId,String fileName);
+```
+{% endcode %}
+
+Details
+
+| Argument        | Description       |
+| --------------- | ----------------- |
+| sql             | \[description...] |
+| dataSourceId    | \[description...] |
+| includeRowNum   | \[description...] |
+| replaceNullWith | \[description...] |
+| fromRow         | \[description...] |
+| maxRowsToRead   | \[description...] |
+| firstRow        | \[description...] |
+| sep             | \[description...] |
+| dirId           | \[description...] |
+| fileName        | \[description...] |
+
+## createGoogleCloudStorageBucket
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return FileContainer type
+var risp = utils.createGoogleCloudStorageBucket(String project,String bucketName,String bucketLocation,String storageClass);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| project        | \[description...] |
+| bucketName     | \[description...] |
+| bucketLocation | \[description...] |
+| storageClass   | \[description...] |
+
+## createGoogleDriveFolder
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.createGoogleDriveFolder(String userId,String folderName,String> parents,String description);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| userId      | \[description...] |
+| folderName  | \[description...] |
+| parents     | \[description...] |
+| description | \[description...] |
+
+## createGoogleDriveFolder
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.createGoogleDriveFolder(String folderName,String> parents,String description);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| folderName  | \[description...] |
+| parents     | \[description...] |
+| description | \[description...] |
+
+## createGoogleSheets
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.createGoogleSheets(String userId,String spreadsheetId,String[] sheets);
+```
+{% endcode %}
+
+Details
+
+| Argument      | Description       |
+| ------------- | ----------------- |
+| userId        | \[description...] |
+| spreadsheetId | \[description...] |
+| sheets        | \[description...] |
+
+## createGoogleSpreadsheets
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.createGoogleSpreadsheets(String userId,String spreadsheetTitle,String[] sheets);
+```
+{% endcode %}
+
+Details
+
+| Argument         | Description       |
+| ---------------- | ----------------- |
+| userId           | \[description...] |
+| spreadsheetTitle | \[description...] |
+| sheets           | \[description...] |
+
+## createStripeCustomer
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.createStripeCustomer(String apiKey,Map customerData);
+```
+{% endcode %}
+
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| apiKey       | \[description...] |
+| customerData | \[description...] |
+
+## createTablesFromDatastoreBackup
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.createTablesFromDatastoreBackup(String[] entityNames,String gcsURI,String datasetName);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| entityNames | \[description...] |
+| gcsURI      | \[description...] |
+| datasetName | \[description...] |
+
+## createXLSXFileFromSQLQuery
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Long type
+var risp = utils.createXLSXFileFromSQLQuery(Long templateDirectoryId,String templateFileName,String sheetName,Long outDirectoryId,String outFileName,Map[] formatHeaderColumns,Map[] formatColumns,Map grouping,Map additionalSettings,Long datastoreId,String sqlQuery,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| templateDirectoryId | \[description...] |
+| templateFileName    | \[description...] |
+| sheetName           | \[description...] |
+| outDirectoryId      | \[description...] |
+| outFileName         | \[description...] |
+| formatHeaderColumns | \[description...] |
+| formatColumns       | \[description...] |
+| grouping            | \[description...] |
+| additionalSettings  | \[description...] |
+| datastoreId         | \[description...] |
+| sqlQuery            | \[description...] |
+| pars                | \[description...] |
+
+## createXlsContent
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.createXlsContent(Long dirId,String fileName,String sheetName,Integer sheetIndex,Integer fromRow,Object>[] vos,String[] attributeNames);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| dirId          | \[description...] |
+| fileName       | \[description...] |
+| sheetName      | \[description...] |
+| sheetIndex     | \[description...] |
+| fromRow        | \[description...] |
+| vos            | \[description...] |
+| attributeNames | \[description...] |
+
+## deleteBigQueryDataset
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.deleteBigQueryDataset(String datasetName);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| datasetName | \[description...] |
+
+## deleteBigQueryObject
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Long type
+var risp = utils.deleteBigQueryObject(String datasetName,String tableName,Map obj,String[] pks);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| datasetName | \[description...] |
+| tableName   | \[description...] |
+| obj         | \[description...] |
+| pks         | \[description...] |
+
+## deleteBigQueryTable
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.deleteBigQueryTable(String datasetName,String tableName);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| datasetName | \[description...] |
+| tableName   | \[description...] |
+
+## deleteCard
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.deleteCard(Long dataModelId,Long panelId,Map vo);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| dataModelId | \[description...] |
+| panelId     | \[description...] |
+| vo          | \[description...] |
+
+## deleteCards
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map[] type
+var risp = utils.deleteCards(Long dataModelId,Long panelId,Map[] vos);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| dataModelId | \[description...] |
+| panelId     | \[description...] |
+| vos         | \[description...] |
+
+## deleteDir
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Boolean type
+var risp = utils.deleteDir(Long dirId,String subFolder);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| dirId     | \[description...] |
+| subFolder | \[description...] |
+
+## deleteFileFromCMS
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.deleteFileFromCMS(String uuid);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| uuid     | \[description...] |
+
+## deleteFiles
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Boolean type
+var risp = utils.deleteFiles(Long dirId,Boolean subFolder,String operator,String fileName,Boolean caseSensitive,Boolean removeEmptyDir);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| dirId          | \[description...] |
+| subFolder      | \[description...] |
+| operator       | \[description...] |
+| fileName       | \[description...] |
+| caseSensitive  | \[description...] |
+| removeEmptyDir | \[description...] |
+
+## deleteFiles
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Boolean type
+var risp = utils.deleteFiles(Long dirId,Boolean subFolder,String operator,String fileName,Boolean caseSensitive);
+```
+{% endcode %}
+
+Details
+
+| Argument      | Description       |
+| ------------- | ----------------- |
+| dirId         | \[description...] |
+| subFolder     | \[description...] |
+| operator      | \[description...] |
+| fileName      | \[description...] |
+| caseSensitive | \[description...] |
+
+## deleteGoogleCalendarEvent
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.deleteGoogleCalendarEvent(String calendarEventId);
+```
+{% endcode %}
+
+Details
+
+| Argument        | Description       |
+| --------------- | ----------------- |
+| calendarEventId | \[description...] |
+
+## deleteGoogleCalendarEventWithSettings
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.deleteGoogleCalendarEventWithSettings(String serviceAccountEmail,String privateKeyString,String userId,String calendarEventId);
+```
+{% endcode %}
+
+Details
+
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| serviceAccountEmail | \[description...] |
+| privateKeyString    | \[description...] |
+| userId              | \[description...] |
+| calendarEventId     | \[description...] |
+
+## deleteGoogleCloudStorageBucket
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return FileContainer type
+var risp = utils.deleteGoogleCloudStorageBucket(String bucketName);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| bucketName | \[description...] |
+
+## deleteGoogleCloudStorageObject
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.deleteGoogleCloudStorageObject(String bucketName,String objectName);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| bucketName | \[description...] |
+| objectName | \[description...] |
+
+## deleteGoogleContact
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.deleteGoogleContact(String contactId,Boolean shared);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| contactId | \[description...] |
+| shared    | \[description...] |
+
+## deleteGoogleDriveFile
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.deleteGoogleDriveFile(String userId,String fileId,boolean skipTrash);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| userId    | \[description...] |
+| fileId    | \[description...] |
+| skipTrash | \[description...] |
+
+## deleteGoogleDriveFile
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.deleteGoogleDriveFile(String fileId,boolean skipTrash);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| fileId    | \[description...] |
+| skipTrash | \[description...] |
+
+## deleteGoogleDriveFileProperty
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.deleteGoogleDriveFileProperty(String userId,String fileId,String key);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| userId   | \[description...] |
+| fileId   | \[description...] |
+| key      | \[description...] |
+
+## deleteGoogleDriveFileProperty
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.deleteGoogleDriveFileProperty(String fileId,String key);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| fileId   | \[description...] |
+| key      | \[description...] |
+
+## deleteGoogleSheets
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.deleteGoogleSheets(String userId,String spreadsheetId,Integer[] sheetIds);
+```
+{% endcode %}
+
+Details
+
+| Argument      | Description       |
+| ------------- | ----------------- |
+| userId        | \[description...] |
+| spreadsheetId | \[description...] |
+| sheetIds      | \[description...] |
+
+## deleteObjectOnBigQuery
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.deleteObjectOnBigQuery(Map obj,Long dataModelId,Boolean interruptExecution);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+
+## deleteObjectOnGoogleDatastore
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.deleteObjectOnGoogleDatastore(Map obj,Long dataModelId,Boolean interruptExecution);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+
+## deleteObjectOnGoogleSpanner
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.deleteObjectOnGoogleSpanner(Map obj,Long dataModelId,Boolean interruptExecution);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+
+## deleteObjectOnMongoDb
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.deleteObjectOnMongoDb(Map obj,Long dataModelId,Boolean interruptExecution);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+
+## deleteProcessInstance
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.deleteProcessInstance(String processInstanceId);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| processInstanceId | \[description...] |
+
+## downloadArchiflowDocument
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.downloadArchiflowDocument(Long dirId,String fileName,String cardId,Map additionalSettings);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| dirId              | \[description...] |
+| fileName           | \[description...] |
+| cardId             | \[description...] |
+| additionalSettings | \[description...] |
+
+## downloadFileFromGoogleDrive
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.downloadFileFromGoogleDrive(String userId,String fileId,String localPath,String fileName);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| userId    | \[description...] |
+| fileId    | \[description...] |
+| localPath | \[description...] |
+| fileName  | \[description...] |
+
+## downloadGoogleCloudStorageObject
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.downloadGoogleCloudStorageObject(String bucketName,String objectName,String destPath);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| bucketName | \[description...] |
+| objectName | \[description...] |
+| destPath   | \[description...] |
+
+## duplicateGoogleDriveFile
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.duplicateGoogleDriveFile(String userId,String sourceFolderId,String destinationFolderId,String newFileName,Boolean copyPermissions);
+```
+{% endcode %}
+
+Details
+
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| userId              | \[description...] |
+| sourceFolderId      | \[description...] |
+| destinationFolderId | \[description...] |
+| newFileName         | \[description...] |
+| copyPermissions     | \[description...] |
+
+## duplicateGoogleDriveFolderAndContents
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.duplicateGoogleDriveFolderAndContents(String userId,String sourceFolderId,String newFolderName,String newFolderDescription,String destinationFolderId,String titlePrefix,Boolean copyPermissions);
+```
+{% endcode %}
+
+Details
+
+| Argument             | Description       |
+| -------------------- | ----------------- |
+| userId               | \[description...] |
+| sourceFolderId       | \[description...] |
+| newFolderName        | \[description...] |
+| newFolderDescription | \[description...] |
+| destinationFolderId  | \[description...] |
+| titlePrefix          | \[description...] |
+| copyPermissions      | \[description...] |
+
+## duplicateGoogleDriveFolderAndContents
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.duplicateGoogleDriveFolderAndContents(String sourceFolderId,String newFolderName,String newFolderDescription,String destinationFolderId,String titlePrefix,Boolean copyPermissions);
+```
+{% endcode %}
+
+Details
+
+| Argument             | Description       |
+| -------------------- | ----------------- |
+| sourceFolderId       | \[description...] |
+| newFolderName        | \[description...] |
+| newFolderDescription | \[description...] |
+| destinationFolderId  | \[description...] |
+| titlePrefix          | \[description...] |
+| copyPermissions      | \[description...] |
+
+## duplicateGoogleSheet
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.duplicateGoogleSheet(String userId,String spreadsheetId,Integer sourceSheetId,Integer insertSheetIndex,Integer newSheetId,String newSheetName);
+```
+{% endcode %}
+
+Details
+
+| Argument         | Description       |
+| ---------------- | ----------------- |
+| userId           | \[description...] |
+| spreadsheetId    | \[description...] |
+| sourceSheetId    | \[description...] |
+| insertSheetIndex | \[description...] |
+| newSheetId       | \[description...] |
+| newSheetName     | \[description...] |
+
+## encodeJWT
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.encodeJWT(Map dataToSend,String sharedKey);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| dataToSend | \[description...] |
+| sharedKey  | \[description...] |
+
+## enqueueGaeAction
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.enqueueGaeAction(String queueName,Long actionId,Map params);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| queueName | \[description...] |
+| actionId  | \[description...] |
+| params    | \[description...] |
+
+## enquiryTasks
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.enquiryTasks(HashMap pars);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| pars     | \[description...] |
+
+## executeAction
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeAction(Long actionId,Map vo,Map params,Map headers);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| actionId | \[description...] |
+| vo       | \[description...] |
+| params   | \[description...] |
+| headers  | \[description...] |
+
+## executeActionSameTransaction
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeActionSameTransaction(Long actionId,Map vo,Map params,Map headers);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| actionId | \[description...] |
+| vo       | \[description...] |
+| params   | \[description...] |
+| headers  | \[description...] |
+
+## executeAllExports
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return long type
+var risp = utils.executeAllExports(String queryType,Map paramValues);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| queryType   | \[description...] |
+| paramValues | \[description...] |
+
+## executeBigQueryDmlStatement
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Long type
+var risp = utils.executeBigQueryDmlStatement(String datasetName,String sql,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| datasetName | \[description...] |
+| sql         | \[description...] |
+| pars        | \[description...] |
+
+## executeBigQuerySaveOnLocalTable
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return long type
+var risp = utils.executeBigQuerySaveOnLocalTable(Long datastoreId,String localTableName,Map defaultFieldNames,Map[] csvFields,String defaultDataset,String sqlQuery,Object[] params);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| datastoreId       | \[description...] |
+| localTableName    | \[description...] |
+| defaultFieldNames | \[description...] |
+| csvFields         | \[description...] |
+| defaultDataset    | \[description...] |
+| sqlQuery          | \[description...] |
+| params            | \[description...] |
+
+## executeBigQuerySaveOnTable
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.executeBigQuerySaveOnTable(String destinationDataset,String destinationTable,String defaultDataset,String sqlQuery,Object[] params);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| destinationDataset | \[description...] |
+| destinationTable   | \[description...] |
+| defaultDataset     | \[description...] |
+| sqlQuery           | \[description...] |
+| params             | \[description...] |
+
+## executeBigQueryWithCallback
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.executeBigQueryWithCallback(String processRowFunName,String defaultDataset,String sqlQuery,Object[] params);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| processRowFunName | \[description...] |
+| defaultDataset    | \[description...] |
+| sqlQuery          | \[description...] |
+| params            | \[description...] |
+
+## executeCachedQueryOnGoogleDatastore
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeCachedQueryOnGoogleDatastore(int maxCachedEntities,String sql,Long dataModelId,Boolean interruptExecution,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| maxCachedEntities  | \[description...] |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| pars               | \[description...] |
+
+## executeCachedQueryOnGoogleDatastoreWithSetting
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeCachedQueryOnGoogleDatastoreWithSetting(int maxCachedEntities,String sql,Long dataModelId,Boolean interruptExecution,Map settings,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| maxCachedEntities  | \[description...] |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| settings           | \[description...] |
+| pars               | \[description...] |
+
+## executeExport
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return long type
+var risp = utils.executeExport(Long exportId,String queryType,Map paramValues);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| exportId    | \[description...] |
+| queryType   | \[description...] |
+| paramValues | \[description...] |
+
+## executeExportsInGroup
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return long type
+var risp = utils.executeExportsInGroup(String groupName,String queryType,Map paramValues);
+```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| groupName   | \[description...] |
+| queryType   | \[description...] |
+| paramValues | \[description...] |
+
+## executeQueryOnBigQuery
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeQueryOnBigQuery(String sql,Long dataModelId,Boolean interruptExecution,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| pars               | \[description...] |
+
+## executeQueryOnBigQueryWithSettings
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeQueryOnBigQueryWithSettings(String sql,Long dataModelId,Boolean interruptExecution,Map map,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| map                | \[description...] |
+| pars               | \[description...] |
+
+## executeQueryOnGoogleDatastore
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeQueryOnGoogleDatastore(String sql,Long dataModelId,Boolean interruptExecution,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| pars               | \[description...] |
+
+## executeQueryOnGoogleDatastoreWithSettings
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeQueryOnGoogleDatastoreWithSettings(String sql,Long dataModelId,Boolean interruptExecution,Map settings,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| settings           | \[description...] |
+| pars               | \[description...] |
+
+## executeQueryOnGoogleSpanner
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeQueryOnGoogleSpanner(String sql,Long dataModelId,Boolean interruptExecution,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| pars               | \[description...] |
+
+## executeQueryOnGoogleSpannerWithSettings
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeQueryOnGoogleSpannerWithSettings(String sql,Long dataModelId,Boolean interruptExecution,Map settings,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| settings           | \[description...] |
+| pars               | \[description...] |
+
+## executeQueryOnMongoDb
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeQueryOnMongoDb(String where,Long dataModelId,Boolean interruptExecution,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| where              | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| pars               | \[description...] |
+
+## executeSpannerDdl
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeSpannerDdl(String[] scripts);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| scripts  | \[description...] |
+
+## executeSpannerSql
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.executeSpannerSql(String sql);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| sql      | \[description...] |
+
+## executeStripePayment
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.executeStripePayment(String apiKey,Long priceWithCents,String currency,String customerId);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| apiKey         | \[description...] |
+| priceWithCents | \[description...] |
+| currency       | \[description...] |
+| customerId     | \[description...] |
+
+## exportFromExcelFileToGSheet
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.exportFromExcelFileToGSheet(String userId,Long sourceDirId,String sourceFileName,String spreadsheetId,List areas);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| userId         | \[description...] |
+| sourceDirId    | \[description...] |
+| sourceFileName | \[description...] |
+| spreadsheetId  | \[description...] |
+| areas          | \[description...] |
+
+## exportFromExcelFileToGSheet
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.exportFromExcelFileToGSheet(Long sourceDirId,String sourceFileName,String spreadsheetId,List areas);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| sourceDirId    | \[description...] |
+| sourceFileName | \[description...] |
+| spreadsheetId  | \[description...] |
+| areas          | \[description...] |
+
+## exportUsersToDatastore
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.exportUsersToDatastore(String companyId);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| companyId | \[description...] |
+
+## exportUsersToDatastore
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.exportUsersToDatastore);
+```
+{% endcode %}
+
+Details
+
+## extractBigQueryData
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.extractBigQueryData(String datasetName,String tableName,String format,String gcsUrl,Boolean deleteTableAfterExport,Boolean exportHeaders);
+```
+{% endcode %}
+
+Details
+
+| Argument               | Description       |
+| ---------------------- | ----------------- |
+| datasetName            | \[description...] |
+| tableName              | \[description...] |
+| format                 | \[description...] |
+| gcsUrl                 | \[description...] |
+| deleteTableAfterExport | \[description...] |
+| exportHeaders          | \[description...] |
+
+## generateDocx
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.generateDocx(Long reportId,Object> args,String langId,String path,String fileName);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| reportId | \[description...] |
+| args     | \[description...] |
+| langId   | \[description...] |
+| path     | \[description...] |
+| fileName | \[description...] |
+
+## generateGCPAuthToken
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.generateGCPAuthToken(String user,String serviceAccountEmail,String privateKeyString,String redirectUri,String[] _scopes);
+```
+{% endcode %}
+
+Details
+
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| user                | \[description...] |
+| serviceAccountEmail | \[description...] |
+| privateKeyString    | \[description...] |
+| redirectUri         | \[description...] |
+| \_scopes            | \[description...] |
+
+## getActivitiLastVersionProcessId
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getActivitiLastVersionProcessId(String id);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| id       | \[description...] |
+
+## getActivitiProcessAsJson
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getActivitiProcessAsJson(String id,Boolean includeSubProcesses,Map tasksDueDates);
+```
+{% endcode %}
+
+Details
+
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| id                  | \[description...] |
+| includeSubProcesses | \[description...] |
+| tasksDueDates       | \[description...] |
+
+## getActivitiProcessInstancesVariables
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getActivitiProcessInstancesVariables(String processInstanceId,String processDefinitionId);
+```
+{% endcode %}
+
+Details
+
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| processInstanceId   | \[description...] |
+| processDefinitionId | \[description...] |
+
+## getActivitiUserAssignedTasks
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getActivitiUserAssignedTasks(String assignee,String processInstanceId,String taskDefinitionKey);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| assignee          | \[description...] |
+| processInstanceId | \[description...] |
+| taskDefinitionKey | \[description...] |
+
+## getActivitiUserCandidateTasks
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getActivitiUserCandidateTasks(String candidate,String processInstanceId,String taskDefinitionKey);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| candidate         | \[description...] |
+| processInstanceId | \[description...] |
+| taskDefinitionKey | \[description...] |
+
+## getAlfrescoDocument
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.getAlfrescoDocument(String id,String fileName,String destPath);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| id       | \[description...] |
+| fileName | \[description...] |
+| destPath | \[description...] |
+
+## getAlfrescoWebScript
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getAlfrescoWebScript(String uri,boolean replaceVariables,String httpMethod,String bodyRequest);
+```
+{% endcode %}
+
+Details
+
+| Argument         | Description       |
+| ---------------- | ----------------- |
+| uri              | \[description...] |
+| replaceVariables | \[description...] |
+| httpMethod       | \[description...] |
+| bodyRequest      | \[description...] |
+
+## getAlfrescoWebScript
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getAlfrescoWebScript(String uri,boolean replaceVariables,String httpMethod,String bodyRequest,String charSet);
+```
+{% endcode %}
+
+Details
+
+| Argument         | Description       |
+| ---------------- | ----------------- |
+| uri              | \[description...] |
+| replaceVariables | \[description...] |
+| httpMethod       | \[description...] |
+| bodyRequest      | \[description...] |
+| charSet          | \[description...] |
+
+## getBigQueryDataset
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getBigQueryDataset);
+```
+{% endcode %}
+
+Details
+
+## getButtonsAuthorizationOfUser
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.getButtonsAuthorizationOfUser);
+```
+{% endcode %}
+
+Details
+
+## getDetailOnArchiflow
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getDetailOnArchiflow(Long dataModelId,String cardId,Map additionalSettings);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| dataModelId        | \[description...] |
+| cardId             | \[description...] |
+| additionalSettings | \[description...] |
+
+## getElementFromQueueByNote
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getElementFromQueueByNote(String note,String namespace);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| note      | \[description...] |
+| namespace | \[description...] |
+
+## getEntities
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map[] type
+var risp = utils.getEntities(String entityName,Object[] entityKeys);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| entityName | \[description...] |
+| entityKeys | \[description...] |
+
+## getEntitiesAsJSON
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getEntitiesAsJSON(String entityName,Object[] entityKeys);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| entityName | \[description...] |
+| entityKeys | \[description...] |
+
+## getEntity
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.getEntity(String entityName,Object key,int maxCachedEntities,Long expirationTime);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| entityName        | \[description...] |
+| key               | \[description...] |
+| maxCachedEntities | \[description...] |
+| expirationTime    | \[description...] |
+
+## getEntity
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.getEntity(String entityName,Object key,int maxCachedEntities);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| entityName        | \[description...] |
+| key               | \[description...] |
+| maxCachedEntities | \[description...] |
+
+## getEntityAsJSON
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getEntityAsJSON(String entityName,Object key,int maxCachedEntities);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| entityName        | \[description...] |
+| key               | \[description...] |
+| maxCachedEntities | \[description...] |
+
+## getEntityAsJSON
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getEntityAsJSON(String entityName,Object key,int maxCachedEntities,Long expirationTime);
+```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| entityName        | \[description...] |
+| key               | \[description...] |
+| maxCachedEntities | \[description...] |
+| expirationTime    | \[description...] |
+
+## getFunctionAuthorizationOfUser
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.getFunctionAuthorizationOfUser(String functionId);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| functionId | \[description...] |
+
+## getGCPAuthToken
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGCPAuthToken(String user,String serviceAccountEmail,String privateKeyString,String[] _scopes);
+```
+{% endcode %}
+
+Details
+
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| user                | \[description...] |
+| serviceAccountEmail | \[description...] |
+| privateKeyString    | \[description...] |
+| \_scopes            | \[description...] |
+
+## getGoogleCloudStorageBucket
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return FileContainer type
+var risp = utils.getGoogleCloudStorageBucket(String bucketName);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| bucketName | \[description...] |
+
+## getGoogleCloudStorageBucketVersioning
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Boolean type
+var risp = utils.getGoogleCloudStorageBucketVersioning(String bucketName);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| bucketName | \[description...] |
+
+## getGoogleCloudStorageObject
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.getGoogleCloudStorageObject(String bucketName,String objectName);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| bucketName | \[description...] |
+| objectName | \[description...] |
+
+## getGoogleCloudStorageObjectVersions
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return List type
+var risp = utils.getGoogleCloudStorageObjectVersions(String bucketName,String objectName);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| bucketName | \[description...] |
+| objectName | \[description...] |
+
+## getGoogleCloudStorageSignedURL
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleCloudStorageSignedURL(String verb,Long expiration,String bucketName,String objectName,String mime);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| verb       | \[description...] |
+| expiration | \[description...] |
+| bucketName | \[description...] |
+| objectName | \[description...] |
+| mime       | \[description...] |
+
+## getGoogleContactsFiltered
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return List type
+var risp = utils.getGoogleContactsFiltered(Integer pages,Integer maxPageResults,String searchString,Boolean splitEmails);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| pages          | \[description...] |
+| maxPageResults | \[description...] |
+| searchString   | \[description...] |
+| splitEmails    | \[description...] |
+
+## getGoogleDomainContactsFiltered
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return List type
+var risp = utils.getGoogleDomainContactsFiltered(Integer pages,Integer maxPageResults,String query,String orderBy,String sortOrder);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| pages          | \[description...] |
+| maxPageResults | \[description...] |
+| query          | \[description...] |
+| orderBy        | \[description...] |
+| sortOrder      | \[description...] |
+
+## getGoogleDriveFileDownloadURL
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleDriveFileDownloadURL(String fileId);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| fileId   | \[description...] |
+
+## getGoogleDriveFileInfo
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.getGoogleDriveFileInfo(String userId,String fileId);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| userId   | \[description...] |
+| fileId   | \[description...] |
+
+## getGoogleDriveFileInfo
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.getGoogleDriveFileInfo(String fileId);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| fileId   | \[description...] |
+
+## getGoogleDriveFileOpenURL
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleDriveFileOpenURL(String fileId);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| fileId   | \[description...] |
+
+## getGoogleDriveFileProperty
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleDriveFileProperty(String userId,String fileId,String key,String visibility);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| userId     | \[description...] |
+| fileId     | \[description...] |
+| key        | \[description...] |
+| visibility | \[description...] |
+
+## getGoogleDriveFileProperty
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleDriveFileProperty(String fileId,String key,String visibility);
+```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| fileId     | \[description...] |
+| key        | \[description...] |
+| visibility | \[description...] |
+
+## getGoogleDriveFileRevisions
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return List type
+var risp = utils.getGoogleDriveFileRevisions(String fileId);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| fileId   | \[description...] |
+
+## getGoogleDriveFileRevisions
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return List type
+var risp = utils.getGoogleDriveFileRevisions(String userId,String fileId);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| userId   | \[description...] |
+| fileId   | \[description...] |
+
+## getGoogleDriveFolderContents
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return List type
+var risp = utils.getGoogleDriveFolderContents(String userId,String folderId,String query,Boolean trashed);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| userId   | \[description...] |
+| folderId | \[description...] |
+| query    | \[description...] |
+| trashed  | \[description...] |
+
+## getGoogleDriveFolderContents
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return List type
+var risp = utils.getGoogleDriveFolderContents(String folderId,String query,Boolean trashed);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| folderId | \[description...] |
+| query    | \[description...] |
+| trashed  | \[description...] |
+
+## getGoogleDriveFolderContentsIds
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return List type
+var risp = utils.getGoogleDriveFolderContentsIds(String userId,String folderId,String query,boolean trashed);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| userId   | \[description...] |
+| folderId | \[description...] |
+| query    | \[description...] |
+| trashed  | \[description...] |
+
+## getGoogleDriveFolderContentsIds
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return List type
+var risp = utils.getGoogleDriveFolderContentsIds(String folderId,String query,boolean trashed);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| folderId | \[description...] |
+| query    | \[description...] |
+| trashed  | \[description...] |
+
+## getGoogleOAuth2AccessToken
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleOAuth2AccessToken(String projectId,String[] scopes);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| projectId | \[description...] |
+| scopes    | \[description...] |
+
+## getGoogleOAuth2AccessToken
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleOAuth2AccessToken(String[] scopes);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| scopes   | \[description...] |
+
+## getGoogleOAuth2AccessToken
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleOAuth2AccessToken(String projectId,String serviceAccountEmail,String privateKeyString,String[] scopes);
+```
+{% endcode %}
+
+Details
+
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| projectId           | \[description...] |
+| serviceAccountEmail | \[description...] |
+| privateKeyString    | \[description...] |
+| scopes              | \[description...] |
+
+## getGoogleSharedContactsFiltered
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return List type
+var risp = utils.getGoogleSharedContactsFiltered(Integer pages,Integer maxPageResults,String searchString,Boolean splitEmails);
+```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| pages          | \[description...] |
+| maxPageResults | \[description...] |
+| searchString   | \[description...] |
+| splitEmails    | \[description...] |
+
+## getGoogleSheetData
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleSheetData(String userId,String spreadsheetId,String> range,String valueRenderOption,String dateTimeRenderOption);
+```
+{% endcode %}
+
+Details
+
+| Argument             | Description       |
+| -------------------- | ----------------- |
+| userId               | \[description...] |
+| spreadsheetId        | \[description...] |
+| range                | \[description...] |
+| valueRenderOption    | \[description...] |
+| dateTimeRenderOption | \[description...] |
+
+## getGoogleSheetData
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleSheetData(String userId,String spreadsheetId,String range,String valueRenderOption,String dateTimeRenderOption);
+```
+{% endcode %}
+
+Details
+
+| Argument             | Description       |
+| -------------------- | ----------------- |
+| userId               | \[description...] |
+| spreadsheetId        | \[description...] |
+| range                | \[description...] |
+| valueRenderOption    | \[description...] |
+| dateTimeRenderOption | \[description...] |
+
+## getGoogleSheetData
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleSheetData(String userId,Long dataModelId,String spreadsheetId,String> range,String valueRenderOption,String dateTimeRenderOption);
+```
+{% endcode %}
+
+Details
+
+| Argument             | Description       |
+| -------------------- | ----------------- |
+| userId               | \[description...] |
+| dataModelId          | \[description...] |
+| spreadsheetId        | \[description...] |
+| range                | \[description...] |
+| valueRenderOption    | \[description...] |
+| dateTimeRenderOption | \[description...] |
+
+## getGoogleSheetData
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleSheetData(String userId,Long dataModelId,String spreadsheetId,String range,String valueRenderOption,String dateTimeRenderOption);
+```
+{% endcode %}
+
+Details
+
+| Argument             | Description       |
+| -------------------- | ----------------- |
+| userId               | \[description...] |
+| dataModelId          | \[description...] |
+| spreadsheetId        | \[description...] |
+| range                | \[description...] |
+| valueRenderOption    | \[description...] |
+| dateTimeRenderOption | \[description...] |
+
+## getGoogleSheets
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleSheets(String userId,String spreadsheetId);
+```
+{% endcode %}
+
+Details
+
+| Argument      | Description       |
+| ------------- | ----------------- |
+| userId        | \[description...] |
+| spreadsheetId | \[description...] |
+
+## getGoogleSheets
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGoogleSheets(String spreadsheetId);
+```
+{% endcode %}
+
+Details
+
+| Argument      | Description       |
+| ------------- | ----------------- |
+| spreadsheetId | \[description...] |
+
+## getGroupMembers
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getGroupMembers(String userId,String groupId);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| userId   | \[description...] |
+| groupId  | \[description...] |
+
+## getInfoFiles
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return ArrayList type
+var risp = utils.getInfoFiles(Long dirId,Boolean subFolder,String operator,String fileName,Boolean caseSensitive);
+```
+{% endcode %}
+
+Details
+
+| Argument      | Description       |
+| ------------- | ----------------- |
+| dirId         | \[description...] |
+| subFolder     | \[description...] |
+| operator      | \[description...] |
+| fileName      | \[description...] |
+| caseSensitive | \[description...] |
+
+## getInvolvedNotAssignedTasks
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getInvolvedNotAssignedTasks(HashMap pars,String username);
+```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| pars     | \[description...] |
+| username | \[description...] |
+
+## getKeysFromCache
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String[] type
+var risp = utils.getKeysFromCache(String keyPrefix);
+```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| keyPrefix | \[description...] |
+
+## getLastSynchronizationDevice
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Timestamp type
+var risp = utils.getLastSynchronizationDevice);
+```
+{% endcode %}
+
+Details
+
+## getModifiedPks
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return ArrayList type
+var risp = utils.getModifiedPks(String tableName,String field,Date changedStardDate,Date changedEndDate);
+```
+{% endcode %}
+
+Details
+
+| Argument         | Description       |
+| ---------------- | ----------------- |
+| tableName        | \[description...] |
+| field            | \[description...] |
+| changedStardDate | \[description...] |
+| changedEndDate   | \[description...] |
+
+## getPartialResultOnArchiflow
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getPartialResultOnArchiflow(Long dataModelId,Map[] filters,Integer[] archiveIds,Boolean cardsWithAttachedDoc,Integer searchTypes,Map additionalSettings);
+```
+{% endcode %}
+
+Details
+
+| Argument             | Description       |
+| -------------------- | ----------------- |
+| dataModelId          | \[description...] |
+| filters              | \[description...] |
+| archiveIds           | \[description...] |
+| cardsWithAttachedDoc | \[description...] |
+| searchTypes          | \[description...] |
+| additionalSettings   | \[description...] |
+
+## getPartialResultOnBigQuery
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getPartialResultOnBigQuery(String sql,Long dataModelId,Boolean interruptExecution,Object[] pars);
 ```
-utils.getWebContentWithHeadersAndCookies(String uri,boolean replaceVariables,String httpMethod,String contentType,String requestBody,String user,String pwd,String charSet,Map headers,Number timeout)
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| pars               | \[description...] |
+
+## getPartialResultOnBigQueryWithSettings
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getPartialResultOnBigQueryWithSettings(String sql,Long dataModelId,Boolean interruptExecution,Map settings,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| settings           | \[description...] |
+| pars               | \[description...] |
+
+## getPartialResultOnGoogleDatastore
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getPartialResultOnGoogleDatastore(String sql,Long dataModelId,Boolean interruptExecution,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| pars               | \[description...] |
+
+## getPartialResultOnGoogleDatastoreWithSettings
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getPartialResultOnGoogleDatastoreWithSettings(String sql,Long dataModelId,Boolean interruptExecution,Map settings,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| settings           | \[description...] |
+| pars               | \[description...] |
+
+## getPartialResultOnGoogleSpanner
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getPartialResultOnGoogleSpanner(String sql,Long dataModelId,Boolean interruptExecution,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| pars               | \[description...] |
+
+## getPartialResultOnGoogleSpannerWithSettings
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getPartialResultOnGoogleSpannerWithSettings(String sql,Long dataModelId,Boolean interruptExecution,Map settings,Object[] pars);
+```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| sql                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| settings           | \[description...] |
+| pars               | \[description...] |
+
+## getPartialResultOnMongoDb
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getPartialResultOnMongoDb(String where,Long dataModelId,Boolean interruptExecution,Object[] pars);
 ```
+{% endcode %}
 
-| Argument         | Description                                                                                                                                                                       |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| uri              | URI, expressed as http:// or https:// with or without variables, expressed as :XXX                                                                                                |
-| replaceVariables | flag used to replace variables within the uri (variables are expressed as :XXX)                                                                                                   |
-| httpMethod       | can be null); if specified, it defines the HTTP method: GET, POST                                                                                                                 |
-| contentType      | can be null); if specified, it defines the content type request (e.g. application/json)                                                                                           |
-| requestBody      | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                                                                       |
-| user             | can be null); if specified, it defines the username for a BASIC authentication                                                                                                    |
-| pwd              | can be null); if specified, it defines the password for a BASIC authentication                                                                                                    |
-| charSet          | can be null); if specified, it defines the char set to use for the request body (req property "Accept-Charset"); if not specified, it is auto defined as "UTF-8"                  |
-| headers          | can be null); if specified, it defines a collection of attribute-values to pass as request headers; it is expressed as a javascript object: { attr1: value2, attr2: value2, ... } |
-| timeout          | optional argument: can be set to null; timeout for the request, expressed in seconds; helpful when the service to invoke could be very slow                                       |
+Details
 
-## Execute an HTTP(s) connection and fetch the result (binary content) optionally with a body request (binary content)
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| where              | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| pars               | \[description...] |
 
-result expressed as a binary content and store it into the specified file
+## getProcessDefinition
 
-**Syntax**
+Syntax
 
-```javascript
-utils.getBinaryContentWithSettings(
-  toFile, 
-  uri, 
-  replaceVariables, 
-  httpMethod, 
-  contentType, 
-  requestBody, 
-  user, 
-  pwd, 
-  settings
-);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getProcessDefinition(String processDefinitionId,Map params);
 ```
+{% endcode %}
 
-| Argument              | Description                                                                                                                        |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Details               |                                                                                                                                    |
-| toFile                | absolute path including the file name, related to the local binary file to create and fill in with the result of this HTTP request |
-| uri                   | URI, expressed as http:// or https:// with or without variables, expressed as :XXX                                                 |
-| replaceVariables      | flag used to replace variables within the uri (variables are expressed as :XXX)                                                    |
-| httpMethod (optional  | can be null); if specified, it defines the HTTP method: GET, POST                                                                  |
-| contentType (optional | can be null); if specified, it defines the content type request (e.g. application/json)                                            |
-| requestBody (optional | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                        |
-| user (optional        | can be null); if specified, it defines the username for a BASIC authentication                                                     |
-| pwd (optional         | can be null); if specified, it defines the password for a BASIC authentication                                                     |
+Details
 
-Fetches the HTTP response, expressed as a binary content and stores in to the specified file.
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| processDefinitionId | \[description...] |
+| params              | \[description...] |
 
-You can pass forward a String based request body as usually (using "requestBody" argument) or pass forward a binary content, using the "**settings**" argument, where specifying a "**fromFile**" attribute, filled with an absolute path (including file name) to the file to pass forward, which must be located in the server file system.
+## getShortUrl
 
-Settings can also accept an optional attribute named "**headers**" containing a javascript object related to the set of request headers to pass forward.
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getShortUrl(String realUrl);
+```
+{% endcode %}
 
+Details
 
-**Example**
+| Argument | Description       |
+| -------- | ----------------- |
+| realUrl  | \[description...] |
 
-```javascript
-var url = "http://host/context?par1=abc...";
-url = encodeURI(url);
-utils.getBinaryContentWithSettings(
-  "/mylocalpath/outputfile", // toFile
-  url, 
-  false, // replaceVariables
-  "POST", // httpMethod
-  "application/octet-stream", // content type 
-  null, // requestBody is null, since the input binary content is passed through "settings"
-  null, // user
-  null, // pwd
-  { // settings
-    fromFile: "/mylocalpath/inputfile",
-    headers: { ... }
-  }
-);
-```
+## getUUID
 
-## Enqueue action with note as string
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getUUID);
 ```
-utils.enqueueActionWithNoteAsString(String queueName,Long actionId,Map params,String priority,Long processWaitTime,Boolean logExecution,String note,Integer maxRetries)
-```
+{% endcode %}
 
-| Argument     | Description                                                                                                                                                                                                                                   |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| queueName    | name of the queue where all elements will be inserted; optional: queue name; if not specified, the process will be enqueued in the DEFAULT queue                                                                                              |
-| actionId     | to enqueued action id                                                                                                                                                                                                                         |
-| params       | optional list of parameters to pass to the SQL Query (where they are referred always as ?); set to \[] in case of no parameters.                                                                                                              |
-| priority     | optional; if specified, processes within the same queue will be sorted according to the priority rathe than to the enqueing time                                                                                                              |
-| logExecution | true to log in the predefined table LOG60\_LOGS the execution of the process                                                                                                                                                                  |
-| note         | a string value which will be saved in the NOTE field of the CON77\_QUEUES table. This field can be helpful to carry out custom logic on the enqueued elements, for instance to execute statistics about the amount of data not processed yet. |
+Details
 
-## Save grid export in extended CSV
+## getValueInCache
 
-```
-utils.saveGridExportInExtendedCSV(String appId,String companyId,Long siteId,String username,String password,String platformBaseUrl,String functionId,Long panelId,List filters,List orders,List attributes,List titles,String title,String toFile)
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Object type
+var risp = utils.getValueInCache(String varName,String alternativeFunctionName);
 ```
+{% endcode %}
 
-| Argument        | Description                                      |
-| --------------- | ------------------------------------------------ |
-| appId           |                                                  |
-| companyId       | company id that identifies the user (text value) |
-| siteId          | site id that identifies the user (numeric value) |
-| username        | username of the current logged user              |
-| platformBaseUrl | --                                               |
-| functionId      | --                                               |
-| panelId         | --                                               |
+Details
 
-## Get driver name default
+| Argument                | Description       |
+| ----------------------- | ----------------- |
+| varName                 | \[description...] |
+| alternativeFunctionName | \[description...] |
 
-```
-utils.getDriverNameDefaultConnection)
-```
+## getValueInCache
 
-## Convert seconds to hours minutes seconds
+Syntax
 
-```
-utils.convertSecondToHoursMinutesSeconds(Long seconds)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Object type
+var risp = utils.getValueInCache(String varName,String alternativeFunctionName,Long expirationTime);
 ```
+{% endcode %}
 
-| Argument | Description |
-| -------- | ----------- |
-| seconds  | seconds int |
+Details
 
-## Get window panels navigate tree
+| Argument                | Description       |
+| ----------------------- | ----------------- |
+| varName                 | \[description...] |
+| alternativeFunctionName | \[description...] |
+| expirationTime          | \[description...] |
 
-```
-utils.getWindowPanelsNavigateTree(Long windowId,String treeTranslation,String[] excludedProperties)
+## getValueInCache
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Object type
+var risp = utils.getValueInCache(String varName);
 ```
+{% endcode %}
 
-| Argument           | Description |
-| ------------------ | ----------- |
-| windowId           |             |
-| treeTranslation    |             |
-| excludedProperties |             |
+Details
 
-## Check cells from excel file
+| Argument | Description       |
+| -------- | ----------------- |
+| varName  | \[description...] |
 
-This function check the mapped cells from excel and verify the mandatory values, the format etc
+## getWebContentWithNTLM
 
-**Syntax**:
+Syntax
 
-```javascript
-var result = utils.checkCellsWithMetadataForImport(
-    Long directoryId, 
-    String fileName, 
-    Long valueImportId
-);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.getWebContentWithNTLM(String url,String contentType,String httpMethod,String bodyRequest,String username,String password,String workstation,String domain,Map settings);
 ```
+{% endcode %}
 
-| Argument      | Description                                  |
-| ------------- | -------------------------------------------- |
-| valueImportId | id of import to duplicate                    |
-| directoryId   | id of the directory where to search the file |
-| fileName      | file name                                    |
-| valueImportId | id of defined import                         |
+Details
 
-## Import sub folder in web content
+| Argument    | Description       |
+| ----------- | ----------------- |
+| url         | \[description...] |
+| contentType | \[description...] |
+| httpMethod  | \[description...] |
+| bodyRequest | \[description...] |
+| username    | \[description...] |
+| password    | \[description...] |
+| workstation | \[description...] |
+| domain      | \[description...] |
+| settings    | \[description...] |
 
-```
-utils.importSubFolderInWebContext(String appId,String subfolderName)
+## importBigQueryDataFromGCS
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.importBigQueryDataFromGCS(String datasetName,String tableName,String format,String sourceUri,String encoding,String separator);
 ```
+{% endcode %}
 
-| Argument      | Description                                          |
-| ------------- | ---------------------------------------------------- |
-| appId         | application id having the process defined internally |
-| subfolderName |                                                      |
+Details
 
-## Generic SQL execution (NO SQL queries) <a href="#executesql" id="executesql"></a>
+| Argument    | Description       |
+| ----------- | ----------------- |
+| datasetName | \[description...] |
+| tableName   | \[description...] |
+| format      | \[description...] |
+| sourceUri   | \[description...] |
+| encoding    | \[description...] |
+| separator   | \[description...] |
 
-**Syntax**
+## importBigQueryDataFromLocalDatasource
 
-```javascript
-var rows = utils.executeSql(sql, dataSourceId, separatedTransaction, interruptExecution, params)
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.importBigQueryDataFromLocalDatasource(String datasetName,String tableName,String location,String format,String csvPath,String encoding,String separator,Integer maxBadRecords,Boolean truncate,Boolean deleteSrcFileAfterImport);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument             | Description                                                                                                                                                                                                          |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| rows                 | int value: number of processed rows                                                                                                                                                                                  |
-| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                              |
-| dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                           |
-| separatedTransaction | boolean value; ignored: it is always separated                                                                                                                                                                       |
-| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                       |
-| params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
+| Argument                 | Description       |
+| ------------------------ | ----------------- |
+| datasetName              | \[description...] |
+| tableName                | \[description...] |
+| location                 | \[description...] |
+| format                   | \[description...] |
+| csvPath                  | \[description...] |
+| encoding                 | \[description...] |
+| separator                | \[description...] |
+| maxBadRecords            | \[description...] |
+| truncate                 | \[description...] |
+| deleteSrcFileAfterImport | \[description...] |
 
-## Text to int
+## importBigQueryThroughStreaming
 
-```
-utils.textToInt(String text)
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.importBigQueryThroughStreaming(String datasetName,String tableName,Object[] objectsForBQ);
 ```
+{% endcode %}
+
+Details
 
-| Argument | Description |
-| -------- | ----------- |
-| text     | text to int |
+| Argument     | Description       |
+| ------------ | ----------------- |
+| datasetName  | \[description...] |
+| tableName    | \[description...] |
+| objectsForBQ | \[description...] |
 
-## Create a zip file containing the list of passed files <a href="#zipfiles" id="zipfiles"></a>
+## importDataInCloudSQL
 
-**Syntax**
+Syntax
 
-```javascript
-var ok = utils.zipFiles(baseDir,files,zipFile,deleteFilesAfterZip);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Long type
+var risp = utils.importDataInCloudSQL(String instance,String bucketPath,String dbSchema,Long dataSourceId,String tablename,String where,Integer timeout,String[] columns);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument            | Description                                                                         |
-| ------------------- | ----------------------------------------------------------------------------------- |
-| baseDir             | base dir used to calculate the entry in the zip (i.e. "C:/xxx/yyy/")                |
-| files               | files to zip (each including an absolute path, "C:/xxx/yyy/fileName.csv")           |
-| zipFile             | zip file to create, including the absolute path (i.e. "C:/aaa/bbb/zipFileName.zip") |
-| deleteFilesAfterZip | flag used to decide if input files must be deleted after the zip creation           |
+| Argument     | Description       |
+| ------------ | ----------------- |
+| instance     | \[description...] |
+| bucketPath   | \[description...] |
+| dbSchema     | \[description...] |
+| dataSourceId | \[description...] |
+| tablename    | \[description...] |
+| where        | \[description...] |
+| timeout      | \[description...] |
+| columns      | \[description...] |
 
-## Save a list of email messages on the server file system
+## importDataInCloudSQL
 
-Available since 5.2 version. Uses **eml** format.
+Syntax
 
-Messages to save are identified by a list of message id, so utils.getEmails() method mustbe invoked first, in order to get the identifiers needed here to fetch the messages to save.
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return HashMap type
+var risp = utils.importDataInCloudSQL(String instance,String bucketPath,String dbSchema,Long dataSourceId,String tablename,String where,String[] columns);
+```
+{% endcode %}
 
-**Syntax**
+Details
 
-```javascript
-utils.saveEml(String server,Integer port, String username, String password, String protocol,Boolean useTLS,String folderName,String[] messageIds,String[] fileNames,Long directoryId);
-```
+| Argument     | Description       |
+| ------------ | ----------------- |
+| instance     | \[description...] |
+| bucketPath   | \[description...] |
+| dbSchema     | \[description...] |
+| dataSourceId | \[description...] |
+| tablename    | \[description...] |
+| where        | \[description...] |
+| columns      | \[description...] |
 
-**Details**
+## importFileInCMS
 
-| Argument | Description                                      |
-| -------- | ------------------------------------------------ |
-| server   | server host                                      |
-| port     | server port                                      |
-| username | username to use when accessing the email server  |
-| password | password to use when accessing the email server  |
-| protocol | protocol to use when connecting the email server |
-| useTLS   | flag used to enabled the TLS mode                |
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.importFileInCMS(String path,Long destDirId,Long dataSourceId,String tableName);
 ```
- folderName-folder identifier, where the messages are located; the folder name changes according to the mail server; an example is INBOX
- messageIds-a list of message identifiers to save, previously fetched through a getEmails() method invokation
- fileNames-file names to use when saving the messages; this list must have the same length of the message ids list, one for each id
- directoryId-directory identifier, used to identify the path on the server file system, when all messages will be saved
-```
+{% endcode %}
 
-The method returns the list of messages ids not found in the specified folder and, consequently, not saved.
+Details
 
-## Send Gmail
+| Argument     | Description       |
+| ------------ | ----------------- |
+| path         | \[description...] |
+| destDirId    | \[description...] |
+| dataSourceId | \[description...] |
+| tableName    | \[description...] |
 
-```
-utils.sendGmail(String from,String to,String cc,String bcc,String subject,String body,Boolean isHtmlContent,Boolean returnReceipt,Boolean zipFiles,Boolean deleteFilesAfterSending,String[] filesToAttach)
+## importFileInCMS
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.importFileInCMS(Long sourceDirId,String fileName,Long destDirId,Long dataSourceId,String tableName);
 ```
+{% endcode %}
 
-| Argument                | Description                                                                                                             |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| from                    | (optional, can be null) a string representing the email address to use as the "from address" to send the email          |
-| to                      | a string composed of one or more email addresses, separated by a comma (,)                                              |
-| cc                      | carbon copy addresses - a string composed of one or more email addresses, separated by a comma (,)                      |
-| bcc                     | hidden addresses - a string composed of one or more email addresses, separated by a comma (,)                           |
-| subject                 | a string representing the email title                                                                                   |
-| body                    | the email body content                                                                                                  |
-| isHtmlContent           | a boolean flag used to define if the body content is in HTML format or not                                              |
-| returnReceipt           | a boolean flag used to request a return receipt to the destinators                                                      |
-| zipFiles                | a boolean flag used to compress all files to attach in a unique zip file and send it, in order to reduce the email size |
-| deleteFilesAfterSending | a boolean flag used to optionally delete files to attach, after sending the email                                       |
-| filesToAttach           | a list of files to attach, separated by a comma; use \[] to notinclude files; each file must include the absolute path  |
+Details
 
-## Counter
+| Argument     | Description       |
+| ------------ | ----------------- |
+| sourceDirId  | \[description...] |
+| fileName     | \[description...] |
+| destDirId    | \[description...] |
+| dataSourceId | \[description...] |
+| tableName    | \[description...] |
 
-**Syntax**
+## importMultipleDataFromLocalDatasource
 
-```javascript
-var value = utils.getCount(String tableName, String valueColumnName, String incrementValue, String where, Boolean separatedTransaction, Boolean interruptExecution, Long dataSourceId)
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.importMultipleDataFromLocalDatasource(String datasetName,String[] tableNames,String location,String format,String dirPath,String[] csvFiles,String encoding,String separator,Integer maxBadRecords,Boolean truncate,Boolean deleteSrcFileAfterImport);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument             | Description                                                                                                                                                    |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| value                | Long: new value of counter                                                                                                                                     |
-| tableName            | String: name of table for calculating counter                                                                                                                  |
-| valueColumnName      | String: column name of field to calculating counter                                                                                                            |
-| incrementValue       | String: increment value for counter                                                                                                                            |
-| where                | String: where condition for query                                                                                                                              |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)        |
-| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| dataSourceId         | additional data source to use when executing this SQL statement; if set to null, the default database connection will be used                                  |
+| Argument                 | Description       |
+| ------------------------ | ----------------- |
+| datasetName              | \[description...] |
+| tableNames               | \[description...] |
+| location                 | \[description...] |
+| format                   | \[description...] |
+| dirPath                  | \[description...] |
+| csvFiles                 | \[description...] |
+| encoding                 | \[description...] |
+| separator                | \[description...] |
+| maxBadRecords            | \[description...] |
+| truncate                 | \[description...] |
+| deleteSrcFileAfterImport | \[description...] |
 
-## Remove time from date
+## insertBigQueryObject
 
-**Syntax**
+Syntax
 
-```javascript
-var newDate = utils.removeTime(java.util.Date date)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Long type
+var risp = utils.insertBigQueryObject(String datasetName,String tableName,Map obj);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument | Description                       |
-| -------- | --------------------------------- |
-| date     | java.util.Date: date without time |
+| Argument    | Description       |
+| ----------- | ----------------- |
+| datasetName | \[description...] |
+| tableName   | \[description...] |
+| obj         | \[description...] |
 
-## Adds or subtracts the specified amount of time to the given calendar field, based on the calendar's rules
+## insertCard
 
-You can use:
+Syntax
 
-```javascript
-utils.addDate(String field, int amount): //use a current date; 
-utils.addDate(String date, String format, String field, int amount): //convert the date with the specify format 
-(default: "yyyy-MM-dd'T'HH:mm:ss")
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.insertCard(Long dataModelId,Long panelId,Map vo,Integer archiveId,Map additionalSettings);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument | Description                                                                                                                             |
-| -------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| field    | String: the calendar field                                                                                                              |
-| amount   | number: the amount of date or time to be added to the field                                                                             |
-| field    | a String value representing the field to work with. Supported values: "DAY", "MONTH", "YEAR", "HOUR", "MINUTE", "SECOND", "MILLISECOND" |
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| dataModelId        | \[description...] |
+| panelId            | \[description...] |
+| vo                 | \[description...] |
+| archiveId          | \[description...] |
+| additionalSettings | \[description...] |
 
-## Parse a simple XML document and generate a Javascript "compatible" representation
+## insertCard
 
-_Javascript "compatible" representation is expressed using lists and js objects, where each js object has special attributes named: "tagName", "tagValue" and "subTags"._
+Syntax
 
-The document (list of tags) is expressed as a list of js objects, where each js object can have a list of subtags and attributes, expressed object's attributes. The js object always contains special entries named "tagName", "subTags" and optionally "tagValue" if there is tag value.
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.insertCard(Long dataModelId,Long panelId,Map vo,Integer archiveId,Map additionalSettings,Long actionId);
+```
+{% endcode %}
 
-**Syntax**
+Details
 
-```javascript
-utils.parseXML(String xmlDocument);
-```
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| dataModelId        | \[description...] |
+| panelId            | \[description...] |
+| vo                 | \[description...] |
+| archiveId          | \[description...] |
+| additionalSettings | \[description...] |
+| actionId           | \[description...] |
 
-**Details**
+## insertCards
 
-| Argument    | Description                 |
-| ----------- | --------------------------- |
-| xmlDocument | an XML document as a String |
+Syntax
 
-Returns an XML representation, expressed as a list of Javascript objects, where each of them has three special attributes: "tagName", "tagValue" and "subTags". You can then navigate through this js object and extract any data.
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map[] type
+var risp = utils.insertCards(Long dataModelId,Long panelId,Map[] vos,Integer archiveId,Map additionalSettings);
+```
+{% endcode %}
 
-**Example**
+Details
 
-```markup
-<?xml version="1.0"?>
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| dataModelId        | \[description...] |
+| panelId            | \[description...] |
+| vos                | \[description...] |
+| archiveId          | \[description...] |
+| additionalSettings | \[description...] |
 
-<resultset statement="SELECT * FROM dual" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+## insertCards
 
-    <row>
-        <field name="COD_COMPANY">0</field>
-        <field name="TIPO">1</field>
-        <field name="DES_DESCRIZIONE">Description 1</field>
-        <field name="LOGO" xsi:nil="true" />
-        <field name="ATTIVA">T</field>
-        <field name="UTENTE_CREAZIONE" xsi:nil="true" />
-        <field name="DATA_CREAZIONE">2021-01-15 09:15:56</field>
-        <field name="UTENTE_MODIFICA" xsi:nil="true" />
-        <field name="DATA_MODIFICA" xsi:nil="true" />
-        <field name="VERSIONE">0</field>
-    </row>
-    
-    <row>
-        <field name="COD_COMPANY">0</field>
-        <field name="TIPO">2</field>
-        <field name="DES_DESCRIZIONE">Description 2</field>
-        <field name="LOGO" xsi:nil="true" />
-        <field name="ATTIVA">T</field>
-        <field name="UTENTE_CREAZIONE" xsi:nil="true" />
-        <field name="DATA_CREAZIONE">2021-01-15 13:42:35</field>
-        <field name="UTENTE_MODIFICA" xsi:nil="true" />
-        <field name="DATA_MODIFICA" xsi:nil="true" />
-        <field name="VERSIONE">0</field>
-    </row>
-    
-    <row>
-        <field name="COD_COMPANY">0</field>
-        <field name="TIPO">3</field>
-        <field name="DES_DESCRIZIONE">Description 3</field>
-        <field name="LOGO" xsi:nil="true" />
-        <field name="ATTIVA">T</field>
-        <field name="UTENTE_CREAZIONE" xsi:nil="true" />
-        <field name="DATA_CREAZIONE">2021-01-15 13:42:35</field>
-        <field name="UTENTE_MODIFICA" xsi:nil="true" />
-        <field name="DATA_MODIFICA" xsi:nil="true" />
-        <field name="VERSIONE">0</field>
-    </row>
+Syntax
 
-</resultset>
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map[] type
+var risp = utils.insertCards(Long dataModelId,Long panelId,Map[] vos,Integer archiveId,Map additionalSettings,Long actionId);
 ```
+{% endcode %}
 
-```javascript
-var textFile = utils.readTextFile("/path/test.xml");
-var xmlDocNodes = utils.parseXML(textFile);
-var rows = xmlDocNodes[0].get('subTags');
-for (var i=0; i<rows.length;i++) {
-    var row = rows[i];
-    var fields = row.get('subTags');
-    for(var f=0; f<fields.length; f++) {
-        var field = fields[f];
-        var name = field.get('name');
-        var tagValue = field.get('tagValue');
-        utils.log('Row ' + i + ', ' + name + " = " + tagValue, 'DEBUG');
-    }
-}
-```
+Details
 
-## Send a list of files stored to an FTP server inside the specified remote folder
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| dataModelId        | \[description...] |
+| panelId            | \[description...] |
+| vos                | \[description...] |
+| archiveId          | \[description...] |
+| additionalSettings | \[description...] |
+| actionId           | \[description...] |
 
-Files to send must be in the server side file system
+## insertObjectOnGoogleDatastore
 
-**Syntax**
+Syntax
 
-```javascript
-var ok = utils.sendFiles(protocol, host, port, useSSL, username, password, toDir, filePaths);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.insertObjectOnGoogleDatastore(Map obj,Long dataModelId,Boolean interruptExecution);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument | Description     |
-| -------- | --------------- |
-| protocol | FTP, FTPS, SFTP |
-| host     | FTP server host |
-| port     | FTP server port |
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-```
- useSSL - boolean flag, used to specify if FTPS must be used
+## insertObjectOnGoogleSpanner
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.insertObjectOnGoogleSpanner(Map obj,Long dataModelId,Boolean interruptExecution);
 ```
+{% endcode %}
 
-| Argument  | Description                                                                                                      |
-| --------- | ---------------------------------------------------------------------------------------------------------------- |
-| username  | username to use to authenticate to the FTP server                                                                |
-| password  | password to use to authenticate to the FTP server                                                                |
-| toDir     | remote folder, within the FTP server, where files must be copied                                                 |
-| filePaths | list of files stored in the server side file system (expressed with absolute path) to copy within the FTP server |
+Details
 
-## Read a list of remote file names
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-all files must be stored in the same remote folder within the FTP server; file names are filtered according to the specified filter condition.
+## insertObjectOnMongoDb
 
-**Syntax**
+Syntax
 
-```javascript
-utils.getFiles(protocol, host, port, useSSL, username, password, remoteDir, fileFilter);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.insertObjectOnMongoDb(Map obj,Long dataModelId,Boolean interruptExecution);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument | Description                           |
-| -------- | ------------------------------------- |
-| protocol | FTP, FTPS, SFTP                       |
-| host     | FTP server host                       |
-| port     | FTP server port (e.g. 21)Argument     |
-| useSSL   | flag used to define whether using SSL |
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-| Description     |                                                                        |
-| --------------- | ---------------------------------------------------------------------- |
-| username        | username to use to authenticate to the FTP server                      |
-| password        | password to use to authenticate to the FTP server                      |
-| remoteDir       | remote folder, within the FTP server, where files are stored           |
-| fileFilter      | (optional) parameter to use to filter files to read (e.g. \*.jpg)      |
-| listOfFileNames | list of file names (String objects) which satisfy the filter condition |
+## insertObjectsOnBigQuery
 
-## Read a list of messages from the email server, with filtering
+Syntax
 
-**Syntax**
-
-```javascript
-utils.getEmails(server, port, username, password, protocol, useTLS, maxMessagesToRead, notReadFilter, startSendDateFilter, endSendDateFilter, startReceiveDateFilter, endReceiveDateFilter, fromAddressFilter, subjectFilter, bodyFilter, withAttachments, attachmentsPath, folderName, moveToFolderOnceRead, setAsSeen, deleteEmailWhenRead, debug);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.insertObjectsOnBigQuery(Map[] objs,Long dataModelId,Boolean interruptExecution);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-```
-server - server host
-port - server port (e.g. 995)
-username - username to use when accessing the email server
-password - password to use when accessing the email server
-protocol - protocol to use when connecting to the email server (e.g. imap, imaps, pop, pops)
-```
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| objs               | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-| Argument                                    | Description                                                                                                                   |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| useTLS                                      | flag used to enabled the TLS mode                                                                                             |
-| maxMessagesToRead                           | maximum number of messages to read                                                                                            |
-| notReadFilter                               | flag used to filter only messages not read yet                                                                                |
-| startSendDateFilter - optional parameter    | if not null, messages to read will be filtered by sendingdate; only the ones next or equal to this date wil be returned       |
-| endSendDateFilter - optional parameter      | if not null, messages to read will be filtered by sendingdate; only the ones previousor equal to this date wil be returned    |
-| startReceiveDateFilter - optional parameter | if not null, messages to read will be filtered by receiving date; only the ones next or equal to this date wil be returned    |
-| endReceiveDateFilter - optional parameter   | if not null, messages to read will be filtered by receiving date; only the ones previousor equal to this date wil be returned |
-| fromAddressFilter - optional parameter      | if not null, messages to read will be filtered by the "from address" specified                                                |
-| subjectFilter - optional parameter          | if not null, messages to read will be filtered and only the ones containing this value in their object will be returned       |
-| bodyFilter - optional parameter             | if not null, messages to read will be filtered and only the ones containing this value in their body content will be returned |
-| withAttachments - optional parameter        | if not null, messages to read will be filtered and only the ones having at least one attachment will be returned              |
-| attachmentsPath                             | absolute path where saving attachments                                                                                        |
-| folderName                                  | folder to read; e.g. INBOX; if not specified, it will be set to INBOX                                                         |
-| moveToFolderOnceRead                        | move to the specified folder each message, once read; can be null                                                             |
-| setAsSeen                                   | flag used to mark as "SEEN" a message just read                                                                               |
-| deleteEmailWhenRead                         | flag used to delete the email message once read                                                                               |
+## insertObjectsOnGoogleDatastore
 
-```
-debug - flag used to debug the communication with the server
-emailMessages : return value - list of messages read from the mail box
-```
+Syntax
 
-Attributes contained in each message of the list:
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.insertObjectsOnGoogleDatastore(Map[] objs,Long dataModelId,Boolean interruptExecution);
+```
+{% endcode %}
 
-| Attribute     | Description                                                            |
-| ------------- | ---------------------------------------------------------------------- |
-| id            | email identifier, used to delete an email message later                |
-| messageNumber | index within the folder of the specific message                        |
-| from          | from email addresses                                                   |
-| message       | email body                                                             |
-| subject       | email subject                                                          |
-| mimeType      | e.g. "text/plain" or "text/html"                                       |
-| list          | list of absolute paths (strings) where the attachments have been saved |
-| sendDate      | message sending date                                                   |
-| receiveDate   | message receiving date                                                 |
+Details
 
-## Copy the source file to the destination file <a href="#copyfile" id="copyfile"></a>
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| objs               | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-Since "destFile" contains a file name too, the source file can be renamed when copied.
+## insertObjectsOnGoogleDatastoreWithSettings
 
-**Syntax**
+Syntax
 
-```javascript
-utils.copyFile(srcFile, destFile, replaceExistingFile, deleteSourceFile);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.insertObjectsOnGoogleDatastoreWithSettings(Map[] objs,Long dataModelId,Boolean interruptExecution,Map settings);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument            | Description                                                                                                                                                                                      |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| srcFile             | absolute path + file name                                                                                                                                                                        |
-| destFile            | absolute path + file name                                                                                                                                                                        |
-| replaceExistingFile | flag used to replace the already existing destination file; if set to false and the destination file already exists, the copy process would be interrupted and the returned value would be false |
-| deleteSourceFile    | flag used to delete the source file, once the file has been copied to the destination path                                                                                                       |
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| objs               | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| settings           | \[description...] |
 
-## Camel
+## insertObjectsOnGoogleSpanner
 
-```
-utils.camel(String fieldName,Boolean firstCharUpper)
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.insertObjectsOnGoogleSpanner(Map[] objs,Long dataModelId,Boolean interruptExecution);
 ```
+{% endcode %}
 
-| Argument       | Description                           |
-| -------------- | ------------------------------------- |
-| fieldName      | file name related to the specified if |
-| firstCharUpper | --                                    |
+Details
 
-Convert a database field or an upper-case parameter containing underscores (\_) to the camel case format, i.e. lowercase and the underscore remove and next character to uppercase.
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| objs               | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-Example:
+## invalidateAll
 
-var x = utils.camel("ABC\_DEF",false); -> x = "abcDef"
+Syntax
 
-var x = utils.camel("ABC\_DEF",true); -> x = "AbcDef"
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.invalidateAll);
+```
+{% endcode %}
 
-## Uncamel
+Details
 
-```
-utils.uncamel(String attributeName)
-```
+## invalidateAllCache
 
-| Argument      | Description |
-| ------------- | ----------- |
-| attributeName |             |
+Syntax
 
-It converts an attribute name to a field name, according to Java convention.
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.invalidateAllCache(String varName);
+```
+{% endcode %}
 
-Example:
+Details
 
-var x = utils.uncamel("abcD1",true); -> x = "ABC\__D1_"
+| Argument | Description       |
+| -------- | ----------------- |
+| varName  | \[description...] |
 
-## Force the site id in a server-side js action
+## listGoogleCloudStorageObjects
 
-This method set the site id in a server-side js action, independently of the fact the site id has been already set or not.
+Syntax
 
-```javascript
-utils.setSiteId(Long siteId);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return GooglePaginatedList type
+var risp = utils.listGoogleCloudStorageObjects(String bucketName,Long maxPageResults,Integer pages,String nextPageToken,String prefix,String delimiter);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument | Description                                                           |
-| -------- | --------------------------------------------------------------------- |
-| siteId   | attribute name to set in the "vo" Platform is working on to save data |
+| Argument       | Description       |
+| -------------- | ----------------- |
+| bucketName     | \[description...] |
+| maxPageResults | \[description...] |
+| pages          | \[description...] |
+| nextPageToken  | \[description...] |
+| prefix         | \[description...] |
+| delimiter      | \[description...] |
 
-## Check for user existence
+## listGoogleCloudStorageObjects
 
-This method allows to check for a record in PRM01\_USERS, i.e. whether the specified user has been already created.
+Syntax
 
-**Syntax**:
-
-```javascript
-utils.existUser(companyId, siteId, userCodeId);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return List type
+var risp = utils.listGoogleCloudStorageObjects(String bucketName,String prefix,String delimiter);
 ```
+{% endcode %}
 
-| Argument    | Description                                                                                                                                                   |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| companyId   | company id that identifies the user (text value)                                                                                                              |
-| siteId      | site id that identifies the user (numeric value)                                                                                                              |
-| userCodeId  | username for the user to check out (text value)                                                                                                               |
-| prm01Object | the resulting value is a javascript object containing the record in PRM01\_USERS for the specified user. This method returns null if the user does not exist. |
+Details
 
-## Create a role
+| Argument   | Description       |
+| ---------- | ----------------- |
+| bucketName | \[description...] |
+| prefix     | \[description...] |
+| delimiter  | \[description...] |
 
-This method allows to create a role to the current application
+## matchTensorFlowCsvResults
 
-**Syntax**:
+Syntax
 
-```javascript
-utils.createRole(String companyId, Long siteId,String roleId,String description);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.matchTensorFlowCsvResults(Long dirId,Long dataSourceId,String tableName,Map jsObj);
 ```
+{% endcode %}
+
+Details
 
-| Argument    | Description                                                                      |
-| ----------- | -------------------------------------------------------------------------------- |
-| companyId   | company id that identifies the user (text value)                                 |
-| siteId      | site id that identifies the user (numeric value)                                 |
-| roleId      | ROLE\_ID to create                                                               |
-| description | role description                                                                 |
-| objectPrm02 | the resulting value is the current record in PRM02\_ROLES for the specified role |
+| Argument     | Description       |
+| ------------ | ----------------- |
+| dirId        | \[description...] |
+| dataSourceId | \[description...] |
+| tableName    | \[description...] |
+| jsObj        | \[description...] |
 
-**Creating a role for another application**
+## maybeStartProcess
 
-There is another method you can use to create a role for another application. In such a case, the application id for the other application must be specified.
+Syntax
 
-## Create a user
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.maybeStartProcess(Long schedId,Boolean forceRunning,Boolean startNextProcesses);
+```
+{% endcode %}
 
-This method creates a record in PRM01_USERS_, one in SUB02\_SUBJECTS and another in SUB01\_PEOPLE, i.e. create a new user account.
+Details
 
-**Syntax**:
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| schedId            | \[description...] |
+| forceRunning       | \[description...] |
+| startNextProcesses | \[description...] |
 
-```javascript
-utils.createUser(companyId, siteId, userCodeId, description, password, languageId, additionalData
-, roles);
-```
+## mergeDocx
 
-| Argument       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| companyId      | company id that identifies the user (text value)                                                                                                                                                                                                                                                                                                                                                                                                      |
-| siteId         | site id that identifies the user (numeric value)                                                                                                                                                                                                                                                                                                                                                                                                      |
-| userCodeId     | username for the user to check out (text value)                                                                                                                                                                                                                                                                                                                                                                                                       |
-| description    | user description (mandatory argument)                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| password       | password (mandatory argument)                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| languageId     | language id to link to the user                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| additionalData | <p>can be null: if specified, it is a javascript object containing additional data to fill in PRM01_USERS; </p><p>e.g. </p><p><strong>{ dateExpirationPassword:</strong> utils.convertDateToString(utils.getCurrentDate(), 'yyyy-MM-dd') <strong>}</strong></p><p></p><p>Note: if you need to set personal data about the user (stored in SUB02_SUBJECTS table<strong>)</strong>, you can use later the <strong>updatePeopleData</strong> method.</p> |
-| roles          | a list of javascript objects; each object is related to a role to bind to the user; the javascript object for a role must have the following attributes: companyId, siteId, roleId, startDate, endDate (this one is optional)                                                                                                                                                                                                                         |
-| prm01Object    | the resulting value is a javascript object containing the record in PRM01\_USERS for the specified user.                                                                                                                                                                                                                                                                                                                                              |
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.mergeDocx(Long srcDirId,String[] docxNames,Long destDirId,String mergedDocxName,Boolean deleteFilesAfterMerge);
 ```
-var prm01 = utils.createUser(
-  userInfo.companyId, 
-  vo.siteId, 
-  vo.username, 
-  vo.description, 
-  vo.password, 
-  vo.language, 
-  {
-        siteIdSub02: vo.siteId,
-        dateExpirationPassword: utils.convertDateToString(utils.getCurrentDate(), 'yyyy-MM-dd')
-  }, 
-  []
-  );
-```
+{% endcode %}
+
+Details
 
-## Update an already existing user
+| Argument              | Description       |
+| --------------------- | ----------------- |
+| srcDirId              | \[description...] |
+| docxNames             | \[description...] |
+| destDirId             | \[description...] |
+| mergedDocxName        | \[description...] |
+| deleteFilesAfterMerge | \[description...] |
 
-This method updates an already existing record in PRM01\_USERS, i.e. update a user account.
+## mergeObjectOnGoogleDatastore
 
-**Syntax**:
+Syntax
 
-```javascript
-utils.updateUser(companyId, siteId, userCodeId, languageId, additionalData);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.mergeObjectOnGoogleDatastore(Map attributesToSet,String[] attributesToSetToNull,Long dataModelId,Boolean interruptExecution);
 ```
+{% endcode %}
 
-| Argument          | Description                                                                                                                                          |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| companyId         | company id that identifies the user (text value)                                                                                                     |
-| siteId            | site id that identifies the user (numeric value)                                                                                                     |
-| userCodeId        | username for the user to check out (text value)                                                                                                      |
-| decriptedPassword | plain password (mandatory argument); note: "password" field is automatically reckoned by Platform, starting from the plain password                  |
-| languageId        | language id to link to the user                                                                                                                      |
-| additionalData    | can be null: if specified, it is a javascript object containing additional data to fill in PRM01\_USERS; e.g. { dateExpirationPassword: new Date() } |
-| prm01Object       | the resulting value is a javascript object containing the record in PRM01\_USERS for the specified user.                                             |
+Details
 
-## Rename Files
+| Argument              | Description       |
+| --------------------- | ----------------- |
+| attributesToSet       | \[description...] |
+| attributesToSetToNull | \[description...] |
+| dataModelId           | \[description...] |
+| interruptExecution    | \[description...] |
 
+## mergeObjectOnGoogleSpanner
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.mergeObjectOnGoogleSpanner(Map attributesToSet,String[] attributesToSetToNull,Long dataModelId,Boolean interruptExecution);
 ```
-utils.renameFile(Long directoryId,String oldFileName,String newFileName)
+{% endcode %}
+
+Details
+
+| Argument              | Description       |
+| --------------------- | ----------------- |
+| attributesToSet       | \[description...] |
+| attributesToSetToNull | \[description...] |
+| dataModelId           | \[description...] |
+| interruptExecution    | \[description...] |
+
+## modifyGoogleCalendarEvent
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return CalendarEvent type
+var risp = utils.modifyGoogleCalendarEvent(String calendarEventId,String title,Date beginDate,Date endDate);
 ```
+{% endcode %}
+
+Details
 
-| Argument    | Description          |
-| ----------- | -------------------- |
-| directoryId | directory identifier |
-| oldFileName | old file name        |
-| newFileName | new file name        |
+| Argument        | Description       |
+| --------------- | ----------------- |
+| calendarEventId | \[description...] |
+| title           | \[description...] |
+| beginDate       | \[description...] |
+| endDate         | \[description...] |
 
-## Convert a javascript object to a JSON string to work with in an action
+## modifyGoogleCalendarEventWithSettings
 
-In case you need to convert a javascript object to a JSON string within a server-side javascript action, you can use the following  method:
+Syntax
 
-```javascript
-utils.stringify(Object obj);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return CalendarEvent type
+var risp = utils.modifyGoogleCalendarEventWithSettings(String calendarEventId,String title,Date beginDate,Date endDate,String description,String location,String creatorEmail,String[] attendeeEmails);
 ```
+{% endcode %}
+
+Details
+
+| Argument        | Description       |
+| --------------- | ----------------- |
+| calendarEventId | \[description...] |
+| title           | \[description...] |
+| beginDate       | \[description...] |
+| endDate         | \[description...] |
+| description     | \[description...] |
+| location        | \[description...] |
+| creatorEmail    | \[description...] |
+| attendeeEmails  | \[description...] |
+
+## modifyGoogleDriveFileParents
+
+Syntax
 
-**Details**
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.modifyGoogleDriveFileParents(String fileId,String parentsToAdd,String parentsToRemove);
+```
+{% endcode %}
 
-| Argument | Description                  |
-| -------- | ---------------------------- |
-| obj      | javascript object to convert |
+Details
 
-Such a method is helpful in case of a complex object containing java-type objects rather than javascript-type data.
+| Argument        | Description       |
+| --------------- | ----------------- |
+| fileId          | \[description...] |
+| parentsToAdd    | \[description...] |
+| parentsToRemove | \[description...] |
 
-As an alternative, you can use the standard javascript utility function:
+## modifyGoogleDriveFileParents
 
-## Parse JSON
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.modifyGoogleDriveFileParents(String userId,String fileId,String parentsToAdd,String parentsToRemove);
 ```
-utils.parseJSON(String json)
+{% endcode %}
+
+Details
+
+| Argument        | Description       |
+| --------------- | ----------------- |
+| userId          | \[description...] |
+| fileId          | \[description...] |
+| parentsToAdd    | \[description...] |
+| parentsToRemove | \[description...] |
+
+## moveGoogleDriveFile
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.moveGoogleDriveFile(String fileId,String newParent,boolean addToRevision);
 ```
+{% endcode %}
 
-| Argument | Description |
-| -------- | ----------- |
-| json     |             |
+Details
 
-## Convert a text to an hash key (md5)
+| Argument      | Description       |
+| ------------- | ----------------- |
+| fileId        | \[description...] |
+| newParent     | \[description...] |
+| addToRevision | \[description...] |
 
-MD5 is an hash function you can use to convert a text to a text-based key; multiple invocations to the function with the same input always provide the same result, but the hash function does not provide a unique value: different texts could return the same hash key. This is helpful to check out on the database table the existence of a specific record, starting from its md5 representation.
+## moveGoogleDriveFile
 
-```javascript
-utils.md5(String text);
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.moveGoogleDriveFile(String userId,String fileId,String newParents);
 ```
+{% endcode %}
+
+Details
 
-&#x20;**Details**
+| Argument   | Description       |
+| ---------- | ----------------- |
+| userId     | \[description...] |
+| fileId     | \[description...] |
+| newParents | \[description...] |
 
-| Argument | Description                                      |
-| -------- | ------------------------------------------------ |
-| text     | text to convert to an hash key                   |
-| md5Text  | the MD5 hash key corresponding to the input text |
+## moveGoogleDriveFile
 
-## Log in con 60
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.moveGoogleDriveFile(String userId,String fileId,String newParent,boolean addToRevision);
 ```
-utils.logInCon60(String logType,String msg,String messageTag)
+{% endcode %}
+
+Details
+
+| Argument      | Description       |
+| ------------- | ----------------- |
+| userId        | \[description...] |
+| fileId        | \[description...] |
+| newParent     | \[description...] |
+| addToRevision | \[description...] |
+
+## moveGoogleDriveFile
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.moveGoogleDriveFile(String fileId,String newParents);
 ```
+{% endcode %}
+
+Details
 
-| Argument   | Description                                                                                                        |
-| ---------- | ------------------------------------------------------------------------------------------------------------------ |
-| logType    |                                                                                                                    |
-| msg        | string value: message to log                                                                                       |
-| messageTag | optional hidden text to add to the message and used to search for specific messages stored in the message history. |
+| Argument   | Description       |
+| ---------- | ----------------- |
+| fileId     | \[description...] |
+| newParents | \[description...] |
 
-## Lpad
+## patchGoogleDriveFileProperty
 
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.patchGoogleDriveFileProperty(String userId,String fileId,String key,String value,String visibility);
 ```
-utils.lPad(String value,char fillChar,int length)
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| userId     | \[description...] |
+| fileId     | \[description...] |
+| key        | \[description...] |
+| value      | \[description...] |
+| visibility | \[description...] |
+
+## patchGoogleDriveFileProperty
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.patchGoogleDriveFileProperty(String fileId,String key,String value,String visibility);
 ```
+{% endcode %}
 
-| Argument | Description |
-| -------- | ----------- |
-| value    |             |
-| fillChar |             |
-| lenght   |             |
+Details
 
-## SaveBlob
+| Argument   | Description       |
+| ---------- | ----------------- |
+| fileId     | \[description...] |
+| key        | \[description...] |
+| value      | \[description...] |
+| visibility | \[description...] |
 
+## prepareStripePayment
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.prepareStripePayment(String apiKey,String publicKey,Long priceWithCents,String currency,String customerId);
 ```
-utils.saveBlob(Map settings)
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| apiKey         | \[description...] |
+| publicKey      | \[description...] |
+| priceWithCents | \[description...] |
+| currency       | \[description...] |
+| customerId     | \[description...] |
+
+## recoverGoogleDriveFile
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.recoverGoogleDriveFile(String userId,String fileId);
 ```
+{% endcode %}
+
+Details
 
-| Argument | Description                                                                     |
-| -------- | ------------------------------------------------------------------------------- |
-| settings | can be null; if set, it is a javascript object containing additional settings.  |
+| Argument | Description       |
+| -------- | ----------------- |
+| userId   | \[description...] |
+| fileId   | \[description...] |
 
-## File exist
+## recoverGoogleDriveFile
 
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.recoverGoogleDriveFile(String fileId);
 ```
-utils.fileExists(String filePath)
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| fileId   | \[description...] |
+
+## reinsertElements
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return int type
+var risp = utils.reinsertElements(String companyId,Long actionId,String queueName,String status,String id);
 ```
+{% endcode %}
 
-| Argument | Description                                                                                                      |
-| -------- | ---------------------------------------------------------------------------------------------------------------- |
-| filePath | list of files stored in the server side file system (expressed with absolute path) to copy within the FTP server |
+Details
 
+| Argument  | Description       |
+| --------- | ----------------- |
+| companyId | \[description...] |
+| actionId  | \[description...] |
+| queueName | \[description...] |
+| status    | \[description...] |
+| id        | \[description...] |
 
+## removeGoogleDriveFilePermissions
 
-## Protecting **a** PDF file <a href="#getcsvcontent" id="getcsvcontent"></a>
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.removeGoogleDriveFilePermissions(String userId,String fileId,String emailUser);
+```
+{% endcode %}
 
-**From 6.0.2 version**
+Details
 
-Starting from an already existing PDF file, this method defines the protection policy to add to a document for password-based protection: it protects a PDF document with password for the document owner and in read-only for the generic user\
+| Argument  | Description       |
+| --------- | ----------------- |
+| userId    | \[description...] |
+| fileId    | \[description...] |
+| emailUser | \[description...] |
 
+## removeGoogleDriveFilePermissions
 
-**Syntax**
+Syntax
 
-```javascript
-utils.protectPdf(
-  String passwordRestriction,
-  String passwordOwner,
-  String fullPathSrc,
-  String fullPathDst
-);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.removeGoogleDriveFilePermissions(String fileId,String emailUser);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument            | Description                                                                |
-| ------------------- | -------------------------------------------------------------------------- |
-| passwordRestriction | password for the read-only user                                            |
-| passwordOwner       | password for the document owner                                            |
-| fullPathSrc         | absolute path + PDF file name for the already existing PDF file to protect |
-| fullPathDest        | absolute path + PDF file name for the PDF file protected                   |
+| Argument  | Description       |
+| --------- | ----------------- |
+| fileId    | \[description...] |
+| emailUser | \[description...] |
 
-## Get catalog
+## removeValueInCache
 
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.removeValueInCache(String varName);
 ```
-utils.getCatalog(Long datasourceId)
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| varName  | \[description...] |
+
+## removeValuesFromCache
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.removeValuesFromCache(String keyPrefix);
 ```
+{% endcode %}
+
+Details
+
+| Argument  | Description       |
+| --------- | ----------------- |
+| keyPrefix | \[description...] |
 
-| Argument     | Description                                                                                |
-| ------------ | ------------------------------------------------------------------------------------------ |
-| dataSourceId | num value; it can be null and used to specify a different db to use with the sql statement |
+## rewriteGoogleCloudStorageObject
 
-## Start threaded action
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.rewriteGoogleCloudStorageObject(String sourceBucketName,String sourceObjectName,Long sourceObjectVersion,String destinationBucketName,String destinationObjectName);
 ```
-utils.startThreadedAction(Long actionId,Long waitTime,Map args)
+{% endcode %}
+
+Details
+
+| Argument              | Description       |
+| --------------------- | ----------------- |
+| sourceBucketName      | \[description...] |
+| sourceObjectName      | \[description...] |
+| sourceObjectVersion   | \[description...] |
+| destinationBucketName | \[description...] |
+| destinationObjectName | \[description...] |
+
+## scaleJpgFile
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.scaleJpgFile(Long srcJpgDirId,String srcJpgFileName,Long destDirId,String destFileName,Long maxWidth,Long maxHeight);
 ```
+{% endcode %}
 
-| Argument | Description                                                                                           |
-| -------- | ----------------------------------------------------------------------------------------------------- |
-| actionId | erver-side javascript action identifier to execute                                                    |
-| waitTime |                                                                                                       |
-| args     | a collection of pairs \<attributeName,attributeValue> to use to bind queries connected to that report |
+Details
 
-## Set the return message <a href="#setreturnvalue" id="setreturnvalue"></a>
+| Argument       | Description       |
+| -------------- | ----------------- |
+| srcJpgDirId    | \[description...] |
+| srcJpgFileName | \[description...] |
+| destDirId      | \[description...] |
+| destFileName   | \[description...] |
+| maxWidth       | \[description...] |
+| maxHeight      | \[description...] |
 
-this method can be omitted; in that case a default json message with success: true will be sent back
+## scaleJpgFile
 
-**Syntax**
+Syntax
 
-```javascript
-utils.setReturnValue(response)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.scaleJpgFile(Long srcJpgDirId,String srcJpgFileName,Long destDirId,String destFileName,Long scale);
 ```
+{% endcode %}
+
+Details
 
-**Details**
+| Argument       | Description       |
+| -------------- | ----------------- |
+| srcJpgDirId    | \[description...] |
+| srcJpgFileName | \[description...] |
+| destDirId      | \[description...] |
+| destFileName   | \[description...] |
+| scale          | \[description...] |
 
-response - string value: messagge to send back
+## searchInGoogleDrive
 
-## Get data store id
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return GooglePaginatedList type
+var risp = utils.searchInGoogleDrive(String userId,Integer maxPageResults,Integer pages,String nextPageToken,String folderId,Boolean recursive,String query,Boolean trashed);
 ```
-utils.getDataStoreId(Long dataStoreId)
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| userId         | \[description...] |
+| maxPageResults | \[description...] |
+| pages          | \[description...] |
+| nextPageToken  | \[description...] |
+| folderId       | \[description...] |
+| recursive      | \[description...] |
+| query          | \[description...] |
+| trashed        | \[description...] |
+
+## searchInGoogleDrive
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return GooglePaginatedList type
+var risp = utils.searchInGoogleDrive(Integer maxPageResults,Integer pages,String nextPageToken,String folderId,Boolean recursive,String query,Boolean trashed);
 ```
+{% endcode %}
+
+Details
 
-| Argument    | Description                                                                          |
-| ----------- | ------------------------------------------------------------------------------------ |
-| dataStoreId | optional data source id used by the .jasper template to read data from the database  |
+| Argument       | Description       |
+| -------------- | ----------------- |
+| maxPageResults | \[description...] |
+| pages          | \[description...] |
+| nextPageToken  | \[description...] |
+| folderId       | \[description...] |
+| recursive      | \[description...] |
+| query          | \[description...] |
+| trashed        | \[description...] |
 
-## Generic SQL execution (NO SQL queries) without logging it
+## sendPushNotification
 
-**Syntax**
+Syntax
 
-```javascript
-var rows = utils.executeSqlNoLog(
-sql,
-dataSourceId,
-separatedTransaction,
-interruptExecution,
-params
-)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.sendPushNotification(String appId,String[] userCodeIds,String title,String shortMessage,Long actionId,String json,Long badgeNr);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument             | Description                                                                                                                                                                                                          |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| rows                 | int value: number of processed rows                                                                                                                                                                                  |
-| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                              |
-| dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                           |
-| separatedTransaction | boolean value; ignored: it is always separated                                                                                                                                                                       |
-| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                       |
-| params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql statement. |
+| Argument     | Description       |
+| ------------ | ----------------- |
+| appId        | \[description...] |
+| userCodeIds  | \[description...] |
+| title        | \[description...] |
+| shortMessage | \[description...] |
+| actionId     | \[description...] |
+| json         | \[description...] |
+| badgeNr      | \[description...] |
 
-Note: the SQL operation will not be logged. This method csan be useful with bulk operations, whose execution could slow down if a log message were produced for each execution.
+## sendPushNotificationWithOptions
 
-## SQL query execution <a href="#executequery" id="executequery"></a>
+Syntax
 
-**Syntax**
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.sendPushNotificationWithOptions(String appId,String[] userCodeIds,String title,String shortMessage,Long actionId,String json,Long badgeNr,Map rootOptions,Map dataOptions,Map notificationOptions);
+```
+{% endcode %}
+
+Details
+
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| appId               | \[description...] |
+| userCodeIds         | \[description...] |
+| title               | \[description...] |
+| shortMessage        | \[description...] |
+| actionId            | \[description...] |
+| json                | \[description...] |
+| badgeNr             | \[description...] |
+| rootOptions         | \[description...] |
+| dataOptions         | \[description...] |
+| notificationOptions | \[description...] |
+
+## sendSinglePushNotification
 
-```javascript
-var jsonString = utils.executeQuery(
-  sql,
-  dataSourceId,
-  separatedTransaction,
-  interruptExecution,
-  params
-)
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.sendSinglePushNotification(String appId,String firebaseId,String title,String shortMessage,Long actionId,String json,Long badgeNr,Map rootOptions,Map dataOptions,Map notificationOptions);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument             | Description                                                                                                                                                                                                      |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| jsonList             | string value: list of json objects, i.e. the result of the query execution                                                                                                                                       |
-| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                          |
-| dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                       |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)                                                          |
-| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                   |
-| params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql query. |
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| appId               | \[description...] |
+| firebaseId          | \[description...] |
+| title               | \[description...] |
+| shortMessage        | \[description...] |
+| actionId            | \[description...] |
+| json                | \[description...] |
+| badgeNr             | \[description...] |
+| rootOptions         | \[description...] |
+| dataOptions         | \[description...] |
+| notificationOptions | \[description...] |
 
-An :XXX variable can be replaced by vo or params values
+## sendSmsMessage
 
-**Example**
+Syntax
 
-```javascript
-var jsonString = utils.executeQuery(
-  "SELECT USER_CODE_ID,DESCRIPTION FROM PRM01_USERS WHERE COMPANY_ID=:COMPANY_ID AND STATUS=? AND LOCKED=?",
-  null, // no additional datastore!
-  false, // do it on a separated transaction
-  true, // fire an Execution in case of error
-  "E",
-  "N"
-);
-var rows = JSON.parse(jsonString);
-for(var i=0;i<rows.length;i++) {  
-  var username = rows[i].userCodeId;
-  ...
-}
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.sendSmsMessage(String fromPhoneNr,String toPhoneNr,String text,Boolean logMessage);
 ```
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| fromPhoneNr | \[description...] |
+| toPhoneNr   | \[description...] |
+| text        | \[description...] |
+| logMessage  | \[description...] |
+
+## sendTensorFlowCsvFromCsv
 
-## SQL query execution with very long result sets <a href="#executequery" id="executequery"></a>
+Syntax
 
-**From 5.4.0 version**
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.sendTensorFlowCsvFromCsv(String csvFilePath,Boolean includeFirstRow,Boolean includeRowNum,int resultValuesNr,Long dirId,String topic,String cmd,Long pkIndex,Map jsObj);
+```
+{% endcode %}
 
-In case of a SQL query returning a very long result set, it is NOT recommended to use the previous method, since it gives back the whole result set at once, which is dangerous because it can consume a large amount of memory on the server.
+Details
 
-A better solution is represented by the following method, where the result set is read row by row: for each row, a callback function is invoked, in order to process it.
+| Argument        | Description       |
+| --------------- | ----------------- |
+| csvFilePath     | \[description...] |
+| includeFirstRow | \[description...] |
+| includeRowNum   | \[description...] |
+| resultValuesNr  | \[description...] |
+| dirId           | \[description...] |
+| topic           | \[description...] |
+| cmd             | \[description...] |
+| pkIndex         | \[description...] |
+| jsObj           | \[description...] |
 
-Consequently, this method cannot be coupled to the user interface, since it would mean that all data would be read in the end. This approach is good when the row processing does not involve the UI, but some other operation on the server side, like writing a text file, starting from the result set.
+## sendTensorFlowCsvFromSqlQuery
 
-**Syntax**
+Syntax
 
-```javascript
-utils.executeQueryWithCallback(
-  callbackFunName,
-  sql,
-  dataStoreId,
-  separatedTransaction,
-  interruptExecution,
-  params
-)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.sendTensorFlowCsvFromSqlQuery(String sql,Long dataSourceId,Long fromRow,Long maxRowsToRead,String fieldName,Integer resultValuesNr,Long dirId,String fileName,Map jsObj);
 ```
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| sql            | \[description...] |
+| dataSourceId   | \[description...] |
+| fromRow        | \[description...] |
+| maxRowsToRead  | \[description...] |
+| fieldName      | \[description...] |
+| resultValuesNr | \[description...] |
+| dirId          | \[description...] |
+| fileName       | \[description...] |
+| jsObj          | \[description...] |
+
+## sendWhatsappMessage
 
-**Details**
+Syntax
 
-| Argument             | Description                                                                                                                                                                                                                             |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| callbackFunName      | string value: the name of a callback function, defined inside the action, which will be automatically invoked for each record read from the SQL query. This method must have an argument, which is a js object, representing the record |
-| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                                                 |
-| dataSourceId         | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                                              |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)                                                                                 |
-| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                                          |
-| params               | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql query.                        |
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.sendWhatsappMessage(String toNumber,String message,String bucketName,String fileName);
+```
+{% endcode %}
+
+Details
 
-An :XXX variable can be replaced by vo or params values
+| Argument   | Description       |
+| ---------- | ----------------- |
+| toNumber   | \[description...] |
+| message    | \[description...] |
+| bucketName | \[description...] |
+| fileName   | \[description...] |
 
-**Example**
+## sendWhatsappMessage
 
-```javascript
-var processRow = function(record) {
-  utils.log(record.userCodeId+" "+record.description,"INFO");
-}
+Syntax
 
-utils.executeQueryWithCallback(
-"processRow",
-"SELECT USER_CODE_ID,DESCRIPTION FROM PRM01_USERS WHERE COMPANY_ID=:COMPANY_ID AND STATUS=? AND LOCKED=?",
-null, // no additional datastore!
-false, // do it on a separated transaction
-true, // fire an Execution in case of error
-"E",
-"N"
-);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.sendWhatsappMessage(String accountId,String secretKey,String fromNr,String toNumber,String message,String bucketName,String fileName);
 ```
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| accountId  | \[description...] |
+| secretKey  | \[description...] |
+| fromNr     | \[description...] |
+| toNumber   | \[description...] |
+| message    | \[description...] |
+| bucketName | \[description...] |
+| fileName   | \[description...] |
 
-A more complex example is the one reported as follows, where the SQL query result set is coupled with the export of records to a CSV file on the server file system. The CSV file is built by writing row by row, using an optimized approach based on 3 steps: opening the output stream, writing multiple lines, closing the output stream:
+## sendWhatsappMessage
 
-**Example of an optimized approach for reading data from a SQL query + writing data on a CSV file**
+Syntax
 
-```javascript
-// open the CSV file, in order to write into it
-var fileId = utils.openCSVFile(
-    "ab.csv",
-    true,
-    9, // data source id
-    ",",
-    true,
-    ["userCodeId","password","rowVersion","dateExpirationPassword"], // attributes coming from a row, to manage and export
-    [null,null,null,null] // optional data converters (es. from number to text: "0.00")
-);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.sendWhatsappMessage(String toNumber,String message,String publicUrl);
+```
+{% endcode %}
+
+Details
 
-// declare a callback function, invoked by a SQL query, used to write a single line into the CSV file
-var processRow = function(jsonRow) {
-    utils.writeToCSVFile(fileId,jsonRow);
-}
+| Argument  | Description       |
+| --------- | ----------------- |
+| toNumber  | \[description...] |
+| message   | \[description...] |
+| publicUrl | \[description...] |
 
-// execute the SQL query, whose result set will be read row by row, by invoking each time the specified callback
-utils.executeQueryWithCallback(
-    "processRow", // callback function, invoked for each record coming from the query, whose argument will receive a JSON object representing the record
-    "SELECT U.USER_CODE_ID,U.DESCRIPTION,U.PASSWORD,U.DATE_EXPIRATION_PASSWORD,U.ROW_VERSION FROM PRM01_USERS U",
-    null,
-    false,
-    true,
-    []
-);
+## sendWhatsappMessage
 
-// close the CSV file, after reading all records from the query
-utils.closeCSVFile(fileId);
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return String type
+var risp = utils.sendWhatsappMessage(String accountId,String secretKey,String fromNr,String toNumber,String message,String publicUrl);
 ```
+{% endcode %}
+
+Details
 
-## Execute quesry with alias
+| Argument  | Description       |
+| --------- | ----------------- |
+| accountId | \[description...] |
+| secretKey | \[description...] |
+| fromNr    | \[description...] |
+| toNumber  | \[description...] |
+| message   | \[description...] |
+| publicUrl | \[description...] |
 
+## setBigQueryDataset
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setBigQueryDataset(String bigQueryDataset);
 ```
-utils.executeQueryWithAlias(String sql,Long dataStoreId,Boolean separatedTransaction,Boolean interruptExecution,Long dataModelId,Object[] pars)
+{% endcode %}
+
+Details
+
+| Argument        | Description       |
+| --------------- | ----------------- |
+| bigQueryDataset | \[description...] |
+
+## setBlockSize
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setBlockSize(int blockSize);
 ```
+{% endcode %}
+
+Details
 
-**Details**
+| Argument  | Description       |
+| --------- | ----------------- |
+| blockSize | \[description...] |
+
+## setDatasetId
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setDatasetId(String datasetId);
+```
+{% endcode %}
 
-|                      |                                                                                                                                                                                                                  |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| sql                  | string value: sql to execute; it can contains ? or :XXX                                                                                                                                                          |
-| dataStoreId          | num value; it can be null and used to specify a different db to use with the sql statement                                                                                                                       |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)                                                          |
-| interruptExecution   | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue                                                   |
-| dataModelId          | it identifies the data model having "datastore" type, related to the entities to insert                                                                                                                          |
-| pars                 | this is optional: you can omit it at all, or you can specify a series of arguments separated by a comma (do not use \[]); these additional parameters represent values which replace ? symbols in the sql query. |
+Details
 
-## How to get the field names and types for every fields in the select clause of a SQL query to execute
+| Argument  | Description       |
+| --------- | ----------------- |
+| datasetId | \[description...] |
 
-This can be helpful when creating programmatically a grid and there is the need to know how to format data.
+## setDatastoreNamespace
 
-**Syntax**
+Syntax
 
-```javascript
-var jsonList = utils.getQueryColumns(sql, dataStoreId, separatedTransaction, interruptExecution, pars);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setDatastoreNamespace(String namespace);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument             | Description                                                                                                                                                                                                                                       |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| sql                  | SQL query to execute, in order to fetch information about each field in the select clause                                                                                                                                                         |
-| dataStoreId          | optional parameter (can be null); it defines the additional datastore to use when executing the query                                                                                                                                             |
-| separatedTransaction | boolean flag used to define if the SQL query must be execute on a separated transation or not                                                                                                                                                     |
-| interruptExecution   | boolean flag used to define if the executing of the current server-side javascript program must be interrupted in case of an errore during the execution of the SQL query                                                                         |
-| pars                 | list of parameters required by the SQL query, one for each binding variable; if not needed, set to \[]                                                                                                                                            |
-| jsonList             | the list of select fields is expressed as a JSON string, having the following format: \[ { "fieldName": "FIELDXX", "fieldType": 1\|2\|... }, { … } , …] where the fieldType reports the field type according to the JDBC Java.sql.Types notation. |
+| Argument  | Description       |
+| --------- | ----------------- |
+| namespace | \[description...] |
 
-## Set decode field
+## setGoogleClientId
 
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setGoogleClientId(String id);
 ```
-utils.setDecodeField(String attributeName,String fieldName)
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| id       | \[description...] |
+
+## setGoogleClientSecret
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setGoogleClientSecret(String pwd);
 ```
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| pwd      | \[description...] |
 
-| Argument      | Description                                                                         |
-| ------------- | ----------------------------------------------------------------------------------- |
-| attributeName | attribute name to read: each matching found will generate a row in the results list |
-| fieldName     |                                                                                     |
+## setGoogleCloudStorageBucketVersioning
 
-## Set decode uppercase
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return FileContainer type
+var risp = utils.setGoogleCloudStorageBucketVersioning(String bucketName,Boolean versioning);
 ```
-utils.setDecodeUpperCase(String attributeName,Boolean uppercase)
+{% endcode %}
+
+Details
+
+| Argument   | Description       |
+| ---------- | ----------------- |
+| bucketName | \[description...] |
+| versioning | \[description...] |
+
+## setGoogleDriveFileAttributes
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setGoogleDriveFileAttributes(String userId,String fileId,FileAttributes fileAttributes);
 ```
+{% endcode %}
 
-| Argument      | Description                                                                         |
-| ------------- | ----------------------------------------------------------------------------------- |
-| attributeName | attribute name to read: each matching found will generate a row in the results list |
-| upperCase     |                                                                                     |
+Details
 
-## Execute the specified SQL query and enrich it by adding filtering/sorting and pagination settings <a href="#getpartialresult" id="getpartialresult"></a>
+| Argument       | Description       |
+| -------------- | ----------------- |
+| userId         | \[description...] |
+| fileId         | \[description...] |
+| fileAttributes | \[description...] |
 
-These settings can be defined through ListCommand object automatically created when this method is invoked through a "Server JS business component" connected to a grid panel.
+## setGoogleDriveFileAttributes
 
-**Syntax**
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setGoogleDriveFileAttributes(String fileId,FileAttributes fileAttributes);
 ```
-utils.getPartialResult(sql, dataStoreId, separatedTransaction, interruptExecution, pars);
+{% endcode %}
+
+Details
+
+| Argument       | Description       |
+| -------------- | ----------------- |
+| fileId         | \[description...] |
+| fileAttributes | \[description...] |
+
+## setGoogleDriveFilePermissions
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setGoogleDriveFilePermissions(String userId,String fileId,String type,String value,String role,String> additionalRoles,boolean sendNotifications,String message);
 ```
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| userId            | \[description...] |
+| fileId            | \[description...] |
+| type              | \[description...] |
+| value             | \[description...] |
+| role              | \[description...] |
+| additionalRoles   | \[description...] |
+| sendNotifications | \[description...] |
+| message           | \[description...] |
 
-**Details**
+## setGoogleDriveFilePermissions
 
-| Argument             | Description                                                                                                  |
-| -------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Details              |                                                                                                              |
-| sql                  | base SQL query                                                                                               |
-| dataStoreId          | optional data source id (a number)                                                                           |
-| separatedTransaction | flag used to define if this query has to be perfomed in a separated transaction                              |
-| interruptExecution   | flag used to defined if the whole server side transation must be interruped and roolbacked in case of errors |
-| pars                 | optional (can be expressed as \[] in js) list of parameters binded to ? variables in the SQL query           |
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setGoogleDriveFilePermissions(String fileId,String type,String value,String role,String> additionalRoles,boolean sendNotifications,String message);
 ```
- Returns a list of records, expressed in JSON format, which also includes "valueObjectList", "moreRows" and "resultSetLength" attributes.
+{% endcode %}
+
+Details
+
+| Argument          | Description       |
+| ----------------- | ----------------- |
+| fileId            | \[description...] |
+| type              | \[description...] |
+| value             | \[description...] |
+| role              | \[description...] |
+| additionalRoles   | \[description...] |
+| sendNotifications | \[description...] |
+| message           | \[description...] |
+
+## setGooglePrivateKeyString
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setGooglePrivateKeyString(String key);
 ```
+{% endcode %}
 
-In case of a complex SQL query including aliases, it could be needed to decode the field (to filter/sort) from the grid panel into an alias. You can do it through a specific utility method:setDecodeField(fieldToDecode, decodedField).
+Details
 
-In this way, you can control exactly which fields to apply in case of filtering or sorting conditions.
+| Argument | Description       |
+| -------- | ----------------- |
+| key      | \[description...] |
 
-**Example**
+## setGoogleServiceAccountEmail
 
-```javascript
-utils.setDecodeField("ROW_VERSION*ROW_VERSION AS RV","RV");
-var json = utils.getPartialResult(
-    "SELECT USER_CODE_ID,DESCRIPTION,ROW_VERSION*ROW_VERSION AS RV "+
-    "FROM PRM01_USERS "+
-    "WHERE STATUS='E'",
-    null,
-    false,
-    true,
-    []
-);
+Syntax
 
-utils.setReturnValue(json);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setGoogleServiceAccountEmail(String email);
 ```
+{% endcode %}
+
+Details
 
-## Get partial result no count
+| Argument | Description       |
+| -------- | ----------------- |
+| email    | \[description...] |
 
-**Syntax**
+## setGoogleTokenResponse
 
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setGoogleTokenResponse(String token);
 ```
-utils.getPartialResultNoCount(String sql,Long dataStoreId,Boolean separatedTransaction,Boolean interruptExecution,Long totalCount,Object[] pars)
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| token    | \[description...] |
+
+## setPublicLink
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setPublicLink(String bucketName,String objectName,Boolean publicLink);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument             | Description                                                                                                  |
-| -------------------- | ------------------------------------------------------------------------------------------------------------ |
-| sql                  | base SQL query                                                                                               |
-| dataStoreId          | optional data source id (a number)                                                                           |
-| separatedTransaction | flag used to define if this query has to be perfomed in a separated transaction                              |
-| interruptExecution   | flag used to defined if the whole server side transation must be interruped and roolbacked in case of errors |
-| totalCount           |                                                                                                              |
-| pars                 | optional (can be expressed as \[] in js) list of parameters binded to ? variables in the SQL query           |
+| Argument   | Description       |
+| ---------- | ----------------- |
+| bucketName | \[description...] |
+| objectName | \[description...] |
+| publicLink | \[description...] |
 
-## Stored SQL function execution <a href="#executestoredfunction" id="executestoredfunction"></a>
+## setStartIndex
 
-**Syntax**
+Syntax
 
-```javascript
-var json = utils.executeStoredFunction( sql, dataSourceId, separatedTransaction, interruptExecution, params)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setStartIndex(int startIndex);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument     | Description                                                                                                                          |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| json         | string value: the result of the function execution                                                                                   |
-| sql          | string value: stored function to execute, including its parameters between parenthesis (see example below); it can contains ? or XXX |
-| dataSourceId | num value; it can be null and used to specify a different db to                                                                      |
+| Argument   | Description       |
+| ---------- | ----------------- |
+| startIndex | \[description...] |
 
+## setTaskAssignee
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.setTaskAssignee(String taskId,String assignee);
 ```
- use with the sql statement
+{% endcode %}
+
+Details
+
+| Argument | Description       |
+| -------- | ----------------- |
+| taskId   | \[description...] |
+| assignee | \[description...] |
+
+## sharedContatctsSync
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.sharedContatctsSync);
 ```
+{% endcode %}
+
+Details
 
-| Argument             | Description                                                                                                                                                    |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| separatedTransaction | boolean value; if true, the SQL instruction is executed on a separated transaction which is immediately committed (as for a REQUIRE\_NEW EJB directive)        |
-| interruptedExecution | boolean value; if true, an erroneous SQL instruction fires an exception that will interrupt the javascript execution; if false, the js execution will continue |
-| params               | array value: can be \[]; it represents values which replace ? symbols in sql                                                                                   |
+## startActivitiProcess
 
-**Example**&#x20;
+Syntax
 
-```javascript
-var returnedValue = utils.executeStoredFunction("usercheck1(?, ?)",....
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.startActivitiProcess(String appId,String processDefinitionId,Map params,Map processVariables);
 ```
+{% endcode %}
 
-## Get translation for a specific language, given an entry
+Details
 
-**Syntax**
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| appId               | \[description...] |
+| processDefinitionId | \[description...] |
+| params              | \[description...] |
+| processVariables    | \[description...] |
 
-```javascript
-var translation = utils.getResourceByLanguageId(entry, languageId)
+## unzipFile
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.unzipFile(Long zipDirId,String zipFileName,String serverFileSystemDir);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument    | Description                                                     |
-| ----------- | --------------------------------------------------------------- |
-| translation | string value: the translation for the entry value               |
-| entry       | string value: the entry to translate                            |
-| languageId  | string value: the language id to use when translating the entry |
+| Argument            | Description       |
+| ------------------- | ----------------- |
+| zipDirId            | \[description...] |
+| zipFileName         | \[description...] |
+| serverFileSystemDir | \[description...] |
 
-## Get custom resource
+## updateBigQueryObject
 
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Long type
+var risp = utils.updateBigQueryObject(String datasetName,String tableName,Map obj,String[] pks);
 ```
-utils.getCustomResource(String entry)
+{% endcode %}
+
+Details
+
+| Argument    | Description       |
+| ----------- | ----------------- |
+| datasetName | \[description...] |
+| tableName   | \[description...] |
+| obj         | \[description...] |
+| pks         | \[description...] |
+
+## updateCard
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.updateCard(Long dataModelId,Long panelId,Map vo);
 ```
+{% endcode %}
 
-| Argument | Description |
-| -------- | ----------- |
-| entry    |             |
+Details
 
-## Convert a number to its text representation <a href="#numbertotext" id="numbertotext"></a>
+| Argument    | Description       |
+| ----------- | ----------------- |
+| dataModelId | \[description...] |
+| panelId     | \[description...] |
+| vo          | \[description...] |
 
-**Syntax**
+## updateCards
 
-```javascript
-var text = utils.numberToText(num, decimals, languageId, showDecimals, sep)
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map[] type
+var risp = utils.updateCards(Long dataModelId,Long panelId,Map[] vos);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument     | Description                                                                         |
-| ------------ | ----------------------------------------------------------------------------------- |
-| text         | string value: the text representation of the number (e.g. duecento ventiquattro/00) |
-| num          | a number, including a decimal number                                                |
-| decimals     | a number, it is used to round the num to this number of decimals                    |
-| languageId   | language identifier                                                                 |
-| showDecimals | true/false; define if the decimal part must be included                             |
-| sep          | integer vs decimal separator, e.g. /                                                |
+| Argument    | Description       |
+| ----------- | ----------------- |
+| dataModelId | \[description...] |
+| panelId     | \[description...] |
+| vos         | \[description...] |
 
-## etting the company id in a server-side js action if not null
+## updateFileInCMS
 
-In case the company id has not been set yet, this method allows to set it.
+Syntax
 
-```javascript
-utils.setCompanyId(String companyId);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.updateFileInCMS(String uuid,String path);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument  | Description                                                           |
-| --------- | --------------------------------------------------------------------- |
-| companyId | attribute name to set in the "vo" Platform is working on to save data |
+| Argument | Description       |
+| -------- | ----------------- |
+| uuid     | \[description...] |
+| path     | \[description...] |
 
-## Get a parameter value <a href="#getparameter" id="getparameter"></a>
+## updateFileInCMS
 
-**Syntax**
+Syntax
 
-var paramValue = utils.getParameter(paramName)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+utils.updateFileInCMS(String uuid,Long sourceDirId,String fileName);
+```
+{% endcode %}
 
-**Details**
+Details
 
-ArgumentDescriptionparamNamea string value representing a parameter named defined at installation level (CON44 table) or at application level (CON07 table)
+| Argument    | Description       |
+| ----------- | ----------------- |
+| uuid        | \[description...] |
+| sourceDirId | \[description...] |
+| fileName    | \[description...] |
 
-paramValue the value defined for the specified parameter name or null if not found; if the parameter is found as an application parameter, that value is returned, otherwise it will be returned the value defined at installation level
+## updateGoogleContact
 
-## Get directory path
+Syntax
 
-Syntax:
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Contact type
+var risp = utils.updateGoogleContact(String contactId,String name,String surname,String email,String phone,Boolean shared);
+```
+{% endcode %}
 
-**var path = utils.getDirectoryPath(directoryId)**
+Details
 
-## Convert the date String to a javascript Date
+| Argument  | Description       |
+| --------- | ----------------- |
+| contactId | \[description...] |
+| name      | \[description...] |
+| surname   | \[description...] |
+| email     | \[description...] |
+| phone     | \[description...] |
+| shared    | \[description...] |
 
-helpful in case you want to use convert a date expressed as a String into a javascript Date (do not pass forward the javascript Date directly to a SQL instruction: convert it to a Java Date before, using the methods below).
+## updateGoogleDriveFile
 
-**Syntax**
+Syntax
 
-```javascript
-util.convertStringToDate(String dateAsString,String format)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.updateGoogleDriveFile(String userId,String fileId,String title,String description,String mimeType);
 ```
+{% endcode %}
+
+Details
 
-**Detail**
+| Argument    | Description       |
+| ----------- | ----------------- |
+| userId      | \[description...] |
+| fileId      | \[description...] |
+| title       | \[description...] |
+| description | \[description...] |
+| mimeType    | \[description...] |
+
+## updateGoogleDriveFile
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.updateGoogleDriveFile(String fileId,String title,String description,String mimeType);
+```
+{% endcode %}
 
-| Argument     | Description                               |
-| ------------ | ----------------------------------------- |
-| dateAsString | string to convert (e.g. "2022-12-31")     |
-| format       | format for the string (e.g. "yyyy-MM-dd") |
+Details
 
-## onvert the date to String with the specify format <a href="#convertdatetostring" id="convertdatetostring"></a>
+| Argument    | Description       |
+| ----------- | ----------------- |
+| fileId      | \[description...] |
+| title       | \[description...] |
+| description | \[description...] |
+| mimeType    | \[description...] |
 
-(default: "yyyy-MM-dd'T'HH:mm:ss")
+## updateGoogleDriveFileFromFS
 
-**Syntax**
+Syntax
 
-```javascript
-stringDate = utils.convertDateToString(java.util.Date date, String format)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.updateGoogleDriveFileFromFS(String fileId,String fsPath,boolean deleteFsFile,boolean newRevision);
 ```
+{% endcode %}
 
-**Detail**
+Details
 
-| Argument | Description                               |
-| -------- | ----------------------------------------- |
-| date     | java.util.Date: date to convert in string |
-| format   | String: date format for string            |
+| Argument     | Description       |
+| ------------ | ----------------- |
+| fileId       | \[description...] |
+| fsPath       | \[description...] |
+| deleteFsFile | \[description...] |
+| newRevision  | \[description...] |
 
-| Argument     | Description                               |
-| ------------ | ----------------------------------------- |
-| dateAsString | string to convert (e.g. "2022-12-31")     |
-| format       | format for the string (e.g. "yyyy-MM-dd") |
+## updateGoogleDriveFileFromFS
 
-## Convert the date js object to a java.sql.Date (for a DATE typefield)
+Syntax
 
-helpful in case you want to use it with a **utils.executeSql** or **utils.executeQuery** methods and pass it as a parameter
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.updateGoogleDriveFileFromFS(String userId,String fileId,String fsPath,boolean deleteFsFile,boolean newRevision);
+```
+{% endcode %}
+
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| userId       | \[description...] |
+| fileId       | \[description...] |
+| fsPath       | \[description...] |
+| deleteFsFile | \[description...] |
+| newRevision  | \[description...] |
+
+## updateObjectOnBigQuery
 
-**Syntax**
+Syntax
 
-```javascript
-var javasqlDateValue = utils.convertDateToSqlDate(java.util.Date date)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.updateObjectOnBigQuery(Map obj,Long dataModelId,Boolean interruptExecution);
 ```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+
+## updateObjectOnGoogleDatastore
+
+Syntax
 
-**Detail**
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.updateObjectOnGoogleDatastore(Map obj,Long dataModelId,Boolean interruptExecution);
+```
+{% endcode %}
 
-| Argument | Description                               |
-| -------- | ----------------------------------------- |
-| date     | java.util.Date: date to convert in string |
+Details
 
-## Convert the date js object to a java.sql.Date (for a DATETIME/TIMESTAMP typefield)
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-helpful in case you want to use it with a **utils.executeSql** or **utils.executeQuery** methods and pass it as a parameter
+## updateObjectOnGoogleSpanner
 
-**Syntax**
+Syntax
 
-```javascript
-var javasqlTimestampValue= utils.convertDateToTimestamp(java.util.Date date)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.updateObjectOnGoogleSpanner(Map obj,Long dataModelId,Boolean interruptExecution);
 ```
+{% endcode %}
 
-**Detail**
+Details
 
-| Argument | Description                               |
-| -------- | ----------------------------------------- |
-| date     | java.util.Date: date to convert in string |
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-## Send a chat message to a user
+## updateObjectOnMongoDb
 
-**Syntax**
+Syntax
 
-```javascript
-utils.sendChatMessage(from, message, destinations, priority, conversationId, messageTag)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Map type
+var risp = utils.updateObjectOnMongoDb(Map obj,Long dataModelId,Boolean interruptExecution);
 ```
+{% endcode %}
+
+Details
 
-**Details**
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-| Argument       | Description                                                                                                                                                                                                                                          |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| from           | username to use to send the message; can be null, if not specified, it will be automatically filled with the current logged user                                                                                                                     |
-| message        | message to send                                                                                                                                                                                                                                      |
-| destinations   | list of usernames who will receive the alert; they must be separated by a comma (,)                                                                                                                                                                  |
-| priority       | priority to use for the messages to show to a specific user: messages having a higher priority will be showed at the top of the list; it can be null; if not specified, it will be set to "normal"; allowed values: 0 (minor), 1, (normal), 2 (high) |
-| conversationId | conversation id used to identify a chain of messages; optional: if not specified, each message represents the first and last message in the convo                                                                                                    |
-| messageTag     | optional hidden text to add to the message and used to search for specific messages stored in the message history.                                                                                                                                   |
+## updateObjectsOnBigQuery
 
-Note: in order to use this feature, you have first to define an application parameters named "SHOW\_ALERT\_MENU\_ITEM" or "SHOW\_CHAT\_POPUP\_MESSAGE" to "Y", otherwise these messages cannot be showed on the client side.
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.updateObjectsOnBigQuery(Map[] objs,Long dataModelId,Boolean interruptExecution);
+```
+{% endcode %}
 
-### &#x20;Send an alert message to a user <a href="#send-an-alert-message-to-a-user" id="send-an-alert-message-to-a-user"></a>
+Details
 
-**Syntax**utils.sendAlertMessage(from, message, destinations, priority, conversationId, messageTag)**Details**
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| objs               | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-| Argument       | Description                                                                                                                                                                                                                                          |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| from           | username to use to send the message; can be null, if not specified, it will be automatically filled with the current logged user                                                                                                                     |
-| message        | message to send                                                                                                                                                                                                                                      |
-| destinations   | list of usernames who will receive the alert; they must be separated by a comma (,)                                                                                                                                                                  |
-| priority       | priority to use for the messages to show to a specific user: messages having a higher priority will be showed at the top of the list; it can be null; if not specified, it will be set to "normal"; allowed values: 0 (minor), 1, (normal), 2 (high) |
-| conversationId | conversation id used to identify a chain of messages; optional: if not specified, each message represents the first and last message in the convo                                                                                                    |
-| messageTag     | optional hidden text to add to the message and used to search for specific messages stored in the message history.                                                                                                                                   |
+## updateObjectsOnGoogleDatastore
 
-Note: in order to use this feature, you have first to define an application parameters named "SHOW\_ALERT\_MENU\_ITEM" to "Y", otherwise these messages cannot be showed on the client side.
+Syntax
 
-## Send a not visible notification to the client
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.updateObjectsOnGoogleDatastore(Map[] objs,Long dataModelId,Boolean interruptExecution);
+```
+{% endcode %}
 
-(available form 5.3.2) Send a notification to the client side; this is not a visual notification: it can be used to automate the invocation of a javascript method defined on the client. This automation can be helpful for example to open a window or reload a grid or form, when a server-side long operation has terminated.
+Details
 
-You have to specify the function name and the argument to pass foward.
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| objs               | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-A limit it has is that you can only invoke functions having one only argument.
+## updateObjectsOnGoogleDatastoreWitSettings
 
-**Syntax**
+Syntax
 
-```javascript
-utils.sendJavascriptMessage(String from, Map obj, String destinations, String functionName)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.updateObjectsOnGoogleDatastoreWitSettings(Map[] objs,Long dataModelId,Boolean interruptExecution,Map settings);
 ```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| objs               | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| settings           | \[description...] |
+
+## updateObjectsOnGoogleDatastoreWithSettings
 
-**Details**
+Syntax
 
-| Argument     | Description                                                                                                                     |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| from         | username to use to send the message; can be null, if not specified, it will be automatically filled with the current loggeduser |
-| obj          | javascript object to pass forward to the javascript function to invoke on the client side                                       |
-| destinations | list of usernames who will receive the alert; they must be separated by a comma (,)                                             |
-| functionName | callback js function, which must be defined on the client side, invoked automatically from the notification                     |
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.updateObjectsOnGoogleDatastoreWithSettings(Map[] objs,Long dataModelId,Boolean interruptExecution,Map settings);
+```
+{% endcode %}
+
+Details
 
-Note: in order to use this feature, you have first to define an application parameters named "SHOW\_ALERT\_MENU\_ITEM" or "SHOW\_CHAT\_POPUP\_MESSAGE" to "Y", otherwise these messages cannot be showed on the client side.
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| objs               | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| settings           | \[description...] |
 
-In case you need to invoke something from complex, you have to declare a one argument function in some global .js file (stored in the "scripts" folder of your application web context) and use it to do it.
+## updateObjectsOnGoogleSpanner
 
-Example of a global scoped js function with one argument, used to show a popup warning window:
+Syntax
 
-```javascript
-function openDialogWindow(args) {
-  showMessageDialog(
-    args.title,
-    args.message,
-    function() {},
-    true,
-    true
-  );
-}
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.updateObjectsOnGoogleSpanner(Map[] objs,Long dataModelId,Boolean interruptExecution);
 ```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| objs               | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-The server-side js action generating the notification would be:
+## updateRangeGoogleSheet
 
-```javascript
-utils.sendJavascriptMessage(
-  "ADMIN", // from username
-  { 
-    title: "Warning",
-    message: "Task completed"  
-  }, // argument to pass forward to the client side js function
-  userInfo.username, // not necessarely it would be filled out in this way
-  "openDialogWindow"
-);
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Integer type
+var risp = utils.updateRangeGoogleSheet(String userId,String spreadsheetId,String range,String valueInputOption,Object[][] vos);
 ```
+{% endcode %}
 
-## Execute a command on the shell <a href="#executeshellcommand" id="executeshellcommand"></a>
+Details
 
-Optionally, a list of arguments can be passed to the command.
+| Argument         | Description       |
+| ---------------- | ----------------- |
+| userId           | \[description...] |
+| spreadsheetId    | \[description...] |
+| range            | \[description...] |
+| valueInputOption | \[description...] |
+| vos              | \[description...] |
 
-It returns the exit code produced by the command execution
+## uploadAndRenameGoogleDriveFileFromFS
 
-**Syntax**
+Syntax
 
-```javascript
-var exitCode = utils.executeShellCommand(command, arg1, arg2, ...)
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadAndRenameGoogleDriveFileFromFS(String userId,String fsPath,String parentId,String fileName,boolean deleteFsFile);
 ```
+{% endcode %}
+
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| userId       | \[description...] |
+| fsPath       | \[description...] |
+| parentId     | \[description...] |
+| fileName     | \[description...] |
+| deleteFsFile | \[description...] |
+
+## uploadAndRenameGoogleDriveFileFromFS
 
-**Details**
+Syntax
 
-| Argument  | Description                                                                                                                |
-| --------- | -------------------------------------------------------------------------------------------------------------------------- |
-| command   | command to execute; it must include the absolute path to the command and must end with a .sh or .bat with no spaces within |
-| arguments | zero or more String type arguments; \[] otherwise                                                                          |
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadAndRenameGoogleDriveFileFromFS(String fsPath,String parentId,String fileName,boolean deleteFsFile);
+```
+{% endcode %}
 
-## Execute an HTTP(s) connection and fetch the result
+Details
 
-Available since 6.0.2 version.
+| Argument     | Description       |
+| ------------ | ----------------- |
+| fsPath       | \[description...] |
+| parentId     | \[description...] |
+| fileName     | \[description...] |
+| deleteFsFile | \[description...] |
 
-Result expressed as a String (e.g. a JSON or XML result content)
+## uploadAndRenameGoogleDriveFileInNamedFolderFromFS
 
-**Syntax**
+Syntax
 
-```javascript
-var json = utils.getWebContent(uri, settings);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadAndRenameGoogleDriveFileInNamedFolderFromFS(String userId,String fsPath,String baseFolderId,String folderName,Boolean createFolderIfNotExists,String fileName,boolean deleteFsFile);
 ```
+{% endcode %}
 
-**Argument detail**
+Details
 
-uri: URI, expressed as http:// or https:// with or without variables, expressed as :XXX
+| Argument                | Description       |
+| ----------------------- | ----------------- |
+| userId                  | \[description...] |
+| fsPath                  | \[description...] |
+| baseFolderId            | \[description...] |
+| folderName              | \[description...] |
+| createFolderIfNotExists | \[description...] |
+| fileName                | \[description...] |
+| deleteFsFile            | \[description...] |
 
-**Settings detail**
+## uploadAndRenameGoogleDriveFileInNamedFolderFromFS
 
-| Argument                                      | Description                                                                                                                                                                       |
-| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| httpMethod                                    | if specified, it defines the HTTP method: GET, POST, PATCH, PUT, DELETE                                                                                                           |
-| replaceVariables (optional) (default is true) | flag used to replace variables within the uri (variables are expressed as :XXX)                                                                                                   |
-| contentType (optional)                        | can be null); if specified, it defines the content type request (e.g. application/json)                                                                                           |
-| requestBody (optional)                        | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                                                                       |
-| user (optional)                               | can be null); if specified, it defines the username for a BASIC authentication                                                                                                    |
-| pwd (optional)                                | can be null); if specified, it defines the password for a BASIC authentication                                                                                                    |
-| charSet (optional)                            | can be null); if specified, it defines the char set to use for the request body (req property "Accept-Charset"); if not specified, it is autodefined as "UTF-8"                   |
-| headers(optional)                             | can be null); if specified, it defines a collection of attribute-values to pass as request headers; it is expressed as a javascript object: { attr1: value2, attr2: value2, ... } |
-| timeout (optional) (recommended)              | optional argument: can be set to null; timeout for the request, expressed in seconds; helpful when the service to invoke could be very slow                                       |
-| additionalSettings (optional)                 | optional argument: can be set to null; it is a javascript object containing additional settings                                                                                   |
-| requestBody (optional)                        | if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                                                                                     |
-| dirId (optional)                              | directory id of file to send                                                                                                                                                      |
-| sendFileName (optional)                       | file name to send                                                                                                                                                                 |
-| cookie (optional) (default is false)          | true if you want use the cookie                                                                                                                                                   |
-| log (optional) (default is true)              | false if you don't want write the logs                                                                                                                                            |
+Syntax
 
-**Example**
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadAndRenameGoogleDriveFileInNamedFolderFromFS(String fsPath,String baseFolderId,String folderName,Boolean createFolderIfNotExists,String fileName,boolean deleteFsFile);
+```
+{% endcode %}
 
-<pre><code><strong>var url = "http://host/context?par1=abc de&#x26;par2=ab\ncd";
-</strong>url = encodeURI(url);
-var settings = {
-	"replaceVariables": true,
-	"httpMethod": 'POST',
-	"contentType": null,
-	"requestBody": null,
-	"user": "ADMIN",
-	"pwd": "ADMIN",
-	"cookie": true,
-	"headers": {
-	    "number": 1,
-	    "text": "ciao"
-	},
-	"additionalSettings": {	    
-	},
-	"log": false,
-	"timeout": 10
-};
-utils.getWebContent(url, settings);
-</code></pre>
+Details
 
-## Execute an HTTP(s) connection and fetch the result (with headers)
+| Argument                | Description       |
+| ----------------------- | ----------------- |
+| fsPath                  | \[description...] |
+| baseFolderId            | \[description...] |
+| folderName              | \[description...] |
+| createFolderIfNotExists | \[description...] |
+| fileName                | \[description...] |
+| deleteFsFile            | \[description...] |
 
-result expressed as a String (e.g. a JSON or XML result content)
+## uploadArchiflowDocument
 
-**Syntax**
+Syntax
 
-```javascript
-var json = utils.getWebContentWithHeaders(uri, replaceVariables, httpMethod, contentType, requestBody, user, pwd, charSet,  headers);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return Boolean type
+var risp = utils.uploadArchiflowDocument(Long dirId,String fileNameSrc,String cardId,String fileName,String documentTitle,Map additionalSettings);
 ```
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| dirId              | \[description...] |
+| fileNameSrc        | \[description...] |
+| cardId             | \[description...] |
+| fileName           | \[description...] |
+| documentTitle      | \[description...] |
+| additionalSettings | \[description...] |
 
-**Details**
+## uploadGoogleCloudStorageObjectFromFS
 
-| Argument              | Description                                                                                                                                                                       |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| uri                   | URI, expressed as http:// or https:// with or without variables, expressed as :XXX                                                                                                |
-| replaceVariables      | flag used to replace variables within the uri (variables are expressed as :XXX)                                                                                                   |
-| httpMethod (optional  | can be null); if specified, it defines the HTTP method: GET, POST                                                                                                                 |
-| contentType (optional | can be null); if specified, it defines the content type request (e.g. application/json)                                                                                           |
-| requestBody (optional | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                                                                       |
-| user (optional        | can be null); if specified, it defines the username for a BASIC authentication                                                                                                    |
-| pwd (optional         | can be null); if specified, it defines the password for a BASIC authentication                                                                                                    |
-| charSet (optional     | can be null); if specified, it defines the char set to use for the request body (req property "Accept-Charset"); if not specified, it is autodefined as "UTF-8"                   |
-| headers(optional      | can be null); if specified, it defines a collection of attribute-values to pass as request headers; it is expressed as a javascript object: { attr1: value2, attr2: value2, ... } |
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadGoogleCloudStorageObjectFromFS(String fsPath,String bucketName,String objectName,Boolean deleteFsFile);
 ```
- Returns the HTTP response, expressed as a String (e.g. a JSON or XML result).
+{% endcode %}
+
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| fsPath       | \[description...] |
+| bucketName   | \[description...] |
+| objectName   | \[description...] |
+| deleteFsFile | \[description...] |
+
+## uploadGoogleCloudStorageObjectFromString
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadGoogleCloudStorageObjectFromString(String textContent,String bucketName,String objectName,String contentType);
 ```
+{% endcode %}
+
+Details
 
-HTTP response codes included between 200 and 399 are managed as correct answers and the response is sent back throughthe "json" return variable.
+| Argument    | Description       |
+| ----------- | ----------------- |
+| textContent | \[description...] |
+| bucketName  | \[description...] |
+| objectName  | \[description...] |
+| contentType | \[description...] |
 
-In case of HTTP response codes above or equal to 400, an exception is fired and the exception content would contain the message sent back by the invoked web service; consequently, it would be better to surround this instruction between try-catch.
+## uploadGoogleCloudStoragePublicObjectFromFS
 
-**Important note**: Please pay attention to the URL definition: it must respect the HTTP syntax, which means it cannot contains special characters, such as a space or \n. In case of special characters, you will get an HTTP error when trying to use the URL. In such a scenario, use the **encodeURI** method:
+Syntax
 
-```javascript
-var url = "http://host/context?par1=abc de&par2=ab\ncd";
-url = encodeURI(url);
-utils.getWeb...
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadGoogleCloudStoragePublicObjectFromFS(String fsPath,String bucketName,String objectName,Boolean deleteFsFile);
 ```
+{% endcode %}
+
+Details
+
+| Argument     | Description       |
+| ------------ | ----------------- |
+| fsPath       | \[description...] |
+| bucketName   | \[description...] |
+| objectName   | \[description...] |
+| deleteFsFile | \[description...] |
 
-**Example**
+## uploadGoogleCloudStoragePublicObjectFromString
 
-```javascript
-try {
+Syntax
 
- var json = utils.getWebContentWithHeaders(...);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadGoogleCloudStoragePublicObjectFromString(String textContent,String bucketName,String objectName,String contentType);
+```
+{% endcode %}
 
- ...
+Details
 
-}
+| Argument    | Description       |
+| ----------- | ----------------- |
+| textContent | \[description...] |
+| bucketName  | \[description...] |
+| objectName  | \[description...] |
+| contentType | \[description...] |
 
-catch(e) {
+## uploadGoogleDriveFileFromFS
 
- // e.message would containthe error message
+Syntax
 
-}
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadGoogleDriveFileFromFS(String fsPath,String parentId,boolean deleteFsFile);
 ```
+{% endcode %}
+
+Details
 
-## Execute an HTTP(s) connection and fetch the result (binary content)
+| Argument     | Description       |
+| ------------ | ----------------- |
+| fsPath       | \[description...] |
+| parentId     | \[description...] |
+| deleteFsFile | \[description...] |
 
-result expressed as a binary content and store it into the specified file
+## uploadGoogleDriveFileFromFS
 
-**Syntax**
+Syntax
 
-```javascript
-utils.getBinaryContent(toFile, uri, replaceVariables, httpMethod, contentType, requestBody, user, pwd);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadGoogleDriveFileFromFS(String userId,String fsPath,String parentId,boolean deleteFsFile);
 ```
+{% endcode %}
 
-| Argument              | Description                                                                                                                        |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Details               |                                                                                                                                    |
-| toFile                | absolute path including the file name, related to the local binary file to create and fill in with the result of this HTTP request |
-| uri                   | URI, expressed as http:// or https:// with or without variables, expressed as :XXX                                                 |
-| replaceVariables      | flag used to replace variables within the uri (variables are expressed as :XXX)                                                    |
-| httpMethod (optional  | can be null); if specified, it defines the HTTP method: GET, POST                                                                  |
-| contentType (optional | can be null); if specified, it defines the content type request (e.g. application/json)                                            |
-| requestBody (optional | can be null); if specified, it defines the request body, expressed as a String (e.g. a JSON or XML content)                        |
-| user (optional        | can be null); if specified, it defines the username for a BASIC authentication                                                     |
-| pwd (optional         | can be null); if specified, it defines the password for a BASIC authentication                                                     |
+Details
 
-Fetches the HTTP response, expressed as a binary content and stores in to the specified file.
+| Argument     | Description       |
+| ------------ | ----------------- |
+| userId       | \[description...] |
+| fsPath       | \[description...] |
+| parentId     | \[description...] |
+| deleteFsFile | \[description...] |
 
-**Important note**: Please pay attention to the URL definition: it must respect the HTTP syntax, which means it cannot contains special characters, such as a space or \n. In case of special characters, you will get an HTTP error when trying to use the URL. In such a scenario, use the **encodeURI** method:
+## uploadGoogleDriveFileInNamedFolderFromFS
 
-```javascript
-var url = "http://host/context?par1=abc de&par2=ab\ncd";
-url = encodeURI(url);
-utils.getBinaryContent(...);
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadGoogleDriveFileInNamedFolderFromFS(String fsPath,String baseFolderId,String folderName,Boolean createFolderIfNotExists,boolean deleteFsFile);
 ```
+{% endcode %}
+
+Details
 
-## Search for the specified path within the XML document parse result
+| Argument                | Description       |
+| ----------------------- | ----------------- |
+| fsPath                  | \[description...] |
+| baseFolderId            | \[description...] |
+| folderName              | \[description...] |
+| createFolderIfNotExists | \[description...] |
+| deleteFsFile            | \[description...] |
 
-_(i.e. after invoking parseXML method)_
+## uploadGoogleDriveFileInNamedFolderFromFS
 
-**Syntax**
+Syntax
 
-```javascript
-var jsObjectsList = utils.findTagsByPath(xmlDocNodes, path);
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return File type
+var risp = utils.uploadGoogleDriveFileInNamedFolderFromFS(String userId,String fsPath,String baseFolderId,String folderName,Boolean createFolderIfNotExists,boolean deleteFsFile);
 ```
+{% endcode %}
 
-**Details**
+Details
 
-| Argument    | Description                                 |
-| ----------- | ------------------------------------------- |
-| xmlDocNodes | XML document parsed through parseXML method |
-| path        | a tags path, expressed as tag1/tag2/tag3... |
+| Argument                | Description       |
+| ----------------------- | ----------------- |
+| userId                  | \[description...] |
+| fsPath                  | \[description...] |
+| baseFolderId            | \[description...] |
+| folderName              | \[description...] |
+| createFolderIfNotExists | \[description...] |
+| deleteFsFile            | \[description...] |
 
+## upsertObjectOnGoogleDatastore
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.upsertObjectOnGoogleDatastore(Map obj,Long dataModelId,Boolean interruptExecution);
 ```
- Return all occurrences matching the specified path.
+{% endcode %}
+
+Details
+
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| obj                | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+
+## upsertObjectsOnGoogleDatastore
+
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.upsertObjectsOnGoogleDatastore(Map[] objs,Long dataModelId,Boolean interruptExecution);
 ```
+{% endcode %}
 
-**Example**
+Details
 
-JohnDoe...
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| objs               | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
 
-JaneRoe...
+## upsertObjectsOnGoogleDatastoreWithSettings
 
-```javascript
-var xml = utils.getWebContent("[http://...",false,"GET](http://...",false,"GET)", null,null,null,null);
-var xmlDocNodes = utils.parseXML(xml); // list of companies
-var staffList = utils.findTagsByPath(xmlDocNodes, "company/staff");
+Syntax
+
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.upsertObjectsOnGoogleDatastoreWithSettings(Map[] objs,Long dataModelId,Boolean interruptExecution,Map settings);
 ```
+{% endcode %}
 
+Details
 
+| Argument           | Description       |
+| ------------------ | ----------------- |
+| objs               | \[description...] |
+| dataModelId        | \[description...] |
+| interruptExecution | \[description...] |
+| settings           | \[description...] |
 
+## validateAlexaRequest
 
+Syntax
 
+{% code overflow="wrap" lineNumbers="true" %}
+```js
+//return boolean type
+var risp = utils.validateAlexaRequest(String signingCertificateChainUrl,String baseEncoded64Signature,String requestBody);
+```
+{% endcode %}
 
+Details | Argument | Description | | -- | -- | | signingCertificateChainUrl | \[description...] | | baseEncoded64Signature | \[description...] | | requestBody | \[description...] |
 
+End
