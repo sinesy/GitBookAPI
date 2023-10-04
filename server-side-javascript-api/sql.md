@@ -628,7 +628,7 @@ Note that select fields MUST be in the same order of ? variables in the updateSq
 
 Note that the "pk" attribute is mandatory in case of "updateSql" and it must contains the field names (or alias) of the select clause field**.**
 
-****
+
 
 **Update + Insert example**
 
@@ -716,3 +716,89 @@ Example:
       };
       var p = utils.getCachedProgressive(settings);
 ```
+
+
+
+### Reading filter parameters coming from the browser
+
+In case you are defining a business component filling a grid and the grid is sending filter conditions to the b.c., these are automatically applied to the "base query" defined within the b.c. through the utils.getPartialResultXXX method.
+
+However, there are cases where you want to apply these conditions in a specific part of the SQL query.
+
+Example:
+
+```
+SELECT ALIAS.A,ALIAS.B,ALIAS.C,ALIAS.D FROM (
+  SELECT TMP.A,TMP.B,TMP.C,TMP.D FROM MYTABLE TMP WHERE TMP.C=?
+) AS ALIAS 
+WHERE
+ALIAS.D = ?
+```
+
+In such a case, it is likely to have a mapping between filter conditions (e.g. applied on attributes a or b) and the field names defined for the ALIAS table name:
+
+```
+utils.setDecodedField("A","ALIAS.A");
+utils.setDecodedField("B","ALIAS.B");
+utils.setDecodedField("C","ALIAS.C");
+utils.setDecodedField("D","ALIAS.D");
+```
+
+Now suppose you want to apply these conditions to the internal table. You can use the utility functions:
+
+```
+var subFilters = utils.getAllFilterWhere(table);
+var pars = getAllFilterParams();
+```
+
+The first function would analyze all request parameters and create a "subfilters" String containing the filtering conditions in SQL format, whereas the second function would fill in the "pars" array with the corresponding values.
+
+**Note**: _only filter conditions defined using setDecodedField will be taken into account_.
+
+Example:
+
+```
+http://...?filterNames=a,b&filterOps=like,=&filterValues=AAA,BBB&filterCaseSensitives=true,false
+```
+
+would lead to fill in subFilters and pars with:
+
+```
+subFilters = utils.getAllFilterWhere("TMP"); // " UPPER(TMP.A) like ? AND TMP.B = ?
+pars = getAllFilterParams(); // ["AAA","BBB"] 
+```
+
+At this point, it would be easy to inject the dynamic subfilter conditions to the main SQL query:
+
+```
+var sql = 
+"SELECT ALIAS.A,ALIAS.B,ALIAS.C,ALIAS.D FROM ( "+
+"  SELECT TMP.A,TMP.B,TMP.C,TMP.D FROM MYTABLE TMP WHERE TMP.C=? ";
+
+var params = [ valueForC ];  
+
+var subFilters = utils.getAllFilterWhere("TMP"); // " UPPER(TMP.A) like ? AND TMP.B = ?
+var pars = getAllFilterParams(); // ["AAA","BBB"] 
+
+if (pars.length>0) {
+  sql += " AND "+subFilters;
+  for(var i=0;i<pars.length;i++) {
+    params.push(pars[i]);
+  }
+}
+
+sql += 
+") AS ALIAS "+
+"WHERE "+
+"ALIAS.D = ? ";
+
+params.push( valueForD );
+
+var json = utils.getPartialResultXXX(
+  sql,
+  ...
+  params
+);
+
+```
+
