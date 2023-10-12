@@ -12,7 +12,7 @@ var x = utils.camel("ABC\_DEF",false); -> x = "abcDef"
 
 var x = utils.camel("ABC\_DEF",true); -> x = "AbcDef"
 
-****
+
 
 ## **Snake-case**
 
@@ -381,7 +381,7 @@ enqueueActionWithNote(queueName, actionId, params, priority, processWaitTime, lo
 
 where **note** is a string value which will be saved in the NOTE field of the CON77\_QUEUES table. This field can be helpful to carry out custom logic on the enqueued elements, for instance to execute statistics about the amount of data not processed yet.
 
-****
+
 
 ## **Enqueuing multiple elements in queue, starting from a SQL query**
 
@@ -709,5 +709,57 @@ utils.setSiteId(Long siteId);
 
 
 
+## Set a String value to Redis cache
+
+This method allows to cache a value to Redis server. In order to do it, you have first to setup correctly the Redis server connection, through the global parameters in the REDIS group.
+
+**Syntax**:
+
+```javascript
+utils.setVaueInRedis(String key,String value)
+```
+
+**Details**
+
+| key   | entry in Redis cache   |
+| ----- | ---------------------- |
+| value | String value to cache  |
+
+## Get a String value from Redis cache
+
+This method allows to retrieve a value previously cached in Redis server. In order to do it, you have first to setup correctly the Redis server connection, thorugh the global parameters in the REDIS group.
+
+**Syntax**:
+
+```javascript
+var cachedValue = utils.getVaueFromRedis(String key)
+```
+
+**Details**
+
+| key            | entry in Redis cache |
+| -------------- | -------------------- |
+| returned value | the cached value     |
 
 
+
+## Delete a value from Redis cache
+
+This method allows to remove a value from the  Redis server. In order to do it, you have first to setup correctly the Redis server connection, thorugh the global parameters in the REDIS group.
+
+**Syntax**:
+
+```javascript
+utils.deleteValueFromRedis(String key)
+```
+
+**Details**
+
+| key | entry in Redis cache to remove |
+| --- | ------------------------------ |
+
+
+
+##
+
+##
