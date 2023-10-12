@@ -791,7 +791,43 @@ var cachedValue = utils.decrValueFromRedis(String key)
 | -------------- | --------------------------------- |
 | returned value | the cached value decremented by 1 |
 
+## Push a list of string values  to Redis cache
 
+This method allows to push for an entry a list of values, cached in Redis server. In order to do it, you have first to setup correctly the Redis server connection, thorugh the global parameters in the REDIS group.
+
+**Syntax**:
+
+```javascript
+var cachedValue = utils.pushValuesToRedis(String key,String[] values)
+```
+
+**Details**
+
+| key    | entry in Redis cache      |
+| ------ | ------------------------- |
+| values | an array of String values |
+
+&#x20;&#x20;
+
+## Pop a value from an enrty containing a list of values from Redis cache
+
+This method pop the first element of a lis of String values previously cached in Redis server for a specific entry. In order to do it, you have first to setup correctly the Redis server connection, thorugh the global parameters in the REDIS group.
+
+**Syntax**:
+
+```javascript
+var cachedValue = utils.popValueFromRedis(String key)
+```
+
+**Details**
+
+| key            | entry in Redis cache                                          |
+| -------------- | ------------------------------------------------------------- |
+| returned value | the first element of a lis of String values previously cached |
+
+## &#x20;
+
+## &#x20;
 
 ##
 
