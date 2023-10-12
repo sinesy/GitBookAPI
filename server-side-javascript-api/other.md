@@ -709,30 +709,30 @@ utils.setSiteId(Long siteId);
 
 
 
-## Set a String value to Redis cache
+## Set a value to Redis cache
 
 This method allows to cache a value to Redis server. In order to do it, you have first to setup correctly the Redis server connection, through the global parameters in the REDIS group.
 
 **Syntax**:
 
 ```javascript
-utils.setVaueInRedis(String key,String value)
+utils.setVaueInRedis(String key,Object value)
 ```
 
 **Details**
 
-| key   | entry in Redis cache   |
-| ----- | ---------------------- |
-| value | String value to cache  |
+| key   | entry in Redis cache |
+| ----- | -------------------- |
+| value |  value to cache      |
 
-## Get a String value from Redis cache
+## Get a value from Redis cache
 
 This method allows to retrieve a value previously cached in Redis server. In order to do it, you have first to setup correctly the Redis server connection, thorugh the global parameters in the REDIS group.
 
 **Syntax**:
 
 ```javascript
-var cachedValue = utils.getVaueFromRedis(String key)
+var cachedValue = utils.getValueFromRedis(String key)
 ```
 
 **Details**
@@ -755,8 +755,41 @@ utils.deleteValueFromRedis(String key)
 
 **Details**
 
-| key | entry in Redis cache to remove |
-| --- | ------------------------------ |
+<table data-header-hidden><thead><tr><th width="210">Argument</th><th>Description</th></tr></thead><tbody><tr><td>key</td><td>entry in Redis cache to remove</td></tr></tbody></table>
+
+## Increment a numeric value from Redis cache
+
+This method allows to increment by 1 a numeric value previously cached in Redis server. In order to do it, you have first to setup correctly the Redis server connection, thorugh the global parameters in the REDIS group.
+
+**Syntax**:
+
+```javascript
+var cachedValue = utils.incrValueFromRedis(String key)
+```
+
+**Details**
+
+| key            | entry in Redis cache              |
+| -------------- | --------------------------------- |
+| returned value | the cached value incremented by 1 |
+
+## &#x20;
+
+## Decrement a numeric value from Redis cache
+
+This method allows to decrement a numeric value previously cached in Redis server. In order to do it, you have first to setup correctly the Redis server connection, thorugh the global parameters in the REDIS group.
+
+**Syntax**:
+
+```javascript
+var cachedValue = utils.decrValueFromRedis(String key)
+```
+
+**Details**
+
+| key            | entry in Redis cache              |
+| -------------- | --------------------------------- |
+| returned value | the cached value decremented by 1 |
 
 
 
